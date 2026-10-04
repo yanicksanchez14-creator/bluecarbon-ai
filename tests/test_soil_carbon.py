@@ -10,7 +10,6 @@ from bluecarbon.carbon import carbon_report, local_soil, soil_sources
 from bluecarbon.config import load_config
 
 
-
 def _build_script():
     spec = importlib.util.spec_from_file_location("bsc", Path(__file__).parents[1] / "scripts" / "build_soil_carbon.py")
     mod = importlib.util.module_from_spec(spec)

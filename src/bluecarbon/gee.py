@@ -30,17 +30,70 @@ def _require_ee():
         raise ImportError("earthengine-api is not installed: pip install 'bluecarbon[gee]'")
 
 
+REQUEST_TIMEOUT_S = 240  # one Earth Engine request may take at most this long before it is retried
+
+
+def _transport():
+    try:
+        import httplib2
+
+        return httplib2.Http(timeout=REQUEST_TIMEOUT_S)
+    except Exception:
+        return None
+
+
 def init(project: str, service_account_json: str | None = None) -> None:
-    """Initialize Earth Engine with user credentials or a service-account key (JSON text)."""
+    """Initialize Earth Engine with user credentials or a service-account key (JSON text).
+
+    Requests get a socket timeout: without one, a request the server never answers blocks forever
+    (no error, no progress) and the whole run silently stalls.
+    """
     _require_ee()
+    creds = None
     if service_account_json:
         import json
 
         info = json.loads(service_account_json)
         creds = ee.ServiceAccountCredentials(info["client_email"], key_data=service_account_json)
-        ee.Initialize(creds, project=project or info.get("project_id"))
-    else:
-        ee.Initialize(project=project)
+        project = project or info.get("project_id")
+    kw = {"project": project}
+    http = _transport()
+    if http is not None:
+        kw["http_transport"] = http
+    try:
+        ee.Initialize(creds, **kw) if creds else ee.Initialize(**kw)
+    except TypeError:  # older earthengine-api without http_transport
+        kw.pop("http_transport", None)
+        ee.Initialize(creds, **kw) if creds else ee.Initialize(**kw)
+
+
+class _Watchdog:
+    """Raise TimeoutError in the main thread if a block takes longer than `seconds` (Linux / macOS)."""
+
+    def __init__(self, seconds: int):
+        self.seconds = seconds
+        self.armed = False
+
+    def __enter__(self):
+        import signal
+        import threading
+
+        if hasattr(signal, "SIGALRM") and threading.current_thread() is threading.main_thread():
+            def _fire(*_):
+                raise TimeoutError(f"Earth Engine request timed out after {self.seconds}s")
+
+            self._old = signal.signal(signal.SIGALRM, _fire)
+            signal.alarm(self.seconds)
+            self.armed = True
+        return self
+
+    def __exit__(self, *exc):
+        if self.armed:
+            import signal
+
+            signal.alarm(0)
+            signal.signal(signal.SIGALRM, self._old)
+        return False
 
 
 # --------------------------------------------------------------------------- geometry
@@ -293,7 +346,8 @@ def _compute_tile(image, crs: str, transform: rasterio.Affine, x0: int, y0: int,
     import time
 
     try:
-        return _compute_tile_once(image, crs, transform, x0, y0, w, h)
+        with _Watchdog(REQUEST_TIMEOUT_S + 60):
+            return _compute_tile_once(image, crs, transform, x0, y0, w, h)
     except Exception as e:
         msg = str(e).lower()
         if not any(k in msg for k in _RETRYABLE):
@@ -351,12 +405,15 @@ def download(image, bbox: list[float], out_path: str | Path, cfg: Config, dtype:
                    blockxsize=256, blockysize=256, BIGTIFF="IF_SAFER")
     with rasterio.open(out_path, "w", **profile) as dst:
         dst.descriptions = tuple(band_names)
+        step = max(1, len(tiles) // 4)
         for i, (x, y) in enumerate(tiles):
             w, h = min(t, W - x), min(t, H - y)
             block = _compute_tile(image, crs, transform, x, y, w, h).astype(dtype)
             dst.write(block, window=rasterio.windows.Window(x, y, w, h))
             if progress:
                 progress((i + 1) / len(tiles))
+            elif len(tiles) >= 8 and (i + 1) % step == 0:
+                print(f"    {out_path.name}: {i + 1}/{len(tiles)} tiles", flush=True)
     return out_path
 
 

@@ -45,7 +45,7 @@ scale.
 - **Two model families, the best one wins.** A gradient-boosted (LightGBM) spectral model with
   water-column features, and a U-Net deep neural network (ResNet-34 encoder). The pipeline trains both
   and keeps whichever maps blue carbon habitats more accurately.
-- **Carbon from real soil measurements.** Soil carbon comes from 2,515 measured soil cores (276 studies) in the
+- **Carbon from real soil measurements.** Soil carbon comes from 2,515 measured soil cores (133 studies, 31 countries) in the
   Smithsonian Coastal Carbon Library: each site uses the cores of each habitat within 100–300 km, and falls back
   to IPCC Tier 1 values only where none exist. Total-carbon measurements that count limestone carbonate are
   filtered out. Areas are bias-corrected (Olofsson et al., 2014) and carbon is estimated with 5,000-draw Monte

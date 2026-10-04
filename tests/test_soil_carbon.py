@@ -4,17 +4,23 @@ import importlib.util
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
+import pytest
 
 from bluecarbon.carbon import carbon_report, local_soil, soil_sources
 from bluecarbon.config import load_config
 
-spec = importlib.util.spec_from_file_location("bsc", Path(__file__).parents[1] / "scripts" / "build_soil_carbon.py")
-bsc = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(bsc)
+
+
+def _build_script():
+    spec = importlib.util.spec_from_file_location("bsc", Path(__file__).parents[1] / "scripts" / "build_soil_carbon.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def test_core_stock_and_carbonate_filter():
+    pd = pytest.importorskip("pandas")  # only the offline build script needs pandas
+    bsc = _build_script()
     cores = pd.DataFrame({"study_id": ["A", "B"], "core_id": ["a1", "b1"], "latitude": [10, 10], "longitude": [20, 20],
                           "habitat": ["mangrove", "seagrass"], "country": ["X", "X"]})
     # 0-50 cm, bulk density 0.5 g/cm3, 10% organic carbon -> 0.05 g C/cm3 -> 0.05 x 100 cm x 100 = 500 t C/ha

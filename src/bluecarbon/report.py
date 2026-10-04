@@ -20,10 +20,10 @@ def read_classes(path: str | Path):
 
 
 def scene_report(pred_path: str | Path, cfg: CarbonCfg, test_confusion: list | None = None) -> dict:
-    from .priors import apply_to_classes, apply_to_confusion, raster_center_lat
+    from .priors import apply_to_classes, apply_to_confusion, raster_center_lonlat
 
     cls, transform, crs = read_classes(pred_path)
-    lat = raster_center_lat(transform, crs, *cls.shape)
+    lon, lat = raster_center_lonlat(transform, crs, *cls.shape)
     cls = apply_to_classes(cls, lat)
     areas = class_areas_ha(cls, transform, crs)
     rep = {"areas_ha": areas}
@@ -37,7 +37,7 @@ def scene_report(pred_path: str | Path, cfg: CarbonCfg, test_confusion: list | N
         basis = {k: v["adjusted_ha"] for k, v in adj.items()}
         sd = {k: v["ci95_ha"] / 1.96 for k, v in adj.items()}
     rep["carbon_area_basis"] = "error_adjusted" if sd else "mapped"
-    rep["carbon"] = carbon_report(basis, cfg, sd)
+    rep["carbon"] = carbon_report(basis, cfg, sd, lat=lat, lon=lon)
     return rep
 
 
@@ -49,9 +49,13 @@ def _areas_with_priors(path):
 
 
 def change_scene_report(t0_path, t1_path, cfg: CarbonCfg) -> dict:
+    from .priors import raster_center_lonlat
+
     a0 = _areas_with_priors(t0_path)
     a1 = _areas_with_priors(t1_path)
-    return {"areas_t0_ha": a0, "areas_t1_ha": a1, "change": change_report(a0, a1, cfg)}
+    cls, transform, crs = read_classes(t0_path)
+    lon, lat = raster_center_lonlat(transform, crs, *cls.shape)
+    return {"areas_t0_ha": a0, "areas_t1_ha": a1, "change": change_report(a0, a1, cfg, lat=lat, lon=lon)}
 
 
 def _fmt(x: float) -> str:
@@ -70,7 +74,7 @@ def to_markdown(rep: dict, title: str = "BlueCarbon-AI report") -> str:
         f"**Carbon stock:** {_fmt(s['mean'])} tCO2e (90% interval {_fmt(s['p05'])}-{_fmt(s['p95'])})  ",
         f"**Sequestration:** {_fmt(q['mean'])} tCO2e/yr (90% interval {_fmt(q['p05'])}-{_fmt(q['p95'])})  ",
         "",
-        f"_Method: {cb['method']}. Tier 1 global defaults; site measurements are needed for crediting._",
+        f"_Method: {cb['method']}. Crediting still requires measurements at the project site._",
     ]
     return "\n".join(lines)
 

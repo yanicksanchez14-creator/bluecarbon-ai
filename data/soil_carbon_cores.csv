@@ -1,0 +1,2516 @@
+habitat,latitude,longitude,soc_1m_tC_ha,sampled_cm,country,study_id
+mangrove,-29.8089,31.0401,127.6,100,South Africa,Naidoo_1980
+mangrove,-29.8088,31.0401,145.8,100,South Africa,Naidoo_1980
+mangrove,-29.8086,31.0401,160.5,100,South Africa,Naidoo_1980
+mangrove,-29.8068,31.0403,145.8,100,South Africa,Naidoo_1980
+mangrove,-29.8068,31.0407,133.2,100,South Africa,Naidoo_1980
+mangrove,-29.8068,31.041,150.9,100,South Africa,Naidoo_1980
+mangrove,-29.6514,31.1265,27.8,75,South Africa,Naidoo_and_Raiman_1982
+mangrove,-19.8418,34.7662,110.4,100,Mozambique,Sitoe_et_al_2014
+mangrove,-18.0789,146.023,127.4,45,Australia,Frusher_et_al_1994
+mangrove,-15.6598,46.9825,128.1,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.6526,47.0189,148.8,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.6515,47.0031,169.5,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.6406,47.0153,174.6,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.6011,46.9222,267.2,30,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5969,46.9265,206.1,65,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5884,46.9131,232.6,50,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5861,46.9398,279.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5839,46.9174,244.0,85,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5447,46.9439,226.3,30,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.542,46.9953,128.6,85,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5399,47.0484,173.9,80,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5366,46.9986,152.7,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5333,47.0358,149.7,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.528,47.0246,133.5,85,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5279,47.0386,190.1,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5212,47.0161,138.8,85,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.5143,47.0228,208.0,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4849,47.0367,179.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4849,47.046,155.7,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4804,47.0953,152.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4782,47.1043,130.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4781,47.1088,127.1,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4759,47.1132,185.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4738,47.111,195.7,30,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4728,47.2049,191.0,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4709,47.0925,203.4,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4708,47.1959,179.8,80,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4685,47.2026,187.7,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4674,47.0975,199.2,30,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4651,47.1064,169.7,50,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4618,47.0924,163.0,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4608,47.1086,134.0,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4573,47.0923,200.9,35,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.4401,47.2224,161.4,80,Madagascar,Blue_Ventures_Unpublished
+mangrove,-15.438,47.2201,178.9,100,Madagascar,Blue_Ventures_Unpublished
+mangrove,-13.5752,48.4478,256.4,65,Madagascar,Jones_et_al_2016
+mangrove,-13.5726,48.445,109.7,35,Madagascar,Jones_et_al_2016
+mangrove,-13.5726,48.4589,290.7,50,Madagascar,Jones_et_al_2016
+mangrove,-13.5703,48.4797,64.6,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5702,48.481,285.6,80,Madagascar,Jones_et_al_2016
+mangrove,-13.5698,48.4478,167.7,85,Madagascar,Jones_et_al_2016
+mangrove,-13.5676,48.4837,296.8,85,Madagascar,Jones_et_al_2016
+mangrove,-13.5643,48.445,252.3,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5592,48.4618,71.7,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5564,48.459,72.9,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5538,48.4589,175.3,85,Madagascar,Jones_et_al_2016
+mangrove,-13.5535,48.4452,240.5,70,Madagascar,Jones_et_al_2016
+mangrove,-13.5535,48.4508,200.5,70,Madagascar,Jones_et_al_2016
+mangrove,-13.5486,48.484,112.1,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5485,48.4786,373.3,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5454,48.451,345.9,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5429,48.4536,170.0,50,Madagascar,Jones_et_al_2016
+mangrove,-13.5404,48.4871,297.9,100,Madagascar,Jones_et_al_2016
+mangrove,-13.5396,48.4843,154.6,50,Madagascar,Jones_et_al_2016
+mangrove,-13.5377,48.4868,387.6,50,Madagascar,Jones_et_al_2016
+mangrove,-13.5268,48.476,213.9,85,Madagascar,Jones_et_al_2016
+mangrove,-13.5262,48.4456,129.5,65,Madagascar,Jones_et_al_2016
+mangrove,-13.477,48.6454,160.2,85,Madagascar,Jones_et_al_2016
+mangrove,-13.4742,48.6456,240.5,85,Madagascar,Jones_et_al_2016
+mangrove,-13.4679,48.5876,192.6,65,Madagascar,Jones_et_al_2016
+mangrove,-13.466,48.6345,292.1,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4655,48.6096,291.3,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4633,48.6427,237.9,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4632,48.6152,241.6,85,Madagascar,Jones_et_al_2016
+mangrove,-13.4631,48.6125,209.0,100,Madagascar,Jones_et_al_2016
+mangrove,-13.463,48.6068,238.2,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4606,48.6401,246.6,85,Madagascar,Jones_et_al_2016
+mangrove,-13.4605,48.6318,342.8,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4601,48.593,226.3,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4588,48.5916,252.6,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4578,48.6289,261.2,85,Madagascar,Jones_et_al_2016
+mangrove,-13.4576,48.6067,265.2,50,Madagascar,Jones_et_al_2016
+mangrove,-13.4575,48.5928,154.9,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4554,48.6456,204.8,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4524,48.6264,206.7,50,Madagascar,Jones_et_al_2016
+mangrove,-13.4522,48.6124,220.3,100,Madagascar,Jones_et_al_2016
+mangrove,-13.4522,48.6235,218.7,35,Madagascar,Jones_et_al_2016
+mangrove,-13.4521,48.6069,195.3,80,Madagascar,Jones_et_al_2016
+mangrove,-7.85,39.23,152.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.85,39.23,266.9,100,Tanzania,Dai_et_al_2022
+mangrove,-7.85,39.25,78.1,100,Tanzania,Dai_et_al_2022
+mangrove,-7.85,39.29,162.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.84,39.33,201.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.83,39.24,209.3,100,Tanzania,Dai_et_al_2022
+mangrove,-7.83,39.27,236.7,100,Tanzania,Dai_et_al_2022
+mangrove,-7.83,39.28,352.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.83,39.33,209.1,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.24,219.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.26,272.3,85,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.29,201.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.3,142.7,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.32,218.4,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.32,233.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.82,39.33,249.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.28,106.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.29,120.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.3,258.4,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.3,138.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.31,137.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.33,257.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.35,226.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.35,158.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.81,39.35,138.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.8,39.27,228.1,100,Tanzania,Dai_et_al_2022
+mangrove,-7.8,39.28,103.5,100,Tanzania,Dai_et_al_2022
+mangrove,-7.8,39.29,136.8,100,Tanzania,Dai_et_al_2022
+mangrove,-7.8,39.31,160.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.8,39.35,219.3,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.28,126.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.29,118.5,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.3,136.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.3,183.1,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.31,98.7,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.33,121.4,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.35,142.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.36,222.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.79,39.37,157.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.78,39.28,123.3,100,Tanzania,Dai_et_al_2022
+mangrove,-7.78,39.3,96.0,100,Tanzania,Dai_et_al_2022
+mangrove,-7.78,39.32,97.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.77,39.3,131.5,100,Tanzania,Dai_et_al_2022
+mangrove,-7.77,39.31,194.2,100,Tanzania,Dai_et_al_2022
+mangrove,-7.77,39.33,142.9,100,Tanzania,Dai_et_al_2022
+mangrove,-7.76,39.29,109.9,100,Tanzania,Dai_et_al_2022
+mangrove,-7.76,39.29,161.7,100,Tanzania,Dai_et_al_2022
+mangrove,-7.76,39.29,69.6,100,Tanzania,Dai_et_al_2022
+mangrove,-7.7296,108.9862,539.6,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.7183,108.9506,361.4,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.7112,108.9299,533.3,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.7097,108.8837,223.7,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6965,108.9518,318.9,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.691,108.8465,128.9,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.691,108.8465,158.5,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6796,108.8189,140.1,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6775,108.8411,128.3,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6755,109.0005,582.7,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6673,108.8669,223.7,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-7.6586,108.8394,167.3,100,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-5.8577,106.6018,99.5,40,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,-5.8558,106.601,116.4,30,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,0.5597,-79.9981,347.3,83,Ecuador,DelVecchia_et_al_2014
+mangrove,0.5643,-80.0014,388.4,77,Ecuador,DelVecchia_et_al_2014
+mangrove,0.5649,-80.0024,253.3,41,Ecuador,DelVecchia_et_al_2014
+mangrove,0.565,-79.9999,394.6,71,Ecuador,DelVecchia_et_al_2014
+mangrove,0.5658,-80.0018,460.3,54,Ecuador,DelVecchia_et_al_2014
+mangrove,0.5662,-80.0011,425.0,83,Ecuador,DelVecchia_et_al_2014
+mangrove,2.1912,117.9802,354.4,95,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,2.3,118.089,487.7,80,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,2.3982,118.0137,968.0,80,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,2.4235,118.0007,517.3,85,Indonesia,Kusumaningtyas_et_al_2018
+mangrove,4.4571,8.9026,500.6,100,Cameroon,Nsombo_et_al_2016
+mangrove,4.4571,8.9026,382.6,100,Cameroon,Nsombo_et_al_2016
+mangrove,4.4571,8.9026,478.1,100,Cameroon,Nsombo_et_al_2016
+mangrove,4.4571,8.9026,496.0,100,Cameroon,Nsombo_et_al_2016
+mangrove,4.9453,-2.378,308.2,100,Ghana,Adotey_et_al_2024
+mangrove,4.9453,-2.378,367.6,100,Ghana,Adotey_et_al_2024
+mangrove,4.9453,-2.378,448.0,100,Ghana,Adotey_et_al_2024
+mangrove,4.9453,-2.378,687.1,100,Ghana,Adotey_et_al_2024
+mangrove,4.9453,-2.378,1129.3,100,Ghana,Adotey_et_al_2024
+mangrove,4.9453,-2.378,522.0,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,939.1,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,890.5,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,698.6,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,547.5,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,802.9,100,Ghana,Adotey_et_al_2024
+mangrove,4.9487,-2.3937,904.6,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,726.5,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,573.0,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,491.3,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,130.0,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,305.8,100,Ghana,Adotey_et_al_2024
+mangrove,4.9625,-2.4096,355.6,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,417.5,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,879.8,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,764.2,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,519.4,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,301.3,100,Ghana,Adotey_et_al_2024
+mangrove,5.0992,-1.3217,261.2,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,592.7,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,609.5,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,581.7,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,506.7,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,701.6,100,Ghana,Adotey_et_al_2024
+mangrove,5.0996,-1.3194,681.1,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,593.5,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,592.0,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,682.9,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,462.3,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,610.7,100,Ghana,Adotey_et_al_2024
+mangrove,5.1009,-1.3147,194.0,100,Ghana,Adotey_et_al_2024
+mangrove,7.7398,-81.2023,544.7,80,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7398,-81.2023,757.8,88,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7398,-81.2023,911.7,100,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7398,-81.2023,514.9,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7398,-81.2023,344.8,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,529.4,65,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,475.8,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,632.8,66,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,827.4,78,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,777.9,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7504,-81.1848,862.5,77,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7958,-81.1756,552.8,56,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7958,-81.1756,308.3,54,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7958,-81.1756,609.1,53,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7958,-81.1756,468.3,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.7958,-81.1756,541.7,65,Panama,Romero_et_al_2025_Montijo
+mangrove,7.8125,-81.1734,452.6,50,Panama,Romero_et_al_2025_Montijo
+mangrove,7.8125,-81.1734,467.8,61,Panama,Romero_et_al_2025_Montijo
+mangrove,7.8125,-81.1734,302.6,80,Panama,Romero_et_al_2025_Montijo
+mangrove,7.8125,-81.1734,259.5,50,Panama,Romero_et_al_2025_Montijo
+mangrove,9.2314,-82.1216,526.2,55,Panama,Beers_et_al_2023
+mangrove,9.2315,-82.1218,609.2,40,Panama,Beers_et_al_2023
+mangrove,9.2315,-82.1216,546.0,40,Panama,Beers_et_al_2023
+mangrove,9.2315,-82.1214,594.3,40,Panama,Beers_et_al_2023
+mangrove,9.2316,-82.1217,576.7,40,Panama,Beers_et_al_2023
+mangrove,9.2316,-82.1214,620.4,40,Panama,Beers_et_al_2023
+mangrove,9.2317,-82.1213,588.1,40,Panama,Beers_et_al_2023
+mangrove,9.2523,-82.2402,631.7,45,Panama,Beers_et_al_2023
+mangrove,9.2524,-82.2364,727.1,40,Panama,Beers_et_al_2023
+mangrove,9.2524,-82.2363,579.2,40,Panama,Beers_et_al_2023
+mangrove,9.2525,-82.2401,607.0,40,Panama,Beers_et_al_2023
+mangrove,9.2526,-82.2362,607.1,40,Panama,Beers_et_al_2023
+mangrove,9.2528,-82.2399,604.1,40,Panama,Beers_et_al_2023
+mangrove,9.31,-82.2019,573.0,41,Panama,Beers_et_al_2023
+mangrove,9.31,-82.2018,582.4,40,Panama,Beers_et_al_2023
+mangrove,9.31,-82.2017,557.3,40,Panama,Beers_et_al_2023
+mangrove,9.311,-82.2004,647.3,45,Panama,Beers_et_al_2023
+mangrove,9.3111,-82.2005,679.3,40,Panama,Beers_et_al_2023
+mangrove,9.3112,-82.2003,666.5,35,Panama,Beers_et_al_2023
+mangrove,13.1872,-88.3296,190.0,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1872,-88.3296,293.0,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1872,-88.3296,235.7,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1872,-88.3296,275.0,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1872,-88.3296,310.2,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1872,-88.3296,213.8,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,339.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,406.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,377.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,252.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,165.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1921,-88.3971,300.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,367.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,325.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,325.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,263.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,336.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.1993,-88.3367,322.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,357.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,351.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,441.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,320.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,383.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2025,-88.3281,333.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,345.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,410.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,316.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,271.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,373.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2164,-88.4585,299.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,382.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,342.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,389.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,400.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,421.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2226,-88.4528,313.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,326.1,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,270.6,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,283.6,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,235.4,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,277.1,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2274,-88.6044,205.5,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,378.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,342.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,285.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,386.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,426.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2321,-88.469,336.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,302.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,308.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,326.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,327.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,411.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2356,-88.4498,288.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,516.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,365.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,296.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,383.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,277.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2406,-88.5695,434.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,333.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,379.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,305.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,378.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,388.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2413,-88.446,414.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,470.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,348.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,311.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,290.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,312.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2483,-88.4736,384.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,108.4,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,109.6,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,110.6,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,82.4,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,114.0,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2493,-88.777,108.7,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,120.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,181.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,258.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,258.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,226.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2538,-88.7863,185.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,134.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,133.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,171.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,215.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,163.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2578,-88.5612,249.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,147.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,190.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,165.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,171.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,161.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2584,-88.8195,145.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,438.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,450.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,479.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,338.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,515.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2699,-88.8297,320.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2704,-88.8533,62.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2704,-88.8533,73.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2704,-88.8533,33.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2704,-88.8533,100.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,316.0,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,213.3,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,258.1,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,321.1,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,279.9,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2718,-88.7658,287.3,200,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2801,-88.8532,155.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2801,-88.8532,174.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,19.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,81.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,45.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,37.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,31.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2819,-88.6943,44.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,298.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,170.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,337.9,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,387.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,279.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.2901,-88.8594,428.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,283.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,368.8,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,455.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,433.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,391.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.297,-88.8734,412.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,440.1,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,375.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,235.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,238.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,223.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3061,-88.8811,351.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3253,-88.9556,96.2,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3253,-88.9556,46.7,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3253,-88.9556,46.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3253,-88.9556,42.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3253,-88.9556,83.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,55.4,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,68.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,54.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,78.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,77.5,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.332,-88.8469,139.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3541,-88.8524,79.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3541,-88.8524,120.6,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3541,-88.8524,103.0,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,13.3541,-88.8524,73.3,100,El Salvador,Cifuentes_et_al_2024_ElSalvador
+mangrove,16.1821,-88.6565,423.5,55,Belize,Morrissette_et_al_2023
+mangrove,16.1821,-88.6564,404.3,54,Belize,Morrissette_et_al_2023
+mangrove,16.1822,-88.6562,296.8,55,Belize,Morrissette_et_al_2023
+mangrove,16.1823,-88.656,302.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.1824,-88.6559,295.5,60,Belize,Morrissette_et_al_2023
+mangrove,16.1825,-88.6586,363.4,55,Belize,Morrissette_et_al_2023
+mangrove,16.1825,-88.6557,382.3,53,Belize,Morrissette_et_al_2023
+mangrove,16.1826,-88.6589,369.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.1827,-88.6593,321.9,55,Belize,Morrissette_et_al_2023
+mangrove,16.1827,-88.6591,343.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.1828,-88.6595,259.8,50,Belize,Morrissette_et_al_2023
+mangrove,16.1829,-88.6598,312.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.2802,-88.5938,469.6,50,Belize,Morrissette_et_al_2023
+mangrove,16.2806,-88.5938,422.9,55,Belize,Morrissette_et_al_2023
+mangrove,16.2808,-88.5936,444.2,55,Belize,Morrissette_et_al_2023
+mangrove,16.281,-88.5936,491.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.2812,-88.5935,494.3,53,Belize,Morrissette_et_al_2023
+mangrove,16.2814,-88.5934,592.9,55,Belize,Morrissette_et_al_2023
+mangrove,16.2883,-88.5912,716.5,60,Belize,Morrissette_et_al_2023
+mangrove,16.2886,-88.5912,663.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.2888,-88.5913,703.6,55,Belize,Morrissette_et_al_2023
+mangrove,16.289,-88.5914,647.5,55,Belize,Morrissette_et_al_2023
+mangrove,16.2892,-88.5914,641.9,55,Belize,Morrissette_et_al_2023
+mangrove,16.2894,-88.5915,626.4,55,Belize,Morrissette_et_al_2023
+mangrove,16.5069,-88.4029,249.3,59,Belize,Morrissette_et_al_2023
+mangrove,16.507,-88.4027,316.6,55,Belize,Morrissette_et_al_2023
+mangrove,16.507,-88.4024,297.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.5071,-88.4028,357.4,55,Belize,Morrissette_et_al_2023
+mangrove,16.5072,-88.403,234.0,55,Belize,Morrissette_et_al_2023
+mangrove,16.5072,-88.4026,464.9,60,Belize,Morrissette_et_al_2023
+mangrove,16.5104,-88.4248,329.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.5106,-88.4247,313.2,55,Belize,Morrissette_et_al_2023
+mangrove,16.5108,-88.4246,377.0,55,Belize,Morrissette_et_al_2023
+mangrove,16.511,-88.4245,457.5,55,Belize,Morrissette_et_al_2023
+mangrove,16.5112,-88.4244,500.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.5114,-88.4243,517.1,55,Belize,Morrissette_et_al_2023
+mangrove,16.6434,-88.1637,641.6,55,Belize,Morrissette_et_al_2023
+mangrove,16.6436,-88.1642,692.5,55,Belize,Morrissette_et_al_2023
+mangrove,16.6436,-88.164,620.4,55,Belize,Morrissette_et_al_2023
+mangrove,16.6437,-88.1646,606.0,55,Belize,Morrissette_et_al_2023
+mangrove,16.6437,-88.1645,624.6,55,Belize,Morrissette_et_al_2023
+mangrove,16.6439,-88.1643,619.3,60,Belize,Morrissette_et_al_2023
+mangrove,16.6445,-88.1637,703.4,60,Belize,Morrissette_et_al_2023
+mangrove,16.6446,-88.1639,736.5,60,Belize,Morrissette_et_al_2023
+mangrove,16.6447,-88.1641,688.3,55,Belize,Morrissette_et_al_2023
+mangrove,16.6447,-88.1637,681.9,60,Belize,Morrissette_et_al_2023
+mangrove,16.6448,-88.1646,583.9,55,Belize,Morrissette_et_al_2023
+mangrove,16.6448,-88.1643,742.2,55,Belize,Morrissette_et_al_2023
+mangrove,16.8283,-88.1019,550.0,40,Belize,Beers_et_al_2023
+mangrove,16.8283,-88.1017,599.7,40,Belize,Beers_et_al_2023
+mangrove,16.8283,-88.1015,565.3,40,Belize,Beers_et_al_2023
+mangrove,16.8283,-88.1009,503.8,40,Belize,Beers_et_al_2023
+mangrove,16.8283,-88.1007,513.9,40,Belize,Beers_et_al_2023
+mangrove,16.8284,-88.101,440.1,40,Belize,Beers_et_al_2023
+mangrove,16.8318,-88.1057,368.0,40,Belize,Beers_et_al_2023
+mangrove,16.9359,-88.2452,673.0,55,Belize,Morrissette_et_al_2023
+mangrove,16.936,-88.2454,393.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.936,-88.245,385.3,55,Belize,Morrissette_et_al_2023
+mangrove,16.936,-88.2448,393.6,55,Belize,Morrissette_et_al_2023
+mangrove,16.9361,-88.2446,265.2,55,Belize,Morrissette_et_al_2023
+mangrove,16.9361,-88.2444,306.3,50,Belize,Morrissette_et_al_2023
+mangrove,16.939,-88.2436,578.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.939,-88.2434,615.0,55,Belize,Morrissette_et_al_2023
+mangrove,16.939,-88.2427,572.5,55,Belize,Morrissette_et_al_2023
+mangrove,16.9391,-88.2433,529.1,49,Belize,Morrissette_et_al_2023
+mangrove,16.9391,-88.2431,561.7,55,Belize,Morrissette_et_al_2023
+mangrove,16.9391,-88.2429,430.9,69,Belize,Morrissette_et_al_2023
+mangrove,17.2853,-87.8123,617.7,55,Belize,Morrissette_et_al_2023
+mangrove,17.2856,-87.8123,606.8,55,Belize,Morrissette_et_al_2023
+mangrove,17.2858,-87.8123,652.4,55,Belize,Morrissette_et_al_2023
+mangrove,17.286,-87.8123,596.9,55,Belize,Morrissette_et_al_2023
+mangrove,17.2862,-87.8123,539.4,55,Belize,Morrissette_et_al_2023
+mangrove,17.2865,-87.8123,615.1,55,Belize,Morrissette_et_al_2023
+mangrove,17.2869,-87.8155,496.4,55,Belize,Morrissette_et_al_2023
+mangrove,17.2871,-87.8156,410.7,55,Belize,Morrissette_et_al_2023
+mangrove,17.2872,-87.8256,419.9,55,Belize,Morrissette_et_al_2023
+mangrove,17.2874,-87.8158,523.5,55,Belize,Morrissette_et_al_2023
+mangrove,17.2876,-87.8159,651.2,55,Belize,Morrissette_et_al_2023
+mangrove,17.2878,-87.8161,572.4,55,Belize,Morrissette_et_al_2023
+mangrove,17.4896,-88.0633,464.3,55,Belize,Morrissette_et_al_2023
+mangrove,17.4897,-88.0639,586.8,55,Belize,Morrissette_et_al_2023
+mangrove,17.4897,-88.0637,560.5,55,Belize,Morrissette_et_al_2023
+mangrove,17.4897,-88.0635,526.5,55,Belize,Morrissette_et_al_2023
+mangrove,17.4898,-88.0643,635.1,55,Belize,Morrissette_et_al_2023
+mangrove,17.4898,-88.0641,656.6,55,Belize,Morrissette_et_al_2023
+mangrove,17.4918,-88.0639,573.2,55,Belize,Morrissette_et_al_2023
+mangrove,17.4918,-88.0637,482.2,50,Belize,Morrissette_et_al_2023
+mangrove,17.4918,-88.0635,416.8,55,Belize,Morrissette_et_al_2023
+mangrove,17.4918,-88.063,365.8,55,Belize,Morrissette_et_al_2023
+mangrove,17.4918,-88.0627,361.5,55,Belize,Morrissette_et_al_2023
+mangrove,17.4919,-88.0632,354.9,55,Belize,Morrissette_et_al_2023
+mangrove,17.6913,-88.117,564.4,55,Belize,Morrissette_et_al_2023
+mangrove,17.6914,-88.1168,498.1,55,Belize,Morrissette_et_al_2023
+mangrove,17.6915,-88.1166,548.2,55,Belize,Morrissette_et_al_2023
+mangrove,17.6915,-88.1164,638.0,55,Belize,Morrissette_et_al_2023
+mangrove,17.6915,-88.1161,558.1,50,Belize,Morrissette_et_al_2023
+mangrove,17.6915,-88.1159,574.3,55,Belize,Morrissette_et_al_2023
+mangrove,18.3244,-88.1182,58.9,55,Belize,Morrissette_et_al_2023
+mangrove,18.3246,-88.1182,76.0,50,Belize,Morrissette_et_al_2023
+mangrove,18.3248,-88.1183,167.1,40,Belize,Morrissette_et_al_2023
+mangrove,18.3251,-88.1183,13.1,65,Belize,Morrissette_et_al_2023
+mangrove,18.3253,-88.1183,215.1,60,Belize,Morrissette_et_al_2023
+mangrove,18.3255,-88.1183,190.8,58,Belize,Morrissette_et_al_2023
+mangrove,18.3377,-88.3925,463.5,55,Belize,Morrissette_et_al_2023
+mangrove,18.3392,-88.1069,179.5,50,Belize,Morrissette_et_al_2023
+mangrove,18.3392,-88.1067,39.1,50,Belize,Morrissette_et_al_2023
+mangrove,18.3393,-88.1071,113.2,48,Belize,Morrissette_et_al_2023
+mangrove,18.3394,-88.1073,70.9,54,Belize,Morrissette_et_al_2023
+mangrove,18.3395,-88.1075,82.5,45,Belize,Morrissette_et_al_2023
+mangrove,18.3396,-88.1078,102.6,47,Belize,Morrissette_et_al_2023
+mangrove,18.3408,-88.3843,426.7,55,Belize,Morrissette_et_al_2023
+mangrove,18.341,-88.3844,370.0,55,Belize,Morrissette_et_al_2023
+mangrove,18.3412,-88.3846,333.4,50,Belize,Morrissette_et_al_2023
+mangrove,18.3413,-88.3848,176.1,55,Belize,Morrissette_et_al_2023
+mangrove,18.3414,-88.3849,359.6,55,Belize,Morrissette_et_al_2023
+mangrove,18.3415,-88.3873,491.0,55,Belize,Morrissette_et_al_2023
+mangrove,18.3416,-88.3851,221.5,55,Belize,Morrissette_et_al_2023
+mangrove,18.3423,-88.3853,416.9,55,Belize,Morrissette_et_al_2023
+mangrove,18.4284,-66.0394,1117.7,38,United States,Eagle_et_al_2021
+mangrove,18.4284,-66.0394,536.9,39,United States,Eagle_et_al_2021
+mangrove,18.4331,-66.0586,455.5,39,United States,Eagle_et_al_2021
+mangrove,18.4397,-65.9814,937.9,33,United States,Eagle_et_al_2021
+mangrove,18.4403,-65.9564,403.3,35,United States,Eagle_et_al_2021
+mangrove,18.4403,-65.9564,259.8,49,United States,Eagle_et_al_2021
+mangrove,18.6355,-91.7836,150.5,30,Mexico,Ceron-Breton_et_al_2011
+mangrove,21.0525,110.2008,204.1,30,China,Liu_2005
+mangrove,21.1052,110.3054,142.9,30,China,Liu_2005
+mangrove,21.1052,110.3054,212.9,40,China,Liu_2005
+mangrove,21.2085,110.4158,183.0,30,China,Liu_2005
+mangrove,21.771,89.5519,217.6,100,Bangladesh,Akther_et_al_2021
+mangrove,21.8161,89.4578,271.3,100,Bangladesh,Akther_et_al_2021
+mangrove,21.8453,89.7953,1351.2,100,Bangladesh,Akther_et_al_2021
+mangrove,21.8586,89.7686,208.6,100,Bangladesh,Akther_et_al_2021
+mangrove,21.8751,89.8361,167.5,100,Bangladesh,Akther_et_al_2021
+mangrove,22.1297,89.7125,209.9,100,Bangladesh,Akther_et_al_2021
+mangrove,22.2419,89.5707,199.5,100,Bangladesh,Akther_et_al_2021
+mangrove,22.3028,89.6178,193.2,100,Bangladesh,Akther_et_al_2021
+mangrove,22.3224,89.4319,224.6,100,Bangladesh,Akther_et_al_2021
+mangrove,22.4275,89.5925,178.2,100,Bangladesh,Akther_et_al_2021
+mangrove,24.2012,53.8019,43.4,94,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2013,53.8021,71.4,97,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2014,53.8023,37.8,85,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2014,53.8024,74.6,62,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2015,53.8026,55.1,65,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2032,53.8007,95.8,31,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2033,53.8007,56.4,37,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2038,53.8001,77.7,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.2039,53.8002,55.8,34,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.204,53.8002,49.4,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.3021,-110.3271,324.2,30,Mexico,Costa_et_al_2023
+mangrove,24.4503,54.4095,43.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4503,54.4096,55.2,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4504,54.4098,67.0,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4505,54.41,71.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4505,54.4101,68.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4505,54.4103,66.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4523,54.4408,34.8,38,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4525,54.4409,34.1,36,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4527,54.441,57.6,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4529,54.4411,66.9,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.453,54.4411,79.4,32,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.4532,54.4413,175.8,37,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5029,54.5332,82.4,39,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5031,54.5331,76.9,40,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5033,54.533,51.6,39,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5036,54.5329,69.4,45,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5038,54.5329,43.9,40,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.504,54.5327,68.5,51,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.519,54.4697,30.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5191,54.4697,30.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5193,54.4696,21.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5194,54.4696,28.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5196,54.4695,24.6,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.5198,54.4694,34.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.628,53.0538,49.3,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6282,53.0538,63.3,35,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6315,53.0518,160.7,45,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6319,53.0523,144.9,33,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6554,54.6727,36.1,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6556,54.6727,44.2,52,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6558,54.6727,68.6,44,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.656,54.6727,55.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6561,54.6726,39.2,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.6563,54.6726,43.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,97.0,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,66.0,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,96.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,87.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,38.1,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,24.9998,56.3652,79.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,75.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,72.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,78.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,76.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,73.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0075,56.3652,77.1,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,118.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,105.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,83.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,92.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,89.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0096,56.36,117.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,63.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,55.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,96.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,64.2,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,57.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.0174,56.3565,74.0,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,40.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,63.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,63.4,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,52.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,28.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.1906,55.327,137.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.3629,-81.0778,518.8,32,United States,Breithaupt_et_al_2014
+mangrove,25.3629,-81.0778,412.2,30,United States,Breithaupt_et_al_2014
+mangrove,25.3639,-81.0785,452.2,40,United States,Breithaupt_et_al_2014
+mangrove,25.3639,-81.0785,379.5,31,United States,Breithaupt_et_al_2014
+mangrove,25.364,-81.0766,436.6,38,United States,Breithaupt_et_al_2014
+mangrove,25.3653,-81.086,505.6,60,United States,Chen_and_Twilley_1999
+mangrove,25.3717,-81.042,570.6,36,United States,Breithaupt_et_al_2017
+mangrove,25.3782,-81.0334,659.2,60,United States,Chen_and_Twilley_1999
+mangrove,25.4174,-81.1321,507.0,35,United States,Breithaupt_et_al_2017
+mangrove,25.4234,-81.0603,579.5,31,United States,Breithaupt_et_al_2020
+mangrove,25.4315,-81.1,512.7,37,United States,Breithaupt_et_al_2017
+mangrove,25.4354,55.4784,40.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.4354,55.4784,58.3,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.4354,55.4784,72.1,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.4354,55.4784,37.1,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.4354,55.4784,43.6,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.4354,55.4784,54.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5,-81.0827,686.5,31,United States,Breithaupt_et_al_2017
+mangrove,25.5332,55.5928,55.0,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5332,55.5928,36.9,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5332,55.5928,165.8,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5332,55.5928,66.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5332,55.5928,53.2,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5332,55.5928,43.7,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,92.3,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,80.7,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,100.4,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,28.5,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,78.3,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.5622,55.6048,117.7,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,72.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,60.2,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,88.5,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,62.6,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,40.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.7728,55.9465,27.7,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8743,-81.5194,510.2,33,United States,Breithaupt_et_al_2017
+mangrove,25.8981,56.0398,42.6,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8981,56.0398,34.7,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8981,56.0398,68.1,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8981,56.0398,179.5,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8981,56.0398,49.1,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.8981,56.0398,56.4,50,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+mangrove,25.9019,-81.5108,406.9,100,United States,Radabaugh_et_al_2023
+mangrove,25.9237,-81.6125,371.2,100,United States,Radabaugh_et_al_2023
+mangrove,25.9374,-81.4606,254.7,100,United States,Radabaugh_et_al_2023
+mangrove,25.9376,-81.4606,383.9,100,United States,Radabaugh_et_al_2023
+mangrove,25.9511,-81.5054,191.4,50,United States,Radabaugh_et_al_2023
+mangrove,25.9512,-81.5054,174.2,100,United States,Radabaugh_et_al_2023
+mangrove,25.9512,-81.5052,250.3,99,United States,Radabaugh_et_al_2023
+mangrove,25.9513,-81.5052,360.4,50,United States,Radabaugh_et_al_2023
+mangrove,26.0222,-81.7344,394.6,100,United States,Radabaugh_et_al_2023
+mangrove,26.9688,-82.1777,193.7,90,United States,Radabaugh_et_al_2023
+mangrove,26.9689,-82.1777,231.4,90,United States,Radabaugh_et_al_2023
+mangrove,27.0298,-81.989,257.9,81,United States,Radabaugh_et_al_2023
+mangrove,27.0299,-81.9889,150.4,50,United States,Radabaugh_et_al_2023
+mangrove,27.4992,-80.3221,416.7,40,United States,Beers_et_al_2023
+mangrove,27.4992,-80.3219,314.5,35,United States,Beers_et_al_2023
+mangrove,27.4993,-80.3222,293.4,40,United States,Beers_et_al_2023
+mangrove,27.4994,-80.3222,322.2,40,United States,Beers_et_al_2023
+mangrove,27.4995,-80.3221,321.3,40,United States,Beers_et_al_2023
+mangrove,27.4996,-80.3221,298.8,35,United States,Beers_et_al_2023
+mangrove,27.5195,-82.6707,275.5,30,United States,Osland_et_al_2012
+mangrove,27.5353,-82.6324,272.3,30,United States,Osland_et_al_2012
+mangrove,27.5807,-82.5636,196.4,50,United States,Radabaugh_et_al_2018
+mangrove,27.5808,-82.5635,148.4,90,United States,Radabaugh_et_al_2018
+mangrove,27.5809,-82.5637,208.5,50,United States,Radabaugh_et_al_2018
+mangrove,27.581,-82.5638,162.2,90,United States,Radabaugh_et_al_2018
+mangrove,27.5812,-82.5639,183.5,80,United States,Radabaugh_et_al_2018
+mangrove,27.5813,-82.564,262.1,65,United States,Radabaugh_et_al_2018
+mangrove,27.5988,-82.551,340.7,42,United States,Radabaugh_et_al_2018
+mangrove,27.5989,-82.5511,210.8,44,United States,Radabaugh_et_al_2018
+mangrove,27.599,-82.5514,291.3,50,United States,Radabaugh_et_al_2018
+mangrove,27.599,-82.5512,183.1,40,United States,Radabaugh_et_al_2018
+mangrove,27.5991,-82.5516,307.9,50,United States,Radabaugh_et_al_2018
+mangrove,27.5992,-82.5518,220.8,49,United States,Radabaugh_et_al_2018
+mangrove,27.6018,-82.5516,290.1,50,United States,Radabaugh_et_al_2018
+mangrove,27.6024,-82.5604,251.9,30,United States,Osland_et_al_2012
+mangrove,27.6271,-82.7157,393.6,32,United States,Radabaugh_et_al_2018
+mangrove,27.6698,-82.5148,481.2,30,United States,Osland_et_al_2012
+mangrove,27.677,-82.5032,313.4,30,United States,Osland_et_al_2012
+mangrove,27.6948,-82.5129,343.7,30,United States,Osland_et_al_2012
+mangrove,27.74,-82.462,381.9,30,United States,Osland_et_al_2012
+mangrove,27.7422,-82.4677,230.7,37,United States,Radabaugh_et_al_2018
+mangrove,27.7424,-82.4678,230.2,37,United States,Radabaugh_et_al_2018
+mangrove,27.7426,-82.468,224.9,35,United States,Radabaugh_et_al_2018
+mangrove,27.7427,-82.4682,182.7,36,United States,Radabaugh_et_al_2018
+mangrove,27.7429,-82.6876,302.3,49,United States,Radabaugh_et_al_2018
+mangrove,27.7429,-82.6874,265.0,50,United States,Radabaugh_et_al_2018
+mangrove,27.743,-82.6878,319.4,49,United States,Radabaugh_et_al_2018
+mangrove,27.743,-82.6874,287.1,90,United States,Radabaugh_et_al_2018
+mangrove,27.7431,-82.6877,271.9,48,United States,Radabaugh_et_al_2018
+mangrove,27.7819,-82.4162,200.0,30,United States,Osland_et_al_2012
+mangrove,27.8346,-82.3899,299.3,30,United States,Osland_et_al_2012
+mangrove,27.8454,-82.6014,250.6,47,United States,Radabaugh_et_al_2018
+mangrove,27.8456,-82.6014,250.6,47,United States,Radabaugh_et_al_2018
+mangrove,27.8458,-82.6015,230.7,47,United States,Radabaugh_et_al_2018
+mangrove,27.846,-82.6015,219.3,46,United States,Radabaugh_et_al_2018
+mangrove,27.8462,-82.6015,236.3,48,United States,Radabaugh_et_al_2018
+mangrove,27.8463,-82.6015,228.1,47,United States,Radabaugh_et_al_2018
+mangrove,27.8685,-97.0568,358.7,30,United States,Yando_et_al_2016
+mangrove,28.7097,-80.7387,305.7,30,United States,Doughty_et_al_2016
+mangrove,28.7097,-80.7387,284.5,35,United States,Doughty_et_al_2016
+mangrove,29.1115,-90.1981,285.2,30,United States,Yando_et_al_2016
+mangrove,29.143,-83.0318,124.4,30,United States,Yando_et_al_2016
+saltmarsh,-51.8262,-58.5957,1539.7,100,United Kingdom,Newton_2017
+saltmarsh,-51.82,-58.59,738.4,100,United Kingdom,Payne_et_al_2019
+saltmarsh,-33.8692,25.6148,252.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,252.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,204.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,204.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,238.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,238.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,198.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,198.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,215.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,215.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,198.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,198.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,203.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,203.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,273.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,273.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,249.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,249.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,254.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,254.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,260.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,260.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,240.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8692,25.6148,240.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,156.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,156.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,124.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,124.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,111.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,111.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,107.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,107.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,113.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,113.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,105.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,105.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,105.8,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,105.8,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,104.4,45,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,104.4,45,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,110.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,110.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,231.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,231.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,112.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,112.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,328.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8689,25.6286,328.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,304.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,304.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,184.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,184.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,146.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,146.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,163.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,163.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,193.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,193.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,230.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,230.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,181.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,181.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,134.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,134.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,156.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,156.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,215.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,215.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,226.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,226.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,211.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.866,25.6104,211.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,186.6,45,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,186.6,45,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,192.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,192.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,165.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,165.1,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,319.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,319.7,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,228.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,228.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,301.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,301.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,283.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,283.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,252.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,252.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,303.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,303.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,193.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,193.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,188.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,188.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,190.8,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8532,25.6139,190.8,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,169.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,169.3,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,143.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,143.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,166.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,166.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,163.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,163.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,175.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,175.5,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,192.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,192.9,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,178.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,178.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,164.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,164.2,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,192.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,192.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,165.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,165.6,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,144.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,144.0,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,154.4,50,South Africa,Human_et_al_2022
+saltmarsh,-33.8504,25.5967,154.4,50,South Africa,Human_et_al_2022
+saltmarsh,-31.3945,18.1142,121.4,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,77.2,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,100.3,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,71.2,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,95.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,123.3,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,143.1,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,118.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,117.0,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,138.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,97.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,92.5,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,83.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,97.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,110.3,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,88.5,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,146.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,149.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,109.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,187.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,107.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,143.4,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,79.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,157.1,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,113.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,65.5,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,147.3,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,158.7,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,118.7,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,-31.3945,18.1142,168.4,50,South Africa,Engelbrecht_et_al_2025_Olifants
+saltmarsh,24.2555,54.2378,64.6,81,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.2557,54.2378,51.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.2559,54.2377,83.7,79,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.256,54.2377,67.3,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.2562,54.2377,98.5,85,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.2564,54.2376,56.2,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4553,54.4339,32.7,85,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4554,54.4337,26.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4556,54.4336,37.1,75,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4557,54.4334,34.8,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4558,54.4333,37.3,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4559,54.4331,30.9,100,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.532,53.7,55,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.5322,65.5,53,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.5324,71.1,54,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.5326,42.7,56,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.5328,39.7,42,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.4979,54.5329,59.9,48,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.5191,54.4708,14.2,62,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.5193,54.4709,38.5,36,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.5194,54.471,36.3,49,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.5196,54.471,25.7,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,24.5198,54.4712,49.5,30,United Arab Emirates,Schile-Beers_and_Megonigal_2017
+saltmarsh,25.9183,-81.3945,255.5,92,United States,Radabaugh_et_al_2023
+saltmarsh,25.9184,-81.3947,213.0,93,United States,Radabaugh_et_al_2023
+saltmarsh,25.928,-81.4326,270.1,89,United States,Radabaugh_et_al_2023
+saltmarsh,25.9281,-81.4326,251.2,88,United States,Radabaugh_et_al_2023
+saltmarsh,25.9331,-81.4484,254.8,50,United States,Radabaugh_et_al_2023
+saltmarsh,25.9332,-81.4483,279.2,50,United States,Radabaugh_et_al_2023
+saltmarsh,25.9426,-81.475,230.9,90,United States,Radabaugh_et_al_2023
+saltmarsh,25.9427,-81.475,314.4,93,United States,Radabaugh_et_al_2023
+saltmarsh,25.945,-81.4745,281.9,100,United States,Radabaugh_et_al_2023
+saltmarsh,25.9451,-81.4744,319.9,100,United States,Radabaugh_et_al_2023
+saltmarsh,25.9615,-81.5194,96.5,34,United States,Radabaugh_et_al_2023
+saltmarsh,25.9615,-81.5192,97.8,35,United States,Radabaugh_et_al_2023
+saltmarsh,25.9649,-81.5295,120.8,33,United States,Radabaugh_et_al_2023
+saltmarsh,25.965,-81.5295,187.9,47,United States,Radabaugh_et_al_2023
+saltmarsh,25.9651,-81.5293,145.8,50,United States,Radabaugh_et_al_2023
+saltmarsh,25.9653,-81.5293,106.3,50,United States,Radabaugh_et_al_2023
+saltmarsh,25.9682,-81.539,148.7,42,United States,Radabaugh_et_al_2023
+saltmarsh,26.9664,-81.9997,327.8,96,United States,Radabaugh_et_al_2023
+saltmarsh,26.9665,-81.9998,302.7,100,United States,Radabaugh_et_al_2023
+saltmarsh,26.9666,-81.9982,223.3,100,United States,Radabaugh_et_al_2023
+saltmarsh,26.9667,-81.9981,210.8,75,United States,Radabaugh_et_al_2023
+saltmarsh,26.9668,-82.0006,354.9,100,United States,Radabaugh_et_al_2023
+saltmarsh,26.9683,-82.0056,410.7,100,United States,Gerlach_et_al_2017
+saltmarsh,26.9747,-82.1813,137.2,87,United States,Radabaugh_et_al_2023
+saltmarsh,26.9749,-82.1812,120.3,86,United States,Radabaugh_et_al_2023
+saltmarsh,26.9812,-82.1839,182.6,34,United States,Radabaugh_et_al_2023
+saltmarsh,27.042,-81.9851,235.2,50,United States,Radabaugh_et_al_2023
+saltmarsh,27.0421,-81.9849,96.8,43,United States,Radabaugh_et_al_2023
+saltmarsh,27.0603,-81.9977,99.4,50,United States,Radabaugh_et_al_2023
+saltmarsh,27.0604,-81.9977,231.0,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6673,-82.4293,173.3,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6674,-82.4294,88.1,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6717,-82.4178,169.7,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6718,-82.4178,91.3,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6726,-82.4384,94.1,100,United States,Radabaugh_et_al_2023
+saltmarsh,27.6726,-82.4383,167.8,73,United States,Radabaugh_et_al_2023
+saltmarsh,27.6788,-82.4363,291.0,48,United States,Radabaugh_et_al_2018
+saltmarsh,27.679,-82.4363,377.6,44,United States,Radabaugh_et_al_2018
+saltmarsh,27.6792,-82.4363,332.9,45,United States,Radabaugh_et_al_2018
+saltmarsh,27.6795,-82.4363,302.5,85,United States,Radabaugh_et_al_2018
+saltmarsh,27.6797,-82.4363,358.0,50,United States,Radabaugh_et_al_2018
+saltmarsh,27.6798,-82.4365,244.6,90,United States,Radabaugh_et_al_2018
+saltmarsh,27.6932,-82.5097,70.9,30,United States,Radabaugh_et_al_2018
+saltmarsh,27.6933,-82.5097,32.9,48,United States,Radabaugh_et_al_2018
+saltmarsh,27.6935,-82.5097,45.4,33,United States,Radabaugh_et_al_2018
+saltmarsh,27.6937,-82.5097,54.9,30,United States,Radabaugh_et_al_2018
+saltmarsh,27.6981,-82.4559,571.6,100,United States,Gerlach_et_al_2017
+saltmarsh,27.7801,-82.4046,174.3,32,United States,Radabaugh_et_al_2018
+saltmarsh,27.8453,-82.6115,88.5,48,United States,Radabaugh_et_al_2018
+saltmarsh,27.8609,-97.0716,93.2,30,United States,Yando_et_al_2016
+saltmarsh,27.8776,-97.0519,71.6,30,United States,Yando_et_al_2016
+saltmarsh,27.8778,-97.0522,84.6,30,United States,Yando_et_al_2016
+saltmarsh,27.994,-82.5867,397.5,32,United States,Radabaugh_et_al_2018
+saltmarsh,27.994,-82.5865,178.3,36,United States,Radabaugh_et_al_2018
+saltmarsh,27.994,-82.5863,106.7,44,United States,Radabaugh_et_al_2018
+saltmarsh,27.994,-82.5862,84.0,43,United States,Radabaugh_et_al_2018
+saltmarsh,27.9942,-82.5858,69.0,31,United States,Radabaugh_et_al_2018
+saltmarsh,28.007,-82.6332,82.3,45,United States,Radabaugh_et_al_2018
+saltmarsh,28.0071,-82.6331,90.7,45,United States,Radabaugh_et_al_2018
+saltmarsh,28.0072,-82.6329,88.3,44,United States,Radabaugh_et_al_2018
+saltmarsh,28.0074,-82.6328,48.0,45,United States,Radabaugh_et_al_2018
+saltmarsh,28.0075,-82.6327,80.0,81,United States,Radabaugh_et_al_2018
+saltmarsh,28.0076,-82.6326,77.7,50,United States,Radabaugh_et_al_2018
+saltmarsh,28.0165,-82.6262,88.5,44,United States,Radabaugh_et_al_2018
+saltmarsh,28.5815,-80.6726,54.1,39,United States,Doughty_et_al_2016
+saltmarsh,29.0969,-82.8208,78.4,40,United States,Vaughn_et_al_2020
+saltmarsh,29.1063,-90.2013,185.7,30,United States,Yando_et_al_2016
+saltmarsh,29.1417,-83.023,258.0,30,United States,Yando_et_al_2016
+saltmarsh,29.143,-83.0313,383.0,30,United States,Yando_et_al_2016
+saltmarsh,29.1437,-83.0318,460.9,30,United States,Yando_et_al_2016
+saltmarsh,29.1509,-90.2286,223.5,30,United States,Yando_et_al_2016
+saltmarsh,29.1516,-90.2279,231.4,30,United States,Yando_et_al_2016
+saltmarsh,29.1939,-90.1698,308.2,46,United States,Piazza_et_al_2020
+saltmarsh,29.1939,-90.1698,329.3,40,United States,Piazza_et_al_2020
+saltmarsh,29.2238,-90.1112,280.3,40,United States,Piazza_et_al_2020
+saltmarsh,29.2238,-90.1112,312.1,46,United States,Piazza_et_al_2020
+saltmarsh,29.2618,-91.1145,225.1,30,United States,Rybczyk_and_Cahoon_2002
+saltmarsh,29.2737,-91.074,278.7,46,United States,Piazza_et_al_2020
+saltmarsh,29.2737,-91.074,266.7,48,United States,Piazza_et_al_2020
+saltmarsh,29.2874,-90.1379,258.9,44,United States,Snedden_2018
+saltmarsh,29.3024,-90.5145,303.7,33,United States,Nyman_et_al_1993
+saltmarsh,29.3024,-90.5145,270.0,33,United States,Nyman_et_al_1993
+saltmarsh,29.305,-90.6037,324.0,51,United States,Nyman_et_al_1993
+saltmarsh,29.305,-90.6037,300.8,51,United States,Nyman_et_al_1993
+saltmarsh,29.3101,-90.5383,213.3,36,United States,Nyman_et_al_1993
+saltmarsh,29.3104,-90.592,283.1,48,United States,Nyman_et_al_1993
+saltmarsh,29.3104,-90.592,228.8,45,United States,Nyman_et_al_1993
+saltmarsh,29.3142,-90.5798,306.6,39,United States,Nyman_et_al_1993
+saltmarsh,29.3142,-90.5798,289.9,42,United States,Nyman_et_al_1993
+saltmarsh,29.3165,-89.7343,225.1,46,United States,Snedden_2018
+saltmarsh,29.3212,-90.5845,227.0,30,United States,Rybczyk_and_Cahoon_2002
+saltmarsh,29.3235,-90.5923,247.0,48,United States,Nyman_et_al_1993
+saltmarsh,29.3235,-90.5923,268.7,51,United States,Nyman_et_al_1993
+saltmarsh,29.3238,-89.796,222.2,42,United States,Snedden_2018
+saltmarsh,29.3306,-90.5786,235.0,45,United States,Nyman_et_al_1993
+saltmarsh,29.3306,-90.5786,301.3,42,United States,Nyman_et_al_1993
+saltmarsh,29.3333,-90.5942,289.3,45,United States,Nyman_et_al_1993
+saltmarsh,29.3333,-90.5942,234.3,45,United States,Nyman_et_al_1993
+saltmarsh,29.3341,-90.5609,411.7,39,United States,Nyman_et_al_1993
+saltmarsh,29.337,-90.6075,257.4,42,United States,Nyman_et_al_1993
+saltmarsh,29.337,-90.6075,303.4,45,United States,Nyman_et_al_1993
+saltmarsh,29.343,-90.574,296.0,42,United States,Nyman_et_al_1993
+saltmarsh,29.343,-90.574,294.7,42,United States,Nyman_et_al_1993
+saltmarsh,29.353,-90.55,317.8,45,United States,Nyman_et_al_1993
+saltmarsh,29.353,-90.55,292.5,45,United States,Nyman_et_al_1993
+saltmarsh,29.3643,-90.5836,296.2,45,United States,Nyman_et_al_1993
+saltmarsh,29.3643,-90.5836,275.7,45,United States,Nyman_et_al_1993
+saltmarsh,29.397,-90.5645,278.1,45,United States,Nyman_et_al_1993
+saltmarsh,29.397,-90.5645,249.2,33,United States,Nyman_et_al_1993
+saltmarsh,29.3997,-90.5607,261.8,45,United States,Nyman_et_al_1993
+saltmarsh,29.3997,-90.5607,459.7,45,United States,Nyman_et_al_1993
+saltmarsh,29.4193,-90.949,332.0,32,United States,Piazza_et_al_2020
+saltmarsh,29.4193,-90.949,300.2,44,United States,Piazza_et_al_2020
+saltmarsh,29.4414,-89.9026,141.6,100,United States,Chambers_et_al_2019
+saltmarsh,29.4414,-89.9026,162.8,100,United States,Chambers_et_al_2019
+saltmarsh,29.4414,-89.9026,155.1,100,United States,Chambers_et_al_2019
+saltmarsh,29.4417,-89.9013,171.6,100,United States,Chambers_et_al_2019
+saltmarsh,29.4417,-89.9013,169.7,100,United States,Chambers_et_al_2019
+saltmarsh,29.4417,-89.9013,167.5,100,United States,Chambers_et_al_2019
+saltmarsh,29.4436,-89.8998,176.8,100,United States,Chambers_et_al_2019
+saltmarsh,29.4436,-89.8998,147.8,100,United States,Chambers_et_al_2019
+saltmarsh,29.4436,-89.8998,165.3,100,United States,Chambers_et_al_2019
+saltmarsh,29.4436,-89.8998,363.3,100,United States,White_et_al_2020
+saltmarsh,29.4436,-89.8998,354.4,100,United States,White_et_al_2020
+saltmarsh,29.446,-90.9568,320.4,44,United States,Piazza_et_al_2020
+saltmarsh,29.446,-90.9568,268.8,30,United States,Piazza_et_al_2020
+saltmarsh,29.4466,-89.9063,341.1,50,United States,White_et_al_2020
+saltmarsh,29.4466,-89.9063,359.9,50,United States,White_et_al_2020
+saltmarsh,29.4466,-89.9063,372.4,50,United States,White_et_al_2020
+saltmarsh,29.4467,-89.9059,388.7,100,United States,White_et_al_2020
+saltmarsh,29.4467,-89.9059,352.4,100,United States,White_et_al_2020
+saltmarsh,29.4468,-89.9059,333.9,100,United States,White_et_al_2020
+saltmarsh,29.4468,-89.9059,332.4,100,United States,White_et_al_2020
+saltmarsh,29.4468,-89.9056,355.4,100,United States,White_et_al_2020
+saltmarsh,29.4468,-89.9056,322.7,100,United States,White_et_al_2020
+saltmarsh,29.4543,-89.7299,256.2,36,United States,Snedden_2018
+saltmarsh,29.4688,-89.823,239.7,50,United States,Snedden_2018
+saltmarsh,29.4761,-89.948,294.1,46,United States,Snedden_2018
+saltmarsh,29.4906,-89.7917,312.9,48,United States,Snedden_2018
+saltmarsh,29.4923,-90.3618,371.0,40,United States,Piazza_et_al_2020
+saltmarsh,29.4923,-90.3618,302.7,44,United States,Piazza_et_al_2020
+saltmarsh,29.4978,-90.1042,311.5,48,United States,Snedden_2018
+saltmarsh,29.4978,-90.0417,223.9,48,United States,Snedden_2018
+saltmarsh,29.4978,-89.9167,319.6,44,United States,Snedden_2018
+saltmarsh,29.505,-90.3854,461.2,38,United States,Piazza_et_al_2020
+saltmarsh,29.5292,-91.9006,1266.1,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.5292,-91.9006,1319.2,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.5486,-89.9167,267.1,42,United States,Snedden_2018
+saltmarsh,29.5559,-90.073,257.1,42,United States,Snedden_2018
+saltmarsh,29.5631,-90.1667,246.6,48,United States,Snedden_2018
+saltmarsh,29.5631,-90.0105,332.5,40,United States,Snedden_2018
+saltmarsh,29.5883,-92.6033,286.6,56,United States,Smith_et_al_2015
+saltmarsh,29.5885,-92.6045,311.3,56,United States,Smith_et_al_2015
+saltmarsh,29.5887,-92.6056,298.6,46,United States,Smith_et_al_2015
+saltmarsh,29.5895,-89.6134,102.6,58,United States,Snedden_2021
+saltmarsh,29.5901,-89.6134,322.6,44,United States,Piazza_et_al_2020
+saltmarsh,29.5901,-89.6134,299.4,44,United States,Piazza_et_al_2020
+saltmarsh,29.5976,-92.6044,312.6,50,United States,Smith_et_al_2015
+saltmarsh,29.5994,-90.1042,363.5,54,United States,Snedden_2018
+saltmarsh,29.6055,-89.7456,112.7,54,United States,Snedden_2021
+saltmarsh,29.6067,-92.6356,256.5,38,United States,Piazza_et_al_2020
+saltmarsh,29.6067,-92.6356,256.6,40,United States,Piazza_et_al_2020
+saltmarsh,29.6074,-92.5398,1481.3,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.6074,-92.5398,1414.0,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.6111,-92.6044,350.2,50,United States,Smith_et_al_2015
+saltmarsh,29.6131,-89.7849,117.4,58,United States,Snedden_2021
+saltmarsh,29.6152,-92.645,309.9,56,United States,Smith_et_al_2015
+saltmarsh,29.6153,-92.6149,325.9,40,United States,Piazza_et_al_2020
+saltmarsh,29.6153,-92.6149,359.5,40,United States,Piazza_et_al_2020
+saltmarsh,29.6202,-92.6044,354.3,54,United States,Smith_et_al_2015
+saltmarsh,29.6246,-89.7844,131.6,44,United States,Snedden_2021
+saltmarsh,29.6279,-89.8147,100.9,54,United States,Snedden_2021
+saltmarsh,29.628,-89.8241,291.2,50,United States,Snedden_2021
+saltmarsh,29.6309,-89.7152,258.9,50,United States,Snedden_2021
+saltmarsh,29.6321,-89.6627,154.3,58,United States,Snedden_2021
+saltmarsh,29.6321,-89.66,233.0,50,United States,Snedden_2021
+saltmarsh,29.6322,-92.5786,349.3,46,United States,Smith_et_al_2015
+saltmarsh,29.6365,-92.604,307.1,58,United States,Smith_et_al_2015
+saltmarsh,29.645,-92.5728,1420.5,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.645,-92.5728,1157.0,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.6464,-89.8588,323.2,48,United States,Snedden_2021
+saltmarsh,29.6639,-89.8741,202.4,44,United States,Snedden_2021
+saltmarsh,29.6648,-89.7503,290.6,50,United States,Snedden_2021
+saltmarsh,29.6657,-89.6042,270.4,52,United States,Piazza_et_al_2020
+saltmarsh,29.6657,-89.6042,344.1,34,United States,Piazza_et_al_2020
+saltmarsh,29.672,-90.1355,291.0,46,United States,Snedden_2018
+saltmarsh,29.6742,-89.8761,333.7,48,United States,Snedden_2021
+saltmarsh,29.6787,-89.7028,258.1,50,United States,Snedden_2021
+saltmarsh,29.6866,-89.7605,275.9,44,United States,Piazza_et_al_2020
+saltmarsh,29.6866,-89.7605,252.8,48,United States,Piazza_et_al_2020
+saltmarsh,29.7004,-89.9164,161.8,52,United States,Snedden_2021
+saltmarsh,29.7056,-89.7185,293.6,56,United States,Piazza_et_al_2020
+saltmarsh,29.7056,-89.7185,242.3,56,United States,Piazza_et_al_2020
+saltmarsh,29.7091,-89.8053,237.2,50,United States,Snedden_2021
+saltmarsh,29.7128,-89.7258,247.8,48,United States,Snedden_2021
+saltmarsh,29.7175,-90.149,404.0,36,United States,Snedden_2018
+saltmarsh,29.7187,-89.9183,419.4,50,United States,Snedden_2021
+saltmarsh,29.7228,-90.3542,355.8,50,United States,Snedden_2018
+saltmarsh,29.7286,-81.2411,64.4,40,United States,Vaughn_et_al_2020
+saltmarsh,29.749,-89.8243,261.2,50,United States,Snedden_2021
+saltmarsh,29.7715,-89.7306,243.2,50,United States,Snedden_2021
+saltmarsh,29.7801,-89.8429,313.2,50,United States,Snedden_2021
+saltmarsh,29.7809,-90.4792,250.5,36,United States,Snedden_2018
+saltmarsh,29.7954,-90.6042,305.1,34,United States,Piazza_et_al_2020
+saltmarsh,29.7954,-90.6042,353.7,32,United States,Piazza_et_al_2020
+saltmarsh,29.8027,-90.323,299.2,36,United States,Piazza_et_al_2020
+saltmarsh,29.8027,-90.323,345.7,34,United States,Piazza_et_al_2020
+saltmarsh,29.8099,-90.2605,343.5,40,United States,Snedden_2018
+saltmarsh,29.8147,-89.775,271.5,48,United States,Snedden_2021
+saltmarsh,29.8172,-90.323,342.8,40,United States,Snedden_2018
+saltmarsh,29.8244,-92.4793,270.7,36,United States,Piazza_et_al_2020
+saltmarsh,29.8244,-92.4793,226.1,38,United States,Piazza_et_al_2020
+saltmarsh,29.8244,-92.4793,212.9,40,United States,Piazza_et_al_2020
+saltmarsh,29.8244,-92.4793,279.8,40,United States,Piazza_et_al_2020
+saltmarsh,29.8317,-93.4168,323.0,36,United States,Piazza_et_al_2020
+saltmarsh,29.8317,-93.4168,389.2,36,United States,Piazza_et_al_2020
+saltmarsh,29.8317,-89.948,438.3,42,United States,Piazza_et_al_2020
+saltmarsh,29.8317,-89.948,395.2,40,United States,Piazza_et_al_2020
+saltmarsh,29.8334,-93.4091,373.7,36,United States,Piazza_et_al_2020
+saltmarsh,29.8334,-93.4091,379.7,38,United States,Piazza_et_al_2020
+saltmarsh,29.8342,-89.9522,304.3,48,United States,Snedden_2021
+saltmarsh,29.8352,-89.9301,303.8,40,United States,Piazza_et_al_2020
+saltmarsh,29.8352,-89.9301,277.7,42,United States,Piazza_et_al_2020
+saltmarsh,29.8439,-89.813,383.7,48,United States,Snedden_2021
+saltmarsh,29.8449,-89.8894,327.2,42,United States,Snedden_2021
+saltmarsh,29.8535,-90.5417,355.4,44,United States,Snedden_2018
+saltmarsh,29.8585,-90.2887,308.9,40,United States,Snedden_2018
+saltmarsh,29.8607,-92.9168,318.6,38,United States,Piazza_et_al_2020
+saltmarsh,29.8607,-92.9168,355.1,40,United States,Piazza_et_al_2020
+saltmarsh,29.8607,-92.9168,236.2,38,United States,Piazza_et_al_2020
+saltmarsh,29.8607,-92.9168,222.6,38,United States,Piazza_et_al_2020
+saltmarsh,29.875,-93.5417,1660.5,50,United States,Bryant_and_Chabreck_1998
+saltmarsh,29.8752,-93.6981,385.5,30,United States,Piazza_et_al_2020
+saltmarsh,29.8752,-93.6981,408.9,40,United States,Piazza_et_al_2020
+saltmarsh,29.8825,-93.7293,398.8,38,United States,Piazza_et_al_2020
+saltmarsh,29.8825,-93.7293,428.6,40,United States,Piazza_et_al_2020
+saltmarsh,29.8889,-90.2723,355.4,52,United States,Snedden_2018
+saltmarsh,29.9189,-93.3467,219.1,30,United States,McClellan_et_al_2021
+saltmarsh,29.9189,-93.3467,171.2,30,United States,McClellan_et_al_2021
+saltmarsh,29.9189,-93.3467,193.5,30,United States,McClellan_et_al_2021
+saltmarsh,29.9194,-93.3453,152.0,30,United States,Abbott_et_al_2019
+saltmarsh,29.921,-93.3454,144.4,30,United States,Abbott_et_al_2019
+saltmarsh,29.9269,-93.4381,321.4,30,United States,McClellan_et_al_2021
+saltmarsh,29.9269,-93.4381,500.7,30,United States,McClellan_et_al_2021
+saltmarsh,29.9269,-93.4381,231.2,30,United States,McClellan_et_al_2021
+saltmarsh,29.9272,-93.4203,88.0,30,United States,Abbott_et_al_2019
+saltmarsh,29.9295,-93.4328,336.3,30,United States,Abbott_et_al_2019
+saltmarsh,29.9335,-93.4401,385.0,30,United States,Abbott_et_al_2019
+saltmarsh,29.9335,-93.4167,103.0,30,United States,Abbott_et_al_2019
+saltmarsh,29.9378,-93.4008,116.9,30,United States,McClellan_et_al_2021
+saltmarsh,29.9378,-93.4008,154.2,30,United States,McClellan_et_al_2021
+saltmarsh,29.9397,-93.3979,150.7,30,United States,Abbott_et_al_2019
+saltmarsh,29.9442,-93.4392,306.1,30,United States,McClellan_et_al_2021
+saltmarsh,29.9442,-93.4392,366.1,30,United States,McClellan_et_al_2021
+saltmarsh,29.9442,-93.4392,441.2,30,United States,McClellan_et_al_2021
+saltmarsh,29.946,-93.5243,370.2,40,United States,Piazza_et_al_2020
+saltmarsh,29.946,-93.5243,390.3,40,United States,Piazza_et_al_2020
+saltmarsh,29.9599,-93.4113,116.7,34,United States,Abbott_et_al_2019
+saltmarsh,29.9617,-93.4131,158.7,30,United States,McClellan_et_al_2021
+saltmarsh,29.9617,-93.4131,155.2,30,United States,McClellan_et_al_2021
+saltmarsh,29.9617,-93.4131,176.6,30,United States,McClellan_et_al_2021
+saltmarsh,29.9624,-93.5106,378.0,38,United States,Piazza_et_al_2020
+saltmarsh,29.9624,-93.5106,247.4,40,United States,Piazza_et_al_2020
+saltmarsh,30.0362,-90.3407,392.1,48,United States,CRMS_Database
+saltmarsh,30.0362,-90.3407,347.0,48,United States,CRMS_Database
+saltmarsh,30.0362,-90.3407,364.0,48,United States,CRMS_Database
+saltmarsh,30.0506,-90.3514,678.2,48,United States,CRMS_Database
+saltmarsh,30.0506,-90.3514,296.6,48,United States,CRMS_Database
+saltmarsh,30.0506,-90.3514,310.4,48,United States,CRMS_Database
+saltmarsh,30.0658,-83.957,575.1,35,United States,Arriola_and_Cable_2017
+saltmarsh,30.0686,-83.9539,624.0,41,United States,Arriola_and_Cable_2017
+saltmarsh,30.0717,-83.9502,63.0,35,United States,Arriola_and_Cable_2017
+saltmarsh,30.0719,-83.9513,560.8,34,United States,Arriola_and_Cable_2017
+saltmarsh,30.0768,-83.9476,126.8,35,United States,Arriola_and_Cable_2017
+saltmarsh,30.0778,-83.9461,134.7,40,United States,Arriola_and_Cable_2017
+saltmarsh,30.376,-88.4122,239.9,44,United States,Marot_et_al_2020
+saltmarsh,30.376,-88.4121,244.2,47,United States,Marot_et_al_2020
+saltmarsh,30.376,-88.412,221.5,43,United States,Marot_et_al_2020
+saltmarsh,30.3761,-88.4124,241.3,51,United States,Marot_et_al_2020
+saltmarsh,30.3776,-88.3557,103.3,37,United States,Marot_et_al_2020
+saltmarsh,30.3785,-88.4055,134.7,30,United States,Marot_et_al_2020
+saltmarsh,30.3819,-88.4104,178.8,46,United States,Marot_et_al_2020
+saltmarsh,30.3819,-88.3938,113.3,42,United States,Marot_et_al_2020
+saltmarsh,30.3827,-88.3924,134.0,82,United States,Marot_et_al_2020
+saltmarsh,30.3834,-88.3966,215.5,39,United States,Marot_et_al_2020
+saltmarsh,30.3835,-88.3968,224.2,50,United States,Marot_et_al_2020
+saltmarsh,30.3835,-88.3967,215.8,52,United States,Marot_et_al_2020
+saltmarsh,30.3837,-88.397,206.8,48,United States,Marot_et_al_2020
+saltmarsh,30.3852,-88.4072,121.9,43,United States,Marot_et_al_2020
+saltmarsh,30.3902,-88.3796,120.6,37,United States,Marot_et_al_2020
+saltmarsh,30.3906,-88.3518,118.7,31,United States,Marot_et_al_2020
+saltmarsh,30.3935,-88.3682,131.1,30,United States,Marot_et_al_2020
+saltmarsh,30.9716,-81.7493,279.7,31,United States,Loomis_and_Craft_2024
+saltmarsh,30.9716,-81.7463,163.9,36,United States,Loomis_and_Craft_2024
+saltmarsh,30.9716,-81.7463,184.3,31,United States,Loomis_and_Craft_2024
+saltmarsh,30.9985,-81.6169,310.1,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.3005,-81.4009,312.3,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3005,-81.4009,301.2,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.308,-81.4097,212.0,46,United States,Loomis_and_Craft_2024
+saltmarsh,31.308,-81.4097,233.1,50,United States,Loomis_and_Craft_2024
+saltmarsh,31.3104,-81.3408,221.9,33,United States,Weston_et_al_2023
+saltmarsh,31.322,-81.417,312.3,30,United States,Craft_2007
+saltmarsh,31.322,-81.417,301.2,30,United States,Craft_2007
+saltmarsh,31.3229,-81.3487,170.2,49,United States,Weston_et_al_2023
+saltmarsh,31.3284,-81.3718,149.1,48,United States,Weston_et_al_2023
+saltmarsh,31.332,-81.309,206.4,30,United States,Craft_2007
+saltmarsh,31.332,-81.309,145.1,30,United States,Craft_2007
+saltmarsh,31.335,-81.4788,247.6,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.335,-81.4788,305.6,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3375,-81.3677,185.2,31,United States,Weston_et_al_2023
+saltmarsh,31.3382,-81.479,181.4,55,United States,Loomis_and_Craft_2024
+saltmarsh,31.3382,-81.479,229.7,38,United States,Loomis_and_Craft_2024
+saltmarsh,31.341,-81.48,247.6,30,United States,Craft_2007
+saltmarsh,31.341,-81.48,305.6,30,United States,Craft_2007
+saltmarsh,31.3501,-81.3334,206.4,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3501,-81.3334,145.1,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3836,-81.2675,206.7,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3836,-81.2675,186.3,30,United States,Loomis_and_Craft_2024
+saltmarsh,31.3888,-81.2768,206.7,30,United States,Craft_2007
+saltmarsh,31.3888,-81.2768,186.3,30,United States,Craft_2007
+saltmarsh,31.415,-81.343,163.7,30,United States,Craft_2007
+saltmarsh,31.415,-81.343,223.2,30,United States,Craft_2007
+saltmarsh,31.446,-81.374,129.1,30,United States,Craft_2007
+saltmarsh,31.446,-81.374,172.9,30,United States,Craft_2007
+saltmarsh,31.516,-81.232,172.0,30,United States,Craft_2007
+saltmarsh,31.539,-81.42,132.2,30,United States,Craft_2007
+saltmarsh,31.55,-81.306,188.5,30,United States,Craft_2007
+saltmarsh,31.8596,-81.1343,201.2,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9033,-81.1898,191.6,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9033,-81.1898,172.7,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9053,-81.1843,157.6,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9053,-81.1843,166.1,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9181,-81.2639,226.2,31,United States,Loomis_and_Craft_2024
+saltmarsh,31.9226,-81.2547,259.6,31,United States,Loomis_and_Craft_2024
+saltmarsh,32.5126,-80.3699,194.1,48,United States,Weston_et_al_2023
+saltmarsh,32.5393,-80.415,42.9,44,United States,Weston_et_al_2023
+saltmarsh,32.5395,-80.378,193.7,36,United States,Weston_et_al_2023
+saltmarsh,32.5492,-80.4229,128.4,41,United States,Weston_et_al_2023
+saltmarsh,33.35,-79.3447,1659.1,31,United States,Krauss_et_al_2018
+saltmarsh,33.4935,-79.1726,286.8,36,United States,Drexler_et_al_2013
+saltmarsh,33.5172,-79.159,238.3,51,United States,Drexler_et_al_2013
+saltmarsh,33.5178,-79.1483,282.6,54,United States,Drexler_et_al_2013
+saltmarsh,33.518,-79.1482,274.6,45,United States,Drexler_et_al_2013
+saltmarsh,33.5208,-79.1477,157.8,30,United States,Drexler_et_al_2013
+saltmarsh,33.5209,-79.1477,184.8,51,United States,Drexler_et_al_2013
+saltmarsh,33.9098,-77.97,109.8,34,United States,Weston_et_al_2023
+saltmarsh,33.911,-77.9733,100.1,45,United States,Weston_et_al_2023
+saltmarsh,33.9205,-77.9731,182.3,38,United States,Weston_et_al_2023
+saltmarsh,33.9354,-78.3687,180.9,31,United States,Miller_et_al_2022
+saltmarsh,33.9521,-77.9757,216.9,35,United States,Weston_et_al_2023
+saltmarsh,33.9542,-78.3634,269.0,80,United States,Miller_et_al_2022
+saltmarsh,33.9546,-78.3629,267.5,60,United States,Miller_et_al_2022
+saltmarsh,34.5732,-77.3384,353.8,72,United States,McTigue_et_al_2020
+saltmarsh,34.5732,-77.3384,281.1,68,United States,McTigue_et_al_2020
+saltmarsh,34.5733,-77.3385,479.6,94,United States,McTigue_et_al_2020
+saltmarsh,34.7544,-76.778,237.0,100,United States,Miller_et_al_2022
+saltmarsh,34.7546,-76.7779,381.1,75,United States,Miller_et_al_2022
+saltmarsh,34.7564,-76.7361,193.5,36,United States,Miller_et_al_2022
+saltmarsh,34.7564,-76.736,207.0,42,United States,Miller_et_al_2022
+saltmarsh,34.7566,-76.7365,187.6,53,United States,Miller_et_al_2022
+saltmarsh,34.8696,-76.4085,436.1,51,United States,Miller_et_al_2022
+saltmarsh,34.8697,-76.4089,419.5,31,United States,Miller_et_al_2022
+saltmarsh,34.9423,-76.4307,523.3,31,United States,Miller_et_al_2022
+saltmarsh,34.943,-76.431,464.3,51,United States,Miller_et_al_2022
+saltmarsh,34.9434,-76.4311,395.8,80,United States,Miller_et_al_2022
+saltmarsh,34.9441,-76.4314,458.9,83,United States,Miller_et_al_2022
+saltmarsh,34.9453,-76.4321,359.5,100,United States,Miller_et_al_2022
+saltmarsh,35.233,-76.5335,439.2,90,United States,Miller_et_al_2022
+saltmarsh,35.2334,-76.5335,453.5,100,United States,Miller_et_al_2022
+saltmarsh,35.2339,-76.5335,430.1,82,United States,Miller_et_al_2022
+saltmarsh,35.2343,-76.5336,449.2,58,United States,Miller_et_al_2022
+saltmarsh,35.265,-76.4695,296.2,48,United States,Lagomasino_et_al_2020
+saltmarsh,35.2651,-76.4692,133.8,48,United States,Lagomasino_et_al_2020
+saltmarsh,35.2651,-76.4691,427.9,46,United States,Lagomasino_et_al_2020
+saltmarsh,35.3744,-76.7302,606.7,48,United States,Lagomasino_et_al_2020
+saltmarsh,35.3747,-76.7301,661.9,34,United States,Lagomasino_et_al_2020
+saltmarsh,35.8736,-75.6649,999.6,98,United States,Strand_et_al_2024
+saltmarsh,35.8745,-75.6639,1033.5,98,United States,Strand_et_al_2024
+saltmarsh,35.8746,-75.6659,991.6,88,United States,Strand_et_al_2024
+saltmarsh,35.8748,-75.6657,412.7,46,United States,Strand_et_al_2024
+saltmarsh,35.8751,-75.663,1256.2,80,United States,Strand_et_al_2024
+saltmarsh,35.8752,-75.6645,1014.9,86,United States,Strand_et_al_2024
+saltmarsh,35.9865,-75.6709,944.5,100,United States,Strand_et_al_2024
+saltmarsh,35.987,-75.6697,1174.5,100,United States,Strand_et_al_2024
+saltmarsh,35.9874,-75.6696,1040.4,100,United States,Strand_et_al_2024
+saltmarsh,35.988,-75.6725,822.5,98,United States,Strand_et_al_2024
+saltmarsh,35.9882,-75.6721,1304.4,98,United States,Strand_et_al_2024
+saltmarsh,35.9883,-75.6715,1092.4,90,United States,Strand_et_al_2024
+saltmarsh,36.467,-6.251,93.8,76,Spain,de_los_Santos_et_al_2023
+saltmarsh,36.9633,-76.4942,281.2,36,United States,Weston_et_al_2023
+saltmarsh,36.984,-7.889,40.8,100,Portugal,Martins_et_al_2022
+saltmarsh,36.988,-7.876,64.5,100,Portugal,Martins_et_al_2022
+saltmarsh,36.997,-7.88,120.8,100,Portugal,Martins_et_al_2022
+saltmarsh,37.003,-7.884,115.3,100,Portugal,Martins_et_al_2022
+saltmarsh,37.216,-76.4074,122.4,34,United States,Smith_and_Kirwan_2021
+saltmarsh,37.2194,-76.4058,132.5,55,United States,Smith_and_Kirwan_2021
+saltmarsh,37.2195,-76.4052,121.6,33,United States,Smith_and_Kirwan_2021
+saltmarsh,37.2196,-76.4049,311.2,35,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2197,-76.4047,221.2,30,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2198,-76.4043,316.5,44,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2199,-76.4038,312.7,75,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2199,-76.3993,326.0,75,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.22,-76.4035,334.5,76,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.22,-76.4033,230.3,65,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2201,-76.4031,166.1,75,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2203,-76.4018,240.4,91,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2204,-76.4016,321.8,90,United States,Schieder_and_Kirwan_2019
+saltmarsh,37.2212,-76.4033,498.2,49,United States,Gillen_et_al_2018
+saltmarsh,37.2213,-76.4032,235.6,194,United States,Gillen_et_al_2018
+saltmarsh,37.2963,-76.5535,665.3,31,United States,Gillen_et_al_2018
+saltmarsh,37.2965,-76.5536,530.9,36,United States,Gillen_et_al_2018
+saltmarsh,37.2982,-76.5553,297.4,34,United States,Weston_et_al_2023
+saltmarsh,37.4153,-76.7155,605.0,93,United States,Gillen_et_al_2018
+saltmarsh,37.4154,-76.7154,801.7,85,United States,Gillen_et_al_2018
+saltmarsh,37.4543,-75.8284,403.7,34,United States,Nuttle_1996
+saltmarsh,37.4543,-75.8284,281.6,34,United States,Nuttle_1996
+saltmarsh,37.4546,-121.9469,306.0,96,United States,Watson_and_Byrne_2013
+saltmarsh,37.4546,-75.8293,327.6,32,United States,Nuttle_1996
+saltmarsh,37.4554,-121.9756,332.6,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4556,-75.834,188.7,34,United States,Nuttle_1996
+saltmarsh,37.4571,-75.8334,357.8,36,United States,Nuttle_1996
+saltmarsh,37.458,-121.9749,312.1,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4586,-75.8315,342.0,32,United States,Nuttle_1996
+saltmarsh,37.4595,-121.9537,429.3,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4604,-121.9535,315.3,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4656,-121.9333,260.5,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4678,-121.9457,268.4,96,United States,Watson_and_Byrne_2013
+saltmarsh,37.4698,-121.9499,265.6,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4795,-121.952,387.3,112,United States,Watson_and_Byrne_2013
+saltmarsh,37.4869,-122.1486,265.6,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.4869,-122.1462,333.3,200,United States,Watson_and_Byrne_2013
+saltmarsh,37.5007,-122.1718,289.7,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5019,-122.1718,342.1,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5063,-122.0881,299.4,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5119,-122.2192,353.1,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5172,-122.2157,251.4,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5198,-122.2327,407.7,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5199,-122.2251,302.0,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5214,-122.2094,385.8,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5225,-122.2152,334.8,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5511,-122.2361,357.7,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5514,-122.2403,382.2,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.5659,-76.884,1352.0,74,United States,Gillen_et_al_2018
+saltmarsh,37.5659,-76.8839,622.2,81,United States,Gillen_et_al_2018
+saltmarsh,37.5715,-77.0204,1698.4,81,United States,Gillen_et_al_2018
+saltmarsh,37.5877,-122.1418,216.5,52,United States,Callaway_et_al_2019
+saltmarsh,37.5886,-122.1436,213.4,52,United States,Callaway_et_al_2019
+saltmarsh,37.5895,-122.1455,197.9,52,United States,Callaway_et_al_2019
+saltmarsh,37.6004,-122.1456,196.4,50,United States,Callaway_et_al_2019
+saltmarsh,37.6004,-122.144,193.1,52,United States,Callaway_et_al_2019
+saltmarsh,37.6004,-122.1423,180.5,52,United States,Callaway_et_al_2019
+saltmarsh,37.6154,-75.6781,315.7,40,United States,Beers_et_al_2023
+saltmarsh,37.6156,-122.114,193.7,32,United States,Carlin_et_al_2021
+saltmarsh,37.6157,-122.114,184.6,30,United States,Carlin_et_al_2021
+saltmarsh,37.6159,-75.6779,348.8,35,United States,Beers_et_al_2023
+saltmarsh,37.616,-75.6779,343.8,35,United States,Beers_et_al_2023
+saltmarsh,37.6181,-75.6721,233.7,40,United States,Beers_et_al_2023
+saltmarsh,37.6183,-75.6718,85.1,40,United States,Beers_et_al_2023
+saltmarsh,37.6183,-75.6718,141.0,45,United States,Beers_et_al_2023
+saltmarsh,37.6328,-122.1516,178.8,50,United States,Callaway_et_al_2019
+saltmarsh,37.6343,-122.1507,201.3,50,United States,Callaway_et_al_2019
+saltmarsh,37.6356,-122.1502,174.5,50,United States,Callaway_et_al_2019
+saltmarsh,37.6386,-122.1497,235.0,50,United States,Callaway_et_al_2019
+saltmarsh,37.6398,-122.1488,180.6,46,United States,Callaway_et_al_2019
+saltmarsh,37.641,-122.1483,166.3,52,United States,Callaway_et_al_2019
+saltmarsh,37.7536,-122.2133,397.8,100,United States,Watson_and_Byrne_2013
+saltmarsh,37.7537,-122.2123,354.7,96,United States,Watson_and_Byrne_2013
+saltmarsh,37.9265,-122.5091,218.6,52,United States,Callaway_et_al_2019
+saltmarsh,37.927,-122.5062,181.6,48,United States,Callaway_et_al_2019
+saltmarsh,37.9273,-122.5036,179.2,50,United States,Callaway_et_al_2019
+saltmarsh,37.9281,-122.5084,293.8,50,United States,Callaway_et_al_2019
+saltmarsh,37.9288,-122.5059,204.1,50,United States,Callaway_et_al_2019
+saltmarsh,37.9296,-122.5037,182.0,46,United States,Callaway_et_al_2019
+saltmarsh,38.0086,-122.4872,326.2,50,United States,Callaway_et_al_2019
+saltmarsh,38.0098,-122.4857,181.7,52,United States,Callaway_et_al_2019
+saltmarsh,38.011,-122.4852,236.7,56,United States,Callaway_et_al_2019
+saltmarsh,38.0121,-122.5003,299.2,50,United States,Callaway_et_al_2019
+saltmarsh,38.0139,-122.4994,279.2,50,United States,Callaway_et_al_2019
+saltmarsh,38.0154,-122.4985,233.8,50,United States,Callaway_et_al_2019
+saltmarsh,38.036,-121.8679,392.7,54,United States,Callaway_et_al_2019
+saltmarsh,38.0364,-121.8586,452.0,50,United States,Callaway_et_al_2019
+saltmarsh,38.0371,-121.8681,394.1,54,United States,Callaway_et_al_2019
+saltmarsh,38.0376,-121.859,409.5,44,United States,Callaway_et_al_2019
+saltmarsh,38.038,-121.8685,357.7,50,United States,Callaway_et_al_2019
+saltmarsh,38.0387,-121.8594,286.2,52,United States,Callaway_et_al_2019
+saltmarsh,38.0499,-121.7657,1114.3,79,United States,Arias-Ortiz_et_al_2021
+saltmarsh,38.0501,-121.7669,1199.3,44,United States,Arias-Ortiz_et_al_2021
+saltmarsh,38.1073,-121.6478,752.4,82,United States,Arias-Ortiz_et_al_2021
+saltmarsh,38.1074,-121.6473,761.2,56,United States,Arias-Ortiz_et_al_2021
+saltmarsh,38.1074,-121.6471,733.1,81,United States,Arias-Ortiz_et_al_2021
+saltmarsh,38.1588,-122.5537,237.3,50,United States,Callaway_et_al_2019
+saltmarsh,38.1613,-122.5541,235.8,52,United States,Callaway_et_al_2019
+saltmarsh,38.1632,-122.5544,240.2,52,United States,Callaway_et_al_2019
+saltmarsh,38.1782,-122.5536,279.5,50,United States,Callaway_et_al_2019
+saltmarsh,38.1786,-122.5497,246.3,50,United States,Callaway_et_al_2019
+saltmarsh,38.1797,-122.543,238.6,48,United States,Callaway_et_al_2019
+saltmarsh,38.1865,-122.3192,286.9,50,United States,Callaway_et_al_2019
+saltmarsh,38.1876,-122.3198,214.6,54,United States,Callaway_et_al_2019
+saltmarsh,38.1895,-122.3207,261.0,50,United States,Callaway_et_al_2019
+saltmarsh,38.1895,-122.0119,303.3,50,United States,Callaway_et_al_2019
+saltmarsh,38.1898,-122.3229,248.3,50,United States,Callaway_et_al_2019
+saltmarsh,38.1905,-122.0128,425.2,46,United States,Callaway_et_al_2019
+saltmarsh,38.1915,-122.0136,346.8,52,United States,Callaway_et_al_2019
+saltmarsh,38.1924,-122.3233,264.6,50,United States,Callaway_et_al_2019
+saltmarsh,38.194,-122.3232,263.1,50,United States,Callaway_et_al_2019
+saltmarsh,38.1948,-122.3223,257.5,50,United States,Callaway_et_al_2019
+saltmarsh,38.196,-122.3257,290.4,50,United States,Callaway_et_al_2019
+saltmarsh,38.1961,-122.321,225.6,50,United States,Callaway_et_al_2019
+saltmarsh,38.1969,-122.0289,332.7,40,United States,Beers_et_al_2023
+saltmarsh,38.1971,-122.0285,423.0,40,United States,Beers_et_al_2023
+saltmarsh,38.1971,-75.8291,393.0,60,United States,Merrill_1999
+saltmarsh,38.1974,-122.0281,449.8,40,United States,Beers_et_al_2023
+saltmarsh,38.1978,-122.3253,263.7,50,United States,Callaway_et_al_2019
+saltmarsh,38.1986,-122.3237,213.6,50,United States,Callaway_et_al_2019
+saltmarsh,38.1997,-122.0282,374.4,40,United States,Beers_et_al_2023
+saltmarsh,38.1999,-122.0288,553.3,40,United States,Beers_et_al_2023
+saltmarsh,38.2022,-122.0384,455.8,50,United States,Callaway_et_al_2019
+saltmarsh,38.2023,-122.0369,387.9,50,United States,Callaway_et_al_2019
+saltmarsh,38.2024,-122.0394,350.5,52,United States,Callaway_et_al_2019
+saltmarsh,38.2085,-75.8036,378.0,60,United States,Merrill_1999
+saltmarsh,38.2199,-75.8242,342.1,50,United States,Merrill_1999
+saltmarsh,38.2281,-75.7822,306.4,60,United States,Merrill_1999
+saltmarsh,38.2286,-75.7959,345.1,50,United States,Merrill_1999
+saltmarsh,38.23,-75.8116,471.6,50,United States,Merrill_1999
+saltmarsh,38.3135,-75.9352,266.5,90,United States,Allen_et_al_2022
+saltmarsh,38.3176,-75.9405,353.3,80,United States,Allen_et_al_2022
+saltmarsh,38.3189,-75.9369,338.1,100,United States,Allen_et_al_2022
+saltmarsh,38.4038,-75.8363,326.4,100,United States,Allen_et_al_2022
+saltmarsh,38.4056,-75.8425,285.0,100,United States,Allen_et_al_2022
+saltmarsh,38.4099,-75.8402,168.1,100,United States,Allen_et_al_2022
+saltmarsh,38.496,-75.807,328.6,100,United States,Allen_et_al_2022
+saltmarsh,38.4961,-75.8039,332.3,100,United States,Allen_et_al_2022
+saltmarsh,38.4986,-75.8026,452.6,100,United States,Allen_et_al_2022
+saltmarsh,38.5102,-75.0665,519.1,60,United States,Elsey_Quirk_et_al_2011
+saltmarsh,38.5102,-75.0654,356.4,60,United States,Elsey_Quirk_et_al_2011
+saltmarsh,38.5493,-75.717,398.5,100,United States,Allen_et_al_2022
+saltmarsh,38.5571,-75.7068,324.2,100,United States,Allen_et_al_2022
+saltmarsh,38.5579,-75.7061,486.8,100,United States,Allen_et_al_2022
+saltmarsh,38.6027,-75.6529,368.2,100,United States,Allen_et_al_2022
+saltmarsh,38.6112,-75.6423,328.5,100,United States,Allen_et_al_2022
+saltmarsh,38.6124,-75.6418,361.7,100,United States,Allen_et_al_2022
+saltmarsh,38.6168,-76.6747,434.0,80,United States,Merrill_1999
+saltmarsh,38.6168,-76.6747,316.2,50,United States,Merrill_1999
+saltmarsh,38.6168,-76.6747,464.5,80,United States,Merrill_1999
+saltmarsh,38.6168,-76.6747,450.9,80,United States,Merrill_1999
+saltmarsh,38.6227,-76.6794,395.6,80,United States,Merrill_1999
+saltmarsh,38.6267,-75.9705,338.6,80,United States,Merrill_1999
+saltmarsh,38.6343,-76.6854,373.1,80,United States,Merrill_1999
+saltmarsh,38.6668,-76.6897,417.7,80,United States,Merrill_1999
+saltmarsh,38.6755,-76.694,413.8,78,United States,Merrill_1999
+saltmarsh,38.6782,-76.6901,476.5,80,United States,Merrill_1999
+saltmarsh,38.6886,-76.6891,371.5,55,United States,Merrill_1999
+saltmarsh,38.6886,-76.6891,409.2,80,United States,Merrill_1999
+saltmarsh,38.6886,-76.6891,458.6,55,United States,Merrill_1999
+saltmarsh,38.6886,-76.6891,470.5,80,United States,Merrill_1999
+saltmarsh,38.689,-76.6895,437.4,80,United States,Merrill_1999
+saltmarsh,38.7309,-76.009,381.6,80,United States,Merrill_1999
+saltmarsh,38.7402,-76.6864,366.6,70,United States,Merrill_1999
+saltmarsh,38.7402,-76.6864,412.8,45,United States,Merrill_1999
+saltmarsh,38.7402,-76.6864,427.3,45,United States,Merrill_1999
+saltmarsh,38.7402,-76.6864,370.8,60,United States,Merrill_1999
+saltmarsh,38.748,-76.6985,359.1,80,United States,Merrill_1999
+saltmarsh,38.7649,-77.0502,225.9,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7651,-77.0479,276.7,31,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7654,-77.0497,231.4,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7657,-77.0504,174.9,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7666,-77.0504,155.6,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7669,-77.0492,174.8,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.768,-77.0508,285.9,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7681,-77.048,182.5,30,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7699,-75.9788,416.6,80,United States,Merrill_1999
+saltmarsh,38.7709,-77.0491,307.2,33,United States,Palinkas_and_Engelhardt_2024
+saltmarsh,38.7808,-76.7081,297.6,80,United States,Merrill_1999
+saltmarsh,38.7816,-76.708,437.1,80,United States,Merrill_1999
+saltmarsh,38.782,-76.7106,336.0,80,United States,Merrill_1999
+saltmarsh,38.7895,-76.7176,317.7,80,United States,Merrill_1999
+saltmarsh,38.8066,-75.2021,339.3,40,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.811,-75.2053,496.9,42,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8114,-76.7368,519.0,68,United States,Merrill_1999
+saltmarsh,38.8119,-75.2096,491.8,42,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.812,-76.7082,355.0,50,United States,Keshta_et_al_2020
+saltmarsh,38.812,-76.7081,363.2,50,United States,Keshta_et_al_2020
+saltmarsh,38.8121,-76.7083,322.9,45,United States,Keshta_et_al_2020
+saltmarsh,38.8121,-76.7081,347.5,50,United States,Keshta_et_al_2020
+saltmarsh,38.8122,-76.7117,400.3,80,United States,Merrill_1999
+saltmarsh,38.8122,-76.7083,379.8,45,United States,Keshta_et_al_2020
+saltmarsh,38.8122,-76.7081,349.8,50,United States,Keshta_et_al_2020
+saltmarsh,38.8287,-75.2262,343.7,94,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8335,-75.26,351.0,78,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8472,-75.2531,237.2,30,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8561,-76.6907,209.0,50,United States,Keshta_et_al_2020
+saltmarsh,38.8561,-76.6901,80.0,50,United States,Keshta_et_al_2020
+saltmarsh,38.8565,-76.6901,80.2,45,United States,Keshta_et_al_2020
+saltmarsh,38.8566,-76.6909,273.9,50,United States,Keshta_et_al_2020
+saltmarsh,38.8566,-76.6905,184.4,45,United States,Keshta_et_al_2020
+saltmarsh,38.8566,-75.2565,311.5,50,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8571,-76.6902,34.2,40,United States,Keshta_et_al_2020
+saltmarsh,38.8721,-75.2642,383.3,34,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8737,-76.5496,545.1,60,United States,Pastore_et_al_2017
+saltmarsh,38.8737,-76.5496,496.3,60,United States,Pastore_et_al_2017
+saltmarsh,38.8737,-76.5495,523.6,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5497,442.0,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5496,499.3,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5496,483.3,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5496,436.3,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5495,568.0,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5495,469.3,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5493,542.6,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5489,549.4,60,United States,Pastore_et_al_2017
+saltmarsh,38.8738,-76.5489,531.1,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5496,553.6,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5496,442.8,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5495,529.8,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5495,543.8,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5494,480.9,60,United States,Pastore_et_al_2017
+saltmarsh,38.8739,-76.5493,569.1,60,United States,Pastore_et_al_2017
+saltmarsh,38.874,-76.549,608.0,60,United States,Pastore_et_al_2017
+saltmarsh,38.8741,-76.549,491.5,60,United States,Pastore_et_al_2017
+saltmarsh,38.8747,-76.5472,510.2,100,United States,Shaw_et_al_2020
+saltmarsh,38.8747,-75.2701,279.5,50,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.8799,-75.2803,431.9,40,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.891,-75.2964,358.5,58,United States,Boyd_and_Sommerfield_2016
+saltmarsh,38.9044,-75.2969,386.0,96,United States,Boyd_and_Sommerfield_2016
+saltmarsh,39.0749,-75.4168,374.8,50,United States,Boyd_2012
+saltmarsh,39.0758,-75.4073,368.8,42,United States,Boyd_2012
+saltmarsh,39.0817,-75.4443,327.8,42,United States,StLaurent_et_al_2020
+saltmarsh,39.0829,-75.407,380.2,42,United States,Boyd_2012
+saltmarsh,39.083,-75.4429,311.5,32,United States,StLaurent_et_al_2020
+saltmarsh,39.0842,-75.4354,789.5,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0845,-75.4388,576.9,60,United States,StLaurent_et_al_2020
+saltmarsh,39.0846,-75.4348,994.5,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0847,-75.4392,435.8,60,United States,StLaurent_et_al_2020
+saltmarsh,39.0848,-75.4422,263.7,32,United States,StLaurent_et_al_2020
+saltmarsh,39.0848,-75.435,992.5,68,United States,StLaurent_et_al_2020
+saltmarsh,39.0849,-75.4395,503.7,30,United States,StLaurent_et_al_2020
+saltmarsh,39.0849,-75.4352,572.3,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0851,-75.442,439.2,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0852,-75.4038,282.5,50,United States,Boyd_2012
+saltmarsh,39.0853,-75.4418,461.1,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0854,-75.4357,560.7,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0855,-75.4331,707.6,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0858,-75.4405,285.0,32,United States,StLaurent_et_al_2020
+saltmarsh,39.086,-75.4408,469.3,90,United States,StLaurent_et_al_2020
+saltmarsh,39.086,-75.4333,711.9,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0867,-75.4394,399.2,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0872,-75.4388,450.1,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0872,-75.438,357.4,32,United States,StLaurent_et_al_2020
+saltmarsh,39.0875,-75.4382,445.9,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0879,-75.4376,427.1,60,United States,StLaurent_et_al_2020
+saltmarsh,39.0886,-75.4376,724.1,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0886,-75.4376,647.3,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0887,-75.4376,631.6,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0887,-75.4374,500.4,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0887,-75.4373,472.3,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0888,-75.4374,508.8,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0888,-75.4367,472.4,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0888,-75.4367,462.6,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0889,-75.4367,443.9,45,United States,StLaurent_et_al_2020
+saltmarsh,39.0891,-75.4371,368.9,32,United States,StLaurent_et_al_2020
+saltmarsh,39.0893,-75.4368,413.5,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0895,-75.4382,470.2,60,United States,StLaurent_et_al_2020
+saltmarsh,39.0895,-75.4381,354.1,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0896,-75.4369,445.7,30,United States,StLaurent_et_al_2020
+saltmarsh,39.0897,-75.437,512.3,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0897,-75.4366,427.1,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0897,-75.4358,724.9,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0901,-75.4362,485.4,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0902,-75.4037,365.8,50,United States,Boyd_2012
+saltmarsh,39.0906,-75.4356,588.7,90,United States,StLaurent_et_al_2020
+saltmarsh,39.0964,-75.4019,350.2,42,United States,Boyd_2012
+saltmarsh,39.1332,-75.4113,350.9,62,United States,Boyd_2012
+saltmarsh,39.1369,-75.4167,498.8,58,United States,Boyd_2012
+saltmarsh,39.1379,-75.4123,415.2,62,United States,Boyd_2012
+saltmarsh,39.145,-75.4235,379.1,38,United States,Boyd_2012
+saltmarsh,39.151,-75.4148,335.2,42,United States,Boyd_2012
+saltmarsh,39.1575,-75.4269,417.8,42,United States,Boyd_2012
+saltmarsh,39.1622,-75.4202,454.2,42,United States,Boyd_2012
+saltmarsh,39.1626,-75.4277,326.0,42,United States,Boyd_2012
+saltmarsh,39.1717,-74.8758,411.7,50,United States,Boyd_et_al_2017
+saltmarsh,39.1717,-74.8758,256.6,62,United States,Unger_et_al_2016
+saltmarsh,39.1721,-75.4152,406.2,42,United States,Boyd_2012
+saltmarsh,39.1763,-74.8623,379.1,60,United States,Boyd_et_al_2017
+saltmarsh,39.1763,-74.8623,276.2,60,United States,Unger_et_al_2016
+saltmarsh,39.1805,-74.8383,344.3,62,United States,Boyd_et_al_2017
+saltmarsh,39.1805,-74.8383,243.5,70,United States,Unger_et_al_2016
+saltmarsh,39.2074,-75.4066,220.4,44,United States,Weston_et_al_2023
+saltmarsh,39.2252,-75.1078,319.5,60,United States,Boyd_et_al_2017
+saltmarsh,39.2252,-75.1078,248.4,76,United States,Unger_et_al_2016
+saltmarsh,39.2357,-75.1127,354.8,60,United States,Boyd_et_al_2017
+saltmarsh,39.2357,-75.1127,286.4,60,United States,Unger_et_al_2016
+saltmarsh,39.241,-75.1031,416.1,42,United States,Boyd_et_al_2017
+saltmarsh,39.241,-75.1031,388.5,60,United States,Unger_et_al_2016
+saltmarsh,39.2416,-75.1599,344.2,40,United States,Weston_et_al_2023
+saltmarsh,39.2423,-75.0113,370.7,74,United States,Boyd_et_al_2017
+saltmarsh,39.2423,-75.0113,297.8,74,United States,Unger_et_al_2016
+saltmarsh,39.2658,-74.9953,326.3,78,United States,Boyd_et_al_2017
+saltmarsh,39.2658,-74.9953,255.6,78,United States,Unger_et_al_2016
+saltmarsh,39.2835,-74.9862,312.4,76,United States,Boyd_et_al_2017
+saltmarsh,39.2835,-74.9862,210.5,76,United States,Unger_et_al_2016
+saltmarsh,39.3758,-75.6518,446.8,78,United States,Boyd_2012
+saltmarsh,39.3787,-75.6439,513.4,100,United States,Boyd_2012
+saltmarsh,39.3888,-75.6249,430.9,75,United States,StLaurent_et_al_2020
+saltmarsh,39.3889,-75.6251,400.0,30,United States,StLaurent_et_al_2020
+saltmarsh,39.389,-75.6248,337.9,45,United States,StLaurent_et_al_2020
+saltmarsh,39.3944,-75.5991,345.5,75,United States,StLaurent_et_al_2020
+saltmarsh,39.395,-75.5972,380.0,60,United States,StLaurent_et_al_2020
+saltmarsh,39.3992,-75.5973,319.2,60,United States,StLaurent_et_al_2020
+saltmarsh,39.4021,-75.5988,596.7,30,United States,StLaurent_et_al_2020
+saltmarsh,39.4319,-75.581,266.5,90,United States,StLaurent_et_al_2020
+saltmarsh,39.434,-75.5822,330.0,75,United States,StLaurent_et_al_2020
+saltmarsh,39.4361,-75.5818,338.5,75,United States,StLaurent_et_al_2020
+saltmarsh,39.4385,-76.2828,300.6,80,United States,Merrill_1999
+saltmarsh,39.4385,-76.2828,341.2,80,United States,Merrill_1999
+saltmarsh,39.4385,-76.2828,341.9,80,United States,Merrill_1999
+saltmarsh,39.4388,-75.5814,376.7,45,United States,StLaurent_et_al_2020
+saltmarsh,39.4394,-75.576,422.1,75,United States,StLaurent_et_al_2020
+saltmarsh,39.4405,-75.5795,312.3,75,United States,StLaurent_et_al_2020
+saltmarsh,39.5001,-74.4168,293.8,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,269.5,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,246.7,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,258.4,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,277.2,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,290.4,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,334.7,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,291.0,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,247.5,30,United States,Drake_et_al_2024
+saltmarsh,39.5001,-74.4168,285.6,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,201.7,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,320.9,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,294.2,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,278.0,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,252.0,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,281.2,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,246.7,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,252.8,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,214.4,30,United States,Drake_et_al_2024
+saltmarsh,39.5334,-74.4168,296.6,30,United States,Drake_et_al_2024
+saltmarsh,39.6264,-74.2571,414.4,42,United States,Boyd_et_al_2017
+saltmarsh,39.6264,-74.2571,204.2,84,United States,Unger_et_al_2016
+saltmarsh,39.629,-74.2578,429.3,42,United States,Boyd_et_al_2017
+saltmarsh,39.629,-74.2578,241.6,80,United States,Unger_et_al_2016
+saltmarsh,39.633,-74.2592,414.6,42,United States,Boyd_et_al_2017
+saltmarsh,39.633,-74.2592,226.1,82,United States,Unger_et_al_2016
+saltmarsh,39.6382,-75.6013,400.2,90,United States,Boyd_2012
+saltmarsh,39.6386,-75.5992,477.4,70,United States,Boyd_2012
+saltmarsh,39.6392,-75.6043,413.2,94,United States,Boyd_2012
+saltmarsh,39.6557,-75.5744,422.8,46,United States,Boyd_2012
+saltmarsh,39.6569,-75.5702,400.0,66,United States,Boyd_2012
+saltmarsh,39.6574,-75.5754,428.7,68,United States,Boyd_2012
+saltmarsh,39.6657,-75.56,425.4,70,United States,Boyd_2012
+saltmarsh,39.6663,-75.5679,457.5,50,United States,Boyd_2012
+saltmarsh,39.6674,-75.5646,539.4,50,United States,Boyd_2012
+saltmarsh,39.6722,-75.5528,412.1,38,United States,Boyd_2012
+saltmarsh,39.6749,-75.5523,451.1,48,United States,Boyd_2012
+saltmarsh,39.6767,-75.5544,488.1,66,United States,Boyd_2012
+saltmarsh,39.6863,-75.5407,512.4,50,United States,Boyd_2012
+saltmarsh,39.6868,-75.5422,473.3,70,United States,Boyd_2012
+saltmarsh,39.6872,-75.5442,491.1,50,United States,Boyd_2012
+saltmarsh,39.7988,-74.1025,434.9,46,United States,Boyd_et_al_2017
+saltmarsh,39.7988,-74.1025,256.9,70,United States,Unger_et_al_2016
+saltmarsh,39.7993,-74.1017,413.6,56,United States,Boyd_et_al_2017
+saltmarsh,39.7993,-74.1017,300.3,74,United States,Unger_et_al_2016
+saltmarsh,39.7996,-74.0993,497.3,42,United States,Boyd_et_al_2017
+saltmarsh,39.7996,-74.0993,381.0,52,United States,Unger_et_al_2016
+saltmarsh,39.8612,-75.1707,63.0,32,United States,Orson_1990
+saltmarsh,40.029,-74.0846,442.4,54,United States,Boyd_et_al_2017
+saltmarsh,40.029,-74.0846,362.9,64,United States,Unger_et_al_2016
+saltmarsh,40.0299,-74.08,436.6,94,United States,Kemp_et_al_2020
+saltmarsh,40.0307,-74.0776,419.6,42,United States,Boyd_et_al_2017
+saltmarsh,40.0307,-74.0776,252.0,84,United States,Unger_et_al_2016
+saltmarsh,40.0311,-74.086,450.9,42,United States,Boyd_et_al_2017
+saltmarsh,40.0311,-74.086,281.6,68,United States,Unger_et_al_2016
+saltmarsh,40.5969,-73.8326,325.7,48,United States,Wang_et_al_2023
+saltmarsh,40.5976,-73.8595,335.0,54,United States,Wang_et_al_2023
+saltmarsh,40.6027,-73.9035,377.6,36,United States,Wang_et_al_2023
+saltmarsh,40.6058,-73.841,342.8,50,United States,Wang_et_al_2023
+saltmarsh,40.6075,-74.196,317.5,90,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.6094,-73.8513,302.5,40,United States,Wang_et_al_2023
+saltmarsh,40.6101,-73.6157,387.8,90,United States,Yellen_2024
+saltmarsh,40.6104,-73.5897,364.1,80,United States,Yellen_2024
+saltmarsh,40.6135,-73.7982,354.6,46,United States,Wang_et_al_2023
+saltmarsh,40.6139,-73.5866,453.3,90,United States,Yellen_2024
+saltmarsh,40.6147,-73.5897,813.6,80,United States,Yellen_2024
+saltmarsh,40.6196,-73.8044,278.3,50,United States,Wang_et_al_2023
+saltmarsh,40.6204,-73.8552,207.6,46,United States,Wang_et_al_2023
+saltmarsh,40.6232,-73.8289,231.3,46,United States,Wang_et_al_2023
+saltmarsh,40.6467,-73.8887,361.8,54,United States,Wang_et_al_2023
+saltmarsh,40.6596,-73.8561,444.0,36,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.6596,-73.8561,417.6,40,United States,Wang_et_al_2023
+saltmarsh,40.6773,-124.2173,297.2,100,United States,Curtis_et_al_2022
+saltmarsh,40.6778,-124.2161,254.2,100,United States,Curtis_et_al_2022
+saltmarsh,40.704,-124.2141,315.9,100,United States,Curtis_et_al_2022
+saltmarsh,40.7045,-124.2143,375.5,100,United States,Curtis_et_al_2022
+saltmarsh,40.7617,-73.7511,340.0,46,United States,Cochran_et_al_1998
+saltmarsh,40.7667,-72.8834,427.0,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,265.1,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,234.6,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,267.8,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,312.3,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,243.3,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,285.9,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,245.6,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,299.9,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,289.1,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,296.4,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,298.9,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,277.4,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,275.5,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,275.6,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,271.2,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,325.5,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,277.1,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,287.9,30,United States,Drake_et_al_2024
+saltmarsh,40.7667,-72.8834,265.6,30,United States,Drake_et_al_2024
+saltmarsh,40.8434,-124.0845,192.2,50,United States,Curtis_et_al_2022
+saltmarsh,40.8469,-124.085,263.9,100,United States,Curtis_et_al_2022
+saltmarsh,40.8636,-124.1488,269.6,100,United States,Curtis_et_al_2022
+saltmarsh,40.8642,-124.1497,364.9,100,United States,Curtis_et_al_2022
+saltmarsh,40.8697,-73.8087,415.4,73,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.8727,-124.1505,297.9,100,United States,Curtis_et_al_2022
+saltmarsh,40.8736,-124.1489,249.7,100,United States,Curtis_et_al_2022
+saltmarsh,40.8736,-73.8202,361.9,75,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.8739,-73.8183,410.8,35,United States,Cochran_et_al_1998
+saltmarsh,40.8781,-73.7881,396.3,51,United States,Cochran_et_al_1998
+saltmarsh,40.9392,-73.4839,419.1,34,United States,Cochran_et_al_1998
+saltmarsh,40.9464,-73.7214,366.1,82,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.9539,-73.6988,281.3,84,United States,Hill_and_Anisfeld_2015
+saltmarsh,40.9631,-73.1442,164.7,43,United States,Cochran_et_al_1998
+saltmarsh,41.0336,-73.9121,172.9,90,United States,Yellen_2024
+saltmarsh,41.0483,-72.2906,485.0,39,United States,Cochran_et_al_1998
+saltmarsh,41.0735,-73.4273,257.5,58,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.0808,-73.4127,266.4,78,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.0811,-73.4132,257.8,58,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.083,-73.419,361.3,68,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.1,-73.3862,299.0,65,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.1167,-73.3243,282.6,70,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.119,-73.3163,344.4,71,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.2117,-73.028,283.5,34,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.2352,-72.9908,300.1,75,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.269,-72.7548,190.3,100,United States,Yellen_2024
+saltmarsh,41.27,-72.7569,353.6,47,United States,Hill_and_Anisfeld_2015
+saltmarsh,41.2712,-72.6556,242.4,100,United States,Yellen_2024
+saltmarsh,41.2857,-72.3273,162.1,90,United States,Yellen_2024
+saltmarsh,41.2863,-72.3274,200.1,100,United States,Yellen_2024
+saltmarsh,41.2888,-72.3273,210.0,90,United States,Yellen_2024
+saltmarsh,41.3002,-72.3566,311.7,41,United States,Weston_et_al_2023
+saltmarsh,41.4357,-72.4434,937.7,90,United States,Yellen_2024
+saltmarsh,41.8196,-69.9574,203.5,96,United States,Roman_et_al_1997
+saltmarsh,41.83,-69.9494,425.8,100,United States,Roman_et_al_1997
+saltmarsh,41.8434,-69.9533,472.9,72,United States,Roman_et_al_1997
+saltmarsh,42.0289,-73.9221,269.9,35,United States,Merrill_1999
+saltmarsh,42.0289,-73.9221,510.2,58,United States,Merrill_1999
+saltmarsh,42.0362,-73.9236,344.3,80,United States,Merrill_1999
+saltmarsh,42.0362,-73.9236,287.9,70,United States,Merrill_1999
+saltmarsh,42.0362,-73.9236,290.8,35,United States,Merrill_1999
+saltmarsh,42.7348,-70.8421,264.1,54,United States,Weston_et_al_2023
+saltmarsh,42.7365,-70.8435,351.0,37,United States,Weston_et_al_2023
+saltmarsh,42.7374,-70.846,356.1,76,United States,Luk_et_al_2020
+saltmarsh,42.7374,-70.8458,344.8,72,United States,Luk_et_al_2020
+saltmarsh,42.7381,-70.8471,290.6,76,United States,Luk_et_al_2020
+saltmarsh,42.7382,-70.8472,315.2,70,United States,Luk_et_al_2020
+saltmarsh,42.7413,-70.8302,303.6,76,United States,Luk_et_al_2020
+saltmarsh,42.7414,-70.83,276.6,70,United States,Luk_et_al_2020
+saltmarsh,42.7423,-70.8308,296.1,40,United States,Giblin_and_Forbrich_2018
+saltmarsh,42.7424,-70.8306,322.9,38,United States,Giblin_and_Forbrich_2018
+saltmarsh,42.7424,-70.8306,389.5,40,United States,Giblin_and_Forbrich_2018
+saltmarsh,42.7426,-70.8305,312.5,40,United States,Giblin_and_Forbrich_2018
+saltmarsh,42.7502,-70.8001,310.0,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,357.9,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,289.0,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,318.1,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,295.1,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,273.5,30,United States,Drake_et_al_2024
+saltmarsh,42.7502,-70.8001,257.2,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,298.6,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,286.8,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,254.2,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,388.4,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,235.7,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,288.9,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,324.8,30,United States,Drake_et_al_2024
+saltmarsh,42.7669,-70.8002,249.8,30,United States,Drake_et_al_2024
+saltmarsh,42.868,-70.8305,360.3,100,United States,Yellen_2024
+saltmarsh,43.132,-124.4072,230.3,42,United States,Brown_et_al_2024
+saltmarsh,43.1394,-124.4044,209.8,48,United States,Peck_et_al_2020
+saltmarsh,43.1424,-124.4035,213.6,37,United States,Thorne_et_al_2015
+saltmarsh,43.145,-124.3961,238.3,46,United States,Brown_et_al_2024
+saltmarsh,43.2503,-70.5835,289.3,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,222.7,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,316.9,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,341.9,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,268.6,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,321.2,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,260.7,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,344.0,30,United States,Drake_et_al_2024
+saltmarsh,43.2503,-70.5835,294.5,30,United States,Drake_et_al_2024
+saltmarsh,43.2707,-124.3217,397.2,43,United States,Poppe_et_al_2024
+saltmarsh,43.2722,-124.319,333.5,48,United States,Poppe_et_al_2024
+saltmarsh,43.2725,-124.3193,549.5,51,United States,Poppe_et_al_2024
+saltmarsh,43.2728,-124.3194,492.2,45,United States,Brown_et_al_2024
+saltmarsh,43.2728,-124.319,403.5,46,United States,Brown_et_al_2024
+saltmarsh,43.2743,-124.3196,325.0,40,United States,Brown_et_al_2024
+saltmarsh,43.2747,-124.32,409.4,50,United States,Poppe_et_al_2024
+saltmarsh,43.2748,-124.3201,410.7,50,United States,Poppe_et_al_2024
+saltmarsh,43.2804,-124.3191,448.4,31,United States,Poppe_et_al_2024
+saltmarsh,43.2814,-124.3224,333.4,46,United States,Brown_et_al_2024
+saltmarsh,43.2815,-124.3195,405.1,30,United States,Poppe_et_al_2024
+saltmarsh,43.2827,-124.3229,306.8,35,United States,Brown_et_al_2024
+saltmarsh,43.2831,-124.3232,331.5,32,United States,Poppe_et_al_2024
+saltmarsh,43.2981,-70.5765,153.5,80,United States,Yellen_2024
+saltmarsh,43.2986,-70.5849,304.2,90,United States,Yellen_2024
+saltmarsh,43.2986,-70.5848,282.1,90,United States,Yellen_2024
+saltmarsh,43.3054,-124.3252,452.5,33,United States,Brown_et_al_2024
+saltmarsh,43.3099,-70.5659,272.0,94,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3101,-70.5667,265.4,94,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3142,-70.5702,358.7,44,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3155,-70.5741,294.5,105,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3157,-70.5748,287.1,100,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3159,-70.5754,332.6,90,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3159,-70.5752,301.4,84,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3161,-70.576,445.1,96,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3163,-70.5765,322.8,90,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3167,-70.5668,319.5,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,284.6,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,280.8,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,302.4,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,385.5,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,341.1,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,305.8,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,291.0,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,335.7,30,United States,Drake_et_al_2024
+saltmarsh,43.3167,-70.5668,335.9,30,United States,Drake_et_al_2024
+saltmarsh,43.3196,-124.3314,275.2,36,United States,Poppe_et_al_2024
+saltmarsh,43.3272,-70.5633,251.7,95,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3279,-70.5602,300.9,77,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3283,-70.5581,484.4,90,United States,van_Ardenne_et_al_2018
+saltmarsh,43.3351,-124.3284,424.1,34,United States,Poppe_et_al_2024
+saltmarsh,43.3351,-70.544,223.9,70,United States,Yellen_2024
+saltmarsh,43.3427,-70.5464,313.8,100,United States,Yellen_2024
+saltmarsh,43.3672,-124.185,408.7,50,United States,Poppe_et_al_2024
+saltmarsh,43.3672,-124.1701,134.7,47,United States,Thorne_et_al_2015
+saltmarsh,43.3682,-124.185,294.9,36,United States,Poppe_et_al_2024
+saltmarsh,43.371,-124.1699,182.3,48,United States,Thorne_et_al_2015
+saltmarsh,43.3739,-124.1738,102.4,40,United States,Thorne_et_al_2015
+saltmarsh,43.741,-69.8403,542.1,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7421,-69.8398,451.8,38,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7425,-69.8325,376.9,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7426,-69.8321,221.5,80,United States,Yellen_2024
+saltmarsh,43.7429,-69.8393,564.0,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7429,-69.8321,372.0,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7432,-69.8319,483.6,38,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7435,-69.832,548.3,31,United States,Johnson_et_al_2007
+saltmarsh,43.7436,-69.8316,578.5,38,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7442,-69.8311,353.1,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7448,-69.8316,310.3,34,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7451,-69.8318,428.5,38,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7454,-69.8314,440.0,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7464,-69.8314,567.4,40,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.747,-69.8315,348.1,38,United States,Johnson_et_al_2024_marsh
+saltmarsh,43.7633,-69.7706,356.4,37,United States,Weston_et_al_2023
+saltmarsh,43.7634,-69.7705,330.0,60,United States,Yellen_2024
+saltmarsh,43.7649,-69.7687,228.1,100,United States,Yellen_2024
+saltmarsh,43.7717,-69.7509,464.6,70,United States,Yellen_2024
+saltmarsh,43.7726,-69.7503,131.2,100,United States,Yellen_2024
+saltmarsh,43.7733,-69.7494,195.5,100,United States,Yellen_2024
+saltmarsh,43.7754,-69.7485,260.0,90,United States,Yellen_2024
+saltmarsh,43.8077,-70.1526,445.6,80,United States,Yellen_2024
+saltmarsh,43.816,-69.7987,334.6,100,United States,Yellen_2024
+saltmarsh,43.817,-69.7969,595.7,100,United States,Yellen_2024
+saltmarsh,43.8187,-70.1599,199.2,100,United States,Yellen_2024
+saltmarsh,43.8188,-70.1602,275.3,100,United States,Yellen_2024
+saltmarsh,43.8209,-70.1538,267.4,90,United States,Yellen_2024
+saltmarsh,43.8245,-69.7928,292.3,100,United States,Yellen_2024
+saltmarsh,44.4174,-124.0101,248.1,45,United States,Brown_et_al_2024
+saltmarsh,44.4211,-124.014,349.0,42,United States,Peck_et_al_2020
+saltmarsh,44.4259,-124.0391,283.9,40,United States,Brown_et_al_2024
+saltmarsh,44.4267,-124.032,296.3,44,United States,Brown_et_al_2024
+saltmarsh,44.4284,-124.0568,268.5,48,United States,Brown_et_al_2024
+saltmarsh,44.5625,-123.9995,278.9,46,United States,Brown_et_al_2024
+saltmarsh,44.5733,-124.0193,249.7,48,United States,Brown_et_al_2024
+saltmarsh,44.5813,-123.9945,327.5,42,United States,Brown_et_al_2024
+saltmarsh,44.59,-123.945,272.8,44,United States,Brown_et_al_2024
+saltmarsh,45.025,-123.97,530.4,50,United States,Peck_et_al_2020
+saltmarsh,45.026,-123.9719,580.1,36,United States,Peck_et_al_2020
+saltmarsh,45.0297,-123.9793,352.2,42,United States,Brown_et_al_2024
+saltmarsh,45.0344,-123.9839,336.0,50,United States,Brown_et_al_2024
+saltmarsh,45.096,-66.4326,357.5,30,Canada,Connor_et_al_2001
+saltmarsh,45.096,-66.4326,328.3,30,Canada,Connor_et_al_2001
+saltmarsh,45.096,-66.4326,363.3,32,Canada,Connor_et_al_2001
+saltmarsh,45.096,-66.4326,493.0,30,Canada,Connor_et_al_2001
+saltmarsh,45.096,-66.4326,352.2,34,Canada,Connor_et_al_2001
+saltmarsh,45.096,-66.4326,425.9,30,Canada,Connor_et_al_2001
+saltmarsh,45.1213,-66.3601,174.5,30,Canada,Connor_et_al_2001
+saltmarsh,45.1816,-123.9605,185.8,50,United States,Brown_et_al_2024
+saltmarsh,45.1841,-123.9492,226.4,45,United States,Brown_et_al_2024
+saltmarsh,45.367,-123.9647,319.5,63,United States,Darienzo_and_Peterson_1990
+saltmarsh,45.368,-123.9624,535.4,50,United States,Peck_et_al_2020
+saltmarsh,45.3691,-123.9667,448.9,32,United States,Peck_et_al_2020
+saltmarsh,45.3696,-123.9644,152.7,66,United States,Darienzo_and_Peterson_1990
+saltmarsh,45.3698,-123.9661,180.2,100,United States,Darienzo_and_Peterson_1990
+saltmarsh,45.37,-123.9661,465.4,32,United States,Peck_et_al_2020
+saltmarsh,45.37,-123.9596,392.8,36,United States,Darienzo_and_Peterson_1990
+saltmarsh,45.3718,-123.9621,295.3,48,United States,Brown_et_al_2024
+saltmarsh,45.3747,-123.9638,139.1,56,United States,Darienzo_and_Peterson_1990
+saltmarsh,45.4687,-123.8805,410.2,50,United States,Peck_et_al_2020
+saltmarsh,45.469,-123.8852,309.7,50,United States,Peck_et_al_2020
+saltmarsh,45.481,-123.8957,239.2,52,United States,Brown_et_al_2024
+saltmarsh,45.4814,-123.8936,372.5,36,United States,Peck_et_al_2020
+saltmarsh,45.4827,-123.8954,329.4,48,United States,Peck_et_al_2020
+saltmarsh,45.5096,-123.8839,437.0,48,United States,Peck_et_al_2020
+saltmarsh,45.6899,-123.8898,478.8,30,United States,Peck_et_al_2020
+saltmarsh,45.6975,-123.8988,304.7,30,United States,Peck_et_al_2020
+saltmarsh,45.6981,-123.8898,511.0,30,United States,Peck_et_al_2020
+saltmarsh,45.7032,-123.8937,369.7,44,United States,Peck_et_al_2020
+saltmarsh,45.7033,-123.8956,362.8,46,United States,Peck_et_al_2020
+saltmarsh,45.851,-64.294,201.4,55,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,237.2,65,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,207.6,93,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,250.6,87,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,254.4,82,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,227.3,76,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,205.1,36,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,250.5,36,Canada,Wollenberg_et_al_2018
+saltmarsh,45.851,-64.294,198.5,49,Canada,Wollenberg_et_al_2018
+saltmarsh,45.857,-64.301,201.7,30,Canada,Wollenberg_et_al_2018
+saltmarsh,45.857,-64.301,195.0,43,Canada,Wollenberg_et_al_2018
+saltmarsh,45.857,-64.301,237.5,70,Canada,Wollenberg_et_al_2018
+saltmarsh,45.857,-64.301,230.2,71,Canada,Wollenberg_et_al_2018
+saltmarsh,46.1003,-123.7833,303.2,48,United States,Peck_et_al_2020
+saltmarsh,46.1292,-123.8793,262.7,41,United States,Poppe_et_al_2024
+saltmarsh,46.1292,-123.8792,315.7,50,United States,Poppe_et_al_2024
+saltmarsh,46.1292,-123.8789,257.4,46,United States,Poppe_et_al_2024
+saltmarsh,46.1575,-123.8612,147.4,50,United States,Poppe_et_al_2024
+saltmarsh,46.1577,-123.862,241.7,50,United States,Poppe_et_al_2024
+saltmarsh,46.1578,-123.8619,205.7,50,United States,Poppe_et_al_2024
+saltmarsh,46.1687,-123.8247,281.7,46,United States,Peck_et_al_2020
+saltmarsh,46.1719,-64.0569,181.1,33,Canada,van_Ardenne_et_al_2018
+saltmarsh,46.1731,-64.0559,224.4,37,Canada,van_Ardenne_et_al_2018
+saltmarsh,46.1743,-64.053,334.6,55,Canada,van_Ardenne_et_al_2018
+saltmarsh,46.1744,-64.0495,360.0,30,Canada,van_Ardenne_et_al_2018
+saltmarsh,46.3051,-123.6925,163.1,50,United States,Poppe_et_al_2024
+saltmarsh,46.3051,-123.6924,223.4,52,United States,Poppe_et_al_2024
+saltmarsh,46.3054,-123.695,141.5,50,United States,Poppe_et_al_2024
+saltmarsh,46.3262,-123.6538,264.2,40,United States,Poppe_et_al_2024
+saltmarsh,46.3719,-124.0057,79.2,48,United States,Thorne_et_al_2015
+saltmarsh,46.3757,-124.0058,111.2,49,United States,Thorne_et_al_2015
+saltmarsh,46.3794,-124.0042,154.9,49,United States,Thorne_et_al_2015
+saltmarsh,46.8834,-123.9646,471.4,52,United States,Poppe_et_al_2024
+saltmarsh,46.8834,-123.9645,466.5,53,United States,Poppe_et_al_2024
+saltmarsh,46.8916,-123.9874,507.7,53,United States,Poppe_et_al_2024
+saltmarsh,46.8916,-123.9871,372.5,54,United States,Poppe_et_al_2024
+saltmarsh,46.9008,-123.9925,398.4,52,United States,Poppe_et_al_2024
+saltmarsh,46.9009,-123.9923,346.2,56,United States,Poppe_et_al_2024
+saltmarsh,46.905,-123.9906,302.4,53,United States,Poppe_et_al_2024
+saltmarsh,46.9051,-123.9909,297.5,53,United States,Poppe_et_al_2024
+saltmarsh,46.9788,-123.928,96.8,47,United States,Thorne_et_al_2015
+saltmarsh,46.9801,-123.9301,72.8,48,United States,Thorne_et_al_2015
+saltmarsh,46.9809,-123.9322,592.5,42,United States,Thorne_et_al_2015
+saltmarsh,47.0914,-122.6963,170.3,46,United States,Thorne_et_al_2015
+saltmarsh,47.0919,-122.6931,192.6,46,United States,Thorne_et_al_2015
+saltmarsh,47.092,-122.6908,113.5,49,United States,Thorne_et_al_2015
+saltmarsh,47.0966,-122.699,332.9,50,United States,Drexler_et_al_2019
+saltmarsh,47.0966,-122.6988,282.7,56,United States,Drexler_et_al_2019
+saltmarsh,47.0966,-122.6986,298.4,54,United States,Drexler_et_al_2019
+saltmarsh,47.3407,-123.1453,253.9,48,United States,Thorne_et_al_2015
+saltmarsh,47.3425,-123.1433,241.8,50,United States,Thorne_et_al_2015
+saltmarsh,47.3435,-123.1413,135.9,49,United States,Thorne_et_al_2015
+saltmarsh,47.3758,-70.0555,260.3,38,Canada,Gu_et_al_2020
+saltmarsh,47.3758,-70.0555,255.0,30,Canada,Gu_et_al_2020
+saltmarsh,47.3758,-70.0555,258.0,30,Canada,Gu_et_al_2020
+saltmarsh,47.3758,-70.0555,322.5,30,Canada,Gu_et_al_2020
+saltmarsh,47.3758,-70.0555,319.2,30,Canada,Gu_et_al_2020
+saltmarsh,47.3759,-70.0554,326.8,30,Canada,Gu_et_al_2020
+saltmarsh,47.3759,-70.0554,279.9,30,Canada,Gu_et_al_2020
+saltmarsh,47.3759,-70.0554,236.3,30,Canada,Gu_et_al_2020
+saltmarsh,47.3759,-70.0554,271.7,30,Canada,Gu_et_al_2020
+saltmarsh,47.6475,-65.6139,312.9,78,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.6484,-65.6151,334.0,70,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.6493,-65.6162,365.7,98,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.6522,-65.6063,283.9,85,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.6526,-65.6065,317.3,82,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.6534,-65.6068,345.7,96,Canada,van_Ardenne_et_al_2018
+saltmarsh,47.975,-122.1799,676.6,30,United States,Poppe_et_al_2019
+saltmarsh,47.975,-122.1799,711.4,36,United States,Poppe_et_al_2019
+saltmarsh,47.9902,-122.1611,234.0,54,United States,Poppe_et_al_2019
+saltmarsh,47.9902,-122.1611,256.8,42,United States,Poppe_et_al_2019
+saltmarsh,48.0036,-122.1616,345.3,32,United States,Poppe_et_al_2019
+saltmarsh,48.0036,-122.1616,352.1,38,United States,Poppe_et_al_2019
+saltmarsh,48.0084,-122.1486,260.3,38,United States,Poppe_et_al_2019
+saltmarsh,48.0085,-122.1483,298.4,40,United States,Poppe_et_al_2019
+saltmarsh,48.0352,-122.1626,225.2,34,United States,Poppe_et_al_2019
+saltmarsh,48.0382,-122.1634,277.9,32,United States,Poppe_et_al_2019
+saltmarsh,48.0382,-122.1634,253.8,34,United States,Poppe_et_al_2019
+saltmarsh,48.0444,-122.2048,246.7,36,United States,Poppe_et_al_2019
+saltmarsh,48.0447,-122.2051,246.4,34,United States,Poppe_et_al_2019
+saltmarsh,48.1859,-122.362,47.1,32,United States,Thorne_et_al_2015
+saltmarsh,48.187,-122.363,176.7,64,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.188,-122.363,174.2,72,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.191,-122.363,189.5,84,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.192,-122.363,225.4,76,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.1925,-122.3634,138.2,48,United States,Thorne_et_al_2015
+saltmarsh,48.1949,-122.364,154.8,46,United States,Thorne_et_al_2015
+saltmarsh,48.1985,-122.3645,200.0,82,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.1985,-122.3645,177.9,86,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.1988,-122.3652,185.7,68,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.1988,-122.3652,157.0,84,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.2,-122.371,206.0,86,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.201,-122.373,175.9,84,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.201,-122.373,196.5,82,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.201,-122.372,223.8,88,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.202,-122.369,190.8,78,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.202,-122.369,195.4,82,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.204,-122.37,182.5,86,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.204,-122.37,188.6,76,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.216,-122.37,190.6,84,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.216,-122.37,188.1,88,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.217,-122.37,210.8,78,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.217,-122.37,239.3,86,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.226,-122.384,177.9,86,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.226,-122.383,197.2,88,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.227,-122.384,269.6,84,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.227,-122.383,254.5,74,United States,Poppe_and_Rybczyk_2019
+saltmarsh,48.3015,-122.3599,220.1,55,United States,Poppe_et_al_2024
+saltmarsh,48.3015,-122.3599,243.3,56,United States,Poppe_et_al_2024
+saltmarsh,48.3174,-122.3485,245.0,52,United States,Poppe_et_al_2024
+saltmarsh,48.3174,-122.3485,286.4,53,United States,Poppe_et_al_2024
+saltmarsh,48.3332,-122.415,242.7,57,United States,Poppe_et_al_2024
+saltmarsh,48.3334,-122.415,244.0,57,United States,Poppe_et_al_2024
+saltmarsh,48.3353,-122.4108,194.8,40,United States,Poppe_et_al_2024
+saltmarsh,48.4539,-122.4732,298.2,56,United States,Poppe_et_al_2024
+saltmarsh,48.454,-122.473,254.7,55,United States,Poppe_et_al_2024
+saltmarsh,48.4637,-122.4693,302.4,49,United States,Poppe_et_al_2024
+saltmarsh,48.4637,-122.4692,293.9,52,United States,Poppe_et_al_2024
+saltmarsh,49.0876,-125.7327,363.2,65,Canada,Kohfeld_et_al_2022
+saltmarsh,49.0876,-125.7326,202.0,45,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1411,-125.6696,250.2,30,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.7324,148.1,88,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.6663,440.7,40,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.6662,372.9,59,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.6662,621.4,30,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.6661,442.7,41,Canada,Kohfeld_et_al_2022
+saltmarsh,49.1414,-125.6661,338.9,30,Canada,Kohfeld_et_al_2022
+saltmarsh,49.2789,-125.911,422.5,40,Canada,Kohfeld_et_al_2022
+saltmarsh,49.279,-125.9076,350.7,30,Canada,Kohfeld_et_al_2022
+saltmarsh,49.279,-125.9075,488.0,46,Canada,Kohfeld_et_al_2022
+saltmarsh,49.2792,-125.9093,382.3,38,Canada,Kohfeld_et_al_2022
+saltmarsh,49.2794,-125.9093,349.3,50,Canada,Kohfeld_et_al_2022
+saltmarsh,51.6207,0.8131,142.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6207,0.8131,176.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6207,0.8131,169.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6207,0.8131,170.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6215,0.8092,104.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6215,0.8092,86.7,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6215,0.8092,115.1,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6215,0.8092,90.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6286,0.6466,146.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6286,0.6466,175.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6286,0.6466,155.4,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6286,0.6466,169.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6291,0.6471,144.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6291,0.6471,167.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6291,0.6471,135.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6291,0.6471,157.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6384,0.667,170.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6384,0.667,138.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6384,0.667,156.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6384,0.667,165.1,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6385,0.6656,145.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6385,0.6656,136.0,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6385,0.6656,185.2,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.6385,0.6656,179.0,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7179,0.8617,192.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7179,0.8617,208.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7179,0.8617,192.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7179,0.8617,186.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.7161,283.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.7161,203.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.7161,237.4,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.7161,265.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.8651,228.4,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.8651,218.0,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.8651,196.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7184,0.8651,228.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7188,0.7192,217.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7188,0.7192,249.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7188,0.7192,180.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7188,0.7192,243.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.719,0.7111,189.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.719,0.7111,167.7,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.719,0.7111,233.0,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.719,0.7111,183.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.766,0.8385,167.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.766,0.8385,171.4,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.766,0.8385,169.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.766,0.8385,211.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7678,0.8372,237.7,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7678,0.8372,202.1,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7678,0.8372,151.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7687,0.8382,239.7,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7687,0.8382,242.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7687,0.8382,245.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7687,0.8382,273.0,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.796,0.9246,138.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.796,0.9246,156.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.796,0.9246,176.9,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.796,0.9246,144.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7966,0.923,169.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7966,0.923,176.7,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7966,0.923,173.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.7966,0.923,179.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8521,0.9614,132.1,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8521,0.9614,137.4,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8521,0.9614,142.5,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8521,0.9614,127.8,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8524,0.962,141.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8524,0.962,184.3,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8524,0.962,138.6,30,United Kingdom,Burden_et_al_2018
+saltmarsh,51.8524,0.962,158.1,30,United Kingdom,Burden_et_al_2018
+saltmarsh,52.8954,-4.1181,142.9,34,United Kingdom,Pagès_et_al_unpublished
+saltmarsh,53.3306,5.7102,220.8,126,Netherlands,Nolte_2020
+saltmarsh,53.3476,5.7739,224.2,56,Netherlands,Nolte_2020
+saltmarsh,53.3501,5.7702,206.3,55,Netherlands,Nolte_2020
+saltmarsh,53.3701,-6.1566,275.3,30,Ireland,Burke_et_al_2022
+saltmarsh,53.3705,-6.1586,150.2,30,Ireland,Burke_et_al_2022
+saltmarsh,53.3721,-6.1515,130.2,53,Ireland,Burke_et_al_2022
+saltmarsh,53.3725,-6.1522,166.8,35,Ireland,Burke_et_al_2022
+saltmarsh,53.3728,-6.1505,227.3,37,Ireland,Burke_et_al_2022
+saltmarsh,53.3735,-6.1521,120.6,42,Ireland,Burke_et_al_2022
+saltmarsh,53.971,8.8803,113.0,84,Germany,Nolte_2020
+saltmarsh,53.9728,8.8825,86.2,86,Germany,Nolte_2020
+saltmarsh,53.9746,8.8923,51.9,76,Germany,Nolte_2020
+saltmarsh,53.9753,8.8916,137.2,64,Germany,Nolte_2020
+saltmarsh,54.6025,8.8268,141.1,50,Germany,Nolte_2020
+saltmarsh,54.6041,8.8312,118.1,98,Germany,Nolte_2020
+saltmarsh,54.6045,8.8255,119.6,50,Germany,Nolte_2020
+saltmarsh,54.6339,8.8351,160.8,86,Germany,Nolte_2020
+saltmarsh,54.635,8.8329,138.7,78,Germany,Nolte_2020
+saltmarsh,54.6359,8.8381,184.7,80,Germany,Nolte_2020
+saltmarsh,54.637,8.836,189.4,82,Germany,Nolte_2020
+saltmarsh,55.8757,10.0189,286.1,48,Denmark,Graversen_et_al_2022
+saltmarsh,55.8758,10.0192,290.2,56,Denmark,Graversen_et_al_2022
+saltmarsh,56.607,10.308,326.1,53,Denmark,Graversen_et_al_2022
+saltmarsh,56.607,10.3082,216.0,71,Denmark,Graversen_et_al_2022
+saltmarsh,56.7086,10.1663,477.8,40,Denmark,Graversen_et_al_2022
+saltmarsh,56.7087,10.166,286.7,42,Denmark,Graversen_et_al_2022
+saltmarsh,59.6376,-151.5286,378.7,35,United States,Beers_et_al_2023
+saltmarsh,59.6376,-151.5278,365.9,40,United States,Beers_et_al_2023
+saltmarsh,59.6384,-151.5294,761.3,45,United States,Beers_et_al_2023
+saltmarsh,59.64,-151.5312,341.6,45,United States,Beers_et_al_2023
+saltmarsh,59.6404,-151.531,617.7,35,United States,Beers_et_al_2023
+saltmarsh,59.6406,-151.5361,467.7,48,United States,Beers_et_al_2023
+saltmarsh,59.6407,-151.5308,455.0,40,United States,Beers_et_al_2023
+saltmarsh,59.6411,-151.5356,351.1,45,United States,Beers_et_al_2023
+saltmarsh,59.7732,-151.8613,297.8,30,United States,Beers_et_al_2023
+saltmarsh,59.7732,-151.861,239.8,40,United States,Beers_et_al_2023
+saltmarsh,59.7733,-151.8619,342.4,45,United States,Beers_et_al_2023
+saltmarsh,59.7734,-151.8624,312.1,40,United States,Beers_et_al_2023
+saltmarsh,59.7736,-151.8631,303.0,30,United States,Beers_et_al_2023
+saltmarsh,59.7741,-151.8642,329.3,40,United States,Beers_et_al_2023
+saltmarsh,59.7742,-151.8654,374.0,40,United States,Beers_et_al_2023
+saltmarsh,69.7819,20.9953,276.8,33,Norway,Ward_2020
+saltmarsh,69.9783,23.4315,130.3,31,Norway,Ward_2020
+saltmarsh,70.1942,24.9275,280.6,31,Norway,Ward_2020
+seagrass,-34.3969,20.8445,14.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.3969,20.8445,19.3,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.3969,20.8445,14.7,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.3969,20.8445,14.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0587,23.0511,43.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0587,23.0511,29.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0587,23.0511,26.1,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0587,23.0511,22.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0337,22.9922,12.7,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0337,22.9922,22.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0337,22.9922,18.3,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-34.0337,22.9922,21.0,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8611,25.6214,144.3,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8611,25.6214,157.3,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8611,25.6214,189.1,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8611,25.6214,159.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8378,25.5907,6.1,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8378,25.5907,8.1,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8378,25.5907,11.4,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.8378,25.5907,6.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-33.1969,18.1145,13.2,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.8,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,7.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,9.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,8.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,9.5,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,13.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.5,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,10.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,13.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,9.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,14.2,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,16.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,24.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,21.5,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,10.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,7.2,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,18.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.9,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,5.9,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,5.5,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,29.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,7.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,6.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1969,18.1145,12.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,7.4,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.9,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,8.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.0,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,5.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,6.8,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,6.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,8.8,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,6.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.123,18.0447,6.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,10.4,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,6.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,12.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,13.1,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,6.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,14.9,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1223,18.0559,8.9,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1101,18.038,6.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1101,18.038,6.7,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1101,18.038,6.6,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1101,18.038,6.2,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.1101,18.038,7.3,50,South Africa,Bossert_et_al_2025_Langebaan
+seagrass,-33.0083,137.6095,36.9,32,Australia,Lafratta_et_al_2018
+seagrass,-32.9982,137.6212,37.9,30,Australia,Lafratta_et_al_2018
+seagrass,-32.9982,137.6212,33.0,30,Australia,Lafratta_et_al_2018
+seagrass,-32.8131,18.1965,19.8,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-32.8131,18.1965,33.9,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-32.8131,18.1965,26.9,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-32.8131,18.1965,13.7,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-32.7722,18.1419,7.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-32.7722,18.1419,8.7,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.99,116.9167,40.2,48,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-31.693,18.1888,10.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.693,18.1888,10.8,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.693,18.1888,10.6,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.693,18.1888,8.2,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,73.6,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,71.7,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,95.7,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,86.4,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,60.9,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.69,29.4222,23.0,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.685,29.4185,40.3,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.685,29.4185,57.2,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.685,29.4185,34.4,30,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.685,29.4185,23.7,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.6646,18.1864,5.8,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.6646,18.1864,9.5,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.6646,18.1864,5.4,50,South Africa,Ndhlovu_et_al_2024
+seagrass,-31.414,18.1116,22.6,31,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.414,18.1116,21.8,31,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.414,18.1116,15.1,31,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.414,18.1116,26.0,32,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.414,18.1116,32.0,33,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.414,18.1116,42.7,32,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.4056,18.1237,37.9,31,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.4056,18.1237,38.9,32,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.4056,18.1237,18.7,35,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,72.9,39,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,18.7,30,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,81.9,35,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,75.3,50,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,30.0,32,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,24.5,33,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,66.0,37,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,25.6,32,South Africa,Engelbrecht_et_al_2025
+seagrass,-31.3945,18.1142,62.0,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,51.0,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,48.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,49.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,50.1,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,60.3,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,66.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,60.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,53.4,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,79.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,68.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,59.0,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,46.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,63.1,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,57.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,60.2,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,95.8,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,71.5,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,63.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,71.9,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,58.1,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,60.7,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,60.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-31.3945,18.1142,56.6,50,South Africa,Engelbrecht_et_al_2025_Olifants
+seagrass,-25.9564,114.174,84.9,100,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-25.9378,113.9364,132.7,86,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-25.9298,114.0958,95.3,78,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-25.894,114.114,127.1,92,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-25.8706,114.0057,53.0,78,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-25.8512,113.9378,78.8,100,Australia,Fourqurean_and_Kendrick_unpublished
+seagrass,-23.1338,-44.1511,102.7,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-23.1338,-44.1511,124.6,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-23.1049,-44.2132,83.8,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-23.1049,-44.2132,89.1,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9734,-42.0203,46.8,40,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9734,-42.0203,31.2,52,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9573,-44.3811,60.2,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9573,-44.3811,66.6,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9571,-44.3846,54.1,93,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9571,-44.3846,51.3,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9476,-43.1636,65.0,76,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9476,-43.1636,57.1,84,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.9476,-43.1636,57.7,84,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.8818,-42.0028,35.7,88,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.8818,-42.0028,22.9,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.8789,-42.0037,55.5,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.8789,-42.0037,37.2,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7724,-41.889,83.3,64,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7724,-41.889,75.3,100,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7691,-41.9122,52.2,46,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7691,-41.9122,54.8,52,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7459,-41.8814,86.9,52,Brazil,Howard_and_Fourqurean_2020
+seagrass,-22.7459,-41.8814,107.7,46,Brazil,Howard_and_Fourqurean_2020
+seagrass,-20.3251,-40.2715,164.3,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-20.3251,-40.2715,173.2,98,Brazil,Howard_and_Fourqurean_2020
+seagrass,-20.3018,-40.286,107.8,89,Brazil,Howard_and_Fourqurean_2020
+seagrass,-20.3018,-40.286,101.7,107,Brazil,Howard_and_Fourqurean_2020
+seagrass,-19.9536,-40.1521,134.2,103,Brazil,Howard_and_Fourqurean_2020
+seagrass,-19.9536,-40.1521,190.5,103,Brazil,Howard_and_Fourqurean_2020
+seagrass,-19.9536,-40.1521,154.0,103,Brazil,Howard_and_Fourqurean_2020
+seagrass,-4.4167,39.5,219.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,220.8,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,329.1,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,274.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,134.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,164.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,156.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,172.0,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,203.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,124.7,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,84.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,121.1,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,154.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,195.8,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,199.5,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,225.8,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,152.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,173.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,188.1,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,160.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,158.8,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,136.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,141.5,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,201.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,164.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,343.5,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,177.5,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,205.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,413.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,147.8,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,212.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,123.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,104.1,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,109.4,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,153.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,96.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,110.7,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,114.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,272.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,222.0,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,188.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,156.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,184.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,191.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,163.9,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,203.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,157.7,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,179.0,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,162.4,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,129.4,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,115.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,140.7,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,143.3,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,126.5,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,112.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,208.6,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,247.2,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,122.0,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,99.1,50,Kenya,Githaiga_et_al_2017
+seagrass,-4.4167,39.5,162.4,50,Kenya,Githaiga_et_al_2017
+seagrass,9.2337,-82.1198,186.4,48,Panama,Beers_et_al_2023
+seagrass,9.3511,-82.2575,131.2,38,Panama,Beers_et_al_2023
+seagrass,11.3024,103.0976,179.9,100,Cambodia,Krause_et_al_2025
+seagrass,11.3043,103.105,83.5,100,Cambodia,Krause_et_al_2025
+seagrass,11.3067,103.1114,153.7,100,Cambodia,Krause_et_al_2025
+seagrass,11.3112,103.1083,105.7,100,Cambodia,Krause_et_al_2025
+seagrass,11.3296,103.1265,141.1,100,Cambodia,Krause_et_al_2025
+seagrass,11.3321,103.1375,123.0,73,Cambodia,Krause_et_al_2025
+seagrass,11.3368,103.1292,132.4,100,Cambodia,Krause_et_al_2025
+seagrass,11.339,103.1172,141.5,86,Cambodia,Krause_et_al_2025
+seagrass,11.3427,103.1042,108.8,100,Cambodia,Krause_et_al_2025
+seagrass,11.3449,103.1159,96.1,100,Cambodia,Krause_et_al_2025
+seagrass,11.3462,103.1275,289.3,85,Cambodia,Krause_et_al_2025
+seagrass,11.35,103.0954,111.3,100,Cambodia,Krause_et_al_2025
+seagrass,11.3549,103.0294,210.6,100,Cambodia,Krause_et_al_2025
+seagrass,11.3612,103.0311,174.3,100,Cambodia,Krause_et_al_2025
+seagrass,11.3693,103.0336,182.3,100,Cambodia,Krause_et_al_2025
+seagrass,11.3698,103.0886,42.7,100,Cambodia,Krause_et_al_2025
+seagrass,11.3845,103.087,48.5,100,Cambodia,Krause_et_al_2025
+seagrass,11.3949,103.0649,137.5,83,Cambodia,Krause_et_al_2025
+seagrass,11.3982,103.0786,142.0,84,Cambodia,Krause_et_al_2025
+seagrass,11.4022,103.0548,125.9,96,Cambodia,Krause_et_al_2025
+seagrass,11.4054,103.0701,95.5,100,Cambodia,Krause_et_al_2025
+seagrass,11.4077,103.0614,125.0,98,Cambodia,Krause_et_al_2025
+seagrass,11.4119,103.0835,73.1,100,Cambodia,Krause_et_al_2025
+seagrass,11.4186,103.0569,86.5,100,Cambodia,Krause_et_al_2025
+seagrass,11.4263,103.0523,78.6,95,Cambodia,Krause_et_al_2025
+seagrass,16.6448,-88.1646,62.2,34,Belize,Morrissette_et_al_2023
+seagrass,16.8328,-88.1074,187.2,34,Belize,Beers_et_al_2023
+seagrass,16.8328,-88.1074,94.1,34,Belize,Beers_et_al_2023
+seagrass,16.8328,-88.1074,84.2,32,Belize,Beers_et_al_2023
+seagrass,21.2746,-89.6863,79.5,39,Mexico,Gonneea_et_al_2004
+seagrass,24.1513,52.0476,19.9,62,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.1513,52.0476,57.5,34,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.1513,52.0476,31.7,40,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2051,53.6158,19.2,89,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2051,53.6158,30.3,88,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2115,51.8712,53.0,88,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2115,51.8712,45.7,52,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2326,51.7996,19.7,42,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2408,53.4742,40.3,70,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2408,53.4742,27.5,69,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2478,51.6935,22.4,100,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2478,51.6935,33.9,68,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.2528,51.6676,30.7,74,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.277,53.3483,57.7,59,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.277,53.3483,47.8,51,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.3058,54.0027,29.4,39,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.3183,54.0572,24.9,98,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.3183,54.0572,25.6,100,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.5453,53.1123,50.5,42,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.5485,53.04,37.9,62,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.5485,53.04,33.8,46,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.5786,53.079,40.2,96,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.5786,53.079,32.5,100,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.645,54.507,20.2,40,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.645,54.507,22.9,54,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.6558,54.5367,34.5,43,United Arab Emirates,Campbell_et_al_2015
+seagrass,24.9412,-80.8642,79.4,100,United States,Fourqurean_unpublished
+seagrass,24.9412,-80.8642,87.5,100,United States,Fourqurean_unpublished
+seagrass,24.9412,-80.8642,189.2,95,United States,Howard_and_Fourqurean_2020
+seagrass,24.9412,-80.8642,216.3,95,United States,Howard_and_Fourqurean_2020
+seagrass,25.0248,-80.681,72.7,100,United States,Fourqurean_unpublished
+seagrass,25.0248,-80.681,63.7,100,United States,Fourqurean_unpublished
+seagrass,25.0248,-80.681,176.0,97,United States,Howard_and_Fourqurean_2020
+seagrass,25.0248,-80.681,158.3,97,United States,Howard_and_Fourqurean_2020
+seagrass,25.0343,-80.6397,68.0,100,United States,Fourqurean_unpublished
+seagrass,25.0343,-80.6397,64.3,100,United States,Fourqurean_unpublished
+seagrass,25.0343,-80.6397,165.7,97,United States,Howard_and_Fourqurean_2020
+seagrass,25.0343,-80.6397,162.4,97,United States,Howard_and_Fourqurean_2020
+seagrass,25.2148,-80.5404,52.5,96,United States,Fourqurean_unpublished
+seagrass,25.2148,-80.5404,50.6,96,United States,Fourqurean_unpublished
+seagrass,25.2148,-80.5404,122.1,98,United States,Howard_and_Fourqurean_2020
+seagrass,25.2148,-80.5404,134.1,90,United States,Howard_and_Fourqurean_2020
+seagrass,27.5364,-80.3491,55.8,38,United States,Beers_et_al_2023
+seagrass,35.96,14.43,59.0,100,Malta,Mateo_unpublished
+seagrass,35.96,14.43,69.9,100,Malta,Mateo_unpublished
+seagrass,35.96,14.43,105.2,100,Malta,Mateo_unpublished
+seagrass,35.972,14.3624,253.3,100,Malta,Mateo_unpublished
+seagrass,37.945,-122.4144,79.9,30,United States,Beers_et_al_2023
+seagrass,37.9464,-122.4195,84.4,40,United States,Beers_et_al_2023
+seagrass,38.162,-0.473,298.3,100,Spain,Mateo_et_al_1997
+seagrass,38.162,-0.473,101.2,100,Spain,Mateo_et_al_1997
+seagrass,38.162,-0.473,366.8,100,Spain,Mateo_et_al_1997
+seagrass,38.167,-0.476,117.0,100,Spain,Mateo_et_al_1997
+seagrass,38.423,-0.384,189.3,74,Spain,Mateo_et_al_1997
+seagrass,38.423,-0.384,301.5,100,Spain,Mateo_et_al_1997
+seagrass,38.423,-0.384,135.2,100,Spain,Mateo_et_al_1997
+seagrass,38.504,-0.226,167.5,100,Spain,Mateo_unpublished
+seagrass,38.504,-0.226,140.3,100,Spain,Mateo_unpublished
+seagrass,38.504,-0.226,136.2,100,Spain,Mateo_unpublished
+seagrass,38.728,1.4572,110.7,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.728,1.4572,119.6,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.728,1.4592,13.3,39,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.728,1.4592,14.5,45,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.9118,1.4583,311.3,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.9118,1.4583,162.1,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,38.9118,1.4583,180.6,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,39.145,2.9333,330.6,54,Spain,Belshe_et_al_2019
+seagrass,39.1501,2.9492,195.4,33,Spain,Belshe_et_al_2019
+seagrass,39.1501,2.9492,95.5,60,Spain,Belshe_et_al_2019
+seagrass,39.1518,2.948,100.3,52,Spain,Belshe_et_al_2019
+seagrass,39.1533,2.9457,196.6,57,Spain,Belshe_et_al_2019
+seagrass,40.753,13.9,146.7,100,Italy,Mateo_et_al_1997
+seagrass,42.046,3.217,201.4,100,Spain,Mateo_et_al_1997
+seagrass,42.046,3.217,235.4,100,Spain,Mateo_et_al_1997
+seagrass,42.293,3.293,80.4,100,Spain,Mateo_and_Serrano_unpublished
+seagrass,42.293,3.293,80.4,100,Spain,Serrano_unpublished
+seagrass,42.294,3.289,248.2,100,Spain,Mateo_et_al_1997
+seagrass,42.294,3.289,212.9,100,Spain,Mateo_et_al_1997
+seagrass,42.294,3.289,119.3,100,Spain,Mateo_et_al_1997
+seagrass,42.322,3.309,254.1,100,Spain,Mateo_et_al_1997
+seagrass,43.8566,-70.0041,86.7,50,United States,Johnson_et_al_2024_eelgrass
+seagrass,43.8591,-69.9979,131.7,61,United States,Johnson_et_al_2024_eelgrass
+seagrass,43.8601,-69.9947,169.3,49,United States,Johnson_et_al_2024_eelgrass
+seagrass,44.2,9.12,98.4,75,Italy,Danovaro_1996
+seagrass,48.5148,-122.5291,35.4,46,United States,Kairis_and_Rybczyk_2010
+seagrass,48.549,-122.529,78.8,36,United States,Poppe_and_Rybczyk_2018
+seagrass,48.549,-122.523,85.7,40,United States,Poppe_and_Rybczyk_2018
+seagrass,48.549,-122.514,103.8,44,United States,Poppe_and_Rybczyk_2018
+seagrass,48.549,-122.509,71.6,36,United States,Poppe_and_Rybczyk_2018
+seagrass,48.55,-122.544,76.3,42,United States,Poppe_and_Rybczyk_2018
+seagrass,48.55,-122.536,70.4,38,United States,Poppe_and_Rybczyk_2018

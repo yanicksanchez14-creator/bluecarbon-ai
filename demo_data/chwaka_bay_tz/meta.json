@@ -177,19 +177,30 @@
         "mangrove": {
           "area_ha": 2554.54,
           "stock_tC": {
-            "mean": 1332387.1668316114,
-            "p05": 1255169.5628721423,
-            "p95": 1415073.3990037828
+            "mean": 572214.8148907496,
+            "p05": 436807.7167750022,
+            "p95": 713722.9844890459
           },
           "stock_tCO2e": {
-            "mean": 4885863.740771519,
-            "p05": 4602706.787052146,
-            "p95": 5189074.1541468715
+            "mean": 2098311.726204379,
+            "p05": 1601773.897413933,
+            "p95": 2617222.184121331
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 15380.84565032047,
             "p05": 13214.29785816452,
             "p95": 17617.38329162431
+          },
+          "soil": {
+            "soil": [
+              102.06,
+              170.26947916666668,
+              251.88000000000002
+            ],
+            "n_cores": 48,
+            "n_studies": 1,
+            "radius_km": 300,
+            "source": "measured"
           }
         },
         "saltmarsh": {
@@ -208,32 +219,51 @@
             "mean": 294.70521022890796,
             "p05": 250.09610202071073,
             "p95": 339.2899612058945
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
           }
         },
         "seagrass": {
           "area_ha": 5120.05,
           "stock_tC": {
-            "mean": 571054.1739756004,
-            "p05": 478594.5883258973,
-            "p95": 669428.7625919671
+            "mean": 877595.5725373104,
+            "p05": 675925.7549247816,
+            "p95": 1078230.6220158846
           },
           "stock_tCO2e": {
-            "mean": 2094055.6559685268,
-            "p05": 1755006.3553910654,
-            "p95": 2454795.272424743
+            "mean": 3218142.964494317,
+            "p05": 2478619.7433091737,
+            "p95": 3953871.690932249
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 8323.627612008602,
             "p05": 5202.435983604179,
             "p95": 11669.704162578515
+          },
+          "soil": {
+            "soil": [
+              112.05,
+              170.58374999999998,
+              227.94000000000003
+            ],
+            "n_cores": 60,
+            "n_studies": 1,
+            "radius_km": 300,
+            "source": "measured"
           }
         }
       },
-      "blue_carbon_area_ha": 7763.45,
+      "blue_carbon_area_ha": 7763.450000000001,
       "total_stock_tCO2e": {
-        "mean": 7069285.881550567,
-        "p05": 6629209.254604056,
-        "p95": 7528201.846782685
+        "mean": 5405821.175509218,
+        "p05": 4513065.833157564,
+        "p95": 6300685.639483354
       },
       "total_sequestration_tCO2e_per_yr": {
         "mean": 23999.17847255798,
@@ -245,7 +275,7 @@
         "mid": 599979.4618139495,
         "high": 959967.1389023191
       },
-      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for mangrove, seagrass, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     }
   },
   "region": "Zanzibar, Tanzania",

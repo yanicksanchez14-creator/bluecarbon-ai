@@ -45,8 +45,11 @@ scale.
 - **Two model families, the best one wins.** A gradient-boosted (LightGBM) spectral model with
   water-column features, and a U-Net deep neural network (ResNet-34 encoder). The pipeline trains both
   and keeps whichever maps blue carbon habitats more accurately.
-- **Carbon accounting with uncertainty.** Areas are bias-corrected (Olofsson et al., 2014), and carbon is
-  estimated with 5,000-draw Monte Carlo sampling over IPCC Tier 1 coefficient ranges.
+- **Carbon from real soil measurements.** Soil carbon comes from 2,515 measured soil cores (276 studies) in the
+  Smithsonian Coastal Carbon Library: each site uses the cores of each habitat within 100–300 km, and falls back
+  to IPCC Tier 1 values only where none exist. Total-carbon measurements that count limestone carbonate are
+  filtered out. Areas are bias-corrected (Olofsson et al., 2014) and carbon is estimated with 5,000-draw Monte
+  Carlo sampling.
 - **Production engineering.** Installable Python package, typed configuration, self-describing model
   files, an automated test suite that runs the full pipeline offline, and GitHub Actions CI.
 
@@ -145,14 +148,14 @@ docs/            methodology and figures
 
 ## Limitations
 
-Carbon figures use IPCC global averages per habitat and are suited to screening and prioritizing sites,
+Carbon figures use measured soil cores near each site where available (IPCC global averages elsewhere) and are suited to screening and prioritizing sites,
 not to issuing carbon credits, which requires field measurements. Seagrass is the hardest habitat to see
 from space because it grows underwater, and tides change what is visible in intertidal areas.
 
 ## Data credits
 
 Sentinel-2 (ESA Copernicus) · Cloud Score+ (Google) · ESA WorldCover 2021 · GWL_FCS30 (Zhang et al.)
-· Murray et al. global tidal flats · FWC Florida seagrass · Seamap Australia (Moreton Bay seagrass) · Allen Coral Atlas · NASADEM · IPCC 2013 Wetlands Supplement.
+· Murray et al. global tidal flats · FWC Florida seagrass · Seamap Australia (Moreton Bay seagrass) · Allen Coral Atlas · NASADEM · Smithsonian Coastal Carbon Library (soil cores) · IPCC 2013 Wetlands Supplement.
 
 ---
 

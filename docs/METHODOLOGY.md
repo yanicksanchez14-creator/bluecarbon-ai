@@ -62,8 +62,15 @@ stratified estimator of Olofsson et al. (2014), using the model's held-out confu
 confidence intervals treat pixels as independent samples, so they understate the true uncertainty.
 A design-based accuracy assessment with independent reference points would tighten this.
 
-**Carbon.** IPCC 2013 Wetlands Supplement Tier 1 defaults for soil organic carbon (to 1 m), living
-biomass and soil carbon accumulation, per habitat. Each coefficient is sampled from a triangular
+**Carbon.** Soil organic carbon to 1 m comes from measured soil cores where possible: the Smithsonian
+Coastal Carbon Library (v1.7.0) is reduced by `scripts/build_soil_carbon.py` to one stock per core (dry bulk
+density × organic carbon fraction, averaged over at least 30 cm of samples and scaled to 1 m). Measured carbon
+fractions are used only when the study confirms organic carbon (or carbonate removal); total-carbon values,
+which include carbonate in tropical seafloor, are replaced by an estimate from organic matter (Craft et al.,
+1991). Each site uses the cores of each habitat within 100 km (300 km if needed) when there are at least 8;
+the coefficient's mean is the winsorized mean of those cores and its range reflects the number of independent
+studies. Elsewhere, and for living biomass and soil carbon accumulation, IPCC 2013 Wetlands Supplement Tier 1
+defaults are used. Each coefficient is sampled from a triangular
 distribution (5,000 Monte Carlo draws), together with the area uncertainty, and results are reported
 as the mean and 90% interval. The indicative credit value uses **annual sequestration only**, since
 standing stock is not creditable. Tier 1 values are global averages; any real project needs
@@ -81,5 +88,7 @@ site-measured stocks.
 - Zanaga, D. et al. (2022). ESA WorldCover 10 m 2021 v200.
 - Murray, N. J. et al. (2022). High-resolution mapping of losses and gains of Earth's tidal wetlands. *Science* 376.
 - Zhang, X. et al. (2023). GWL_FCS30: a global 30 m wetland map with a fine classification system. *ESSD* 15.
+- Coastal Carbon Network (2023). Coastal Carbon Library v1.7.0. Smithsonian Environmental Research Center. doi:10.25573/serc.21565671.
+- Craft, C. B. et al. (1991). Loss on ignition and Kjeldahl digestion for estimating organic carbon in estuarine marsh soils. *SSSAJ* 55.
 - Allen Coral Atlas (2022). Imagery, maps and monitoring of the world's tropical coral reefs.
 - Pasquarella, V. et al. (2023). Cloud Score+: comprehensive cloud and cloud-shadow detection for Sentinel-2.

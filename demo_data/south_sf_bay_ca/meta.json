@@ -177,19 +177,30 @@
         "saltmarsh": {
           "area_ha": 1966.86,
           "stock_tC": {
-            "mean": 539644.3511323995,
-            "p05": 513194.7619120694,
-            "p95": 576952.2547015607
+            "mean": 624680.3491793644,
+            "p05": 486309.35099108814,
+            "p95": 764305.348924241
           },
           "stock_tCO2e": {
-            "mean": 1978875.8356025089,
-            "p05": 1881885.1919315583,
-            "p95": 2115683.917990623
+            "mean": 2290702.8404407287,
+            "p05": 1783296.3900843202,
+            "p95": 2802707.714505192
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 6523.992913357384,
             "p05": 5536.522749987464,
             "p95": 7473.666460146338
+          },
+          "soil": {
+            "soil": [
+              208.38242343692184,
+              311.84606741573026,
+              415.3097113945387
+            ],
+            "n_cores": 89,
+            "n_studies": 5,
+            "radius_km": 100,
+            "source": "measured"
           }
         },
         "seagrass": {
@@ -208,14 +219,22 @@
             "mean": 1857.366761104875,
             "p05": 1166.1418880313722,
             "p95": 2595.3175809047307
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
           }
         }
       },
       "blue_carbon_area_ha": 3105.95,
       "total_stock_tCO2e": {
-        "mean": 2444232.862321152,
-        "p05": 2314950.443750603,
-        "p95": 2599523.4046971085
+        "mean": 2756059.867159372,
+        "p05": 2242517.4494555993,
+        "p95": 3269575.7607424646
       },
       "total_sequestration_tCO2e_per_yr": {
         "mean": 8381.35967446226,
@@ -227,7 +246,7 @@
         "mid": 209533.99186155648,
         "high": 335254.3869784904
       },
-      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     }
   },
   "region": "California, USA",

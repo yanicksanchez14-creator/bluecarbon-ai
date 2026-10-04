@@ -47,3 +47,11 @@ def raster_center_lat(transform, crs, height: int, width: int) -> float:
     x, y = transform * (width / 2, height / 2)
     _, lat = warp(crs, "EPSG:4326", [x], [y])
     return float(lat[0])
+
+
+def raster_center_lonlat(transform, crs, height: int, width: int) -> tuple[float, float]:
+    from rasterio.warp import transform as warp
+
+    x, y = transform * (width / 2, height / 2)
+    lon, lat = warp(crs, "EPSG:4326", [x], [y])
+    return float(lon[0]), float(lat[0])

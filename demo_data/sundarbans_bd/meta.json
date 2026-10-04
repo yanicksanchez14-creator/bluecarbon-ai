@@ -177,19 +177,30 @@
         "mangrove": {
           "area_ha": 61093.59,
           "stock_tC": {
-            "mean": 31864965.47740352,
-            "p05": 30018783.281470668,
-            "p95": 33843657.34734188
+            "mean": 19922648.039317016,
+            "p05": 15640100.14394361,
+            "p95": 24297614.7715833
           },
           "stock_tCO2e": {
-            "mean": 116848828.4056387,
-            "p05": 110078878.29315293,
-            "p95": 124104691.49270266
+            "mean": 73056350.3601755,
+            "p05": 57352247.22784121,
+            "p95": 89099353.36739595
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 367843.59873284464,
             "p05": 316043.09029579465,
             "p95": 421311.6822947307
+          },
+          "soil": {
+            "soil": [
+              177.13,
+              274.0459999999999,
+              379.2899999999996
+            ],
+            "n_cores": 10,
+            "n_studies": 1,
+            "radius_km": 100,
+            "source": "measured"
           }
         },
         "saltmarsh": {
@@ -208,6 +219,14 @@
             "mean": 1649.3888519245436,
             "p05": 1399.556076497255,
             "p95": 1899.6312920487703
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
           }
         },
         "seagrass": {
@@ -226,14 +245,22 @@
             "mean": 7547.233888810961,
             "p05": 4716.713914161643,
             "p95": 10583.448493845912
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
           }
         }
       },
       "blue_carbon_area_ha": 66233.43,
       "total_stock_tCO2e": {
-        "mean": 119247726.76555151,
-        "p05": 112476686.03916039,
-        "p95": 126418868.785738
+        "mean": 75455248.7200883,
+        "p05": 59702170.51520311,
+        "p95": 91475166.69786806
       },
       "total_sequestration_tCO2e_per_yr": {
         "mean": 377040.2214735801,
@@ -245,7 +272,7 @@
         "mid": 9426005.536839502,
         "high": 15081608.858943205
       },
-      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for mangrove, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     }
   },
   "region": "Bangladesh",

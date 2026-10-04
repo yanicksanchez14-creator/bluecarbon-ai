@@ -190,6 +190,14 @@
             "mean": 11173.027282099505,
             "p05": 9596.20209948487,
             "p95": 12793.459633011025
+          },
+          "soil": {
+            "soil": [
+              436.0,
+              471.0,
+              510.0
+            ],
+            "source": "ipcc"
           }
         },
         "saltmarsh": {
@@ -208,32 +216,51 @@
             "mean": 4305.613659637274,
             "p05": 3654.72689715272,
             "p95": 4956.682847655673
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
           }
         },
         "seagrass": {
           "area_ha": 2856.16,
           "stock_tC": {
-            "mean": 318554.5475880049,
-            "p05": 266964.60264946736,
-            "p95": 373523.0801534221
+            "mean": 342392.16897976544,
+            "p05": 224304.3616812432,
+            "p95": 465417.03567352454
           },
           "stock_tCO2e": {
-            "mean": 1168139.5260052138,
-            "p05": 978959.1979155967,
-            "p95": 1369709.1349225987
+            "mean": 1255552.0836487995,
+            "p05": 822524.0942851187,
+            "p95": 1706684.2698148144
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 4643.208251455143,
             "p05": 2901.467723037065,
             "p95": 6510.6484006167675
+          },
+          "soil": {
+            "soil": [
+              58.1,
+              115.24375,
+              182.6
+            ],
+            "n_cores": 16,
+            "n_studies": 2,
+            "radius_km": 300,
+            "source": "measured"
           }
         }
       },
       "blue_carbon_area_ha": 6010.09,
       "total_stock_tCO2e": {
-        "mean": 6022969.36099073,
-        "p05": 5730596.522926012,
-        "p95": 6327303.4337095665
+        "mean": 6110381.918634316,
+        "p05": 5620490.1691353135,
+        "p95": 6610839.425625777
       },
       "total_sequestration_tCO2e_per_yr": {
         "mean": 20121.849193191923,
@@ -245,7 +272,7 @@
         "mid": 503046.2298297981,
         "high": 804873.967727677
       },
-      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for seagrass, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     }
   },
   "region": "The Bahamas",

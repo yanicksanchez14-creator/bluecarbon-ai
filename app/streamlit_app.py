@@ -269,8 +269,19 @@ T_CO2 = ("Tonnes of carbon dioxide (CO₂). Scientists convert the carbon stored
          "CO₂ it would form if released, so it can be compared with emissions.")
 T_RANGE = ("We are 90% confident the true value lies in this range. It reflects uncertainty in both the mapped area and "
            "the published carbon values.")
-T_TIER1 = ("IPCC Tier 1 = the default carbon values per hectare published by the UN climate science body (IPCC) for "
-           "each habitat type. Good for a first estimate; real projects measure their own site.")
+T_TIER1 = ("Soil carbon comes from real soil cores measured near this site (Smithsonian Coastal Carbon Library) when "
+           "there are enough of them, and otherwise from the global default values of the UN climate science body "
+           "(IPCC). Good for a first estimate; real projects measure their own site.")
+
+
+def soil_line(v: dict) -> str:
+    """One line saying where a habitat's soil carbon value comes from."""
+    sl = v.get("soil") or {}
+    if sl.get("source") == "measured":
+        studies = f"{sl['n_studies']} {'study' if sl['n_studies'] == 1 else 'studies'}"
+        return (f"Soil carbon from {sl['n_cores']} measured soil cores within {sl['radius_km']} km "
+                f"({studies}): about {sl['soil'][1]:.0f} t carbon per hectare")
+    return "Soil carbon: global average (IPCC), no measured cores nearby"
 T_ADJ = ("Maps are never perfect. We correct each area using how often the model was right or wrong on test areas "
          "(a standard method from Olofsson et al., 2014).")
 T_SCORE = ("How closely the model's map overlapped with trusted reference maps, on areas it never saw during training. "
@@ -459,7 +470,8 @@ def habitat_cards(report: dict) -> str:
             body = (f'<div class="big">{fmt(a[k], 1)}<small> hectares{tip(T_HA)}</small></div>'
                     f'<div class="sub">{100 * a[k] / tot:.1f}% of the mapped area</div>'
                     f'<div class="kv"><span>Carbon stored{tip(T_CO2)}</span><b>{fmt(v["stock_tCO2e"]["mean"])} t CO₂</b></div>'
-                    f'<div class="kv"><span>Absorbed each year</span><b>{fmt(v["sequestration_tCO2e_per_yr"]["mean"], 1)} t CO₂</b></div>')
+                    f'<div class="kv"><span>Absorbed each year</span><b>{fmt(v["sequestration_tCO2e_per_yr"]["mean"], 1)} t CO₂</b></div>'
+                    f'<div class="sub" style="margin-top:.4rem">{soil_line(v)}</div>')
         else:
             body = '<div class="big muted">None found</div><div class="sub">Not detected in this area</div>'
         cards.append(f'<div class="bc-card bc-hab" style="border-top:3px solid {c.color}">'
@@ -555,8 +567,14 @@ def summary_html(meta: dict, report: dict) -> str:
         pts.insert(2 if len(pts) >= 2 else len(pts), ("Freshwater wetland",
                     f"{fmt(a['freshwater'], 1)} hectares of inland marsh or swamp. It stores carbon too, but it is not "
                     "tidal, so it is shown on the map and not counted as blue carbon."))
-    pts.append(("Fine print", "Carbon values are IPCC global averages for each habitat. Selling real carbon credits "
-                              "would require on-site soil measurements."))
+    per = report["carbon"]["classes"]
+    measured = [CLS[k].name.lower() for k, v in per.items() if (v.get("soil") or {}).get("source") == "measured"]
+    if measured:
+        src = (f"Soil carbon for {' and '.join(measured)} comes from real soil cores measured near this site "
+               "(Smithsonian Coastal Carbon Library); other values are IPCC global averages.")
+    else:
+        src = "Carbon values are IPCC global averages for each habitat, because no measured soil cores are nearby."
+    pts.append(("Fine print", src + " Selling real carbon credits would require measurements at the site itself."))
     rows = "".join(f'<div class="bc-sumrow"><div class="k">{k}</div><div class="v">{v}</div></div>' for k, v in pts)
     return f'<div class="bc-card bc-summary">{rows}</div>'
 
@@ -997,7 +1015,7 @@ with tab_method:
         ("02", "Label", "Reference labels fused from ESA WorldCover, Murray tidal flats and the Allen Coral Atlas."),
         ("03", "Learn", "U-Net with a ResNet encoder on 10 bands, 4 indices and 3 context layers, trained with Dice + CE loss."),
         ("04", "Map", "Overlapping tiles blended with a smooth window and flip test-time augmentation."),
-        ("05", "Account", "Error-adjusted areas × IPCC Tier 1 carbon factors, with Monte Carlo 90% intervals."),
+        ("05", "Account", "Error-adjusted areas × measured local soil carbon (or IPCC Tier 1), with Monte Carlo 90% intervals."),
     ]
     st.markdown('<div class="bc-steps">' + "".join(
         f'<div class="bc-step"><div class="k">{k}</div><h4>{t}</h4><p>{p}</p></div>' for k, t, p in steps) + "</div>",
@@ -1062,17 +1080,24 @@ habitat:</p>
 sequestration (tCO₂e/yr) = area (ha) × soil C accumulation (tC/ha/yr) × 44/12</div>
 <p>Each coefficient is drawn from a triangular distribution over its published range, jointly with the area
 uncertainty (5,000 Monte Carlo draws), and results are reported as a mean with a 90% interval. Tier 1 defaults
-(IPCC 2013 Wetlands Supplement):</p>
+(IPCC 2013 Wetlands Supplement), used where no measured soil cores are available:</p>
 <table class="bc-table"><thead><tr><th>Habitat</th><th style="text-align:right">Soil C, tC/ha</th>
 <th style="text-align:right">Biomass C, tC/ha</th><th style="text-align:right">Accumulation, tC/ha/yr</th></tr></thead>
 <tbody>{carbon_rows}</tbody></table>
+<p><b>Measured soil carbon.</b> Where possible, the soil value is replaced with real measurements from the
+Smithsonian Coastal Carbon Library (open data from hundreds of studies). For every soil core, carbon to 1&nbsp;m is
+dry bulk density × organic carbon fraction, averaged over the sampled depth (at least 30&nbsp;cm) and scaled to
+1&nbsp;m. Only measurements the study confirms are <i>organic</i> carbon are used; total-carbon values, which count
+limestone carbonate in tropical seafloor, are replaced by an estimate from organic matter (Craft et al., 1991). A
+site uses the cores of that habitat within 100&nbsp;km (300&nbsp;km if needed) when there are at least 8; its range
+reflects the number of independent studies, not cores. Biomass and burial rates stay at IPCC values.</p>
 <p>The indicative credit value is based on annual sequestration at $15–40 per tCO₂e. Standing stock is not creditable
 on its own.</p>
 
 <h3>Limitations</h3>
 <ul>
-<li>Tier 1 factors are global averages. They are suited to screening and prioritization, not to issuing credits,
-which requires field-measured stocks.</li>
+<li>Carbon values (measured nearby cores or IPCC global averages) are suited to screening and prioritization,
+not to issuing credits, which requires measurements at the project site.</li>
 <li>Seagrass is learned from the Allen Coral Atlas and official surveys (Florida, Moreton Bay). The current model
 over-maps seagrass in some turbid bays and does not yet detect it in Moreton Bay; the next training run adds
 open-water examples next to surveyed meadows to correct this.</li>
@@ -1087,6 +1112,8 @@ as independent samples, so they understate the true uncertainty.</li>
 <li>Olofsson, P. et al. (2014). Good practices for estimating area and assessing accuracy of land change. <i>Remote Sensing of Environment</i> 148.</li>
 <li>Zanaga, D. et al. (2022). ESA WorldCover 10 m 2021 v200.</li>
 <li>Murray, N. J. et al. (2019). The global distribution and trajectory of tidal flats. <i>Nature</i> 565.</li>
+<li>Coastal Carbon Network (2023). Coastal Carbon Library, v1.7.0. Smithsonian Environmental Research Center. doi:10.25573/serc.21565671.</li>
+<li>Craft, C. B. et al. (1991). Loss on ignition and Kjeldahl digestion for estimating organic carbon and total nitrogen in estuarine marsh soils. <i>Soil Sci. Soc. Am. J.</i> 55.</li>
 <li>Zhang, X. et al. (2023). GWL_FCS30: a global 30 m wetland map with a fine classification system. <i>Earth System Science Data</i> 15.</li>
 <li>Allen Coral Atlas (2022). Imagery, maps and monitoring of the world's tropical coral reefs.</li>
 <li>Pasquarella, V. et al. (2023). Cloud Score+: comprehensive cloud and cloud-shadow detection for Sentinel-2.</li>

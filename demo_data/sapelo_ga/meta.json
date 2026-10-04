@@ -190,24 +190,43 @@
             "mean": 1711.2282277016607,
             "p05": 1466.7407779422945,
             "p95": 1959.6532227721573
+          },
+          "soil": {
+            "soil": [
+              436.0,
+              471.0,
+              510.0
+            ],
+            "source": "ipcc"
           }
         },
         "saltmarsh": {
           "area_ha": 15850.87,
           "stock_tC": {
-            "mean": 4347286.692888814,
-            "p05": 4133707.5306455144,
-            "p95": 4650474.339281183
+            "mean": 3454245.4509167573,
+            "p05": 2807015.7830590275,
+            "p95": 4112182.0041219913
           },
           "stock_tCO2e": {
-            "mean": 15941500.302823279,
-            "p05": 15158305.514877101,
-            "p95": 17053289.402144097
+            "mean": 12666718.068511747,
+            "p05": 10293326.876477456,
+            "p95": 15079371.409115342
           },
           "sequestration_tCO2e_per_yr": {
             "mean": 52570.994352659705,
             "p05": 44620.20638214122,
             "p95": 60506.68551997566
+          },
+          "soil": {
+            "soil": [
+              152.3567852435973,
+              212.46250000000003,
+              272.56821475640277
+            ],
+            "n_cores": 42,
+            "n_studies": 3,
+            "radius_km": 100,
+            "source": "measured"
           }
         },
         "seagrass": {
@@ -226,14 +245,22 @@
             "mean": 3480.7321804088265,
             "p05": 2175.323182495428,
             "p95": 4879.472558371021
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
           }
         }
       },
-      "blue_carbon_area_ha": 18276.170000000002,
+      "blue_carbon_area_ha": 18276.17,
       "total_stock_tCO2e": {
-        "mean": 17360761.412033252,
-        "p05": 16560882.812833603,
-        "p95": 18484884.870442808
+        "mean": 14085979.177721722,
+        "p05": 11687443.654386336,
+        "p95": 16487764.579937456
       },
       "total_sequestration_tCO2e_per_yr": {
         "mean": 57762.954760770204,
@@ -245,7 +272,7 @@
         "mid": 1444073.869019255,
         "high": 2310518.1904308083
       },
-      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     }
   },
   "region": "Georgia, USA",

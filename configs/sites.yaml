@@ -5,6 +5,9 @@
 # the Allen Coral Atlas footprint is left unlabelled instead of being taught (or scored) as open water.
 
 year: 2021
+# Extra full-year images of every training site, labelled with the 2021 reference map (habitat changes
+# little in a year). They go to TRAINING chips only; validation and test stay on 2021.
+extra_years: [2020, 2022]
 
 sites:
   - {name: mission_bay_ca,       bbox: [-117.265, 32.745, -117.185, 32.810], role: test, seagrass_unmapped: true,  note: "Held-out: Mission Bay and the Kendall-Frost Marsh Reserve, San Diego"}

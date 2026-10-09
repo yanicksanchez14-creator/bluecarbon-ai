@@ -44,7 +44,12 @@ def block_split(site: str, bx: int, by: int, fractions=(0.7, 0.15, 0.15), seed: 
 def make_chips(image_path: str | Path, label_path: str | Path, out_dir: str | Path, site: str,
                size: int = 256, stride: int = 256, min_labeled_frac: float = 0.2, block_km: float = 5,
                fractions=(0.7, 0.15, 0.15), seed: int = 42, force_split: str | None = None,
-               ancillary_path: str | Path | None = None) -> list[ChipRecord]:
+               ancillary_path: str | Path | None = None, tag: str = "",
+               only_splits: set[str] | None = None) -> list[ChipRecord]:
+    """`tag` names chips from an extra image of the same site (e.g. another year); the split is still
+    decided by the site's spatial blocks, so a location is in the same split in every year.
+    `only_splits`: keep only chips in these splits (extra years go to training only, so validation and
+    test stay on the year the reference labels describe)."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     records: list[ChipRecord] = []
@@ -64,7 +69,9 @@ def make_chips(image_path: str | Path, label_path: str | Path, out_dir: str | Pa
                 if frac < min_labeled_frac:
                     continue
                 split = force_split or block_split(site, c // block_px, r // block_px, fractions, seed)
-                p = out_dir / f"{site}_r{r:05d}_c{c:05d}.npz"
+                if only_splits is not None and split not in only_splits:
+                    continue
+                p = out_dir / f"{site}{'_' + tag if tag else ''}_r{r:05d}_c{c:05d}.npz"
                 extra = {}
                 if anc_ds is not None:
                     extra["anc"] = anc_ds.read(window=win).astype(np.int16)

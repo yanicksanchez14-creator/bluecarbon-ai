@@ -24,6 +24,25 @@ def _sites(path: str) -> dict:
     return yaml.safe_load(Path(path).read_text())
 
 
+def _fetch_extra_years(gee, site: dict, d: Path, years: list[int], cfg) -> None:
+    """Extra full-year images (+ context layers) of a training site, labelled with the main year's map.
+    Habitat changes little in a year or two, so neighbouring years add realistic variation in tide,
+    season, water clarity and atmosphere: more training data from the same reference labels."""
+    from .features import S2_BANDS
+
+    region = None
+    for y in years:
+        img_p, anc_p = d / f"image_{y}.tif", d / f"ancillary_{y}.tif"
+        if not img_p.exists():
+            region = region or gee.bbox_geometry(site["bbox"])
+            typer.echo(f"[{site['name']}] {y} imagery ...")
+            gee.download(gee.s2_composite(region, f"{y}-01-01", f"{y + 1}-01-01", cfg), site["bbox"], img_p, cfg,
+                         "uint16", 0, S2_BANDS)
+        if not gee.ancillary_ok(anc_p):
+            typer.echo(f"[{site['name']}] {y} ancillary + clear-water layers ...")
+            gee.download_ancillary(site["bbox"], f"{y}-01-01", f"{y + 1}-01-01", anc_p, cfg)
+
+
 @app.command()
 def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.Option(None, help="Site names"),
           service_account: Path = typer.Option(None, help="Service account key JSON"),
@@ -44,6 +63,8 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if not gee.ancillary_ok(d / "ancillary.tif") and (d / "image.tif").exists():
             typer.echo(f"[{site['name']}] ancillary + clear-water layers ...")
             gee.download_ancillary(site["bbox"], yr_start, yr_end, d / "ancillary.tif", cfg)
+        if site.get("role") != "test":
+            _fetch_extra_years(gee, site, d, s.get("extra_years") or [], cfg)
         if labels_only and (d / "meta.json").exists() and \
                 gee.LABEL_VERSION in json.loads((d / "meta.json").read_text()).get("label_sources", []):
             typer.echo(f"[{site['name']}] labels already up to date, skipping (delete meta.json to redo)")
@@ -90,7 +111,16 @@ def chips(config: str = CfgOpt, sites: str = SitesOpt):
         r = make_chips(d / "image.tif", d / "label.tif", out, site["name"], c.size, c.stride, c.min_labeled_frac,
                        c.block_km, c.split, c.seed, "test" if site.get("role") == "test" else None,
                        ancillary_path=d / "ancillary.tif")
-        typer.echo(f"{site['name']}: {len(r)} chips")
+        n_extra = 0
+        if site.get("role") != "test":
+            for y in s.get("extra_years") or []:
+                if (d / f"image_{y}.tif").exists() and (d / f"ancillary_{y}.tif").exists():
+                    rx = make_chips(d / f"image_{y}.tif", d / "label.tif", out, site["name"], c.size, c.stride,
+                                    c.min_labeled_frac, c.block_km, c.split, c.seed,
+                                    ancillary_path=d / f"ancillary_{y}.tif", tag=str(y), only_splits={"train"})
+                    n_extra += len(rx)
+                    r += rx
+        typer.echo(f"{site['name']}: {len(r)} chips ({n_extra} from extra years)")
         recs += r
     write_index(recs, out / "index.json")
     counts = {k: sum(r.split == k for r in recs) for k in ("train", "val", "test")}

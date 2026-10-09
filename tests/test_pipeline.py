@@ -170,3 +170,20 @@ def test_legacy_model_and_bias(tmp_path):
     torch.save(ck, tmp_path / "biased.pt")
     cls2, _ = load_predictor(tmp_path / "biased.pt", "cpu").predict(bands, tile=128, overlap=32, tta=False, anc=anc)
     assert (cls2[cls2 != 255] == 3).all()
+
+
+def test_extra_year_chips_train_only(tmp_path):
+    """Extra-year chips reuse the site's spatial blocks and never enter validation or test."""
+    from bluecarbon.tiling import make_chips
+
+    d = tmp_path / "s"
+    d.mkdir()
+    make_chips_args = dict(size=64, stride=64, min_labeled_frac=0.0, block_km=0.64)
+    make_scene(d / "image.tif", d / "label.tif", size=256, seed=2)
+    base = make_chips(d / "image.tif", d / "label.tif", tmp_path / "c", "site", **make_chips_args)
+    extra = make_chips(d / "image.tif", d / "label.tif", tmp_path / "c", "site", tag="2020",
+                       only_splits={"train"}, **make_chips_args)
+    train_cells = {(r.row, r.col) for r in base if r.split == "train"}
+    assert extra and all(r.split == "train" for r in extra)
+    assert {(r.row, r.col) for r in extra} == train_cells
+    assert all("_2020_" in r.path for r in extra)

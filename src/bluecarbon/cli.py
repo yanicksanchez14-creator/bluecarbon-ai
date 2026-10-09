@@ -234,27 +234,39 @@ def scene(bbox: list[float] = typer.Option(..., help="lon_min lat_min lon_max la
 
 
 @app.command()
+def case_studies(s: dict) -> list[dict]:
+    """The before/after studies in sites.yaml (`case_studies` list, or the older single `case_study`)."""
+    return list(s.get("case_studies") or ([s["case_study"]] if s.get("case_study") else []))
+
+
+@app.command()
 def case_study(model: Path = typer.Option(..., "--model", "-m"), config: str = CfgOpt, sites: str = SitesOpt,
+               name: list[str] = typer.Option(None, help="Only these studies"),
                service_account: Path = typer.Option(None)):
-    """Before/after change analysis for the `case_study` block in sites.yaml."""
+    """Before/after change analysis for each study in sites.yaml `case_studies`."""
     from . import gee
     from .features import S2_BANDS
     from .report import change_scene_report, write_report
 
     cfg, s = _cfg(config), _sites(sites)
-    cs = s["case_study"]
     gee.init(cfg.project, service_account.read_text() if service_account else None)
-    d = cfg.work / "scenes" / cs["name"]
-    d.mkdir(parents=True, exist_ok=True)
-    for key, (a, b) in cs["periods"].items():
-        img = gee.s2_composite(gee.bbox_geometry(cs["bbox"]), a, b, cfg)
-        gee.download(img, cs["bbox"], d / f"{key}_image.tif", cfg, "uint16", 0, S2_BANDS)
-        if not gee.ancillary_ok(d / f"{key}_ancillary.tif"):  # clear-water bands differ per period
-            gee.download_ancillary(cs["bbox"], a, b, d / f"{key}_ancillary.tif", cfg)
-        predict(d / f"{key}_image.tif", model, d / f"{key}_pred.tif", config)
-    rep = change_scene_report(d / "t0_pred.tif", d / "t1_pred.tif", cfg.carbon)
-    write_report(rep, d, "change_report")
-    typer.echo(json.dumps(rep["change"], indent=2))
+    for cs in case_studies(s):
+        if name and cs["name"] not in name:
+            continue
+        typer.echo(f"[{cs['name']}] change study ...")
+        d = cfg.work / "scenes" / cs["name"]
+        d.mkdir(parents=True, exist_ok=True)
+        for key, (a, b) in cs["periods"].items():
+            if not (d / f"{key}_image.tif").exists():
+                img = gee.s2_composite(gee.bbox_geometry(cs["bbox"]), a, b, cfg)
+                gee.download(img, cs["bbox"], d / f"{key}_image.tif", cfg, "uint16", 0, S2_BANDS)
+            if not gee.ancillary_ok(d / f"{key}_ancillary.tif"):  # clear-water bands differ per period
+                gee.download_ancillary(cs["bbox"], a, b, d / f"{key}_ancillary.tif", cfg)
+            predict(d / f"{key}_image.tif", model, d / f"{key}_pred.tif", config)
+        rep = change_scene_report(d / "t0_pred.tif", d / "t1_pred.tif", cfg.carbon)
+        write_report(rep, d, "change_report")
+        (d / "periods.json").write_text(json.dumps(cs.get("labels") or {"t0": "Before", "t1": "After"}))
+        typer.echo(json.dumps(rep["change"], indent=2))
 
 
 @app.command()

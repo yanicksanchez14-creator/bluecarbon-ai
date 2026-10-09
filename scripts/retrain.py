@@ -92,17 +92,22 @@ def main() -> None:
     print((WORK / "model" / "best.txt").read_text(), "->", best)
 
     run("bluecarbon", "case-study", "-m", str(best))
-    scene = WORK / "scenes" / "mission_bay_change"
-    (scene / "periods.json").write_text(json.dumps({"t0": "Summer 2018", "t1": "Summer 2024"}))
     shutil.rmtree("demo_data", ignore_errors=True)
-    run("bluecarbon", "export-demo", str(scene), "--name", "mission_bay_change",
-        "--title", "Mission Bay, San Diego (2018 → 2024)", "-m", str(best),
-        "--description", "Salt marsh and seagrass in Mission Bay, summer 2018 compared with summer 2024. "
-                         "This bay was never used in training.")
-    meta_p = Path("demo_data/mission_bay_change/meta.json")
-    meta = json.loads(meta_p.read_text())
-    meta.update(region="California, USA", period="2018 → 2024", held_out=True)
-    meta_p.write_text(json.dumps(meta, indent=2))
+    import yaml
+
+    for cs in (yaml.safe_load(Path("configs/sites.yaml").read_text()).get("case_studies") or []):
+        scene = WORK / "scenes" / cs["name"]
+        if not (scene / "t1_pred.tif").exists():
+            print(f"skip {cs['name']} (change study did not finish)")
+            continue
+        run("bluecarbon", "export-demo", str(scene), "--name", cs["name"], "--title", cs["title"], "-m", str(best),
+            "--description", cs.get("description", ""))
+        meta_p = Path("demo_data") / cs["name"] / "meta.json"
+        meta = json.loads(meta_p.read_text())
+        lab = cs.get("labels") or {}
+        meta.update(region=cs.get("region", ""), period=f"{lab.get('t0', 'Before')} → {lab.get('t1', 'After')}",
+                    held_out=bool(cs.get("held_out")))
+        meta_p.write_text(json.dumps(meta, indent=2))
     run(sys.executable, "scripts/export_all_sites.py")
 
     out = Path("results")

@@ -1,0 +1,37 @@
+# Site screen inputs for Laguna de Términos, Campeche. Flags are researched by hand from public sources
+# and dated; the report cites every one. Severity: ok | caution | risk.
+site: laguna_terminos_mx
+change: laguna_terminos_change          # demo page with the 2019 -> 2025 change study (optional)
+focus: mangrove
+prepared: "2026-10-09"
+flags:
+  - key: protected_area
+    severity: risk
+    en: "Inside the Laguna de Términos Flora and Fauna Protection Area, a federal protected area decreed in 1994 (about 706,000 ha). Conservation credits must show the project adds protection beyond what the decree already requires (additionality)."
+    es: "Dentro del Área de Protección de Flora y Fauna Laguna de Términos, área natural protegida federal decretada en 1994 (unas 706,000 ha). Los créditos de conservación deben demostrar que el proyecto agrega protección más allá de lo que ya exige el decreto (adicionalidad)."
+    source: "https://en.wikipedia.org/wiki/Laguna_de_T%C3%A9rminos"
+  - key: ramsar
+    severity: caution
+    en: "Ramsar Wetland of International Importance no. 1356 (designated 2 February 2004, 705,016 ha). Listed threats: sedimentation, pollution, deforestation, declining fish stocks and oil pipelines."
+    es: "Humedal de Importancia Internacional Ramsar n.º 1356 (designado el 2 de febrero de 2004, 705,016 ha). Amenazas registradas: sedimentación, contaminación, deforestación, disminución de pesquerías y oleoductos."
+    source: "https://rsis.ramsar.org/ris/1356"
+  - key: mangrove_law
+    severity: caution
+    en: "Mexican law prohibits removing, filling or damaging mangroves (General Wildlife Law, Article 60 Ter). Legal protection already exists, so avoided-loss credits need evidence of real ongoing loss despite it."
+    es: "La ley mexicana prohíbe remover, rellenar o dañar manglares (Ley General de Vida Silvestre, artículo 60 Ter). La protección legal ya existe, por lo que los créditos por pérdida evitada requieren evidencia de pérdida real a pesar de ello."
+    source: "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGVS.pdf"
+  - key: tenure
+    severity: caution
+    en: "Coastal land is largely federal (federal maritime-terrestrial zone) or communal (ejido). Carbon rights would come from agreements with communities and authorities, not a land purchase. Confirm with the National Agrarian Registry (RAN) and a local lawyer."
+    es: "La tierra costera es en gran parte federal (zona federal marítimo-terrestre) o ejidal. Los derechos de carbono vendrían de acuerdos con comunidades y autoridades, no de una compra de tierra. Confirmar con el Registro Agrario Nacional (RAN) y un abogado local."
+    source: ""
+  - key: existing_projects
+    severity: ok
+    en: "No registered blue carbon project for Laguna de Términos was found in a web search on 2026-10-09 (one Verra-listed mangrove project exists in Nayarit). Confirm on the Verra registry before any work."
+    es: "No se encontró ningún proyecto de carbono azul registrado para Laguna de Términos en una búsqueda web el 2026-10-09 (existe un proyecto de manglar listado en Verra en Nayarit). Confirmar en el registro de Verra antes de cualquier trabajo."
+    source: "https://verra.org/projects_public_comm/aztlan-blue-carbon-mangrove-conservation-project-conserving-the-marismas-nacionales-of-nayarit"
+  - key: threats
+    severity: caution
+    en: "Pemex operates oil infrastructure inside the protected area; spills and pipeline construction are recurring threats. This is evidence of pressure (relevant to additionality) and a permanence risk."
+    es: "Pemex opera infraestructura petrolera dentro del área protegida; los derrames y la construcción de ductos son amenazas recurrentes. Es evidencia de presión (relevante para la adicionalidad) y un riesgo de permanencia."
+    source: "https://en.wikipedia.org/wiki/Laguna_de_T%C3%A9rminos"

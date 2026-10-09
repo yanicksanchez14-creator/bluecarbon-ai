@@ -61,10 +61,25 @@ sites:
   - {name: moreton_bay_au,       bbox: [153.100, -27.500, 153.350, -27.250], role: test, seagrass_unmapped: true, note: "Held-out: mangrove, salt marsh, seagrass"}
   - {name: tampa_bay_fl,         bbox: [-82.700, 27.600, -82.500, 27.800], role: test, seagrass_unmapped: true, note: "Held-out: mangrove + seagrass"}
 
-# Before/after case study shown in the demo app.
-case_study:
-  name: mission_bay_change
-  bbox: [-117.265, 32.745, -117.185, 32.810]
-  periods:
-    t0: ["2018-05-01", "2018-09-30"]
-    t1: ["2024-05-01", "2024-09-30"]
+# Before/after change studies shown in the demo app (and used by the site screen reports).
+case_studies:
+  - name: mission_bay_change
+    bbox: [-117.265, 32.745, -117.185, 32.810]
+    periods:
+      t0: ["2018-05-01", "2018-09-30"]
+      t1: ["2024-05-01", "2024-09-30"]
+    labels: {t0: "Summer 2018", t1: "Summer 2024"}
+    title: "Mission Bay, San Diego (2018 → 2024)"
+    region: "California, USA"
+    held_out: true
+    description: "Salt marsh and seagrass in Mission Bay, summer 2018 compared with summer 2024. This bay was never used in training."
+  - name: laguna_terminos_change
+    bbox: [-91.900, 18.500, -91.600, 18.750]
+    periods:
+      t0: ["2019-01-01", "2020-01-01"]
+      t1: ["2025-01-01", "2026-01-01"]
+    labels: {t0: "2019", t1: "2025"}
+    title: "Laguna de Términos, Campeche (2019 → 2025)"
+    region: "Campeche, Mexico"
+    held_out: false
+    description: "Mangrove lagoon in Campeche, full-year 2019 compared with full-year 2025. Part of the training area for the 2021 map, not for these years."

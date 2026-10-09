@@ -159,8 +159,13 @@ def _tidal_band(cfg: Config) -> str | None:
     return prob[0] if prob else None
 
 
+CLEAR_FRACTION_PCT = 20  # clear-water image = median of the clearest 20% of observations per pixel
+
+
 def clear_water_composite(region, start: str, end: str, cfg: Config):
-    """Per pixel, the cloud-free observation with the lowest NIR (least glint / haze / white water)."""
+    """Per pixel, the median of the clearest ~20% of cloud-free observations (lowest NIR = least sun
+    glint, haze and white water). A single clearest observation (the earlier method) is noisy; the
+    median of several clear days is stable while still letting a shallow seafloor show through."""
     _require_ee()
     from .features import CLEAR_BANDS
 
@@ -168,18 +173,29 @@ def clear_water_composite(region, start: str, end: str, cfg: Config):
     s2 = ee.ImageCollection(ic.collection).filterBounds(region).filterDate(start, end)
     cs = ee.ImageCollection(ic.cloud_score_collection)
     linked = s2.linkCollection(cs, [ic.cloud_score_band])
-
-    def prep(im):
-        im = im.updateMask(im.select(ic.cloud_score_band).gte(ic.clear_threshold))
-        return im.select(CLEAR_BANDS).addBands(im.select("B8").multiply(-1).rename("q"))
-
-    best = linked.map(prep).qualityMosaic("q").select(CLEAR_BANDS)
+    clear = linked.map(lambda im: im.updateMask(im.select(ic.cloud_score_band).gte(ic.clear_threshold))
+                       .select(CLEAR_BANDS))
+    nir_cut = clear.select("B8").reduce(ee.Reducer.percentile([CLEAR_FRACTION_PCT])).rename("cut")
+    best = clear.map(lambda im: im.updateMask(im.select("B8").lte(nir_cut))).median()
+    # pixels with no observation under the cut (very few images): fall back to the plain median
+    best = best.unmask(clear.median())
     return best.unmask(0).clamp(0, 10000).rename([f"{b}_clear" for b in CLEAR_BANDS])
 
 
+def water_depth(cfg: Config):
+    """GEBCO water depth in metres (0 on land), or 0 everywhere if the asset is unavailable."""
+    try:
+        img = ee.ImageCollection(cfg.labels.bathymetry).mosaic().select([0])
+        img.bandNames().getInfo()
+        return img.multiply(-1).max(0).unmask(0).clamp(0, 6000).rename("depth")
+    except Exception as e:
+        print(f"[bluecarbon] bathymetry unavailable ({str(e)[:80]}); depth set to 0", flush=True)
+        return ee.Image(0).rename("depth")
+
+
 def ancillary_image(cfg: Config, region=None, start: str | None = None, end: str | None = None):
-    """int16 context layers: elevation (m), tidal wetland probability (0-100), |latitude| x 100 and
-    the clear-water bands for the given period."""
+    """int16 context layers: elevation (m), tidal wetland probability (0-100), |latitude| x 100,
+    the clear-water bands for the given period, and water depth (m)."""
     _require_ee()
     from .features import ANCILLARY_BANDS
 
@@ -189,7 +205,7 @@ def ancillary_image(cfg: Config, region=None, start: str | None = None, end: str
     tidal = (ee.Image(lc.tidal_wetland).select(band).unmask(0) if band else ee.Image(0))
     abs_lat = ee.Image.pixelLonLat().select("latitude").abs().multiply(100)
     clear = clear_water_composite(region, start, end, cfg)
-    return ee.Image.cat([elev, tidal, abs_lat, clear]).rename(ANCILLARY_BANDS).toInt16()
+    return ee.Image.cat([elev, tidal, abs_lat, clear, water_depth(cfg)]).rename(ANCILLARY_BANDS).toInt16()
 
 
 def download_ancillary(bbox: list[float], start: str, end: str, out_path: str | Path, cfg: Config,
@@ -236,7 +252,7 @@ def tidal_zone(cfg: Config):
     return dem.lte(3).And(near_water), "elevation-fallback"
 
 
-LABEL_VERSION = "labels-v6"  # bump when the label rules change, so `fetch --labels-only` rebuilds
+LABEL_VERSION = "labels-v7"  # bump when the label rules change, so `fetch --labels-only` rebuilds
 
 
 def wetland_map(cfg: Config):

@@ -47,3 +47,13 @@ def test_negatives_near_meadows():
     assert (out[:10, :10] == KEY_TO_ID["seagrass"]).all()
     assert out[12, 5] == KEY_TO_ID["water"]               # 3 px from the meadow -> open water
     assert out[25, 25] == IGNORE_INDEX                     # far away -> still unknown
+
+
+def test_filter_features():
+    from bluecarbon.surveys import filter_features
+
+    feats = [_square(0, 0, 1, 1, BROADSCALE="SEAGRASS", LOCALSCALE="SEAGRASS perennial, dense"),
+             _square(0, 0, 1, 1, BROADSCALE="SEAGRASS", LOCALSCALE="SEAGRASS perennial, sparse"),
+             _square(0, 0, 1, 1, BROADSCALE="SILT", LOCALSCALE="SILT")]
+    out = filter_features(feats, keep={"BROADSCALE": ["seagrass"]}, drop={"LOCALSCALE": ["sparse"]})
+    assert len(out) == 1 and "dense" in out[0]["properties"]["LOCALSCALE"]

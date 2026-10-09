@@ -43,9 +43,9 @@ def ratio_features(feats: np.ndarray) -> np.ndarray:
     ]).astype(np.float32)
 
 
-def pixel_features(bands: np.ndarray, anc: np.ndarray | None = None) -> np.ndarray:
+def pixel_features(bands: np.ndarray, anc: np.ndarray | None = None, names: list[str] | None = None) -> np.ndarray:
     """(C,H,W) raw S2 bands (+ optional ancillary) -> (N,H,W) feature stack for the spectral model."""
-    f = compute_features(bands, anc=anc)
+    f = compute_features(bands, anc=anc, names=names)
     base = np.concatenate([f, ratio_features(f)])
     out = [base]
     for s in CONTEXT_SCALES:
@@ -54,9 +54,9 @@ def pixel_features(bands: np.ndarray, anc: np.ndarray | None = None) -> np.ndarr
 
 
 def sample_pixels(bands: np.ndarray, label: np.ndarray, per_class: int, rng,
-                  anc: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
+                  anc: np.ndarray | None = None, names: list[str] | None = None) -> tuple[np.ndarray, np.ndarray]:
     """Class-balanced pixel sample from one scene / chip."""
-    x = pixel_features(bands, anc)
+    x = pixel_features(bands, anc, names)
     ok = (label != IGNORE_INDEX) & valid_mask(bands)
     xs, ys = [], []
     for c in range(N_CLASSES):
@@ -77,11 +77,15 @@ class SpectralModel:
     kind = KIND
 
     def __init__(self, booster=None, metrics: dict | None = None, extra: dict | None = None,
-                 uses_ancillary: bool = False):
+                 uses_ancillary: bool = False, features: list[str] | None = None):
+        from .features import FEATURE_NAMES, FEATURE_NAMES_ANC_V1
+
         self.booster = booster
         self.metrics = metrics or {}
         self.extra = extra or {}
         self.uses_ancillary = uses_ancillary
+        # models saved before feature names were recorded used the v1 context layers
+        self.features = features or (FEATURE_NAMES_ANC_V1 if uses_ancillary else FEATURE_NAMES)
 
     # ------------------------------------------------------------------ training
     @staticmethod
@@ -106,7 +110,7 @@ class SpectralModel:
 
     # ------------------------------------------------------------------ inference
     def _proba_block(self, bands: np.ndarray, anc: np.ndarray | None) -> np.ndarray:
-        x = pixel_features(bands, anc if self.uses_ancillary else None)
+        x = pixel_features(bands, anc if self.uses_ancillary else None, self.features)
         n, h, w = x.shape
         raw = self.booster.predict(x.reshape(n, -1).T).T
         p = np.zeros((N_CLASSES, h * w), np.float32)
@@ -143,6 +147,7 @@ class SpectralModel:
         Path(path).write_text(json.dumps({
             "kind": KIND, "classes": CLASS_KEYS, "context_scales": list(CONTEXT_SCALES), "smooth": SMOOTH,
             "metrics": self.metrics, "extra": self.extra, "uses_ancillary": self.uses_ancillary,
+            "features": self.features,
             "booster": self.booster.model_to_string(),
         }))
 
@@ -153,7 +158,8 @@ class SpectralModel:
         d = json.loads(Path(path).read_text())
         if d.get("kind") != KIND or not compatible(d["classes"]):
             raise ValueError(f"{path} is not a compatible spectral model")
-        m = cls(lgb.Booster(model_str=d["booster"]), d.get("metrics"), d.get("extra"), d.get("uses_ancillary", False))
+        m = cls(lgb.Booster(model_str=d["booster"]), d.get("metrics"), d.get("extra"), d.get("uses_ancillary", False),
+                d.get("features"))
         m.n_model_classes = len(d["classes"])
         return m
 
@@ -165,7 +171,7 @@ class SpectralModel:
 def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, n_estimators: int = 300,
                    seed: int = 42, log=print) -> dict:
     """Train on chip records (same index as the U-Net) and evaluate on val / test chips."""
-    from .data import chips_have_ancillary, load_chip, load_chip_anc
+    from .data import chip_feature_names, chips_have_ancillary, load_chip, load_chip_anc
     from .metrics import confusion, summarize
 
     out = Path(out_dir)
@@ -173,16 +179,17 @@ def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, 
     rng = np.random.default_rng(seed)
     tr = [r for r in records if r.split == "train"]
     use_anc = chips_have_ancillary(records)
+    names = chip_feature_names(records, use_anc)
     xs, ys = [], []
     for r in tr:
         img, lab = load_chip(r.path)
-        x, y = sample_pixels(img, lab, per_class_per_chip, rng, load_chip_anc(r.path) if use_anc else None)
+        x, y = sample_pixels(img, lab, per_class_per_chip, rng, load_chip_anc(r.path) if use_anc else None, names)
         xs.append(x)
         ys.append(y)
     X, y = np.concatenate(xs), np.concatenate(ys)
     log(f"spectral model: {len(y):,} training pixels from {len(tr)} chips, class counts "
         f"{np.bincount(y, minlength=N_CLASSES).tolist()}")
-    model = SpectralModel(uses_ancillary=use_anc).fit(X, y, n_estimators=n_estimators)
+    model = SpectralModel(uses_ancillary=use_anc, features=names).fit(X, y, n_estimators=n_estimators)
 
     def evaluate(split, site=None):
         cm = np.zeros((N_CLASSES, N_CLASSES), np.int64)

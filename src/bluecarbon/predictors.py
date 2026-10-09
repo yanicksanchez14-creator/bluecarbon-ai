@@ -32,6 +32,8 @@ class TorchPredictor(Predictor):
         from .model import load_checkpoint, resolve_device
 
         self.model, self.norm, ck = load_checkpoint(path, resolve_device(device))
+        self.features = list(ck["features"])
+        self.class_bias = ck.get("class_bias")
         self.needs_ancillary = len(ck["features"]) > N_FEATURES
         self.meta = {"arch": ck["arch"], "encoder": ck["encoder"], "kind": self.kind,
                      "metrics": ck.get("metrics", {}), "extra": ck.get("extra", {})}
@@ -40,7 +42,7 @@ class TorchPredictor(Predictor):
         from .predict import predict_array
 
         return predict_array(self.model, self.norm, bands, tile, overlap, tta, progress=progress,
-                             anc=self._check_anc(anc))
+                             anc=self._check_anc(anc), names=self.features, class_bias=self.class_bias)
 
 
 class SpectralPredictor(Predictor):

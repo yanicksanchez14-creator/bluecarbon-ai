@@ -28,6 +28,10 @@ labels:
   tidal_wetland_min_prob: 50
   # Extra seagrass polygons (Earth Engine FeatureCollection ids), e.g. regional eelgrass surveys.
   seagrass_vectors: []
+  # Water depth (GEBCO 2023, 15 arc-second grid). Model input, and seagrass labels deeper than
+  # seagrass_max_depth_m are left unlabelled: the seafloor is not visible from space there.
+  bathymetry: projects/sat-io/open-datasets/gebco/gebco_grid
+  seagrass_max_depth_m: 15
   # Regional seagrass survey maps, downloaded from public web services during `fetch` and burned in as
   # seagrass over water (see src/bluecarbon/surveys.py). They cover murky and subtropical water the
   # Allen Coral Atlas does not. `extent` = [lon_min, lat_min, lon_max, lat_max] the survey covers.
@@ -35,7 +39,7 @@ labels:
     - name: fwc-florida-seagrass
       kind: arcgis
       url: https://gis.myfwc.com/hosting/rest/services/Open_Data/Seagrass_Statewide/MapServer/15
-      where: "SOURCEDATE >= '2010'"   # skip surveys older than 2010 (1987-2009 meadow outlines)
+      where: "SOURCEDATE >= '2004'"   # skip 1987-2003 meadow outlines (keeps the Keys' 2004-2015 survey)
       extent: [-88.0, 24.3, -79.8, 31.1]
       negatives_within_m: 1500         # unmapped water this close to a surveyed meadow = open water
       citation: "Florida Fish and Wildlife Conservation Commission, Seagrass Statewide (1987-2025 compilation)"
@@ -45,6 +49,33 @@ labels:
       layer: SeamapAus_QLD_MoretonBay_seagrass_2015
       extent: [152.9, -27.9, 153.6, -26.9]
       negatives_within_m: 1500
+      bbox_query: false
+    # Seamap Australia national collection (IMAS, University of Tasmania), checked Oct 2026
+    - name: seamap-gbr-seagrass-1984-2014
+      kind: wfs
+      url: https://geoserver.imas.utas.edu.au/geoserver/seamap/wfs
+      layer: seamap:SeamapAus_QLD_GBRWHA_seagrass_2014
+      extent: [142.0, -25.5, 154.0, -10.0]
+      drop: {Density: ["light"]}        # sparse Halophila meadows are invisible from space
+      negatives_within_m: 0             # old surveys (1987-2014): positives only
+      citation: "TropWATER JCU, GBRWHA seagrass meadow boundaries 1984-2014 (NESP 3.1), via Seamap Australia"
+    - name: seamap-wa-marine-habitats
+      kind: wfs
+      url: https://geoserver.imas.utas.edu.au/geoserver/seamap/wfs
+      layer: seamap:SeamapAus_WA_DPAW_marine_habitats
+      extent: [112.0, -36.0, 129.0, -13.0]
+      keep: {BROADSCALE: ["seagrass"]}
+      drop: {LOCALSCALE: ["sparse"]}
+      negatives_within_m: 1500
+      citation: "WA DPAW, Marine habitats of Western Australia 1981-2003, via Seamap Australia"
+    - name: seamap-vic-statewide-habitats-2023
+      kind: wfs
+      url: https://geoserver.imas.utas.edu.au/geoserver/seamap/wfs
+      layer: seamap:SeamapAus_VIC_statewide_habitats_2023
+      extent: [140.9, -39.3, 150.1, -37.4]
+      keep: {BIOT_LBL: ["seagrass"]}
+      negatives_within_m: 1500
+      citation: "DEECA Victoria, statewide marine habitats 2023, via Seamap Australia"
       citation: "Lyons, Roelfsema et al., Seagrass cover map for Moreton Bay (2015), Seamap Australia"
   # GWL_FCS30 global 30 m wetland map (Zhang et al. 2023), which has an explicit salt marsh class
   # (186; 181 swamp, 182 marsh = freshwater). Salt marsh is labelled where it agrees with

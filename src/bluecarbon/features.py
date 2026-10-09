@@ -27,36 +27,58 @@ N_FEATURES = len(FEATURE_NAMES)
 #   elevation   NASADEM metres
 #   tidal_prob  Murray et al. tidal wetland probability, 0-100
 #   abs_lat     |latitude| x 100 (stored for reference; NOT a model input, see below)
-#   B*_clear    "clear-water" reflectance x 1e4: for each pixel, the single cloud-free observation of
-#               the period with the least near-infrared (least sun glint, haze and white water), so a
-#               shallow seafloor shows through. The yearly median blurs murky and glinty days together,
-#               which washes out seagrass.
+#   B*_clear    "clear-water" reflectance x 1e4: per pixel, the median of the clearest ~20% of
+#               cloud-free observations (lowest near-infrared = least sun glint, haze and white
+#               water), so a shallow seafloor shows through. The yearly median blurs murky and glinty
+#               days together, which washes out seagrass. (Files from before Oct 2026 hold the single
+#               clearest observation instead; same band names.)
+#   depth       GEBCO water depth, metres (0 on land). Older files have 7 bands and no depth.
 # Elevation and tidal probability carry what a single image cannot show: whether the tide reaches
 # a pixel (salt marsh vs freshwater marsh). Latitude is NOT a model input: with a handful of
 # training sites the model used it as a site ID ("no mangrove north of 25 deg") and missed the
 # mangroves of held-out Tampa Bay and Moreton Bay. The mangrove latitude range is applied as an
 # explicit rule instead (priors.py).
+#
+# Every model stores the ordered list of feature NAMES it was trained on, and features are always
+# built by name, so models trained before a feature was added keep working.
 CLEAR_BANDS: list[str] = ["B2", "B3", "B4", "B8"]
-ANCILLARY_BANDS: list[str] = ["elevation", "tidal_prob", "abs_lat"] + [f"{b}_clear" for b in CLEAR_BANDS]
-ANCILLARY_FEATURES: list[str] = ["ELEV", "TIDAL", "B2_CLEAR", "B3_CLEAR", "B4_CLEAR", "B8_CLEAR",
-                                 "LN_B2_B3_CLEAR", "LN_B3_B4_CLEAR"]
+ANCILLARY_BANDS: list[str] = (["elevation", "tidal_prob", "abs_lat"] + [f"{b}_clear" for b in CLEAR_BANDS]
+                              + ["depth"])
+DEPTH_BAND = ANCILLARY_BANDS.index("depth")
+ANC_FEATURES_V1: list[str] = ["ELEV", "TIDAL", "B2_CLEAR", "B3_CLEAR", "B4_CLEAR", "B8_CLEAR",
+                              "LN_B2_B3_CLEAR", "LN_B3_B4_CLEAR"]
+ANCILLARY_FEATURES: list[str] = ANC_FEATURES_V1 + ["DEPTH"]
 N_ANC_FEATURES = len(ANCILLARY_FEATURES)
 FEATURE_NAMES_ANC: list[str] = FEATURE_NAMES + ANCILLARY_FEATURES
+FEATURE_NAMES_ANC_V1: list[str] = FEATURE_NAMES + ANC_FEATURES_V1
+KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC)
 
 
-def ancillary_features(anc: np.ndarray) -> np.ndarray:
-    if anc.shape[0] < len(ANCILLARY_BANDS):
+def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
+    """Named context features from an ancillary stack (7-band files have no DEPTH)."""
+    if anc.shape[0] < 7:
         raise ValueError(f"ancillary layers have {anc.shape[0]} bands, expected {len(ANCILLARY_BANDS)} "
                          f"({', '.join(ANCILLARY_BANDS)}); re-fetch ancillary.tif")
     a = np.nan_to_num(anc.astype(np.float32))
-    elev = np.clip(a[0], -10, 60) / 60.0
-    tidal = np.clip(a[1], 0, 100) / 100.0
     clear = np.clip(a[3:3 + len(CLEAR_BANDS)], 0, REFLECTANCE_SCALE) / REFLECTANCE_SCALE
     eps = 1e-3
-    # log band ratios are largely insensitive to water depth (Lyzenga / Stumpf), so bottom type shows
-    ln23 = np.clip(np.log(clear[0] + eps) - np.log(clear[1] + eps), -3, 3)
-    ln34 = np.clip(np.log(clear[1] + eps) - np.log(clear[2] + eps), -3, 3)
-    return np.concatenate([np.stack([elev, tidal]), clear, np.stack([ln23, ln34])]).astype(np.float32)
+    out = {
+        "ELEV": np.clip(a[0], -10, 60) / 60.0,
+        "TIDAL": np.clip(a[1], 0, 100) / 100.0,
+        **{f"{b}_CLEAR": clear[i] for i, b in enumerate(CLEAR_BANDS)},
+        # log band ratios are largely insensitive to water depth (Lyzenga / Stumpf), so bottom type shows
+        "LN_B2_B3_CLEAR": np.clip(np.log(clear[0] + eps) - np.log(clear[1] + eps), -3, 3),
+        "LN_B3_B4_CLEAR": np.clip(np.log(clear[1] + eps) - np.log(clear[2] + eps), -3, 3),
+    }
+    if anc.shape[0] > DEPTH_BAND:
+        out["DEPTH"] = np.clip(a[DEPTH_BAND], 0, 50) / 50.0
+    return {k: v.astype(np.float32) for k, v in out.items()}
+
+
+def default_feature_names(anc: np.ndarray | None) -> list[str]:
+    if anc is None:
+        return list(FEATURE_NAMES)
+    return FEATURE_NAMES_ANC if anc.shape[0] > DEPTH_BAND else FEATURE_NAMES_ANC_V1
 
 
 def _nd(a: np.ndarray, b: np.ndarray) -> np.ndarray:
@@ -67,10 +89,11 @@ def _nd(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 
 def compute_features(bands: np.ndarray, band_names: list[str] | None = None,
-                     anc: np.ndarray | None = None) -> np.ndarray:
-    """(C, H, W) raw S2 bands -> (N_FEATURES, H, W) float32 reflectance + indices.
+                     anc: np.ndarray | None = None, names: list[str] | None = None) -> np.ndarray:
+    """(C, H, W) raw S2 bands (+ ancillary) -> (len(names), H, W) float32 features, in `names` order.
 
-    Accepts either scaled integers (0..10000) or reflectance floats (0..1). NaNs become 0.
+    `names` defaults to every feature the inputs provide. Accepts scaled integers (0..10000) or
+    reflectance floats (0..1). NaNs become 0.
     """
     band_names = band_names or S2_BANDS
     if bands.shape[0] != len(band_names):
@@ -82,14 +105,18 @@ def compute_features(bands: np.ndarray, band_names: list[str] | None = None,
     missing = [b for b in S2_BANDS if b not in idx]
     if missing:
         raise ValueError(f"Missing bands: {missing}")
-    refl = np.stack([x[idx[b]] for b in S2_BANDS])
-    ind = np.stack([_nd(x[idx[a]], x[idx[b]]) for a, b in INDICES.values()])
-    parts = [refl, ind]
+    feats = {b: x[idx[b]] for b in S2_BANDS}
+    feats.update({k: _nd(x[idx[a]], x[idx[b]]) for k, (a, b) in INDICES.items()})
     if anc is not None:
         if anc.shape[1:] != bands.shape[1:]:
             raise ValueError(f"ancillary shape {anc.shape} does not match imagery {bands.shape}")
-        parts.append(ancillary_features(anc))
-    return np.concatenate(parts).astype(np.float32)
+        feats.update(ancillary_features(anc))
+    names = names or default_feature_names(anc)
+    absent = [n for n in names if n not in feats]
+    if absent:
+        raise ValueError(f"features {absent} need ancillary layers this input does not have "
+                         "(re-fetch ancillary.tif)")
+    return np.stack([feats[n] for n in names]).astype(np.float32)
 
 
 def valid_mask(bands: np.ndarray) -> np.ndarray:

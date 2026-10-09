@@ -65,6 +65,9 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
 
             apply_surveys(d / "label.tif", d / "image.tif", site["bbox"], cfg.labels.seagrass_surveys, info,
                           log=typer.echo)
+        from .surveys import ignore_deep_seagrass
+
+        ignore_deep_seagrass(d / "label.tif", d / "ancillary.tif", cfg.labels.seagrass_max_depth_m, typer.echo)
         hist = postprocess_label_file(d / "label.tif", cfg.labels.boundary_ignore_px, cfg.labels.overrides)
         (d / "meta.json").write_text(json.dumps({**site, "year": year, "label_px": hist, **info}, indent=2))
         typer.echo(f"[{site['name']}] label pixels: {hist}  sources: {info.get('label_sources')}")

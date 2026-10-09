@@ -28,6 +28,8 @@ class LabelsCfg(BaseModel):
     tidal_wetland_min_prob: float = 50
     seagrass_vectors: list[str] = []
     seagrass_surveys: list[dict] = []
+    bathymetry: str = "projects/sat-io/open-datasets/gebco/gebco_grid"
+    seagrass_max_depth_m: float = 15
     wetland_map: str = "projects/sat-io/open-datasets/GWL_FCS30"
     wetland_year: int = 2021
     dem: str = "NASA/NASADEM_HGT/001"

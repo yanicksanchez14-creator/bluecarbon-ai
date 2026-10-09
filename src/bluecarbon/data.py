@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from .features import N_ANC_FEATURES, Normalizer, compute_features, valid_mask
+from .features import N_FEATURES, Normalizer, compute_features, valid_mask
 from .schema import IGNORE_INDEX, N_CLASSES
 from .tiling import ChipRecord
 
@@ -25,13 +25,25 @@ def chips_have_ancillary(records: list[ChipRecord]) -> bool:
     return bool(records) and all(load_chip_anc(r.path) is not None for r in records[:50])
 
 
+def chip_feature_names(records: list[ChipRecord], use_anc: bool) -> list[str]:
+    """Feature names the chips support (all chips must share one ancillary layout)."""
+    from .features import default_feature_names
+
+    if not use_anc:
+        return default_feature_names(None)
+    step = max(1, len(records) // 200)  # sample across all sites, not every chip
+    sets = {tuple(default_feature_names(load_chip_anc(r.path))) for r in records[::step]}
+    return list(min(sets, key=len))
+
+
 class ChipDataset(Dataset):
     def __init__(self, records: list[ChipRecord], normalizer: Normalizer, augment: bool = False,
-                 use_anc: bool = False):
+                 use_anc: bool = False, names: list[str] | None = None):
         self.records = records
         self.norm = normalizer
         self.augment = augment
         self.use_anc = use_anc
+        self.names = names
 
     def __len__(self) -> int:
         return len(self.records)
@@ -39,10 +51,11 @@ class ChipDataset(Dataset):
     def __getitem__(self, i: int):
         img, lab = load_chip(self.records[i].path)
         anc = load_chip_anc(self.records[i].path) if self.use_anc else None
-        x = self.norm(compute_features(img, anc=anc))
+        x = self.norm(compute_features(img, anc=anc, names=self.names))
         y = lab.astype(np.int64)
         if self.augment:
-            x, y = _augment(x, y, n_spectral=x.shape[0] - (N_ANC_FEATURES if self.use_anc else 0))
+            # spectral features come first; never jitter the context layers (elevation, tide, depth)
+            x, y = _augment(x, y, n_spectral=N_FEATURES)
         return torch.from_numpy(np.ascontiguousarray(x)), torch.from_numpy(np.ascontiguousarray(y))
 
 
@@ -64,13 +77,13 @@ def _augment(x: np.ndarray, y: np.ndarray, rng=np.random, n_spectral: int | None
 
 
 def fit_normalizer(records: list[ChipRecord], max_chips: int = 400, seed: int = 0,
-                   use_anc: bool = False) -> Normalizer:
+                   use_anc: bool = False, names: list[str] | None = None) -> Normalizer:
     rng = np.random.default_rng(seed)
     pick = rng.permutation(len(records))[:max_chips]
     feats, masks = [], []
     for i in pick:
         img, _ = load_chip(records[i].path)
-        feats.append(compute_features(img, anc=load_chip_anc(records[i].path) if use_anc else None))
+        feats.append(compute_features(img, anc=load_chip_anc(records[i].path) if use_anc else None, names=names))
         masks.append(valid_mask(img))
     return Normalizer.fit(feats, masks)
 

@@ -55,10 +55,28 @@ def fetch_arcgis(layer_url: str, bbox: list[float], where: str = "1=1", page: in
         offset += len(batch)
 
 
-def fetch_wfs(url: str, layer: str) -> list[dict]:
-    d = _get_json(url, {"service": "WFS", "version": "1.0.0", "request": "GetFeature", "typeName": layer,
-                        "outputFormat": "application/json", "srsName": "EPSG:4326"}, timeout=300)
-    return d.get("features", [])
+def fetch_wfs(url: str, layer: str, bbox: list[float] | None = None) -> list[dict]:
+    """GeoJSON features of a WFS layer (EPSG:4326), limited to bbox when given (WFS 1.0.0: lon/lat order)."""
+    q = {"service": "WFS", "version": "1.0.0", "request": "GetFeature", "typeName": layer,
+         "outputFormat": "application/json", "srsName": "EPSG:4326"}
+    if bbox is not None:
+        q["bbox"] = ",".join(map(str, bbox)) + ",EPSG:4326"
+    return _get_json(url, q, timeout=300).get("features", [])
+
+
+def filter_features(feats: list[dict], keep: dict | None = None, drop: dict | None = None) -> list[dict]:
+    """keep / drop = {field: [substrings]} (case-insensitive). A feature is kept when every `keep` field
+    contains one of its substrings and no `drop` field does."""
+    def has(f, field, subs):
+        v = str((f.get("properties") or {}).get(field, "")).lower()
+        return any(x.lower() in v for x in subs)
+
+    out = feats
+    for field, subs in (keep or {}).items():
+        out = [f for f in out if has(f, field, subs)]
+    for field, subs in (drop or {}).items():
+        out = [f for f in out if not has(f, field, subs)]
+    return out
 
 
 def seagrass_features(feats: list[dict]) -> tuple[list[dict], str]:
@@ -125,8 +143,14 @@ def apply_surveys(label_path: str | Path, image_path: str | Path, bbox: list[flo
                 if s["kind"] == "arcgis":
                     feats = fetch_arcgis(s["url"], bbox, s.get("where", "1=1"))
                 else:
-                    feats = [f for f in fetch_wfs(s["url"], s["layer"]) if f.get("geometry")]
-                feats, how = seagrass_features(feats)
+                    feats = [f for f in fetch_wfs(s["url"], s["layer"], bbox if s.get("bbox_query", True) else None)
+                             if f.get("geometry")]
+                if s.get("keep") or s.get("drop"):
+                    n0 = len(feats)
+                    feats = filter_features(feats, s.get("keep"), s.get("drop"))
+                    how = f"kept {len(feats)}/{n0} features matching {s.get('keep') or ''} {s.get('drop') or ''}".strip()
+                else:
+                    feats, how = seagrass_features(feats)
                 neg_px = int(s.get("negatives_within_m", 0) / abs(ds.transform.a))
                 lab, n = burn_seagrass(lab, image, ds.transform, ds.crs, feats, neg_px)
                 total += n
@@ -137,3 +161,25 @@ def apply_surveys(label_path: str | Path, image_path: str | Path, bbox: list[flo
                 log(f"  seagrass survey {s['name']} skipped ({str(e)[:120]})")
         ds.write(lab, 1)
     return total
+
+
+def ignore_deep_seagrass(label_path, ancillary_path, max_depth_m: float, log=print) -> int:
+    """Seagrass labels in water deeper than max_depth_m (GEBCO) -> unlabelled. A satellite cannot see
+    the seafloor there, so those meadows can neither be learned nor fairly scored."""
+    import rasterio
+
+    from .features import DEPTH_BAND
+    from .schema import IGNORE_INDEX, KEY_TO_ID
+
+    with rasterio.open(ancillary_path) as a:
+        if a.count <= DEPTH_BAND:
+            return 0
+        depth = a.read(DEPTH_BAND + 1)
+    with rasterio.open(label_path, "r+") as ds:
+        lab = ds.read(1)
+        m = (lab == KEY_TO_ID["seagrass"]) & (depth > max_depth_m)
+        lab[m] = IGNORE_INDEX
+        ds.write(lab, 1)
+    if m.any():
+        log(f"  {m.sum() * 0.01:,.0f} ha of seagrass deeper than {max_depth_m:g} m left unlabelled (not visible)")
+    return int(m.sum())

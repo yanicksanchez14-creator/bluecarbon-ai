@@ -50,7 +50,7 @@ def scene(tmp_path):
     return img_p, lab_p, img, lab
 
 
-def write_ancillary(path_img, lab):
+def write_ancillary(path_img, lab, legacy: bool = False):
     """Synthetic ancillary.tif next to an image: tide high over marsh/flats, low over freshwater."""
     with rasterio.open(path_img) as src:
         prof = src.profile.copy()
@@ -60,8 +60,10 @@ def write_ancillary(path_img, lab):
     lat = np.full((h, w), 2500, np.int16)
     with rasterio.open(path_img) as src:
         clear = src.read([1, 2, 3, 7]).astype(np.int16)  # B2, B3, B4, B8
-    prof.update(count=7, dtype="int16", nodata=None)
+    depth = np.where(np.isin(lab, [0, 3]), 3, 0).astype(np.int16)
+    layers = [np.stack([elev, tidal, lat]), clear] + ([depth[None]] if not legacy else [])
+    prof.update(count=sum(x.shape[0] for x in layers), dtype="int16", nodata=None)
     out = path_img.parent / "ancillary.tif"
     with rasterio.open(out, "w", **prof) as d:
-        d.write(np.concatenate([np.stack([elev, tidal, lat]), clear]))
+        d.write(np.concatenate(layers))
     return out

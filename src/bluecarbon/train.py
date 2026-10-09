@@ -13,8 +13,14 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 from .config import Config
-from .data import ChipDataset, chips_have_ancillary, class_frequencies, fit_normalizer, load_chip
-from .features import FEATURE_NAMES, FEATURE_NAMES_ANC
+from .data import (
+    ChipDataset,
+    chip_feature_names,
+    chips_have_ancillary,
+    class_frequencies,
+    fit_normalizer,
+    load_chip,
+)
 from .metrics import confusion, summarize
 from .model import build_model, resolve_device, save_checkpoint
 from .schema import IGNORE_INDEX, N_CLASSES
@@ -52,13 +58,56 @@ def class_weights(freq: np.ndarray, mode: str) -> np.ndarray | None:
 
 
 @torch.no_grad()
-def evaluate(model: nn.Module, loader: DataLoader, device) -> np.ndarray:
+def _bias_tensor(bias, device):
+    return None if bias is None else torch.as_tensor(np.asarray(bias, np.float32), device=device).view(1, -1, 1, 1)
+
+
+@torch.no_grad()
+def evaluate(model: nn.Module, loader: DataLoader, device, bias=None) -> np.ndarray:
+    """Confusion matrix; `bias` (one value per class) is added to the log-probabilities before argmax."""
     model.eval()
+    b = _bias_tensor(bias, device)
     cm = np.zeros((N_CLASSES, N_CLASSES), np.int64)
     for x, y in loader:
-        pred = model(x.to(device)).argmax(1).cpu().numpy()
+        logp = model(x.to(device)).float().log_softmax(1)
+        pred = (logp if b is None else logp + b).argmax(1).cpu().numpy()
         cm += confusion(y.numpy(), pred)
     return cm
+
+
+SEAGRASS_BIAS_GRID = [round(v, 2) for v in np.arange(-1.0, 3.01, 0.25)]
+
+
+@torch.no_grad()
+def tune_seagrass_bias(model: nn.Module, loader: DataLoader, device, log=print) -> tuple[float, list]:
+    """Pick how readily the model calls seagrass, on the validation chips (never the test set).
+
+    The network's raw argmax was cautious (it missed about half of seagrass in murky water). A positive
+    bias on the seagrass log-probability trades a few false alarms for more detection; the value with
+    the best validation mIoU (all classes, so false alarms on water count against it) is kept.
+    """
+    from .schema import KEY_TO_ID
+
+    sg = KEY_TO_ID["seagrass"]
+    model.eval()
+    cms = {b: np.zeros((N_CLASSES, N_CLASSES), np.int64) for b in SEAGRASS_BIAS_GRID}
+    for x, y in loader:
+        logp = model(x.to(device)).float().log_softmax(1)
+        yy = y.numpy()
+        for b in SEAGRASS_BIAS_GRID:
+            adj = logp.clone()
+            adj[:, sg] += b
+            cms[b] += confusion(yy, adj.argmax(1).cpu().numpy())
+    table = []
+    for b, cm in cms.items():
+        sm = summarize(cm)
+        table.append({"bias": b, "mIoU": sm["mIoU"], "seagrass_iou": sm["iou"].get("seagrass"),
+                      "water_iou": sm["iou"].get("water")})
+    best = max(table, key=lambda r: r["mIoU"])
+    for r in table:
+        log(f"  seagrass bias {r['bias']:+.2f}: val mIoU {r['mIoU']:.4f}  seagrass {r['seagrass_iou']}  "
+            f"water {r['water_iou']}{'  <- best' if r is best else ''}")
+    return float(best["bias"]), table
 
 
 def rare_class_sampler(records: list[ChipRecord], factor: float):
@@ -90,9 +139,9 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     np.random.seed(cfg.chips.seed)
     device = resolve_device(cfg.train.device)
     use_anc = cfg.model.use_ancillary and chips_have_ancillary(records)
-    features = FEATURE_NAMES_ANC if use_anc else FEATURE_NAMES
-    log(f"inputs: {len(features)} features ({'with' if use_anc else 'without'} elevation / tide)")
-    norm = fit_normalizer(tr, use_anc=use_anc)
+    features = chip_feature_names(records, use_anc)
+    log(f"inputs: {len(features)} features: {', '.join(features)}")
+    norm = fit_normalizer(tr, use_anc=use_anc, names=features)
     freq = class_frequencies(tr)
     w = class_weights(freq, cfg.train.class_weighting)
     log(f"train class pixels: {freq.tolist()}  weights: {None if w is None else np.round(w, 2).tolist()}")
@@ -100,9 +149,9 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     t = cfg.train
     kw = dict(batch_size=t.batch_size, num_workers=t.num_workers, pin_memory=device.type == "cuda")
     sampler = rare_class_sampler(tr, t.rare_oversample) if t.rare_oversample > 1 else None
-    dl_tr = DataLoader(ChipDataset(tr, norm, augment=True, use_anc=use_anc), shuffle=sampler is None,
+    dl_tr = DataLoader(ChipDataset(tr, norm, augment=True, use_anc=use_anc, names=features), shuffle=sampler is None,
                        sampler=sampler, drop_last=len(tr) > t.batch_size, **kw)
-    dl_va = DataLoader(ChipDataset(va, norm, use_anc=use_anc), shuffle=False, **kw)
+    dl_va = DataLoader(ChipDataset(va, norm, use_anc=use_anc, names=features), shuffle=False, **kw)
 
     m = cfg.model
     model = build_model(m.arch, m.encoder, m.encoder_weights, in_channels=len(features)).to(device)
@@ -144,9 +193,18 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     from .model import load_checkpoint
 
     model, norm, ck = load_checkpoint(ckpt, device)
-    results = {"best_epoch": best_epoch, "val": ck["metrics"]["val"], "history": history}
+    sg_bias, bias_table = tune_seagrass_bias(model, dl_va, device, log)
+    from .schema import KEY_TO_ID
+
+    bias = [0.0] * N_CLASSES
+    bias[KEY_TO_ID["seagrass"]] = sg_bias
+    val_tuned = summarize(evaluate(model, dl_va, device, bias))
+    log(f"seagrass bias {sg_bias:+.2f}: val mIoU {ck['metrics']['val']['mIoU']:.4f} -> {val_tuned['mIoU']:.4f}")
+    results = {"best_epoch": best_epoch, "val": val_tuned, "val_untuned": ck["metrics"]["val"],
+               "class_bias": bias, "seagrass_bias_table": bias_table, "history": history}
     if te:
-        cm_te = evaluate(model, DataLoader(ChipDataset(te, norm, use_anc=use_anc), shuffle=False, **kw), device)
+        cm_te = evaluate(model, DataLoader(ChipDataset(te, norm, use_anc=use_anc, names=features), shuffle=False, **kw),
+                         device, bias)
         results["test"] = summarize(cm_te)
         results["test_confusion"] = cm_te.tolist()
         log(f"TEST mIoU {results['test']['mIoU']:.4f}  macro-F1 {results['test']['macro_f1']:.4f}  "
@@ -154,9 +212,11 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     per_site = {}
     for site in sorted({r.site for r in te}):
         rs = [r for r in te if r.site == site]
-        per_site[site] = summarize(evaluate(model, DataLoader(ChipDataset(rs, norm, use_anc=use_anc), shuffle=False, **kw), device))
+        per_site[site] = summarize(evaluate(model, DataLoader(ChipDataset(rs, norm, use_anc=use_anc, names=features),
+                                                              shuffle=False, **kw), device, bias))
     results["test_per_site"] = per_site
-    save_checkpoint(ckpt, model, m.arch, m.encoder, norm, features=features, metrics={**ck["metrics"], "test": results.get("test"),
-                                                           "test_confusion": results.get("test_confusion")})
+    save_checkpoint(ckpt, model, m.arch, m.encoder, norm, features=features, class_bias=bias,
+                    metrics={**ck["metrics"], "val": val_tuned, "test": results.get("test"),
+                             "test_confusion": results.get("test_confusion")})
     (out / "metrics.json").write_text(json.dumps(results, indent=2))
     return results

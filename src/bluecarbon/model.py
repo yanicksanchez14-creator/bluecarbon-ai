@@ -35,7 +35,7 @@ def build_model(arch: str = "Unet", encoder: str = "resnet34", encoder_weights: 
 
 def save_checkpoint(path: str | Path, model: nn.Module, arch: str, encoder: str, normalizer: Normalizer,
                     metrics: dict | None = None, extra: dict | None = None,
-                    features: list[str] | None = None) -> None:
+                    features: list[str] | None = None, class_bias: list[float] | None = None) -> None:
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     torch.save({
         "version": CHECKPOINT_VERSION,
@@ -47,6 +47,7 @@ def save_checkpoint(path: str | Path, model: nn.Module, arch: str, encoder: str,
         "normalizer": normalizer.to_dict(),
         "metrics": metrics or {},
         "extra": extra or {},
+        "class_bias": class_bias,
     }, path)
 
 
@@ -54,10 +55,10 @@ def load_checkpoint(path: str | Path, device: str | torch.device = "cpu") -> tup
     ck = torch.load(path, map_location=device, weights_only=False)
     if ck.get("version") != CHECKPOINT_VERSION:
         raise ValueError(f"{path} is not a v2 bluecarbon checkpoint")
-    from .features import FEATURE_NAMES_ANC
+    from .features import KNOWN_FEATURES
     from .schema import compatible
 
-    if ck["features"] not in (FEATURE_NAMES, FEATURE_NAMES_ANC) or not compatible(ck["classes"]):
+    if not set(ck["features"]) <= KNOWN_FEATURES or not compatible(ck["classes"]):
         raise ValueError("Checkpoint feature/class schema does not match this version of bluecarbon")
     model = build_model(ck["arch"], ck["encoder"], None, len(ck["features"]), len(ck["classes"]))
     model.load_state_dict(ck["state_dict"])

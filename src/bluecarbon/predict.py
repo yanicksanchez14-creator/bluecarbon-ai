@@ -24,11 +24,15 @@ def _window(size: int) -> np.ndarray:
 @torch.no_grad()
 def predict_array(model: nn.Module, norm: Normalizer, bands: np.ndarray, tile: int = 256, overlap: int = 64,
                   tta: bool = True, batch: int = 8, device=None, progress=None,
-                  anc: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
-    """(C,H,W) raw S2 bands -> (class map uint8 with 255 = nodata, confidence float32 0..1)."""
+                  anc: np.ndarray | None = None, names: list[str] | None = None,
+                  class_bias: list[float] | None = None) -> tuple[np.ndarray, np.ndarray]:
+    """(C,H,W) raw S2 bands -> (class map uint8 with 255 = nodata, confidence float32 0..1).
+
+    `names`: the model's feature list (from its checkpoint). `class_bias`: per-class log-probability
+    offsets tuned on validation data (e.g. how readily to call seagrass)."""
     device = device or next(model.parameters()).device
     model.eval()
-    feats = norm(compute_features(bands, anc=anc))
+    feats = norm(compute_features(bands, anc=anc, names=names))
     C, H, W = feats.shape
     ph, pw = max(0, tile - H), max(0, tile - W)
     if ph or pw:
@@ -61,6 +65,9 @@ def predict_array(model: nn.Module, norm: Normalizer, bands: np.ndarray, tile: i
         if progress:
             progress(min(1.0, (i + batch) / len(coords)))
     prob = (acc / wsum)[:, :H, :W]
+    if class_bias is not None and any(class_bias):
+        prob = prob * np.exp(np.asarray(class_bias, np.float32)[: prob.shape[0], None, None])
+        prob = prob / np.maximum(prob.sum(0, keepdims=True), 1e-12)
     cls = prob.argmax(0).astype(np.uint8)
     conf = prob.max(0)
     cls[~valid_mask(bands)] = IGNORE_INDEX
@@ -68,11 +75,13 @@ def predict_array(model: nn.Module, norm: Normalizer, bands: np.ndarray, tile: i
 
 
 def predict_raster(model: nn.Module, norm: Normalizer, image_path: str | Path, out_path: str | Path,
-                   tile: int = 256, overlap: int = 64, tta: bool = True, progress=None) -> Path:
+                   tile: int = 256, overlap: int = 64, tta: bool = True, progress=None,
+                   names: list[str] | None = None, class_bias: list[float] | None = None) -> Path:
     with rasterio.open(image_path) as src:
         bands = src.read()
         prof = src.profile.copy()
-    cls, conf = predict_array(model, norm, bands, tile, overlap, tta, progress=progress)
+    cls, conf = predict_array(model, norm, bands, tile, overlap, tta, progress=progress, names=names,
+                              class_bias=class_bias)
     prof.update(count=2, dtype="uint8", nodata=IGNORE_INDEX, compress="deflate")
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)

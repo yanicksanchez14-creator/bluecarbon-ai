@@ -100,7 +100,7 @@ def test_ancillary_inputs(tmp_path):
         recs += make_chips(d / "image.tif", d / "label.tif", tmp_path / "chips", f"s{i}", size=128, stride=128,
                            force_split=split, ancillary_path=anc)
     with np.load(recs[0].path) as z:
-        assert "anc" in z.files and z["anc"].shape == (7, 128, 128)
+        assert "anc" in z.files and z["anc"].shape == (8, 128, 128)
 
     train(cfg, recs, tmp_path / "unet", log=lambda *_: None)
     pr = load_predictor(tmp_path / "unet" / "model.pt")
@@ -137,3 +137,36 @@ def test_spectral_strips_match_full(tmp_path):
     whole = m.predict_proba(bands)
     strips = m.predict_proba(bands, strip=64, max_block_px=0)
     assert np.allclose(whole, strips)
+
+
+def test_legacy_model_and_bias(tmp_path):
+    """A model trained on the old 7-layer ancillary files keeps working on new 8-layer files, and a
+    per-class bias changes how readily a class is predicted."""
+    import torch
+
+    from bluecarbon.features import FEATURE_NAMES_ANC_V1, Normalizer, compute_features
+    from bluecarbon.model import build_model, save_checkpoint
+    from bluecarbon.predictors import load_predictor, read_ancillary
+
+    from .conftest import write_ancillary
+
+    d = tmp_path / "s"
+    d.mkdir()
+    _, lab = make_scene(d / "image.tif", d / "label.tif", size=128, seed=1)
+    write_ancillary(d / "image.tif", lab)  # new 8-layer file
+    with rasterio.open(d / "image.tif") as s:
+        bands = s.read()
+    anc = read_ancillary(d / "image.tif", bands.shape[1:])
+    feats = compute_features(bands, anc=anc, names=FEATURE_NAMES_ANC_V1)
+    assert feats.shape[0] == len(FEATURE_NAMES_ANC_V1)
+    norm = Normalizer.fit([feats], [np.ones(bands.shape[1:], bool)])
+    net = build_model("Unet", "resnet18", None, len(FEATURE_NAMES_ANC_V1), 7)
+    save_checkpoint(tmp_path / "old.pt", net, "Unet", "resnet18", norm, features=FEATURE_NAMES_ANC_V1)
+    pr = load_predictor(tmp_path / "old.pt", "cpu")
+    cls, _ = pr.predict(bands, tile=128, overlap=32, tta=False, anc=anc)
+    assert cls.shape == (128, 128)
+    ck = torch.load(tmp_path / "old.pt", weights_only=False)
+    ck["class_bias"] = [0, 0, 0, 50.0, 0, 0, 0]  # huge seagrass bias -> everything valid is seagrass
+    torch.save(ck, tmp_path / "biased.pt")
+    cls2, _ = load_predictor(tmp_path / "biased.pt", "cpu").predict(bands, tile=128, overlap=32, tta=False, anc=anc)
+    assert (cls2[cls2 != 255] == 3).all()

@@ -27,9 +27,9 @@ ROOT = Path(__file__).resolve().parents[1]
 MODEL_INFO = {
     "name": "BlueCarbon-AI v2",
     "pilot": False,
-    "evaluation": "non-overlapping 5 km spatial blocks plus three estuaries never used in training "
-                  "(Mission Bay, Moreton Bay, Tampa Bay)",
-    "training_data": "Sentinel-2 2021 composites and clear-water images of 21 coastal sites on six continents, "
+    "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training "
+                  "(Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
+    "training_data": "Sentinel-2 2021 composites and clear-water images of 39 coastal sites on six continents, "
                      "labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and "
                      "the Allen Coral Atlas, plus official seagrass surveys (Florida FWC, Moreton Bay)",
     "uses_context": True,

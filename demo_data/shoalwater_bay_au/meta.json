@@ -1,0 +1,278 @@
+{
+  "title": "Shoalwater Bay",
+  "description": "mangrove and seagrass, Great Barrier Reef coast. Sentinel-2 2021 composite. This area was held out of training, so the map shows how the AI does on a coastline it has never seen.",
+  "classes": [
+    {
+      "id": 0,
+      "key": "water",
+      "name": "Open water",
+      "color": "#1f5fbf",
+      "blue_carbon": false
+    },
+    {
+      "id": 1,
+      "key": "mangrove",
+      "name": "Mangrove",
+      "color": "#0b7a3e",
+      "blue_carbon": true
+    },
+    {
+      "id": 2,
+      "key": "saltmarsh",
+      "name": "Salt marsh",
+      "color": "#9bb52a",
+      "blue_carbon": true
+    },
+    {
+      "id": 3,
+      "key": "seagrass",
+      "name": "Seagrass",
+      "color": "#14a3a0",
+      "blue_carbon": true
+    },
+    {
+      "id": 4,
+      "key": "tidal_flat",
+      "name": "Tidal flat / bare",
+      "color": "#c07a2c",
+      "blue_carbon": false
+    },
+    {
+      "id": 5,
+      "key": "other_land",
+      "name": "Other land",
+      "color": "#8b9199",
+      "blue_carbon": false
+    },
+    {
+      "id": 6,
+      "key": "freshwater",
+      "name": "Freshwater wetland",
+      "color": "#a0529b",
+      "blue_carbon": false
+    }
+  ],
+  "model": {
+    "arch": "Unet",
+    "encoder": "resnet34",
+    "kind": "unet",
+    "test": {
+      "overall_accuracy": 0.9169,
+      "kappa": 0.8787,
+      "mIoU": 0.752,
+      "macro_f1": 0.843,
+      "iou": {
+        "water": 0.87,
+        "mangrove": 0.9326,
+        "saltmarsh": 0.8361,
+        "seagrass": 0.3732,
+        "tidal_flat": 0.729,
+        "other_land": 0.932,
+        "freshwater": 0.5911
+      },
+      "f1": {
+        "water": 0.9305,
+        "mangrove": 0.9651,
+        "saltmarsh": 0.9108,
+        "seagrass": 0.5435,
+        "tidal_flat": 0.8433,
+        "other_land": 0.9648,
+        "freshwater": 0.743
+      },
+      "precision": {
+        "water": 0.9363,
+        "mangrove": 0.9496,
+        "saltmarsh": 0.8898,
+        "seagrass": 0.6168,
+        "tidal_flat": 0.8005,
+        "other_land": 0.9664,
+        "freshwater": 0.6471
+      },
+      "recall": {
+        "water": 0.9248,
+        "mangrove": 0.9811,
+        "saltmarsh": 0.9328,
+        "seagrass": 0.4858,
+        "tidal_flat": 0.8909,
+        "other_land": 0.9632,
+        "freshwater": 0.8722
+      },
+      "support_px": {
+        "water": 15930976,
+        "mangrove": 2903046,
+        "saltmarsh": 959779,
+        "seagrass": 1777701,
+        "tidal_flat": 1746692,
+        "other_land": 11195367,
+        "freshwater": 778994
+      }
+    },
+    "name": "BlueCarbon-AI v2",
+    "pilot": false,
+    "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
+    "training_data": "Sentinel-2 2021 composites and clear-water images of 39 coastal sites on six continents, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and the Allen Coral Atlas, plus official seagrass surveys (Florida FWC, Moreton Bay)",
+    "uses_context": true
+  },
+  "kind": "single",
+  "bounds": [
+    [
+      -22.554186723886342,
+      150.24501387647905
+    ],
+    [
+      -22.295894622394602,
+      150.50447066113898
+    ]
+  ],
+  "report": {
+    "areas_ha": {
+      "water": 43716.57,
+      "mangrove": 2623.32,
+      "saltmarsh": 0.0,
+      "seagrass": 0.0,
+      "tidal_flat": 3908.8200000000006,
+      "other_land": 23443.71,
+      "freshwater": 199.42000000000002
+    },
+    "error_adjusted_areas_ha": {
+      "water": {
+        "mapped_ha": 43716.57,
+        "adjusted_ha": 42102.49,
+        "ci95_ha": 6.01
+      },
+      "mangrove": {
+        "mapped_ha": 2623.32,
+        "adjusted_ha": 2559.17,
+        "ci95_ha": 0.97
+      },
+      "saltmarsh": {
+        "mapped_ha": 0.0,
+        "adjusted_ha": 58.29,
+        "ci95_ha": 0.62
+      },
+      "seagrass": {
+        "mapped_ha": 0.0,
+        "adjusted_ha": 2487.44,
+        "ci95_ha": 4.98
+      },
+      "tidal_flat": {
+        "mapped_ha": 3908.82,
+        "adjusted_ha": 3569.89,
+        "ci95_ha": 3.05
+      },
+      "other_land": {
+        "mapped_ha": 23443.71,
+        "adjusted_ha": 22865.79,
+        "ci95_ha": 2.67
+      },
+      "freshwater": {
+        "mapped_ha": 199.42,
+        "adjusted_ha": 248.76,
+        "ci95_ha": 0.99
+      }
+    },
+    "carbon_area_basis": "error_adjusted",
+    "carbon": {
+      "classes": {
+        "mangrove": {
+          "area_ha": 2559.17,
+          "stock_tC": {
+            "mean": 1334802.1587979295,
+            "p05": 1257465.3152987398,
+            "p95": 1417659.3754823923
+          },
+          "stock_tCO2e": {
+            "mean": 4894719.516312007,
+            "p05": 4611125.311200479,
+            "p95": 5198556.929893932
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 15408.723561311812,
+            "p05": 13238.496367746706,
+            "p95": 17648.786234140447
+          },
+          "soil": {
+            "soil": [
+              436.0,
+              471.0,
+              510.0
+            ],
+            "source": "ipcc"
+          }
+        },
+        "saltmarsh": {
+          "area_ha": 58.29,
+          "stock_tC": {
+            "mean": 15986.471748900241,
+            "p05": 15186.682218229673,
+            "p95": 17115.28688348934
+          },
+          "stock_tCO2e": {
+            "mean": 58622.391903217176,
+            "p05": 55689.56369424821,
+            "p95": 62761.75700175541
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 193.32019717036587,
+            "p05": 164.08393303761395,
+            "p95": 222.55522180483806
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
+          }
+        },
+        "seagrass": {
+          "area_ha": 2487.44,
+          "stock_tC": {
+            "mean": 277430.71072792064,
+            "p05": 232537.44513470595,
+            "p95": 325280.6557012932
+          },
+          "stock_tCO2e": {
+            "mean": 1017338.4162392849,
+            "p05": 852714.8113089667,
+            "p95": 1192804.164456642
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 4043.7959393172787,
+            "p05": 2526.857031915797,
+            "p95": 5669.517403615189
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
+          }
+        }
+      },
+      "blue_carbon_area_ha": 5104.9,
+      "total_stock_tCO2e": {
+        "mean": 5970680.324454509,
+        "p05": 5645759.6879444085,
+        "p95": 6313350.687021709
+      },
+      "total_sequestration_tCO2e_per_yr": {
+        "mean": 19645.839697799456,
+        "p05": 16983.979939219163,
+        "p95": 22330.95229589337
+      },
+      "indicative_annual_value_usd": {
+        "low": 294687.5954669918,
+        "mid": 491145.9924449864,
+        "high": 785833.5879119782
+      },
+      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+    }
+  },
+  "region": "Queensland, Australia",
+  "period": "Full year 2021",
+  "held_out": true
+}

@@ -288,7 +288,7 @@ T_SCORE = ("How closely the model's map overlapped with trusted reference maps, 
            "1.00 = perfect match, 0 = no match.")
 T_S2 = "Sentinel-2 is a pair of European Space Agency satellites that photograph every coastline on Earth every 5 days, free."
 T_PILOT = ("Trained only on hand-labelled data from one bay (Mission Bay, 2018). It is well tested here, but other "
-           "coastlines look different. The full model trains on 21 coastal sites on six continents.")
+           "coastlines look different. The full model trains on 39 coastal sites on six continents.")
 
 def png_uri(path: Path) -> str:
     return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
@@ -561,7 +561,7 @@ def summary_html(meta: dict, report: dict) -> str:
         pts.append(("How much to trust it", conf + "."))
     if model.get("pilot"):
         pts.append(("What's next", "This map comes from the pilot model, trained on hand-labelled data from this bay. "
-                                  "The full BlueCarbon-AI model trains on 21 coastal sites on six continents so it "
+                                  "The full BlueCarbon-AI model trains on 39 coastal sites on six continents so it "
                                   "works on coastlines it has never seen, including mangrove forests."))
     if a.get("freshwater", 0) >= 0.05:
         pts.insert(2 if len(pts) >= 2 else len(pts), ("Freshwater wetland",
@@ -1067,7 +1067,7 @@ products are least reliable. Local survey polygons (for example eelgrass surveys
 with cross-entropy plus Dice loss and square-root inverse-frequency class weights, AdamW with a one-cycle
 schedule, mixed precision and early stopping on validation mIoU.</p>
 <p>Evaluation is built so the model can't score well by memorizing. Chips never overlap, whole 5&nbsp;km blocks are
-assigned to a single split, and three complete estuaries (Mission Bay, Moreton Bay, Tampa Bay) are never seen in
+assigned to a single split, and five complete estuaries (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay) are never seen in
 training and are scored separately. The
 headline metrics are per-class IoU and F1. Overall accuracy is reported but not emphasized: a scene that is 70% water
 can score 90% accuracy while missing every marsh pixel.</p>
@@ -1098,9 +1098,9 @@ on its own.</p>
 <ul>
 <li>Carbon values (measured nearby cores or IPCC global averages) are suited to screening and prioritization,
 not to issuing credits, which requires measurements at the project site.</li>
-<li>Seagrass is learned from the Allen Coral Atlas and official surveys (Florida, Moreton Bay). The current model
-over-maps seagrass in some turbid bays and does not yet detect it in Moreton Bay; the next training run adds
-open-water examples next to surveyed meadows to correct this.</li>
+<li>Seagrass is learned from the Allen Coral Atlas and official surveys (Florida, Moreton Bay). The model is now
+conservative: it rarely calls open water seagrass, but misses about half of seagrass in murky or deep water, and
+does not yet detect it in Moreton Bay or Shoalwater Bay. Treat seagrass areas as a lower bound.</li>
 <li>Tides change what is exposed in intertidal zones, and a median composite averages across tidal states.</li>
 <li>Reference products carry their own errors, which the model partly learns. The confidence intervals treat pixels
 as independent samples, so they understate the true uncertainty.</li>

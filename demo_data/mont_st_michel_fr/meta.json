@@ -1,0 +1,252 @@
+{
+  "title": "Bay of Mont-Saint-Michel",
+  "description": "Salt meadows of the Bay of Mont-Saint-Michel. Sentinel-2 2021 composite. This area was part of the training data, so the map looks better than it would on a new coastline.",
+  "classes": [
+    {
+      "id": 0,
+      "key": "water",
+      "name": "Open water",
+      "color": "#1f5fbf",
+      "blue_carbon": false
+    },
+    {
+      "id": 1,
+      "key": "mangrove",
+      "name": "Mangrove",
+      "color": "#0b7a3e",
+      "blue_carbon": true
+    },
+    {
+      "id": 2,
+      "key": "saltmarsh",
+      "name": "Salt marsh",
+      "color": "#9bb52a",
+      "blue_carbon": true
+    },
+    {
+      "id": 3,
+      "key": "seagrass",
+      "name": "Seagrass",
+      "color": "#14a3a0",
+      "blue_carbon": true
+    },
+    {
+      "id": 4,
+      "key": "tidal_flat",
+      "name": "Tidal flat / bare",
+      "color": "#c07a2c",
+      "blue_carbon": false
+    },
+    {
+      "id": 5,
+      "key": "other_land",
+      "name": "Other land",
+      "color": "#8b9199",
+      "blue_carbon": false
+    },
+    {
+      "id": 6,
+      "key": "freshwater",
+      "name": "Freshwater wetland",
+      "color": "#a0529b",
+      "blue_carbon": false
+    }
+  ],
+  "model": {
+    "arch": "Unet",
+    "encoder": "resnet34",
+    "kind": "unet",
+    "test": {
+      "overall_accuracy": 0.9169,
+      "kappa": 0.8787,
+      "mIoU": 0.752,
+      "macro_f1": 0.843,
+      "iou": {
+        "water": 0.87,
+        "mangrove": 0.9326,
+        "saltmarsh": 0.8361,
+        "seagrass": 0.3732,
+        "tidal_flat": 0.729,
+        "other_land": 0.932,
+        "freshwater": 0.5911
+      },
+      "f1": {
+        "water": 0.9305,
+        "mangrove": 0.9651,
+        "saltmarsh": 0.9108,
+        "seagrass": 0.5435,
+        "tidal_flat": 0.8433,
+        "other_land": 0.9648,
+        "freshwater": 0.743
+      },
+      "precision": {
+        "water": 0.9363,
+        "mangrove": 0.9496,
+        "saltmarsh": 0.8898,
+        "seagrass": 0.6168,
+        "tidal_flat": 0.8005,
+        "other_land": 0.9664,
+        "freshwater": 0.6471
+      },
+      "recall": {
+        "water": 0.9248,
+        "mangrove": 0.9811,
+        "saltmarsh": 0.9328,
+        "seagrass": 0.4858,
+        "tidal_flat": 0.8909,
+        "other_land": 0.9632,
+        "freshwater": 0.8722
+      },
+      "support_px": {
+        "water": 15930976,
+        "mangrove": 2903046,
+        "saltmarsh": 959779,
+        "seagrass": 1777701,
+        "tidal_flat": 1746692,
+        "other_land": 11195367,
+        "freshwater": 778994
+      }
+    },
+    "name": "BlueCarbon-AI v2",
+    "pilot": false,
+    "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
+    "training_data": "Sentinel-2 2021 composites and clear-water images of 39 coastal sites on six continents, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and the Allen Coral Atlas, plus official seagrass surveys (Florida FWC, Moreton Bay)",
+    "uses_context": true
+  },
+  "kind": "single",
+  "bounds": [
+    [
+      48.596813592037826,
+      -1.6527060411455075
+    ],
+    [
+      48.703271326966146,
+      -1.3967307959964559
+    ]
+  ],
+  "report": {
+    "areas_ha": {
+      "water": 2002.9199999999998,
+      "mangrove": 0.0,
+      "saltmarsh": 3635.43,
+      "seagrass": 0.0,
+      "tidal_flat": 7873.9,
+      "other_land": 7878.15,
+      "freshwater": 8.32
+    },
+    "error_adjusted_areas_ha": {
+      "water": {
+        "mapped_ha": 2002.92,
+        "adjusted_ha": 3274.93,
+        "ci95_ha": 4.0
+      },
+      "mangrove": {
+        "mapped_ha": 0.0,
+        "adjusted_ha": 0.0,
+        "ci95_ha": 0.0
+      },
+      "saltmarsh": {
+        "mapped_ha": 3635.43,
+        "adjusted_ha": 3483.06,
+        "ci95_ha": 1.21
+      },
+      "seagrass": {
+        "mapped_ha": 0.0,
+        "adjusted_ha": 330.09,
+        "ci95_ha": 1.83
+      },
+      "tidal_flat": {
+        "mapped_ha": 7873.9,
+        "adjusted_ha": 6347.1,
+        "ci95_ha": 4.43
+      },
+      "other_land": {
+        "mapped_ha": 7878.15,
+        "adjusted_ha": 7870.32,
+        "ci95_ha": 1.84
+      },
+      "freshwater": {
+        "mapped_ha": 8.32,
+        "adjusted_ha": 93.22,
+        "ci95_ha": 0.64
+      }
+    },
+    "carbon_area_basis": "error_adjusted",
+    "carbon": {
+      "classes": {
+        "saltmarsh": {
+          "area_ha": 3483.06,
+          "stock_tC": {
+            "mean": 955642.7222961426,
+            "p05": 908809.7851290689,
+            "p95": 1021696.9427092447
+          },
+          "stock_tCO2e": {
+            "mean": 3504341.862659955,
+            "p05": 3332605.4820682956,
+            "p95": 3746562.6889148
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 11553.172438521593,
+            "p05": 9806.86523652865,
+            "p95": 13234.544994595091
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
+          }
+        },
+        "seagrass": {
+          "area_ha": 330.09,
+          "stock_tC": {
+            "mean": 36774.58002129446,
+            "p05": 30767.295037539378,
+            "p95": 43245.93742797483
+          },
+          "stock_tCO2e": {
+            "mean": 134852.3849380868,
+            "p05": 112823.67090265689,
+            "p95": 158582.85254838367
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 538.2299638138416,
+            "p05": 337.9643436453511,
+            "p95": 752.9008292563582
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
+          }
+        }
+      },
+      "blue_carbon_area_ha": 3813.15,
+      "total_stock_tCO2e": {
+        "mean": 3639194.247598041,
+        "p05": 3465601.0468448894,
+        "p95": 3882193.2862546085
+      },
+      "total_sequestration_tCO2e_per_yr": {
+        "mean": 12091.402402335436,
+        "p05": 10340.83181557685,
+        "p95": 13777.681475981175
+      },
+      "indicative_annual_value_usd": {
+        "low": 181371.03603503155,
+        "mid": 302285.0600583859,
+        "high": 483656.09609341744
+      },
+      "method": "IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n=5000"
+    }
+  },
+  "region": "Normandy, France",
+  "period": "Full year 2021",
+  "held_out": false
+}

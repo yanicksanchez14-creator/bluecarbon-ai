@@ -104,7 +104,7 @@ model:
   use_ancillary: true             # add elevation, tidal-wetland probability and |latitude| as inputs
 
 train:
-  epochs: 60
+  epochs: 80
   batch_size: 16
   lr: 3.0e-4
   weight_decay: 1.0e-4
@@ -112,7 +112,7 @@ train:
   class_weighting: sqrt_inverse   # none | inverse | sqrt_inverse
   amp: true
   num_workers: 2
-  patience: 12
+  patience: 15
   rare_oversample: 4              # chips with blue carbon habitat are drawn up to 4x more often
   device: auto
 

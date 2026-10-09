@@ -263,7 +263,6 @@ def scene(bbox: list[float] = typer.Option(..., help="lon_min lat_min lon_max la
     report(d / "pred.tif", model, config, d)
 
 
-@app.command()
 def case_studies(s: dict) -> list[dict]:
     """The before/after studies in sites.yaml (`case_studies` list, or the older single `case_study`)."""
     return list(s.get("case_studies") or ([s["case_study"]] if s.get("case_study") else []))

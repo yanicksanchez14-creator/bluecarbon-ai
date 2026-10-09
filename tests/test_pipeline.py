@@ -106,7 +106,10 @@ def test_ancillary_inputs(tmp_path):
     pr = load_predictor(tmp_path / "unet" / "model.pt")
     assert pr.needs_ancillary
     _, _, ck = load_checkpoint(tmp_path / "unet" / "model.pt")
-    assert ck["features"] == FEATURE_NAMES_ANC
+    from bluecarbon.features import FEATURE_NAMES_ANC_V1
+
+    assert ck["features"] == FEATURE_NAMES_ANC_V1  # GEBCO depth is stored but not a model input
+    assert "DEPTH" in FEATURE_NAMES_ANC
     assert "ABSLAT" not in FEATURE_NAMES_ANC  # latitude is a rule (priors.py), never a model input
 
     train_spectral(recs, tmp_path / "spec", per_class_per_chip=100, n_estimators=20, log=lambda *_: None)

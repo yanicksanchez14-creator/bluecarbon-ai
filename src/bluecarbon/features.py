@@ -75,10 +75,18 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
     return {k: v.astype(np.float32) for k, v in out.items()}
 
 
+# GEBCO depth is stored but NOT used as an input: checked Oct 9 2026, it reads ~18 m in the middle of
+# Florida Bay (really 1-3 m). The ~450 m global grid is unreliable in shallow coastal bays, which is
+# exactly where seagrass grows. The clear-water band ratios carry the usable depth signal instead.
+USE_DEPTH_FEATURE = False
+
+
 def default_feature_names(anc: np.ndarray | None) -> list[str]:
     if anc is None:
         return list(FEATURE_NAMES)
-    return FEATURE_NAMES_ANC if anc.shape[0] > DEPTH_BAND else FEATURE_NAMES_ANC_V1
+    if USE_DEPTH_FEATURE and anc.shape[0] > DEPTH_BAND:
+        return FEATURE_NAMES_ANC
+    return FEATURE_NAMES_ANC_V1
 
 
 def _nd(a: np.ndarray, b: np.ndarray) -> np.ndarray:

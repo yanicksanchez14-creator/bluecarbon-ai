@@ -28,10 +28,11 @@ labels:
   tidal_wetland_min_prob: 50
   # Extra seagrass polygons (Earth Engine FeatureCollection ids), e.g. regional eelgrass surveys.
   seagrass_vectors: []
-  # Water depth (GEBCO 2023, 15 arc-second grid). Model input, and seagrass labels deeper than
-  # seagrass_max_depth_m are left unlabelled: the seafloor is not visible from space there.
+  # Water depth (GEBCO 2023, 15 arc-second grid) is stored in ancillary.tif for reference only.
+  # It is NOT used for labels or as a model input: it reads ~18 m in Florida Bay (really 1-3 m), so
+  # it is unreliable in shallow bays. null = no depth-based seagrass rule.
   bathymetry: projects/sat-io/open-datasets/gebco/gebco_grid
-  seagrass_max_depth_m: 15
+  seagrass_max_depth_m: null
   # Regional seagrass survey maps, downloaded from public web services during `fetch` and burned in as
   # seagrass over water (see src/bluecarbon/surveys.py). They cover murky and subtropical water the
   # Allen Coral Atlas does not. `extent` = [lon_min, lat_min, lon_max, lat_max] the survey covers.

@@ -252,7 +252,7 @@ def tidal_zone(cfg: Config):
     return dem.lte(3).And(near_water), "elevation-fallback"
 
 
-LABEL_VERSION = "labels-v7"  # bump when the label rules change, so `fetch --labels-only` rebuilds
+LABEL_VERSION = "labels-v8"  # v8: no GEBCO depth rule (v7 dropped real shallow seagrass)  # bump when the label rules change, so `fetch --labels-only` rebuilds
 
 
 def wetland_map(cfg: Config):

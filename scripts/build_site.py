@@ -194,9 +194,22 @@ def build(out: Path, pdf: bool = True) -> dict:
     }
     (data / "sites.json").write_text(json.dumps(doc, separators=(",", ":")))
     _methodology(out)
+    _chrome(out)
     _cache_bust(out)
     (out / ".nojekyll").write_text("")
     return doc
+
+
+def _chrome(out: Path) -> None:
+    """One header and footer for every page (site/partials), with the current page marked."""
+    header = (ROOT / "site" / "partials" / "header.html").read_text()
+    footer = (ROOT / "site" / "partials" / "footer.html").read_text()
+    for page in out.glob("*.html"):
+        name = page.stem
+        h = header.replace(f'data-page="{name}"', f'data-page="{name}" aria-current="page"')
+        if name != "index":  # pages without a full-bleed hero keep the header border from the start
+            h = h.replace('<header class="site-header">', '<header class="site-header scrolled">')
+        page.write_text(page.read_text().replace("<!-- HEADER -->", h).replace("<!-- FOOTER -->", footer))
 
 
 def _cache_bust(out: Path) -> None:

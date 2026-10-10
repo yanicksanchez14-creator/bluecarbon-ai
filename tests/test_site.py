@@ -22,6 +22,10 @@ def test_pages_reference_existing_assets():
         for ref in re.findall(r'(?:src|href)="((?:css|js)/[^"]+)"', html):
             assert (ROOT / "site" / ref).exists(), f"{page} -> {ref}"
     assert "<!-- METHODOLOGY -->" in (ROOT / "site" / "methodology.html").read_text()
+    for page in ("index.html", "explore.html", "methodology.html", "analyze.html"):  # one shared header and footer
+        html = (ROOT / "site" / page).read_text()
+        assert "<!-- HEADER -->" in html and "<header" not in html
+        assert page == "explore.html" or "<!-- FOOTER -->" in html  # the full-screen map has no footer
 
 
 def test_site_record(tmp_path):

@@ -194,8 +194,24 @@ def build(out: Path, pdf: bool = True) -> dict:
     }
     (data / "sites.json").write_text(json.dumps(doc, separators=(",", ":")))
     _methodology(out)
+    _cache_bust(out)
     (out / ".nojekyll").write_text("")
     return doc
+
+
+def _cache_bust(out: Path) -> None:
+    """Add ?v=<content hash> to CSS/JS links so browsers never keep a stale copy after an update."""
+    import hashlib
+    import re
+
+    def stamp(m):
+        f = out / m.group(2)
+        v = hashlib.sha1(f.read_bytes()).hexdigest()[:10] if f.exists() else "0"
+        return f'{m.group(1)}="{m.group(2)}?v={v}"'
+
+    for page in out.glob("*.html"):
+        html = re.sub(r'(src|href)="((?:css|js)/[^"?]+)"', stamp, page.read_text())
+        page.write_text(html)
 
 
 def _methodology(out: Path) -> None:

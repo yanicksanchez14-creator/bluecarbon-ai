@@ -22,6 +22,45 @@ def run(*args: str) -> None:
     subprocess.run(args, check=True)
 
 
+FETCH_WORKERS = 4
+
+
+def fetch_parallel(workers: int = FETCH_WORKERS) -> None:
+    """Download every site with `workers` separate processes (each its own Earth Engine session).
+
+    One site at a time took ~1 h per site with the extra years, longer than Colab's 24 h session
+    limit. Earth Engine serves several requests at once, so 4 sites in parallel is ~4x faster.
+    Each line is prefixed with its site name. A site that fails is retried once at the end, alone.
+    """
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+
+    import yaml
+
+    names = [s["name"] for s in yaml.safe_load(Path("configs/sites.yaml").read_text())["sites"]]
+    print(f"\n$ bluecarbon fetch --labels-only  ({len(names)} sites, {workers} at a time)", flush=True)
+    lock, done = threading.Lock(), []
+
+    def one(name: str) -> bool:
+        p = subprocess.Popen(["bluecarbon", "fetch", "--labels-only", "--only", name],
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+        for line in p.stdout:
+            line = line.rstrip()
+            if line and "per-request timeout" not in line:
+                with lock:
+                    print(f"[{name}] {line}" if not line.startswith(f"[{name}]") else line, flush=True)
+        ok = p.wait() == 0
+        with lock:
+            done.append(name)
+            print(f"--- {name} {'done' if ok else 'FAILED'} ({len(done)}/{len(names)} sites)", flush=True)
+        return ok
+
+    with ThreadPoolExecutor(workers) as ex:
+        failed = [n for n, ok in zip(names, ex.map(one, names), strict=True) if not ok]
+    for name in failed:  # once more, alone (most failures are a transient Earth Engine error)
+        run("bluecarbon", "fetch", "--labels-only", "--only", name)
+
+
 def best_model() -> Path:
     """The model named in best.txt (never a stale best.* left over from an earlier run)."""
     name = (WORK / "model" / "best.txt").read_text().split()[1]
@@ -82,7 +121,7 @@ def main() -> None:
     print("Code version:", code_version(), flush=True)
     skip_train = "--skip-train" in sys.argv
     if not skip_train:
-        run("bluecarbon", "fetch", "--labels-only")
+        fetch_parallel()
         shutil.rmtree(WORK / "chips", ignore_errors=True)
         run("bluecarbon", "chips")
         for old in (WORK / "model").glob("best.*"):

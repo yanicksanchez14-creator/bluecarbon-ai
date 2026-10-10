@@ -29,15 +29,8 @@
 </header>
 <main class="analyze">
   <div class="wrap analyze-head">
-    <div>
-      <p class="kicker">Live analysis (beta)</p>
-      <h1>Map any coastline in about a minute</h1>
-    </div>
-    <ol class="analyze-steps">
-      <li><b>Draw a box</b> over a coastline with the square tool on the map, up to 60 km².</li>
-      <li><b>Pick the dates.</b> A summer or full-year window gives the clearest picture.</li>
-      <li><b>Run the analysis.</b> Fresh Sentinel-2 imagery is processed in Google Earth Engine and mapped by the model.</li>
-    </ol>
+    <h1>Analyze an area</h1>
+    <p>Draw a box over any coastline, up to 60 km², pick the dates and run. You get a habitat map, a carbon estimate and a PDF report.</p>
   </div>
   <div class="analyze-frame">
     <iframe id="tool" title="BlueCarbon-AI live analysis tool" src="https://bluecarbon-ai.streamlit.app/?embed=true&view=analyze"
@@ -61,5 +54,16 @@
   </div>
 </footer>
 <script src="js/common.js"></script>
+<script>
+  // The tool reports its own height (Streamlit ?view=analyze), so the frame grows with it and the page scrolls once.
+  const tool = document.getElementById("tool");
+  window.addEventListener("message", e => {
+    let host = "";
+    try { host = new URL(e.origin).hostname; } catch (_) { return; }
+    if (!/(^|\.)streamlit\.app$/.test(host) || !e.data || e.data.type !== "bc-height") return;
+    const h = Math.max(640, Math.min(12000, +e.data.h || 0));
+    if (Math.abs(tool.offsetHeight - h) > 4) tool.style.height = h + "px";
+  });
+</script>
 </body>
 </html>

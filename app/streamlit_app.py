@@ -1001,6 +1001,20 @@ def init_gee(sa_json: str):
     return True
 
 
+if EMBED:
+    import streamlit.components.v1 as components
+
+    st.markdown("<style>.block-container{padding:.4rem 1.6rem 1.4rem !important;}"
+                "div[data-testid='stToolbar'],footer{display:none !important;}</style>", unsafe_allow_html=True)
+    # Tell the website how tall the tool is, so its frame grows with the content (no scrollbar inside a scrollbar).
+    components.html("""<script>
+const doc = window.parent.document;
+const target = () => doc.querySelector('[data-testid="stMainBlockContainer"]') || doc.querySelector('.block-container') || doc.body;
+const send = () => { try { window.top.postMessage({type: "bc-height", h: Math.ceil(target().getBoundingClientRect().height) + 24}, "*"); } catch (e) {} };
+try { new ResizeObserver(send).observe(target()); } catch (e) {}
+setInterval(send, 1200); send();
+</script>""", height=0)
+
 with tab_analyze:
     sa = secret("GEE_SERVICE_ACCOUNT")
     if not sa:
@@ -1092,8 +1106,26 @@ with tab_analyze:
             }
             live_meta = {"title": "Your area", "model": {**ck.get("extra", {}), "arch": ck["arch"], "kind": ck["kind"],
                                                          "encoder": ck["encoder"], "test": ck["metrics"].get("test")}}
+            pdfs = {}
+            try:  # the same PDF report as the mapped sites, for the area just analysed
+                from PIL import Image
+
+                from bluecarbon.screen import build_report
+
+                page = tmp / "page"
+                page.mkdir(exist_ok=True)
+                Image.fromarray(true_color(mb)).save(page / "rgb.png")
+                Image.fromarray(class_rgba(mc[0], 255)).save(page / "classes.png")
+                lat, lon = (bbox[1] + bbox[3]) / 2, (bbox[0] + bbox[2]) / 2
+                (page / "meta.json").write_text(json.dumps({
+                    **live_meta, "kind": "single", "report": rep, "period": f"{start} to {end}",
+                    "region": f"{abs(lat):.3f}° {'N' if lat >= 0 else 'S'}, {abs(lon):.3f}° {'E' if lon >= 0 else 'W'}"}))
+                pdfs = {lang: build_report(page, None, lang) for lang in ("en", "es")}
+            except Exception as e:  # never lose the analysis over a report problem
+                st.caption(f"PDF report unavailable ({str(e)[:80]})")
             st.session_state["live"] = {"meta": live_meta, "report": rep, "bounds": bnds, "layers": layers,
-                                        "rgb": rgba_uri(true_color(mb)), "tif": (tmp / "pred.tif").read_bytes()}
+                                        "rgb": rgba_uri(true_color(mb)), "tif": (tmp / "pred.tif").read_bytes(),
+                                        "pdf": pdfs}
 
         live = st.session_state.get("live")
         if live:
@@ -1108,9 +1140,17 @@ with tab_analyze:
                 st_folium(m2, height=540, use_container_width=True, returned_objects=[], key=f"live_{view}_{opacity}")
 
             render_results(live["meta"], live["report"], live_map)
-            d1, d2, _ = st.columns([1, 1, 2])
-            d1.download_button("Download habitat GeoTIFF", live["tif"], "bluecarbon_habitats.tif", width="stretch")
-            d2.download_button("Download report (JSON)", json.dumps(live["report"], indent=2), "bluecarbon_report.json",
+            section("Download", "The report, the habitat map for GIS software, and the raw numbers.")
+            d1, d2, d3, d4 = st.columns(4)
+            pdfs = live.get("pdf") or {}
+            if pdfs.get("en"):
+                d1.download_button("PDF report (English)", pdfs["en"], "bluecarbon_report_en.pdf", mime="application/pdf",
+                                   type="primary", width="stretch")
+            if pdfs.get("es"):
+                d2.download_button("Informe PDF (español)", pdfs["es"], "bluecarbon_informe_es.pdf", mime="application/pdf",
+                                   width="stretch")
+            d3.download_button("Habitat map (GeoTIFF)", live["tif"], "bluecarbon_habitats.tif", width="stretch")
+            d4.download_button("Numbers (JSON)", json.dumps(live["report"], indent=2), "bluecarbon_report.json",
                                width="stretch")
 
 # ----------------------------------------------------------------------------- site screening

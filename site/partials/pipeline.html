@@ -1,0 +1,27 @@
+<figure class="pipe" aria-label="Pipeline from satellite images to carbon estimate">
+  <div class="pipe-lane">
+    <p class="pipe-label">Imagery</p>
+    <ol class="pipe-row">
+      <li><b>Sentinel-2</b><span>Every image of the site over the season</span></li>
+      <li><b>Cloud removal</b><span>Cloud and shadow masked with Cloud Score+</span></li>
+      <li><b>Composites</b><span>Seasonal median, plus a clear-water image for the seafloor</span></li>
+      <li><b>Model inputs</b><span>10 bands, 4 indices, clear-water bands, elevation and tide</span></li>
+    </ol>
+  </div>
+  <div class="pipe-lane">
+    <p class="pipe-label">Answer key</p>
+    <ol class="pipe-row">
+      <li><b>Reference maps</b><span>WorldCover, GWL_FCS30, tidal flats, Allen Coral Atlas, seagrass surveys</span></li>
+      <li><b>Fused labels</b><span>One habitat label per 10 m pixel</span></li>
+      <li><b>Edges removed</b><span>Pixels on class boundaries are left out</span></li>
+      <li><b>Training chips</b><span>Split by 5 km blocks; 5 estuaries held out</span></li>
+    </ol>
+  </div>
+  <div class="pipe-merge"><span>Inputs and answer key train the model</span></div>
+  <ol class="pipe-row pipe-out">
+    <li><b>U-Net model</b><span>ResNet-34 encoder, flip test-time averaging</span></li>
+    <li><b>Habitat map</b><span>Mangrove, salt marsh, seagrass, tidal flat, water, land</span></li>
+    <li><b>Corrected area</b><span>Adjusted for the model's known errors (Olofsson)</span></li>
+    <li><b>Carbon</b><span>Measured soil cores or IPCC values, with a 90% range</span></li>
+  </ol>
+</figure>

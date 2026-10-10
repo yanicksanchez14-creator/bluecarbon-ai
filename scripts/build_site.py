@@ -145,7 +145,7 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
 def build(out: Path, pdf: bool = True) -> dict:
     if out.exists():
         shutil.rmtree(out)
-    shutil.copytree(ROOT / "site", out)
+    shutil.copytree(ROOT / "site", out, ignore=shutil.ignore_patterns("partials"))
     data = out / "data"
     data.mkdir(exist_ok=True)
     demo = ROOT / "demo_data"
@@ -215,6 +215,8 @@ def _cache_bust(out: Path) -> None:
 
 
 def _methodology(out: Path) -> None:
+    import re
+
     import markdown
 
     md = (ROOT / "docs" / "METHODOLOGY.md").read_text()
@@ -223,6 +225,9 @@ def _methodology(out: Path) -> None:
     for f in (ROOT / "docs" / "img").glob("*"):
         shutil.copy(f, out / "data" / "docs" / f.name)
     html = markdown.markdown(md, extensions=["tables", "fenced_code", "toc"])
+    # The text diagram in the Markdown (for GitHub) becomes a real figure on the website.
+    fig = (ROOT / "site" / "partials" / "pipeline.html").read_text()
+    html = re.sub(r"<pre><code>[^<]*Sentinel-2 L2A.*?</code></pre>", lambda _: fig, html, count=1, flags=re.S)
     page = out / "methodology.html"
     page.write_text(page.read_text().replace("<!-- METHODOLOGY -->", html))
 

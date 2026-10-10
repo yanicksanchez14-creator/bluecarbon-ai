@@ -319,3 +319,26 @@ h3 { font: 500 20px/1.3 var(--sans); letter-spacing: -.01em; margin: 0 0 8px; }
 .analyze-frame { margin: 0 var(--frame); border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: #f3f6f5; }
 .analyze-frame iframe { display: block; width: 100%; height: 900px; border: 0; }
 .analyze-note { margin-top: 14px; }
+
+/* ------------------------------------------------------------------ pipeline figure (methodology) */
+.pipe { margin: 8px 0 34px; padding: 26px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.pipe-lane + .pipe-lane { margin-top: 20px; }
+.pipe-label { font: 400 12.5px var(--mono); color: var(--mangrove); margin: 0 0 9px; }
+.pipe-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.pipe-row li { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 11px 12px; max-width: none; }
+.pipe-row li b { display: block; font-weight: 500; font-size: 14.5px; color: var(--ink); margin-bottom: 3px; }
+.pipe-row li span { display: block; font-size: 12.5px; line-height: 1.45; color: var(--ink-2); }
+.pipe-row li:not(:last-child)::after { content: ""; position: absolute; right: -15px; top: 50%; width: 8px; height: 8px;
+  border-top: 1.5px solid var(--seagrass); border-right: 1.5px solid var(--seagrass); transform: translateY(-50%) rotate(45deg); }
+.pipe-merge { display: flex; justify-content: center; margin: 14px 0; position: relative; }
+.pipe-merge span { font: 400 12.5px var(--mono); color: var(--muted); background: var(--card); padding: 0 12px; position: relative; z-index: 1; }
+.pipe-merge::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed var(--line); }
+.pipe-out li { background: var(--deep); border-color: var(--deep); }
+.pipe-out li b { color: #fff; }
+.pipe-out li span { color: var(--on-deep-2); }
+.pipe-out li:not(:last-child)::after { border-color: var(--deep); }
+@media (max-width: 720px) {
+  .pipe { padding: 18px; }
+  .pipe-row { grid-template-columns: 1fr; gap: 16px; }
+  .pipe-row li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -12px; transform: translateX(-50%) rotate(135deg); }
+}

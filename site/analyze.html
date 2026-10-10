@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live analysis | BlueCarbon-AI</title>
+<meta name="description" content="Draw an area on any coastline and BlueCarbon-AI maps its habitats and carbon from fresh Sentinel-2 imagery.">
+<meta name="theme-color" content="#0d1f29">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header scrolled">
+  <div class="wrap">
+    <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="./#how">How it works</a>
+      <a href="explore.html">Site map</a>
+      <a href="analyze.html" aria-current="page">Live analysis</a>
+      <a href="./#screening">Site screening</a>
+      <a href="methodology.html">Methodology</a>
+      <a class="btn btn-solid btn-sm" href="explore.html">Open the map</a>
+    </nav>
+  </div>
+</header>
+<main class="analyze">
+  <div class="wrap analyze-head">
+    <div>
+      <p class="kicker">Live analysis (beta)</p>
+      <h1>Map any coastline in about a minute</h1>
+    </div>
+    <ol class="analyze-steps">
+      <li><b>Draw a box</b> over a coastline with the square tool on the map, up to 60 km².</li>
+      <li><b>Pick the dates.</b> A summer or full-year window gives the clearest picture.</li>
+      <li><b>Run the analysis.</b> Fresh Sentinel-2 imagery is processed in Google Earth Engine and mapped by the model.</li>
+    </ol>
+  </div>
+  <div class="analyze-frame">
+    <iframe id="tool" title="BlueCarbon-AI live analysis tool" src="https://bluecarbon-ai.streamlit.app/?embed=true&view=analyze"
+            allow="clipboard-write"></iframe>
+  </div>
+  <p class="wrap small-note analyze-note">The analysis tool runs on a free server that sleeps when nobody has used it for a while. If you see a
+    wake-up button, press it and give it about a minute. Trouble loading?
+    <a href="https://bluecarbon-ai.streamlit.app/?view=analyze" target="_blank" rel="noopener">Open the tool in a new tab</a>.</p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+      <p class="disclaimer">Estimates for early planning only. Not legal, financial or investment advice, and not carbon credits:
+        only a registry issues credits, after independent validation and verification on the ground.</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="explore.html">Site map</a></li><li><a href="./#screening">Site screening</a></li>
+      <li><a href="analyze.html">Live analysis (beta)</a></li></ul></div>
+    <div><h4>Resources</h4><ul><li><a href="methodology.html">Methodology</a></li>
+      <li><a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai">Source code</a></li><li><a href="./#about">About</a></li></ul></div>
+  </div>
+</footer>
+<script src="js/common.js"></script>
+</body>
+</html>

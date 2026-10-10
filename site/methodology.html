@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology | BlueCarbon-AI</title>
+<meta name="description" content="How BlueCarbon-AI maps blue carbon habitats from Sentinel-2, how it is tested, and how carbon is estimated.">
+<meta name="theme-color" content="#0d1f29">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="./#how">How it works</a>
+      <a href="explore.html">Site map</a>
+      <a href="analyze.html">Live analysis</a>
+      <a href="./#screening">Site screening</a>
+      <a href="methodology.html" aria-current="page">Methodology</a>
+      <a class="btn btn-solid btn-sm" href="explore.html">Open the map</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+  <div class="doc-head">
+    <p class="kicker">Methodology</p>
+    <h1>How the maps and numbers are made</h1>
+    <p class="lede">The full pipeline, from satellite image to carbon estimate, how the model is tested, and what it cannot yet do.
+      The code behind every step is <a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai">open source</a>.</p>
+  </div>
+  <div class="doc">
+    <nav id="toc" aria-label="On this page"></nav>
+    <article class="prose" id="prose">
+<!-- METHODOLOGY -->
+    </article>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+      <p class="disclaimer">Estimates for early planning only. Not legal, financial or investment advice, and not carbon credits:
+        only a registry issues credits, after independent validation and verification on the ground.</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="explore.html">Site map</a></li><li><a href="./#screening">Site screening</a></li>
+      <li><a href="analyze.html">Live analysis (beta)</a></li></ul></div>
+    <div><h4>Resources</h4><ul><li><a href="methodology.html">Methodology</a></li>
+      <li><a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai">Source code</a></li><li><a href="./#about">About</a></li></ul></div>
+  </div>
+</footer>
+<script src="js/common.js"></script>
+<script>
+  // contents list from the section headings
+  const toc = document.getElementById("toc");
+  document.querySelectorAll("#prose h2, #prose h3").forEach(h => {
+    if (!h.id) h.id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const a = document.createElement("a");
+    a.href = "#" + h.id; a.textContent = h.textContent;
+    if (h.tagName === "H3") a.style.paddingLeft = "12px";
+    toc.appendChild(a);
+  });
+</script>
+</body>
+</html>

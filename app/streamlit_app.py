@@ -44,17 +44,6 @@ ESRI_ATTR = "Imagery © Esri, Maxar, Earthstar Geographics"
 CFG = load_config(ROOT / "configs" / "default.yaml")
 CLS = {c.key: c for c in CLASSES}
 
-LOGO = """<svg width="34" height="34" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e5a67"/>
-<stop offset="1" stop-color="#082f3d"/></linearGradient></defs>
-<rect width="40" height="40" rx="10" fill="url(#g)"/>
-<path d="M20 8c5.5 3.2 7.6 8.4 5.2 13.2-1.4 2.7-3.3 3.8-5.2 4.3-1.9-.5-3.8-1.6-5.2-4.3C12.4 16.4 14.5 11.2 20 8z" fill="#7fd6c2"/>
-<path d="M20 11v14" stroke="#0b3f4c" stroke-width="1.4" stroke-linecap="round"/>
-<path d="M7 28.5c2.2 0 2.2-1.6 4.4-1.6s2.2 1.6 4.4 1.6 2.2-1.6 4.4-1.6 2.2 1.6 4.4 1.6 2.2-1.6 4.4-1.6 2.2 1.6 3.8 1.6"
- fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-<path d="M7 33c2.2 0 2.2-1.6 4.4-1.6s2.2 1.6 4.4 1.6 2.2-1.6 4.4-1.6 2.2 1.6 4.4 1.6 2.2-1.6 4.4-1.6 2.2 1.6 3.8 1.6"
- fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/></svg>"""
-
 st.set_page_config(page_title="BlueCarbon-AI", page_icon=str(ROOT / "app" / "assets" / "favicon.png"), layout="wide",
                    initial_sidebar_state="collapsed")
 
@@ -62,14 +51,18 @@ st.set_page_config(page_title="BlueCarbon-AI", page_icon=str(ROOT / "app" / "ass
 st.markdown(
     """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Instrument+Serif&display=swap');
 :root{
-  --ink:#0b1f2a; --ink-2:#344651; --muted:#6a7a84; --line:#e4eaed; --line-2:#eef2f4;
-  --bg:#f5f7f8; --card:#ffffff; --brand:#0e5a67; --brand-ink:#083744; --accent:#14a3a0;
-  --accent-soft:#e6f5f3; --warn-bg:#fff6e8; --warn-ink:#8a5a00; --radius:14px;
+  --ink:#10262c; --ink-2:#3a4c52; --muted:#66777c; --line:#dfe6e5; --line-2:#ecf1f0;
+  --bg:#f3f6f5; --card:#ffffff; --brand:#1f5f6b; --brand-ink:#123f48; --accent:#2a8a8c;
+  --accent-soft:#e5f1f0; --sand:#c4ab7c; --warn-bg:#fff6e8; --warn-ink:#8a5a00; --radius:10px;
+  --serif:'Instrument Serif', Georgia, serif;
 }
 html, body, [class*="css"], .stApp, .stMarkdown, button, input, select, textarea {
-  font-family:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif !important; }
+  font-family:'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif !important; }
+.bc-hero h1, .bc-h2, .bc-doc h3, .bc-site h3, .bc-page h2, .bc-page h3 {font-family:var(--serif) !important;
+  font-weight:400; letter-spacing:-.005em;}
+:focus-visible{outline:2px solid var(--accent) !important; outline-offset:2px;}
 .stApp{background:var(--bg); color:var(--ink);}
 header[data-testid="stHeader"]{background:transparent; height:0;}
 div[data-testid="stToolbar"]{right:1rem;}
@@ -100,7 +93,7 @@ h1,h2,h3,h4{color:var(--ink); letter-spacing:-.015em;}
 .bc-howstep b{display:block; font-size:.92rem; color:var(--ink);}
 .bc-howstep small{display:block; color:var(--muted); font-size:.8rem; line-height:1.45; margin-top:.1rem;}
 .bc-glance-h{font-size:.8rem; font-weight:600; color:#9fe3d6; letter-spacing:.02em;}
-.bc-relhead{font-size:.74rem; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.05em;}
+.bc-relhead{font-size:.86rem; color:var(--ink-2); font-weight:600;}
 .bc-sumrow{display:grid; grid-template-columns:190px 1fr; gap:1rem; padding:.7rem 0; border-bottom:1px solid var(--line-2);}
 .bc-sumrow:last-child{border-bottom:none;}
 .bc-sumrow .k{font-weight:600; font-size:.9rem; color:var(--ink);}
@@ -111,14 +104,41 @@ h1,h2,h3,h4{color:var(--ink); letter-spacing:-.015em;}
 .bc-links a:hover{color:var(--brand);}
 
 /* hero */
-.bc-hero{display:grid; grid-template-columns:1.3fr 1fr; gap:2.4rem; align-items:center; margin-bottom:1.8rem;}
-.bc-eyebrow{font-size:.74rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
-.bc-hero h1{font-size:2.2rem; line-height:1.15; font-weight:700; margin:0 0 .8rem; padding:0;}
-.bc-hero p{color:var(--ink-2); font-size:1.02rem; line-height:1.6; margin:0; max-width:620px;}
-.bc-facts{display:flex; gap:.6rem; flex-wrap:wrap; justify-content:flex-end;}
+.bc-hero{display:grid; grid-template-columns:1.05fr 1fr; gap:3rem; align-items:center; margin:.6rem 0 1.4rem;}
+.bc-hero h1{font-size:2.6rem; line-height:1.12; margin:0 0 1rem; padding:0; max-width:18ch; color:var(--ink);}
+.bc-hero p{color:var(--ink-2); font-size:1.05rem; line-height:1.65; margin:0 0 .8rem; max-width:58ch;}
+.bc-plate{margin:0; background:var(--card); border:1px solid var(--line); border-radius:4px; padding:10px 10px 0;}
+.bc-plate img{display:block; width:100%; border-radius:2px;}
+.bc-plate figcaption{font-size:.82rem; line-height:1.5; color:var(--ink-2); padding:.6rem .15rem .75rem;
+  border-top:3px solid var(--sand); margin-top:10px;}
+.bc-plate figcaption b{color:var(--ink);}
+.bc-proof{display:flex; flex-wrap:wrap; gap:.4rem 2.2rem; padding:1rem 0 1.1rem; margin:0 0 1.2rem;
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+.bc-proof div{font-size:.88rem; color:var(--muted);}
+.bc-proof b{display:block; font-family:var(--serif); font-size:1.35rem; font-weight:600; color:var(--ink);
+  font-variant-numeric:tabular-nums;}
+.bc-facts{display:flex; gap:.6rem; flex-wrap:wrap;}
 .bc-fact{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:.6rem .85rem; min-width:118px;}
 .bc-fact b{display:block; font-size:1.05rem; color:var(--ink);}
 .bc-fact small{color:var(--muted); font-size:.74rem;}
+
+/* screening, about */
+.bc-page{max-width:900px;}
+.bc-page h2{font-size:1.7rem; margin:.8rem 0 .5rem; color:var(--ink);}
+.bc-page h3{font-size:1.2rem; margin:1.8rem 0 .5rem; color:var(--ink);}
+.bc-page p, .bc-page li{color:var(--ink-2); font-size:.98rem; line-height:1.7; max-width:68ch;}
+.bc-contents{display:grid; grid-template-columns:1fr 1fr; gap:0 2rem; margin:.4rem 0 0 !important; padding:0 !important; list-style:none;}
+.bc-contents li{margin:0 !important;}
+.bc-contents li{padding:.7rem 0; border-top:1px solid var(--line); max-width:none;}
+.bc-contents b{display:block; color:var(--ink); font-size:.96rem;}
+.bc-contents span{font-size:.88rem; color:var(--muted); line-height:1.55; display:block;}
+.bc-who{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem 2rem; margin-top:.4rem;}
+.bc-who div{border-left:3px solid var(--accent); padding:.1rem 0 .1rem .9rem;}
+.bc-who b{display:block; color:var(--ink);}
+.bc-who span{display:block; font-size:.9rem; color:var(--ink-2); line-height:1.5 !important; margin-top:.15rem;}
+.bc-status-box{background:var(--accent-soft); border:1px solid #cfe4e2; border-radius:var(--radius); padding:1rem 1.2rem;
+  margin:1.6rem 0 .4rem; color:var(--brand-ink); font-size:.94rem; line-height:1.6; max-width:68ch;}
+.bc-disclaimer{font-size:.8rem; color:var(--muted); line-height:1.55; max-width:80ch;}
 
 /* tabs */
 div[data-baseweb="tab-list"]{gap:.25rem; border-bottom:1px solid var(--line);}
@@ -138,8 +158,7 @@ div[data-baseweb="tab-border"]{display:none;}
 .bc-range{position:relative; height:6px; border-radius:6px; background:var(--line-2); margin:.55rem 0 .3rem;}
 .bc-range i{position:absolute; top:0; bottom:0; border-radius:6px; background:#9fd9d1;}
 .bc-range em{position:absolute; top:-3px; width:3px; height:12px; border-radius:2px; background:var(--brand);}
-.bc-section{font-size:.74rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
-  margin:1.6rem 0 .6rem;}
+.bc-section{font-size:.9rem; font-weight:600; color:var(--ink-2); margin:1.4rem 0 .6rem;}
 .bc-site h3{margin:0; font-size:1.25rem;}
 .bc-site .meta{color:var(--muted); font-size:.84rem; margin:.15rem 0 .6rem;}
 .bc-site p{color:var(--ink-2); font-size:.92rem; line-height:1.55; margin:0;}
@@ -161,7 +180,7 @@ div[data-baseweb="tab-border"]{display:none;}
 /* methodology */
 .bc-steps{display:grid; grid-template-columns:repeat(5,1fr); gap:.8rem; margin:.4rem 0 1.4rem;}
 .bc-step{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:1rem;}
-.bc-step .k{font-family:'JetBrains Mono', monospace; font-size:.72rem; color:var(--accent); font-weight:500;}
+.bc-step .k{font-family:var(--serif); font-size:1.1rem; color:var(--accent); font-weight:600;}
 .bc-step h4{margin:.3rem 0 .35rem; font-size:.98rem;}
 .bc-step p{margin:0; font-size:.82rem; line-height:1.5; color:var(--ink-2);}
 .bc-doc{max-width:880px;}
@@ -170,11 +189,11 @@ div[data-baseweb="tab-border"]{display:none;}
 .bc-table{width:100%; border-collapse:collapse; font-size:.88rem; background:var(--card); border:1px solid var(--line);
   border-radius:var(--radius); overflow:hidden;}
 .bc-table th{background:#f8fafb; text-align:left; font-weight:600; color:var(--ink-2); padding:.6rem .8rem;
-  border-bottom:1px solid var(--line); font-size:.78rem; text-transform:uppercase; letter-spacing:.05em;}
+  border-bottom:1px solid var(--line); font-size:.84rem;}
 .bc-table td{padding:.6rem .8rem; border-bottom:1px solid var(--line-2); color:var(--ink); vertical-align:top;}
 .bc-table tr:last-child td{border-bottom:none;}
 .bc-table td.num{text-align:right; font-variant-numeric:tabular-nums;}
-.bc-formula{font-family:'JetBrains Mono', monospace; font-size:.86rem; background:var(--card); border:1px solid var(--line);
+.bc-formula{font-family:ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size:.86rem; background:var(--card); border:1px solid var(--line);
   border-left:3px solid var(--accent); border-radius:8px; padding:.8rem 1rem; color:var(--ink); margin:.6rem 0;}
 .bc-refs li{font-size:.84rem;}
 .bc-footer{margin-top:3rem; padding-top:1.2rem; border-top:1px solid var(--line); color:var(--muted); font-size:.8rem;
@@ -189,12 +208,13 @@ div[data-baseweb="select"] > div{border-radius:10px; border-color:var(--line); b
 .stButton button[kind="primary"]:hover{background:var(--brand-ink);}
 div[data-testid="stExpander"]{border:1px solid var(--line); border-radius:var(--radius); background:var(--card);}
 @media (max-width: 900px){
-  .bc-hero{grid-template-columns:1fr;} .bc-facts{justify-content:flex-start;}
+  .bc-hero{grid-template-columns:1fr; gap:1.4rem;} .bc-hero h1{font-size:2rem;}
+  .bc-contents, .bc-who{grid-template-columns:1fr;}
   .bc-kpis{grid-template-columns:repeat(2,1fr);} .bc-steps{grid-template-columns:1fr 1fr;}
   .block-container{padding:1rem 1rem 2rem;}
 }
 
-.bc-glance{background:linear-gradient(135deg,#0e5a67 0%,#083744 100%); color:#fff; border-radius:var(--radius);
+.bc-glance{background:var(--brand-ink); color:#fff; border-radius:var(--radius);
   padding:1.3rem 1.5rem; margin:.3rem 0 1.2rem;}
 .bc-glance .bc-eyebrow{color:#9fe3d6;}
 .bc-glance p{margin:.4rem 0 0; font-size:1.08rem; line-height:1.65; color:#e8f3f4;}
@@ -606,29 +626,96 @@ def map_legend(report: dict, only_blue: bool) -> str:
 
 
 # ----------------------------------------------------------------------------- chrome
-st.markdown(
-    f'<div class="bc-top"><div class="bc-brand"><div class="bc-word">BlueCarbon<span>-AI</span></div>'
-    f'</div><div class="bc-links"><a href="{REPO}" target="_blank">GitHub</a>'
-    f'<a href="{REPO}/blob/main/docs/METHODOLOGY.md" target="_blank">How it works</a></div></div>'
-    '<div class="bc-hero"><div>'
-    "<h1>Finding the coastal ecosystems that fight climate change</h1>"
-    "<p>Mangrove forests, salt marshes and seagrass meadows pull carbon dioxide out of the air and lock it away in "
-    "their soils, sometimes for thousands of years. Scientists call this <b>blue carbon</b>. These habitats are "
-    "disappearing fast, and you can't protect what you haven't mapped.</p>"
-    "<p style='margin-top:.7rem'><b>BlueCarbon-AI</b> uses free satellite images and a deep-learning model to find "
-    "these habitats automatically, measure how much area they cover, and estimate how much carbon they hold.</p></div>"
-    '<div class="bc-how">'
-    f'<div class="bc-howstep"><span class="num">1</span><div><b>Satellite image</b>'
-    f'<small>A cloud-free photo of the coast from the Sentinel-2 satellites{tip(T_S2)}</small></div></div>'
-    '<div class="bc-howstep"><span class="num">2</span><div><b>AI habitat map</b>'
-    "<small>An AI model labels every 10 × 10 m patch as water, marsh, mangrove, seagrass or land</small></div></div>"
-    f'<div class="bc-howstep"><span class="num">3</span><div><b>Carbon estimate</b>'
-    f'<small>Area × published carbon values per habitat, with an honest uncertainty range{tip(T_TIER1)}</small></div></div>'
-    "</div></div>",
-    unsafe_allow_html=True,
-)
+EMBED = st.query_params.get("view") == "analyze"  # the website embeds only the live analysis tool
+HERO_SITE = "laguna_terminos_mx"
+SAMPLE_REPORTS = {"English": ROOT / "reports" / "screens" / "laguna_terminos_mx_en.pdf",
+                  "Español": ROOT / "reports" / "screens" / "laguna_terminos_mx_es.pdf"}
+COUNTRY_ALIASES = {"Western Australia": "Australia"}
 
-tab_explore, tab_analyze, tab_method = st.tabs(["Explore sites", "Analyze an area", "Methodology"])
+
+@st.cache_data
+def hero_plate(site: str, sig: str) -> str:
+    """Satellite image with the habitat map laid over it, as a small JPEG for the front page."""
+    from PIL import Image
+
+    d = DEMO_DIR / site
+    base = Image.open(d / "rgb.png").convert("RGBA")
+    over = Image.open(d / "classes.png").convert("RGBA").resize(base.size)
+    alpha = over.split()[3].point(lambda v: int(v * 0.8))
+    over.putalpha(alpha)
+    im = Image.alpha_composite(base, over).convert("RGB")
+    im.thumbnail((1100, 1100))
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=82)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def soil_core_count() -> int:
+    p = ROOT / "data" / "soil_carbon_cores.csv"
+    return sum(1 for _ in p.open()) - 1 if p.exists() else 0
+
+
+_metas = {t: json.loads((d / "meta.json").read_text()) for t, d in list_sites().items()}
+_countries = {COUNTRY_ALIASES.get(m.get("region", "").split(",")[-1].strip(), m.get("region", "").split(",")[-1].strip())
+              for m in _metas.values() if m.get("region")}
+_held = sum(1 for m in _metas.values() if m.get("held_out") and m.get("kind") != "change")
+_n_sites = sum(1 for m in _metas.values() if m.get("kind") != "change")
+
+if not EMBED:
+    st.markdown(
+        f'<div class="bc-top"><div class="bc-brand"><div class="bc-word">BlueCarbon<span>-AI</span></div></div>'
+        f'<div class="bc-links"><a href="{REPO}/blob/main/docs/METHODOLOGY.md" target="_blank">Methodology</a>'
+        f'<a href="{REPO}" target="_blank">Source code</a></div></div>',
+        unsafe_allow_html=True,
+    )
+
+    hero_l, hero_r = st.columns([1.05, 1], gap="large")
+    with hero_l:
+        st.markdown(
+            '<div class="bc-hero" style="display:block;margin-top:1.4rem">'
+            "<h1>Know what a coastline holds before you fund the fieldwork</h1>"
+            "<p>Mangrove forests, salt marshes and seagrass meadows store carbon in their soils for centuries. "
+            "Protecting or restoring them can earn carbon credits, but finding out whether a site qualifies usually "
+            "takes months of fieldwork.</p>"
+            "<p>BlueCarbon-AI maps these habitats from free satellite images, measures how much of each there is, "
+            "and estimates the carbon they store and the credits they could support. It is built for project "
+            "developers, coastal agencies and credit buyers who need a first answer in days.</p></div>",
+            unsafe_allow_html=True,
+        )
+        b1, b2 = st.columns([1, 1])
+        sample = SAMPLE_REPORTS["English"]
+        if sample.exists():
+            b1.download_button("Download a sample site screen", sample.read_bytes(), sample.name,
+                               mime="application/pdf", type="primary", width="stretch")
+        b2.link_button("See how the model is tested", f"{REPO}/blob/main/docs/METHODOLOGY.md", width="stretch")
+    with hero_r:
+        hm = _metas.get(next((t for t, d in list_sites().items() if d.name == HERO_SITE), ""), None)
+        if hm and (DEMO_DIR / HERO_SITE / "classes.png").exists():
+            ha = best_areas(hm["report"])
+            stock = hm["report"]["carbon"]["total_stock_tCO2e"]["mean"]
+            st.markdown(
+                f'<figure class="bc-plate"><img src="{hero_plate(HERO_SITE, _demo_signature())}" '
+                f'alt="Habitat map of {hm["title"]} over a Sentinel-2 satellite image">'
+                f'<figcaption><b>{hm["title"]}, {hm.get("region", "")}</b>. Mapped from {hm.get("period", "").lower()} '
+                f"Sentinel-2 imagery: {fmt(ha['mangrove'])} ha of mangrove and {fmt(ha['seagrass'])} ha of seagrass, "
+                f"storing about {stock / 1e6:,.0f} million tonnes of CO₂.</figcaption></figure>",
+                unsafe_allow_html=True,
+            )
+
+    st.markdown(
+        '<div class="bc-proof">'
+        f"<div><b>{_n_sites}</b>mapped coastal sites</div>"
+        f"<div><b>{len(_countries)}</b>countries and territories</div>"
+        f"<div><b>{_held}</b>estuaries held back to test the model</div>"
+        f"<div><b>{soil_core_count():,}</b>measured soil cores for carbon</div>"
+        "<div><b>10 m</b>map resolution, from free imagery</div></div>",
+        unsafe_allow_html=True,
+    )
+
+    tab_explore, tab_analyze, tab_screen, tab_method, tab_about = st.tabs(
+        ["Explore sites", "Analyze an area", "Site screening", "Methodology", "About"])
+else:
+    tab_analyze = st.container()
 
 # ----------------------------------------------------------------------------- explore
 VIEWS = {"Habitats": "classes", "Blue carbon only": "bluecarbon", "Satellite": None, "False color": "falsecolor"}
@@ -746,6 +833,13 @@ def change_section(meta: dict) -> None:
                 unsafe_allow_html=True)
 
 
+@st.cache_data(show_spinner="Preparing the report...")
+def site_report_pdf(site: str, lang: str, sig: str) -> bytes:
+    from bluecarbon.screen import build_report
+
+    return build_report(DEMO_DIR / site, None, lang)
+
+
 def site_metas() -> dict[str, dict]:
     return _site_metas(_demo_signature())
 
@@ -775,72 +869,84 @@ def sites_overview(metas: dict[str, dict]) -> None:
         color = "#14a3a0" if meta.get("held_out") or meta.get("kind") == "change" else "#f5f7f8"
         folium.CircleMarker([(s + n) / 2, (w + e) / 2], radius=7, color="#083744", weight=2, fill=True,
                             fill_color=color, fill_opacity=1,
-                            tooltip=f"{t}" + (f" · {label}" if label else "")).add_to(m)
+                            tooltip=f"{t}" + (f" ({label.lower()})" if label else "")).add_to(m)
     st_folium(m, height=300, use_container_width=True, returned_objects=[], key="overview")
     st.markdown('<div class="bc-maplegend"><span><i style="background:#14a3a0;border:2px solid #083744"></i>'
                 'Never seen in training</span><span><i style="background:#f5f7f8;border:2px solid #083744"></i>'
                 "Training site</span></div>", unsafe_allow_html=True)
 
 
-with tab_explore:
-    metas = site_metas()
-    sites = list_sites()
-    if not sites:
-        st.warning("No demo data found in demo_data/.")
-    else:
-        order = sorted(metas, key=lambda t: (0 if metas[t].get("kind") == "change" else
-                                              1 if metas[t].get("held_out") else 2 if "held_out" not in metas[t] else 3, t))
-        if len(metas) > 1:
-            section(f"{len(metas)} coastal sites", "Pick a site below. Teal sites were never shown to the AI during "
-                                                   "training, so they are the fairest test of how well it works.")
-            sites_overview(metas)
-        c1, _ = st.columns([1.5, 1.5], gap="large")
-
-        def label(t):
-            lab, _ = site_status(metas[t])
-            return f"{t}  ·  {lab}" if lab else t
-
-        title = c1.selectbox("Site", order, format_func=label)
-        d = sites[title]
-        meta = metas[title]
-        report = meta["report"] if meta["kind"] == "single" else meta["t1"]
-        where = " · ".join(x for x in [meta.get("region"), meta.get("period")] if x)
-        lab, cls = site_status(meta)
-        badge = f'<span class="bc-status {cls}">{lab}</span>' if lab else ""
-        side = (f'<div class="bc-site">{badge}<h3>{meta["title"]}</h3><div class="meta">{where}</div>'
-                f'<p>{meta.get("description", "")}</p></div>')
-
-        if meta["kind"] == "change":
-            def demo_map(view, opacity):
-                m = make_map(meta["bounds"])
-                key = CHANGE_VIEWS[view]
-                if view == "False color":
-                    overlay(m, png_uri(d / "falsecolor_t1.png"), meta["bounds"], 1.0)
-                else:
-                    base = "rgb_t0.png" if view == "Before" else "rgb_t1.png"
-                    overlay(m, png_uri(d / base), meta["bounds"], 1.0)
-                    if key:
-                        overlay(m, png_uri(d / f"{key}.png"), meta["bounds"], opacity)
-                outline(m, meta["bounds"])
-                st_folium(m, height=560, use_container_width=True, returned_objects=[],
-                          key=f"map_{title}_{view}_{opacity}")
-
-            render_results(meta, report, demo_map, side, CHANGE_VIEWS, change_hints(meta),
-                           after_map=lambda: change_section(meta))
+if not EMBED:
+    with tab_explore:
+        metas = site_metas()
+        sites = list_sites()
+        if not sites:
+            st.warning("No demo data found in demo_data/.")
         else:
-            def demo_map(view, opacity):
-                m = make_map(meta["bounds"])
-                if view == "False color":
-                    overlay(m, png_uri(d / "falsecolor.png"), meta["bounds"], 1.0)
-                else:
-                    overlay(m, png_uri(d / "rgb.png"), meta["bounds"], 1.0)
-                    if VIEWS[view]:
-                        overlay(m, png_uri(d / f"{VIEWS[view]}.png"), meta["bounds"], opacity)
-                outline(m, meta["bounds"])
-                st_folium(m, height=560, use_container_width=True, returned_objects=[],
-                          key=f"map_{title}_{view}_{opacity}")
+            order = sorted(metas, key=lambda t: (0 if metas[t].get("kind") == "change" else
+                                                  1 if metas[t].get("held_out") else 2 if "held_out" not in metas[t] else 3, t))
+            if len(metas) > 1:
+                n_change = sum(1 for m in metas.values() if m.get("kind") == "change")
+                section(f"{len(metas) - n_change} coastal sites" + (f" and {n_change} change study" if n_change == 1 else
+                        f" and {n_change} change studies" if n_change else ""), "Pick a site below. Teal sites were never shown to the AI during "
+                                                       "training, so they are the fairest test of how well it works.")
+                sites_overview(metas)
+            c1, c2, c3 = st.columns([1.5, 0.75, 0.75], gap="small")
 
-            render_results(meta, report, demo_map, side)
+            def label(t):
+                lab, _ = site_status(metas[t])
+                return f"{t} ({lab.lower()})" if lab else t
+
+            title = c1.selectbox("Site", order, format_func=label)
+            d = sites[title]
+            meta = metas[title]
+            lang = c2.selectbox("Report language", ["English", "Español"], key="rep_lang")
+            code = "es" if lang == "Español" else "en"
+            try:
+                pdf = site_report_pdf(d.name, code, _demo_signature())
+                c3.markdown("<div style='height:1.75rem'></div>", unsafe_allow_html=True)
+                c3.download_button("Download PDF report", pdf, f"bluecarbon_{d.name}_{code}.pdf", mime="application/pdf",
+                                   width="stretch", key=f"pdf_{d.name}_{code}")
+            except Exception as e:  # a report problem must never break the map page
+                c3.caption(f"Report unavailable ({str(e)[:60]})")
+            report = meta["report"] if meta["kind"] == "single" else meta["t1"]
+            where = ", ".join(x for x in [meta.get("region"), meta.get("period")] if x)
+            lab, cls = site_status(meta)
+            badge = f'<span class="bc-status {cls}">{lab}</span>' if lab else ""
+            side = (f'<div class="bc-site">{badge}<h3>{meta["title"]}</h3><div class="meta">{where}</div>'
+                    f'<p>{meta.get("description", "")}</p></div>')
+
+            if meta["kind"] == "change":
+                def demo_map(view, opacity):
+                    m = make_map(meta["bounds"])
+                    key = CHANGE_VIEWS[view]
+                    if view == "False color":
+                        overlay(m, png_uri(d / "falsecolor_t1.png"), meta["bounds"], 1.0)
+                    else:
+                        base = "rgb_t0.png" if view == "Before" else "rgb_t1.png"
+                        overlay(m, png_uri(d / base), meta["bounds"], 1.0)
+                        if key:
+                            overlay(m, png_uri(d / f"{key}.png"), meta["bounds"], opacity)
+                    outline(m, meta["bounds"])
+                    st_folium(m, height=560, use_container_width=True, returned_objects=[],
+                              key=f"map_{title}_{view}_{opacity}")
+
+                render_results(meta, report, demo_map, side, CHANGE_VIEWS, change_hints(meta),
+                               after_map=lambda: change_section(meta))
+            else:
+                def demo_map(view, opacity):
+                    m = make_map(meta["bounds"])
+                    if view == "False color":
+                        overlay(m, png_uri(d / "falsecolor.png"), meta["bounds"], 1.0)
+                    else:
+                        overlay(m, png_uri(d / "rgb.png"), meta["bounds"], 1.0)
+                        if VIEWS[view]:
+                            overlay(m, png_uri(d / f"{VIEWS[view]}.png"), meta["bounds"], opacity)
+                    outline(m, meta["bounds"])
+                    st_folium(m, height=560, use_container_width=True, returned_objects=[],
+                              key=f"map_{title}_{view}_{opacity}")
+
+                render_results(meta, report, demo_map, side)
 
 
 # ----------------------------------------------------------------------------- analyze
@@ -901,8 +1007,7 @@ with tab_analyze:
         st.markdown(
             """
 <div class="bc-card" style="max-width:820px;margin-top:.6rem">
-  <div class="bc-eyebrow">On-demand analysis</div>
-  <h3 style="margin:.35rem 0 .4rem">Map any coastline in about a minute</h3>
+  <h3 style="margin:0 0 .4rem">Map any coastline in about a minute</h3>
   <p style="color:var(--ink-2);line-height:1.6;margin:0 0 .9rem">Draw a box anywhere on Earth, pick a season, and
   BlueCarbon-AI pulls a fresh cloud-free Sentinel-2 composite from Google Earth Engine, runs the model and returns a habitat
   map, carbon report and downloadable GeoTIFF.</p>
@@ -1008,28 +1113,90 @@ with tab_analyze:
             d2.download_button("Download report (JSON)", json.dumps(live["report"], indent=2), "bluecarbon_report.json",
                                width="stretch")
 
-# ----------------------------------------------------------------------------- methodology
-with tab_method:
-    steps = [
-        ("01", "Acquire", "Sentinel-2 L2A surface reflectance, masked with Cloud Score+ and reduced to a seasonal median."),
-        ("02", "Label", "Reference labels fused from ESA WorldCover, Murray tidal flats and the Allen Coral Atlas."),
-        ("03", "Learn", "U-Net with a ResNet encoder on 10 bands, 4 indices and 3 context layers, trained with Dice + CE loss."),
-        ("04", "Map", "Overlapping tiles blended with a smooth window and flip test-time augmentation."),
-        ("05", "Account", "Error-adjusted areas × measured local soil carbon (or IPCC Tier 1), with Monte Carlo 90% intervals."),
-    ]
-    st.markdown('<div class="bc-steps">' + "".join(
-        f'<div class="bc-step"><div class="k">{k}</div><h4>{t}</h4><p>{p}</p></div>' for k, t, p in steps) + "</div>",
-        unsafe_allow_html=True)
+# ----------------------------------------------------------------------------- site screening
+if not EMBED:
+    with tab_screen:
+        st.markdown(
+            """
+<div class="bc-page">
+<h2>Is this coastline worth a carbon project?</h2>
+<p>A site screen answers that question before anyone pays for fieldwork. It combines the satellite habitat map
+with measured soil carbon, recent habitat change and a check of the legal status of the area, and ends with a plain
+verdict: promising, needs investigation, or unlikely to qualify.</p>
 
-    cc = CFG.carbon.classes
-    carbon_rows = "".join(
-        f'<tr><td>{CLS[k].name}</td><td class="num">{v.soil[1]:.0f} <span class="bc-note">({v.soil[0]:.0f}–{v.soil[2]:.0f})</span></td>'
-        f'<td class="num">{v.biomass[1]:.0f} <span class="bc-note">({v.biomass[0]:g}–{v.biomass[2]:g})</span></td>'
-        f'<td class="num">{v.accumulation[1]:.2f} <span class="bc-note">({v.accumulation[0]:g}–{v.accumulation[2]:g})</span></td></tr>'
-        for k, v in cc.items())
+<h3>What a site screen contains</h3>
+<ul class="bc-contents">
+<li><b>Habitat map and areas</b><span>Mangrove, salt marsh and seagrass in hectares, corrected for the model's known
+errors, with a likely range.</span></li>
+<li><b>Carbon stored and absorbed</b><span>Soil and plant carbon, using measured soil cores near the site where they
+exist and IPCC values where they don't.</span></li>
+<li><b>Credit potential</b><span>Low, mid and high credits per year after risk buffer, leakage and uncertainty
+deductions, and their value at current prices.</span></li>
+<li><b>Change over time</b><span>How much habitat was gained or lost over recent years, which decides whether a
+protection project can claim avoided loss.</span></li>
+<li><b>Rights and status checks</b><span>Protected areas, Ramsar listing, land tenure, carbon rights law and any
+existing carbon projects, each with its source.</span></li>
+<li><b>Verdict and next steps</b><span>Whether to move on to a feasibility study, and what to confirm on the ground
+first.</span></li>
+</ul>
 
+<h3>Who it is for</h3>
+<div class="bc-who">
+<div><b>Project developers</b><span>Rank many candidate sites quickly and spend fieldwork budget only on the best.</span></div>
+<div><b>Coastal agencies</b><span>See where blue carbon habitat is, how it is changing, and what it could earn.</span></div>
+<div><b>Credit buyers and investors</b><span>Check a project's claimed habitat area and carbon against an
+independent map.</span></div>
+<div><b>Conservation groups</b><span>Make the case for protecting a wetland with numbers a funder can check.</span></div>
+</div>
+
+<h3>Sample site screen</h3>
+<p>Laguna de Términos in Campeche, Mexico: one of the largest mangrove lagoons on the Gulf of Mexico, screened in
+English and Spanish.</p>
+</div>""",
+        unsafe_allow_html=True,
+    )
+    s1, s2, _ = st.columns([1, 1, 2])
+    for col, (lang_name, path) in zip((s1, s2), SAMPLE_REPORTS.items(), strict=True):
+        if path.exists():
+            col.download_button(f"Sample screen ({lang_name})", path.read_bytes(), path.name, mime="application/pdf",
+                                width="stretch", key=f"sample_{lang_name}")
     st.markdown(
-        f"""
+        """
+<div class="bc-page">
+<p>Every site under <b>Explore sites</b> also has an automatic PDF report with the map, carbon and credit estimate.
+The rights and status checks are researched by hand, so they appear only in a full site screen.</p>
+<div class="bc-status-box">BlueCarbon-AI is in early development. Requests for site screens will open once the
+service is set up. Until then, all mapped sites and reports on this page are free to use.</div>
+<p class="bc-disclaimer">Site screens are estimates for early planning. They are not legal, financial or investment
+advice, and they are not carbon credits: only a registry issues credits, after independent validation and
+verification on the ground.</p>
+</div>""",
+        unsafe_allow_html=True,
+    )
+
+# ----------------------------------------------------------------------------- methodology
+if not EMBED:
+    with tab_method:
+        steps = [
+            ("01", "Acquire", "Sentinel-2 L2A surface reflectance, masked with Cloud Score+ and reduced to a seasonal median."),
+            ("02", "Label", "Reference labels fused from ESA WorldCover, Murray tidal flats and the Allen Coral Atlas."),
+            ("03", "Learn", "U-Net with a ResNet encoder on 10 bands, 4 indices and 3 context layers, trained with Dice + CE loss."),
+            ("04", "Map", "Overlapping tiles blended with a smooth window and flip test-time augmentation."),
+            ("05", "Account", "Error-adjusted areas × measured local soil carbon (or IPCC Tier 1), with Monte Carlo 90% intervals."),
+        ]
+        st.markdown('<div class="bc-steps">' + "".join(
+            f'<div class="bc-step"><div class="k">{k}</div><h4>{t}</h4><p>{p}</p></div>' for k, t, p in steps) + "</div>",
+            unsafe_allow_html=True)
+
+        cc = CFG.carbon.classes
+        carbon_rows = "".join(
+            f'<tr><td>{CLS[k].name}</td><td class="num">{v.soil[1]:.0f} <span class="bc-note">({v.soil[0]:.0f}–{v.soil[2]:.0f})</span></td>'
+            f'<td class="num">{v.biomass[1]:.0f} <span class="bc-note">({v.biomass[0]:g}–{v.biomass[2]:g})</span></td>'
+            f'<td class="num">{v.accumulation[1]:.2f} <span class="bc-note">({v.accumulation[0]:g}–{v.accumulation[2]:g})</span></td></tr>'
+            for k, v in cc.items())
+
+        st.markdown(
+            f"""
 <div class="bc-doc">
 <h3>Imagery</h3>
 <p>Each scene is a per-pixel median of every Sentinel-2 L2A acquisition in the chosen season
@@ -1122,8 +1289,40 @@ as independent samples, so they understate the true uncertainty.</li>
         unsafe_allow_html=True,
     )
 
-st.markdown(
-    f'<div class="bc-footer"><span>BlueCarbon-AI · Built by Yanick Sanchez</span>'
-    f'<span><a href="{REPO}" target="_blank">Source on GitHub</a> · MIT License</span></div>',
-    unsafe_allow_html=True,
-)
+# ----------------------------------------------------------------------------- about
+if not EMBED:
+    with tab_about:
+        st.markdown(
+            f"""
+<div class="bc-page">
+<h2>About BlueCarbon-AI</h2>
+<p>Coastal wetlands are among the most carbon-dense ecosystems on Earth, and they are being lost faster than
+almost any other. Money for protecting them exists through carbon markets, but the first step, finding out what
+a site holds, is slow and expensive. BlueCarbon-AI makes that first step fast, cheap and repeatable.</p>
+
+<h3>How it works</h3>
+<p>A deep-learning model reads Sentinel-2 satellite images and labels every 10 by 10 metre patch of coast. It was
+trained on {_n_sites - _held} coastal sites around the world, using peer-reviewed global maps and official
+seagrass surveys as the answer key, and it is scored on {_held} estuaries it never saw during training. Carbon comes
+from {soil_core_count():,} measured soil cores in the Smithsonian Coastal Carbon Library, with IPCC values as the
+fallback. The full method, every data source and the known limits are on the Methodology tab.</p>
+
+<h3>Built on open data</h3>
+<p>Every input is free and public: Copernicus Sentinel-2 imagery through Google Earth Engine, ESA WorldCover, global
+tidal flat and wetland maps, the Allen Coral Atlas, state and national seagrass surveys, and the Coastal Carbon
+Library. The code is open source under the MIT License, so every number on this site can be checked.</p>
+
+<h3>Who is behind it</h3>
+<p>BlueCarbon-AI is built by Yanick Sanchez. The source code, model results and development history are on
+<a href="{REPO}" target="_blank">GitHub</a>.</p>
+</div>""",
+        unsafe_allow_html=True,
+    )
+
+if not EMBED:
+    st.markdown(
+        f'<div class="bc-footer"><span>BlueCarbon-AI, built by Yanick Sanchez. Estimates for screening only; not '
+        "legal, financial or investment advice.</span>"
+        f'<span><a href="{REPO}" target="_blank">Source code</a>, MIT License</span></div>',
+        unsafe_allow_html=True,
+    )

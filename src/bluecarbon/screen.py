@@ -132,6 +132,9 @@ T = {
         disclaimer="Screening and estimates only. Not legal, financial or investment advice. Only a registry "
                    "issues credits, after independent validation and verification. Confirm land tenure and "
                    "carbon rights with a local lawyer.",
+        auto_note="Automatic report from the satellite map. It does not yet include the land tenure, "
+                  "carbon rights and protected-area checks, or a screening verdict; those are researched by hand "
+                  "for a full site screen.",
         ha="ha"),
     "es": dict(
         title="Evaluación preliminar de sitio de carbono azul", prepared="Preparado", model="Modelo de hábitat",
@@ -168,6 +171,9 @@ T = {
         disclaimer="Solo evaluación preliminar y estimaciones. No es asesoría legal, financiera ni de inversión. "
                    "Solo un registro emite créditos, tras validación y verificación independientes. Confirme la "
                    "tenencia de la tierra y los derechos de carbono con un abogado local.",
+        auto_note="Informe automático a partir del mapa satelital. Aún no incluye la revisión de tenencia de "
+                  "la tierra, derechos de carbono y áreas protegidas, ni un resultado preliminar; eso se investiga "
+                  "a mano para una evaluación completa.",
         ha="ha"),
 }
 HAB_ES = {"water": "Agua abierta", "mangrove": "Manglar", "saltmarsh": "Marisma salada", "seagrass": "Pastos marinos",
@@ -200,28 +206,72 @@ def load_change(page_dir: Path | None) -> dict | None:
             "labels": labels, "years": years or 1.0, "dir": page_dir}
 
 
+def _pdf_image(path: Path, width_in: float):
+    """Image scaled down for print (about 200 dpi): full-size map PNGs made each PDF ~6 MB."""
+    import io
+
+    from PIL import Image as PILImage
+    from reportlab.lib.units import inch
+    from reportlab.platypus import Image
+
+    im = PILImage.open(path)
+    px = int(width_in * 200)
+    if im.width > px:
+        im = im.resize((px, round(im.height * px / im.width)), PILImage.LANCZOS)
+    buf = io.BytesIO()
+    if im.mode in ("RGBA", "LA", "P"):
+        bg = PILImage.new("RGB", im.size, "white")
+        rgba = im.convert("RGBA")
+        bg.paste(rgba, mask=rgba.split()[3])
+        im = bg
+    im.convert("RGB").save(buf, "JPEG", quality=85)
+    buf.seek(0)
+    out = Image(buf)
+    out.drawWidth, out.drawHeight = width_in * inch, width_in * inch * im.height / im.width
+    return out
+
+
 def build_pdf(spec_path: Path, out_path: Path, lang: str = "en", demo_root: Path = Path("demo_data")) -> Path:
+    """Full site screen from a hand-researched spec (configs/screens/*.yaml), including rights flags."""
     import yaml
+
+    spec = yaml.safe_load(Path(spec_path).read_text())
+    return build_report(demo_root / spec["site"], out_path, lang, spec, demo_root)
+
+
+def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spec: dict | None = None,
+                 demo_root: Path | None = None):
+    """Screening PDF for one demo page. Without a spec (the automatic report on the website) the rights
+    and status checks are left out and no verdict is given, because those need hand research.
+    Returns the path written, or the PDF bytes when out_path is None."""
+    import datetime as dt
+    import io
+
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
     from reportlab.lib.units import inch
-    from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
     t = T[lang]
-    spec = yaml.safe_load(Path(spec_path).read_text())
-    page = demo_root / spec["site"]
+    spec = spec or {}
+    page = Path(page)
+    demo_root = Path(demo_root) if demo_root else page.parent
     meta = json.loads((page / "meta.json").read_text())
-    rep = meta["report"]
+    is_change = meta.get("kind") == "change"
+    rep = meta["t1"] if is_change else meta["report"]
+    sfx = "_t1" if is_change else ""
     model = meta.get("model") or {}
     f1 = ((model.get("test") or {}).get("f1")) or {}
-    focus = spec.get("focus", "mangrove")
-    change = load_change(demo_root / spec["change"]) if spec.get("change") else None
+    areas = rep.get("areas_ha", {})
+    focus = spec.get("focus") or max(BLUE_CARBON_KEYS, key=lambda k: areas.get(k, 0.0))
+    change = load_change(page) if is_change else (load_change(demo_root / spec["change"]) if spec.get("change") else None)
     a = CreditAssumptions(**{k: v for k, v in (spec.get("credits") or {}).items() if k != "extra"})
     cr = credits_estimate(rep, f1, a, change)
     flags = spec.get("flags", [])
     _, focus_area, _ = area_range(rep, focus, f1.get(focus))
     v, why = verdict(flags, focus_area)
+    prepared = spec.get("prepared") or dt.date.today().isoformat()
 
     ss = getSampleStyleSheet()
     teal = colors.HexColor("#0f5c63")
@@ -244,22 +294,22 @@ def build_pdf(spec_path: Path, out_path: Path, lang: str = "en", demo_root: Path
 
     story = [Paragraph(t["title"], h1),
              Paragraph(f"<b>{meta['title']}</b>, {meta.get('region', '')} &nbsp;·&nbsp; {t['prepared']} "
-                       f"{spec.get('prepared', '')} &nbsp;·&nbsp; {t['model']}: {model.get('arch', '')} "
+                       f"{prepared} &nbsp;·&nbsp; {t['model']}: {model.get('arch', '')} "
                        f"({model.get('encoder', '')})", body), Spacer(1, 6)]
-    sev_color = {"promising": "#2f7d32", "needs_investigation": "#b26a00", "unlikely": "#b3261e"}[v]
-    why_txt = "; ".join(next((f[lang] for f in flags if f["key"] == k), k).split(".")[0] for k in why) or "-"
-    story.append(table([[Paragraph(f"<b>{t['verdict_lbl']}:</b> <font color='{sev_color}'><b>{t['verdicts'][v]}"
-                                   f"</b></font>", body)], [Paragraph(f"<b>{t['why']}:</b> {why_txt}.", body)]],
-                       [7.0 * inch], header=False))
+    if flags:
+        sev_color = {"promising": "#2f7d32", "needs_investigation": "#b26a00", "unlikely": "#b3261e"}[v]
+        why_txt = "; ".join(next((f[lang] for f in flags if f["key"] == k), k).split(".")[0] for k in why) or "-"
+        story.append(table([[Paragraph(f"<b>{t['verdict_lbl']}:</b> <font color='{sev_color}'><b>{t['verdicts'][v]}"
+                                       f"</b></font>", body)], [Paragraph(f"<b>{t['why']}:</b> {why_txt}.", body)]],
+                           [7.0 * inch], header=False))
+    else:
+        story.append(table([[Paragraph(t["auto_note"], body)]], [7.0 * inch], header=False))
 
     story.append(Paragraph(t["maps"], h2))
     imgs = []
-    for f, cap in ((page / "rgb.png", t["sat"]), (page / "classes.png", t["hab"])):
+    for f, cap in ((page / f"rgb{sfx}.png", t["sat"]), (page / f"classes{sfx}.png", t["hab"])):
         if f.exists():
-            im = Image(str(f))
-            r = im.imageHeight / im.imageWidth
-            im.drawWidth, im.drawHeight = 3.3 * inch, 3.3 * inch * r
-            imgs.append([im, Paragraph(cap, small)])
+            imgs.append([_pdf_image(f, 3.3), Paragraph(cap, small)])
     if imgs:
         story.append(Table([[i[0] for i in imgs], [i[1] for i in imgs]], hAlign="LEFT"))
     legend = " &nbsp; ".join(f"<font color='{CLS[k].color}'>■</font> {hab_name(k, lang)}" for k in CLS)
@@ -314,25 +364,20 @@ def build_pdf(spec_path: Path, out_path: Path, lang: str = "en", demo_root: Path
         cd = change["dir"]
         pics = [f for f in (cd / "rgb_t1.png", cd / "change.png") if f.exists()]
         if pics:
-            ims = []
-            for f in pics:
-                im = Image(str(f))
-                r = im.imageHeight / im.imageWidth
-                im.drawWidth, im.drawHeight = 3.3 * inch, 3.3 * inch * r
-                ims.append(im)
-            story.append(Table([ims], hAlign="LEFT"))
+            story.append(Table([[_pdf_image(f, 3.3) for f in pics]], hAlign="LEFT"))
     else:
         story.append(Paragraph(t["change_none"], body))
 
-    story.append(Paragraph(t["flags"], h2))
-    rows = [[t["flag_col"], t["status_col"], t["note_col"]]]
-    sev_c = {"ok": "#2f7d32", "caution": "#b26a00", "risk": "#b3261e"}
-    for f in flags:
-        note = f[lang] + (f" <font size=6.5 color='#4a5560'>[{f['source']}]</font>" if f.get("source") else "")
-        rows.append([f["key"].replace("_", " ").capitalize(),
-                     Paragraph(f"<font color='{sev_c[f['severity']]}'><b>{t['sev'][f['severity']]}</b></font>", cell),
-                     note])
-    story.append(table(rows, [1.3 * inch, 0.9 * inch, 4.8 * inch]))
+    if flags:
+        story.append(Paragraph(t["flags"], h2))
+        rows = [[t["flag_col"], t["status_col"], t["note_col"]]]
+        sev_c = {"ok": "#2f7d32", "caution": "#b26a00", "risk": "#b3261e"}
+        for f in flags:
+            note = f[lang] + (f" <font size=6.5 color='#4a5560'>[{f['source']}]</font>" if f.get("source") else "")
+            rows.append([f["key"].replace("_", " ").capitalize(),
+                         Paragraph(f"<font color='{sev_c[f['severity']]}'><b>{t['sev'][f['severity']]}</b></font>",
+                                   cell), note])
+        story.append(table(rows, [1.3 * inch, 0.9 * inch, 4.8 * inch]))
 
     story.append(Paragraph(t["methods"], h2))
     for line in t["methods_text"]:
@@ -340,10 +385,13 @@ def build_pdf(spec_path: Path, out_path: Path, lang: str = "en", demo_root: Path
     story.append(Spacer(1, 6))
     story.append(table([[Paragraph(t["disclaimer"], small)]], [7.0 * inch], header=False))
 
+    kw = dict(pagesize=letter, leftMargin=0.75 * inch, rightMargin=0.75 * inch, topMargin=0.6 * inch,
+              bottomMargin=0.6 * inch, title=f"{t['title']}: {meta['title']}", author="BlueCarbon-AI")
+    if out_path is None:
+        buf = io.BytesIO()
+        SimpleDocTemplate(buf, **kw).build(story)
+        return buf.getvalue()
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    doc = SimpleDocTemplate(str(out_path), pagesize=letter, leftMargin=0.75 * inch, rightMargin=0.75 * inch,
-                            topMargin=0.6 * inch, bottomMargin=0.6 * inch, title=f"{t['title']}: {meta['title']}",
-                            author="BlueCarbon-AI")
-    doc.build(story)
+    SimpleDocTemplate(str(out_path), **kw).build(story)
     return out_path

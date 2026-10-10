@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BlueCarbon-AI | Satellite mapping of coastal blue carbon</title>
+<meta name="description" content="BlueCarbon-AI maps mangrove, salt marsh and seagrass from free satellite imagery and estimates the carbon they store, so blue carbon sites can be screened in days.">
+<meta property="og:title" content="BlueCarbon-AI">
+<meta property="og:description" content="Satellite mapping of mangrove, salt marsh and seagrass, with carbon and credit estimates.">
+<meta property="og:image" content="data/hero_map.jpg">
+<meta name="theme-color" content="#0d1f29">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#sites">Sites</a>
+      <a href="analyze.html">Live analysis</a>
+      <a href="#screening">Site screening</a>
+      <a href="methodology.html">Methodology</a>
+      <a class="btn btn-solid btn-sm" href="explore.html">Open the map</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-frame" id="hero">
+      <img class="hero-img" src="data/hero_sat.jpg" alt="Sentinel-2 satellite image of Laguna de Términos, Mexico">
+      <img class="hero-img hero-map" src="data/hero_map.jpg" alt="The same area with mangrove, seagrass and other habitats coloured by the AI model">
+      <div class="hero-shade"></div>
+      <div class="hero-tags"><span><b>Laguna de Términos</b>, Campeche, Mexico</span><span>18.63° N, 91.75° W &nbsp; Sentinel-2, 2021</span></div>
+      <button class="hero-handle" id="handle" aria-label="Drag to compare the satellite image with the habitat map" role="slider"
+              aria-valuemin="0" aria-valuemax="100" aria-valuenow="62"><span>&lsaquo;&rsaquo;</span></button>
+      <div class="hero-copy">
+        <h1>Find the carbon in any coastline</h1>
+        <p>BlueCarbon-AI maps mangrove, salt marsh and seagrass from free satellite images, measures how much of each there is,
+          and estimates the carbon they store and the credits they could support.</p>
+        <div class="hero-cta">
+          <a class="btn btn-light" href="explore.html">Explore mapped sites</a>
+          <a class="btn btn-ghost" href="#screening">See a site screen</a>
+        </div>
+      </div>
+      <div class="hero-legend" id="hero-legend" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="figures" id="figures">
+      <div><b data-k="n_sites">44</b><span>coastal sites mapped</span></div>
+      <div><b data-k="n_countries">21</b><span>countries and territories</span></div>
+      <div><b data-k="blue_carbon_ha">–</b><span>hectares of blue carbon habitat found</span></div>
+      <div><b data-k="n_held_out">5</b><span>estuaries held back to test the model</span></div>
+      <div><b data-k="n_soil_cores">2,515</b><span>measured soil cores behind the carbon numbers</span></div>
+    </div>
+  </div>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">How it works</p><h2>From a satellite image to a carbon estimate</h2></div>
+        <p class="lede">Coastal wetlands store carbon in their soils for centuries, and protecting them can earn carbon credits.
+          The first question for any project is what a site actually holds. Answering it used to take months of fieldwork.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <figure><img src="data/sites/tampa_bay_fl/rgb.jpg" alt="Satellite image of Tampa Bay" loading="lazy"></figure>
+          <span class="n">1</span>
+          <h3>A clear view from orbit</h3>
+          <p>Every Sentinel-2 image of the site over a year is cleaned of cloud and combined into one clear picture at 10 m detail,
+            plus a clear-water image that shows the seafloor.</p>
+        </article>
+        <article class="step">
+          <figure><img src="data/sites/tampa_bay_fl/rgb.jpg" alt="" loading="lazy"><img src="data/sites/tampa_bay_fl/classes.png"
+            alt="Habitat map of Tampa Bay" loading="lazy" style="position:absolute;inset:0;opacity:.9"></figure>
+          <span class="n">2</span>
+          <h3>Every patch of coast labelled</h3>
+          <p>A deep-learning model trained on 39 coastal sites around the world labels each 10 by 10 m patch as mangrove,
+            salt marsh, seagrass, tidal flat, water or land.</p>
+        </article>
+        <article class="step">
+          <figure><img src="data/sites/tampa_bay_fl/falsecolor.jpg" alt="" loading="lazy">
+            <div class="carbon-card" id="carbon-card"><b>–</b><small>tonnes of CO₂ stored at Tampa Bay</small>
+              <div class="sub"><span id="cc-seq"></span><span id="cc-soil"></span></div></div></figure>
+          <span class="n">3</span>
+          <h3>Carbon, with an honest range</h3>
+          <p>Areas are corrected for the model's known errors, then multiplied by carbon measured in nearby soil cores, with
+            IPCC values where none exist. Every number comes with a low and high estimate.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sites" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Mapped sites</p><h2>Six continents of coastline, already mapped</h2></div>
+        <p class="lede">Mangrove deltas, temperate salt marshes and tropical seagrass lagoons. Open any site to see its habitat map,
+          carbon estimate and a downloadable report.</p>
+      </div>
+      <div class="sites-map" id="world" role="img" aria-label="World map of mapped sites"></div>
+      <div class="filters" role="group" aria-label="Filter sites">
+        <button class="chip" aria-pressed="true" data-f="all">All sites</button>
+        <button class="chip" aria-pressed="false" data-f="mangrove">Mangrove</button>
+        <button class="chip" aria-pressed="false" data-f="saltmarsh">Salt marsh</button>
+        <button class="chip" aria-pressed="false" data-f="seagrass">Seagrass</button>
+        <button class="chip" aria-pressed="false" data-f="held">Never seen in training</button>
+      </div>
+      <div class="site-grid" id="site-grid"></div>
+      <div class="more"><a class="btn btn-line" href="explore.html">Open the full map</a></div>
+    </div>
+  </section>
+
+  <section class="section deep" id="accuracy">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Accuracy</p><h2>Tested on coastlines it has never seen</h2></div>
+        <p class="lede">Scores come from whole estuaries and 5 km blocks kept out of training, compared against independent
+          reference maps. We publish the weak spots too.</p>
+      </div>
+      <div class="acc">
+        <div class="bars" id="bars"></div>
+        <div class="acc-notes">
+          <p><b>Mangrove and salt marsh</b> are mapped reliably, including on estuaries the model never saw during training.</p>
+          <p><b>Seagrass</b> is the hardest habitat to see from space, because it grows underwater and murky or deep water hides it.
+            The model is cautious: it rarely calls open water seagrass, but misses some meadows. Treat seagrass areas as a
+            lower bound.</p>
+          <p>Score shown is intersection over union (IoU): the overlap between the AI's map and the reference map, from 0 to 1.</p>
+          <a class="btn btn-ghost" href="methodology.html">Read the full methodology</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="screening">
+    <div class="wrap">
+      <div class="screen">
+        <div>
+          <p class="kicker">Site screening</p>
+          <h2>Is this coastline worth a carbon project?</h2>
+          <p class="lede" style="margin-top:22px">A site screen answers that before anyone pays for fieldwork. It combines the habitat
+            map with measured soil carbon, recent habitat change and the legal status of the area, and ends with a plain verdict.</p>
+          <div class="report-card">
+            <h3>Sample: Laguna de Términos, Mexico</h3>
+            <p>One of the largest mangrove lagoons on the Gulf of Mexico, screened in English and Spanish.</p>
+            <div class="row">
+              <a class="btn btn-solid btn-sm" href="data/laguna_terminos_mx_en.pdf" download>Download (English)</a>
+              <a class="btn btn-line btn-sm" href="data/laguna_terminos_mx_es.pdf" download>Descargar (español)</a>
+            </div>
+          </div>
+        </div>
+        <ol class="contents">
+          <li><b>Habitat areas</b><span>Mangrove, salt marsh and seagrass in hectares, corrected for the model's known errors, with a likely range.</span></li>
+          <li><b>Carbon stored and absorbed</b><span>Soil and plant carbon from measured soil cores near the site where they exist, IPCC values where they don't.</span></li>
+          <li><b>Credit potential</b><span>Low, mid and high credits per year after risk buffer, leakage and uncertainty deductions, and their value at current prices.</span></li>
+          <li><b>Change over time</b><span>Habitat gained or lost in recent years, which decides whether a protection project can claim avoided loss.</span></li>
+          <li><b>Rights and status</b><span>Protected areas, Ramsar listing, land tenure, carbon rights law and existing carbon projects, each with its source.</span></li>
+          <li><b>Verdict</b><span>Promising, needs investigation, or unlikely to qualify, with what to confirm on the ground first.</span></li>
+        </ol>
+      </div>
+      <div class="who">
+        <div><h3>Project developers</h3><p>Rank many candidate sites and spend fieldwork budget only on the best.</p></div>
+        <div><h3>Coastal agencies</h3><p>See where blue carbon habitat is, how it is changing and what it could earn.</p></div>
+        <div><h3>Credit buyers</h3><p>Check a project's claimed habitat area and carbon against an independent map.</p></div>
+        <div><h3>Conservation groups</h3><p>Make the case for protecting a wetland with numbers a funder can check.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about" style="padding-top:0">
+    <div class="wrap about">
+      <div><p class="kicker">About</p><h2>Built on open data, open to inspection</h2></div>
+      <div>
+        <p>Every input is free and public: Copernicus Sentinel-2 imagery through Google Earth Engine, ESA WorldCover, global tidal
+          flat and wetland maps, the Allen Coral Atlas, state and national seagrass surveys, and the Smithsonian Coastal Carbon Library.</p>
+        <p>The code is open source under the MIT License, so every number on this site can be traced back to its source and checked.
+          BlueCarbon-AI is built by Yanick Sanchez and is in early development: site screens on request will open once the service is set up.</p>
+        <p><a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai">Source code and model results on GitHub</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" aria-label="Get started">
+    <img src="data/hero_map.jpg" alt="" loading="lazy">
+    <div class="inner">
+      <h2>See what your coastline holds</h2>
+      <p>Browse every mapped site, or draw an area anywhere on Earth in the live analysis tool.</p>
+      <div class="hero-cta">
+        <a class="btn btn-light" href="explore.html">Explore mapped sites</a>
+        <a class="btn btn-ghost" href="analyze.html">Live analysis (beta)</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="wordmark" href="./">BlueCarbon<span>-AI</span></a>
+      <p class="disclaimer">Estimates for early planning only. Not legal, financial or investment advice, and not carbon credits:
+        only a registry issues credits, after independent validation and verification on the ground.</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="explore.html">Site map</a></li><li><a href="#screening">Site screening</a></li>
+      <li><a href="analyze.html">Live analysis (beta)</a></li></ul></div>
+    <div><h4>Resources</h4><ul><li><a href="methodology.html">Methodology</a></li>
+      <li><a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai">Source code</a></li><li><a href="#about">About</a></li></ul></div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/common.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

@@ -52,3 +52,21 @@ def test_pdf_builds(tmp_path):
     for lang in ("en", "es"):
         out = build_pdf(spec, tmp_path / f"o_{lang}.pdf", lang, tmp_path / "demo")
         assert out.stat().st_size > 1000
+
+
+def test_auto_report_any_site():
+    """The website's per-site PDF: no spec, no flags, small enough to download quickly."""
+    import pytest
+
+    pytest.importorskip("reportlab")
+    from pathlib import Path
+
+    from bluecarbon.screen import build_report
+
+    root = Path(__file__).resolve().parents[1] / "demo_data"
+    for site in ("tampa_bay_fl", "mission_bay_change"):
+        if not (root / site / "meta.json").exists():
+            pytest.skip("demo data not present")
+        for lang in ("en", "es"):
+            pdf = build_report(root / site, None, lang)
+            assert pdf[:4] == b"%PDF" and len(pdf) < 1_000_000

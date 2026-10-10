@@ -3,7 +3,7 @@
 **Mapping the coastal ecosystems that store carbon (mangroves, salt marshes and seagrass meadows) from
 satellite imagery with machine learning, and estimating how much carbon they hold.**
 
-[**Website →**](https://yanicksanchez14-creator.github.io/bluecarbon-ai/) &nbsp; [**Live analysis app →**](https://bluecarbon-ai.streamlit.app)
+[**Website →**](https://yanicksanchez14-creator.github.io/bluecarbon-ai/) &nbsp; [**Live analysis tool →**](https://bluecarbon-ai.streamlit.app)
 
 [![CI](https://github.com/yanicksanchez14-creator/bluecarbon-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/yanicksanchez14-creator/bluecarbon-ai/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.12-blue)

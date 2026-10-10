@@ -32,11 +32,10 @@ for _m in [m for m in sys.modules if m == "bluecarbon" or m.startswith("bluecarb
 from bluecarbon.config import load_config  # noqa: E402
 from bluecarbon.schema import BLUE_CARBON_KEYS, CLASSES  # noqa: E402
 
-DEMO_DIR = Path(os.environ.get("BLUECARBON_DEMO_DIR", ROOT / "demo_data"))
 _CURRENT = ROOT / "models" / "current.txt"
 DEFAULT_MODEL = ROOT / "models" / (_CURRENT.read_text().strip() if _CURRENT.exists()
                                    else "pilot_spectral_mission_bay_2018.json")
-REPO = "https://github.com/yanicksanchez14-creator/bluecarbon-ai"
+SITE = "https://yanicksanchez14-creator.github.io/bluecarbon-ai/"
 MAX_AREA_KM2 = 60
 ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
 ESRI_ATTR = "Imagery © Esri, Maxar, Earthstar Geographics"
@@ -44,7 +43,7 @@ ESRI_ATTR = "Imagery © Esri, Maxar, Earthstar Geographics"
 CFG = load_config(ROOT / "configs" / "default.yaml")
 CLS = {c.key: c for c in CLASSES}
 
-st.set_page_config(page_title="BlueCarbon-AI", page_icon=str(ROOT / "app" / "assets" / "favicon.png"), layout="wide",
+st.set_page_config(page_title="BlueCarbon-AI", page_icon=str(ROOT / "app" / "assets" / "blank.png"), layout="wide",
                    initial_sidebar_state="collapsed")
 
 # ----------------------------------------------------------------------------- design system
@@ -306,12 +305,9 @@ T_ADJ = ("Maps are never perfect. We correct each area using how often the model
          "(a standard method from Olofsson et al., 2014).")
 T_SCORE = ("How closely the model's map overlapped with trusted reference maps, on areas it never saw during training. "
            "1.00 = perfect match, 0 = no match.")
-T_S2 = "Sentinel-2 is a pair of European Space Agency satellites that photograph every coastline on Earth every 5 days, free."
 T_PILOT = ("Trained only on hand-labelled data from one bay (Mission Bay, 2018). It is well tested here, but other "
            "coastlines look different. The full model trains on 39 coastal sites on six continents.")
 
-def png_uri(path: Path) -> str:
-    return "data:image/png;base64," + base64.b64encode(path.read_bytes()).decode()
 
 
 def rgba_uri(rgba: np.ndarray) -> str:
@@ -341,26 +337,12 @@ def overlay(m, uri, bounds, opacity=1.0):
     folium.raster_layers.ImageOverlay(uri, bounds=bounds, opacity=opacity, interactive=False, zindex=2).add_to(m)
 
 
-def outline(m, bounds):
-    (s, w), (n, e) = bounds
-    folium.Rectangle([[s, w], [n, e]], color="#ffffff", weight=1.2, fill=False, dash_array="4 4", opacity=0.8).add_to(m)
 
 
-def _demo_signature() -> str:
-    """Changes whenever demo pages are added, removed or regenerated (invalidates the caches below)."""
-    return "|".join(f"{p.parent.name}:{p.stat().st_mtime_ns}" for p in sorted(DEMO_DIR.glob("*/meta.json")))
 
 
-def list_sites() -> dict[str, Path]:
-    return _list_sites(_demo_signature())
 
 
-@st.cache_data
-def _list_sites(sig: str) -> dict[str, Path]:
-    out = {}
-    for f in sorted(DEMO_DIR.glob("*/meta.json")):
-        out[json.loads(f.read_text())["title"]] = f.parent
-    return out
 
 
 def best_areas(report: dict) -> dict[str, float]:
@@ -370,11 +352,6 @@ def best_areas(report: dict) -> dict[str, float]:
     return {k: report["areas_ha"].get(k, 0.0) for k in CLS}
 
 
-def range_bar(p05: float, mean: float, p95: float) -> str:
-    hi = p95 * 1.15 if p95 > 0 else 1
-    lo_pct, hi_pct, m_pct = 100 * p05 / hi, 100 * p95 / hi, 100 * mean / hi
-    return (f'<div class="bc-range"><i style="left:{lo_pct:.1f}%;width:{max(hi_pct - lo_pct, 1):.1f}%"></i>'
-            f'<em style="left:calc({m_pct:.1f}% - 1px)"></em></div>')
 
 
 def carbon_table(report: dict) -> str:
@@ -618,104 +595,25 @@ def in_image_html(report: dict, only_blue: bool = False) -> str:
             f"ha = hectares{tip(T_HA)} · % = share of the mapped area</div>")
 
 
-def map_legend(report: dict, only_blue: bool) -> str:
-    a = best_areas(report)
-    items = [c for c in CLASSES if a[c.key] >= 0.05 and (c.blue_carbon or not only_blue)]
-    return '<div class="bc-maplegend">' + "".join(
-        f'<span><i style="background:{c.color}"></i>{c.name}</span>' for c in items) + "</div>"
 
 
 # ----------------------------------------------------------------------------- chrome
 EMBED = st.query_params.get("view") == "analyze"  # the website embeds only the live analysis tool
-HERO_SITE = "laguna_terminos_mx"
-SAMPLE_REPORTS = {"English": ROOT / "reports" / "screens" / "laguna_terminos_mx_en.pdf",
-                  "Español": ROOT / "reports" / "screens" / "laguna_terminos_mx_es.pdf"}
-COUNTRY_ALIASES = {"Western Australia": "Australia"}
 
 
-@st.cache_data
-def hero_plate(site: str, sig: str) -> str:
-    """Satellite image with the habitat map laid over it, as a small JPEG for the front page."""
-    from PIL import Image
-
-    d = DEMO_DIR / site
-    base = Image.open(d / "rgb.png").convert("RGBA")
-    over = Image.open(d / "classes.png").convert("RGBA").resize(base.size)
-    alpha = over.split()[3].point(lambda v: int(v * 0.8))
-    over.putalpha(alpha)
-    im = Image.alpha_composite(base, over).convert("RGB")
-    im.thumbnail((1100, 1100))
-    buf = io.BytesIO()
-    im.save(buf, "JPEG", quality=82)
-    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def soil_core_count() -> int:
-    p = ROOT / "data" / "soil_carbon_cores.csv"
-    return sum(1 for _ in p.open()) - 1 if p.exists() else 0
 
 
-_metas = {t: json.loads((d / "meta.json").read_text()) for t, d in list_sites().items()}
-_countries = {COUNTRY_ALIASES.get(m.get("region", "").split(",")[-1].strip(), m.get("region", "").split(",")[-1].strip())
-              for m in _metas.values() if m.get("region")}
-_held = sum(1 for m in _metas.values() if m.get("held_out") and m.get("kind") != "change")
-_n_sites = sum(1 for m in _metas.values() if m.get("kind") != "change")
 
-if not EMBED:
+if not EMBED:  # opened directly (not inside the website): a slim header pointing to the website
     st.markdown(
         f'<div class="bc-top"><div class="bc-brand"><div class="bc-word">BlueCarbon<span>-AI</span></div></div>'
-        f'<div class="bc-links"><a href="{REPO}/blob/main/docs/METHODOLOGY.md" target="_blank">Methodology</a>'
-        f'<a href="{REPO}" target="_blank">Source code</a></div></div>',
-        unsafe_allow_html=True,
-    )
-
-    hero_l, hero_r = st.columns([1.05, 1], gap="large")
-    with hero_l:
-        st.markdown(
-            '<div class="bc-hero" style="display:block;margin-top:1.4rem">'
-            "<h1>Know what a coastline holds before you fund the fieldwork</h1>"
-            "<p>Mangrove forests, salt marshes and seagrass meadows store carbon in their soils for centuries. "
-            "Protecting or restoring them can earn carbon credits, but finding out whether a site qualifies usually "
-            "takes months of fieldwork.</p>"
-            "<p>BlueCarbon-AI maps these habitats from free satellite images, measures how much of each there is, "
-            "and estimates the carbon they store and the credits they could support. It is built for project "
-            "developers, coastal agencies and credit buyers who need a first answer in days.</p></div>",
-            unsafe_allow_html=True,
-        )
-        b1, b2 = st.columns([1, 1])
-        sample = SAMPLE_REPORTS["English"]
-        if sample.exists():
-            b1.download_button("Download a sample site screen", sample.read_bytes(), sample.name,
-                               mime="application/pdf", type="primary", width="stretch")
-        b2.link_button("See how the model is tested", f"{REPO}/blob/main/docs/METHODOLOGY.md", width="stretch")
-    with hero_r:
-        hm = _metas.get(next((t for t, d in list_sites().items() if d.name == HERO_SITE), ""), None)
-        if hm and (DEMO_DIR / HERO_SITE / "classes.png").exists():
-            ha = best_areas(hm["report"])
-            stock = hm["report"]["carbon"]["total_stock_tCO2e"]["mean"]
-            st.markdown(
-                f'<figure class="bc-plate"><img src="{hero_plate(HERO_SITE, _demo_signature())}" '
-                f'alt="Habitat map of {hm["title"]} over a Sentinel-2 satellite image">'
-                f'<figcaption><b>{hm["title"]}, {hm.get("region", "")}</b>. Mapped from {hm.get("period", "").lower()} '
-                f"Sentinel-2 imagery: {fmt(ha['mangrove'])} ha of mangrove and {fmt(ha['seagrass'])} ha of seagrass, "
-                f"storing about {stock / 1e6:,.0f} million tonnes of CO₂.</figcaption></figure>",
-                unsafe_allow_html=True,
-            )
-
-    st.markdown(
-        '<div class="bc-proof">'
-        f"<div><b>{_n_sites}</b>mapped coastal sites</div>"
-        f"<div><b>{len(_countries)}</b>countries and territories</div>"
-        f"<div><b>{_held}</b>estuaries held back to test the model</div>"
-        f"<div><b>{soil_core_count():,}</b>measured soil cores for carbon</div>"
-        "<div><b>10 m</b>map resolution, from free imagery</div></div>",
-        unsafe_allow_html=True,
-    )
-
-    tab_explore, tab_analyze, tab_screen, tab_method, tab_about = st.tabs(
-        ["Explore sites", "Analyze an area", "Site screening", "Methodology", "About"])
-else:
-    tab_analyze = st.container()
+        f'<div class="bc-links"><a href="{SITE}">Website</a><a href="{SITE}explore.html">Site map</a>'
+        f'<a href="{SITE}methodology.html">Methodology</a></div></div>'
+        '<h1 style="font-family:var(--serif);font-weight:400;font-size:2.6rem;margin:0 0 .3rem">Analyze an area</h1>',
+        unsafe_allow_html=True)
+tab_analyze = st.container()
 
 # ----------------------------------------------------------------------------- explore
 VIEWS = {"Habitats": "classes", "Blue carbon only": "bluecarbon", "Satellite": None, "False color": "falsecolor"}
@@ -732,20 +630,8 @@ def section(title: str, sub: str = "") -> None:
                 unsafe_allow_html=True)
 
 
-CHANGE_VIEWS = {"After": "classes_t1", "Before": "classes_t0", "What changed": "change", "Satellite": None,
-                "False color": "falsecolor_t1"}
 
 
-def change_hints(meta: dict) -> dict:
-    p = meta.get("periods") or {}
-    t0, t1 = p.get("t0", "the earlier date"), p.get("t1", "the later date")
-    return {
-        "After": f"Habitats in {t1}.",
-        "Before": f"Habitats in {t0}.",
-        "What changed": f"Green = blue carbon habitat that appeared between {t0} and {t1}. Red = habitat that was lost.",
-        "Satellite": f"The cloud-free satellite photo from {t1}, in natural color.",
-        "False color": HINTS["False color"],
-    }
 
 
 def render_results(meta: dict, report: dict, map_fn, side_header: str = "", views: dict | None = None,
@@ -796,157 +682,18 @@ def render_results(meta: dict, report: dict, map_fn, side_header: str = "", view
     st.markdown(summary_html(meta, report), unsafe_allow_html=True)
 
 
-def change_section(meta: dict) -> None:
-    p = meta.get("periods") or {}
-    t0, t1 = p.get("t0", "Before"), p.get("t1", "After")
-    a0 = best_areas(meta["t0"])
-    a1 = best_areas(meta["t1"])
-    rows, sentences = [], []
-    for k in BLUE_CARBON_KEYS:
-        d = a1[k] - a0[k]
-        if a0[k] < 0.05 and a1[k] < 0.05:
-            continue
-        pct = f"{100 * d / a0[k]:+.0f}%" if a0[k] >= 0.05 else "new"
-        cls = "bc-up" if d > 0 else "bc-down" if d < 0 else ""
-        rows.append(f'<tr><td><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;'
-                    f'background:{CLS[k].color};margin-right:8px"></span>{CLS[k].name}</td>'
-                    f'<td class="num">{fmt(a0[k], 1)}</td><td class="num">{fmt(a1[k], 1)}</td>'
-                    f'<td class="num {cls}">{"+" if d > 0 else ""}{fmt(d, 1)} ha ({pct})</td></tr>')
-        if abs(d) >= 0.5:
-            sentences.append(f"{CLS[k].name.lower()} {'grew' if d > 0 else 'shrank'} by {fmt(abs(d), 1)} hectares")
-    s0 = meta["t0"]["carbon"]["total_stock_tCO2e"]["mean"]
-    s1 = meta["t1"]["carbon"]["total_stock_tCO2e"]["mean"]
-    net = s1 - s0
-    lead = (f"Between {t0} and {t1}, " + ", ".join(sentences) + ". " if sentences
-            else f"Blue carbon habitat stayed roughly the same between {t0} and {t1}. ")
-    lead += (f"That {'adds' if net >= 0 else 'removes'} about <b>{fmt(abs(net))} tonnes of CO₂</b> "
-             f"{'to' if net >= 0 else 'from'} the carbon stored at this site.")
-    section("What changed", f"Blue carbon habitat in {t0} compared with {t1}.")
-    st.markdown(f'<div class="bc-card bc-found"><p>{lead}</p></div>', unsafe_allow_html=True)
-    if rows:
-        st.markdown('<table class="bc-table"><thead><tr><th>Habitat</th>'
-                    f'<th style="text-align:right">{t0} (ha)</th><th style="text-align:right">{t1} (ha)</th>'
-                    '<th style="text-align:right">Change</th></tr></thead><tbody>' + "".join(rows) + "</tbody></table>",
-                    unsafe_allow_html=True)
-    st.markdown('<div class="bc-note" style="margin-top:.5rem">Small changes can come from differences in tide, '
-                "season or image quality between the two dates rather than real habitat change.</div>",
-                unsafe_allow_html=True)
 
 
-@st.cache_data(show_spinner="Preparing the report...")
-def site_report_pdf(site: str, lang: str, sig: str) -> bytes:
-    from bluecarbon.screen import build_report
-
-    return build_report(DEMO_DIR / site, None, lang)
 
 
-def site_metas() -> dict[str, dict]:
-    return _site_metas(_demo_signature())
 
 
-@st.cache_data
-def _site_metas(sig: str) -> dict[str, dict]:
-    return {t: json.loads((d / "meta.json").read_text()) for t, d in list_sites().items()}
 
 
-def site_status(meta: dict) -> tuple[str, str]:
-    if meta.get("kind") == "change":
-        return "Change over time", "bc-st-change"
-    if meta.get("held_out"):
-        return "Never seen in training", "bc-st-held"
-    if meta.get("held_out") is False:
-        return "Training site", "bc-st-train"
-    return "", ""
 
 
-def sites_overview(metas: dict[str, dict]) -> None:
-    m = folium.Map(location=[20, -30], zoom_start=2, tiles=None, min_zoom=1, world_copy_jump=True,
-                   scrollWheelZoom=False)
-    folium.TileLayer(ESRI, attr=ESRI_ATTR).add_to(m)
-    for t, meta in metas.items():
-        (s, w), (n, e) = meta["bounds"]
-        label, _ = site_status(meta)
-        color = "#14a3a0" if meta.get("held_out") or meta.get("kind") == "change" else "#f5f7f8"
-        folium.CircleMarker([(s + n) / 2, (w + e) / 2], radius=7, color="#083744", weight=2, fill=True,
-                            fill_color=color, fill_opacity=1,
-                            tooltip=f"{t}" + (f" ({label.lower()})" if label else "")).add_to(m)
-    st_folium(m, height=300, use_container_width=True, returned_objects=[], key="overview")
-    st.markdown('<div class="bc-maplegend"><span><i style="background:#14a3a0;border:2px solid #083744"></i>'
-                'Never seen in training</span><span><i style="background:#f5f7f8;border:2px solid #083744"></i>'
-                "Training site</span></div>", unsafe_allow_html=True)
 
 
-if not EMBED:
-    with tab_explore:
-        metas = site_metas()
-        sites = list_sites()
-        if not sites:
-            st.warning("No demo data found in demo_data/.")
-        else:
-            order = sorted(metas, key=lambda t: (0 if metas[t].get("kind") == "change" else
-                                                  1 if metas[t].get("held_out") else 2 if "held_out" not in metas[t] else 3, t))
-            if len(metas) > 1:
-                n_change = sum(1 for m in metas.values() if m.get("kind") == "change")
-                section(f"{len(metas) - n_change} coastal sites" + (f" and {n_change} change study" if n_change == 1 else
-                        f" and {n_change} change studies" if n_change else ""), "Pick a site below. Teal sites were never shown to the AI during "
-                                                       "training, so they are the fairest test of how well it works.")
-                sites_overview(metas)
-            c1, c2, c3 = st.columns([1.5, 0.75, 0.75], gap="small")
-
-            def label(t):
-                lab, _ = site_status(metas[t])
-                return f"{t} ({lab.lower()})" if lab else t
-
-            title = c1.selectbox("Site", order, format_func=label)
-            d = sites[title]
-            meta = metas[title]
-            lang = c2.selectbox("Report language", ["English", "Español"], key="rep_lang")
-            code = "es" if lang == "Español" else "en"
-            try:
-                pdf = site_report_pdf(d.name, code, _demo_signature())
-                c3.markdown("<div style='height:1.75rem'></div>", unsafe_allow_html=True)
-                c3.download_button("Download PDF report", pdf, f"bluecarbon_{d.name}_{code}.pdf", mime="application/pdf",
-                                   width="stretch", key=f"pdf_{d.name}_{code}")
-            except Exception as e:  # a report problem must never break the map page
-                c3.caption(f"Report unavailable ({str(e)[:60]})")
-            report = meta["report"] if meta["kind"] == "single" else meta["t1"]
-            where = ", ".join(x for x in [meta.get("region"), meta.get("period")] if x)
-            lab, cls = site_status(meta)
-            badge = f'<span class="bc-status {cls}">{lab}</span>' if lab else ""
-            side = (f'<div class="bc-site">{badge}<h3>{meta["title"]}</h3><div class="meta">{where}</div>'
-                    f'<p>{meta.get("description", "")}</p></div>')
-
-            if meta["kind"] == "change":
-                def demo_map(view, opacity):
-                    m = make_map(meta["bounds"])
-                    key = CHANGE_VIEWS[view]
-                    if view == "False color":
-                        overlay(m, png_uri(d / "falsecolor_t1.png"), meta["bounds"], 1.0)
-                    else:
-                        base = "rgb_t0.png" if view == "Before" else "rgb_t1.png"
-                        overlay(m, png_uri(d / base), meta["bounds"], 1.0)
-                        if key:
-                            overlay(m, png_uri(d / f"{key}.png"), meta["bounds"], opacity)
-                    outline(m, meta["bounds"])
-                    st_folium(m, height=560, use_container_width=True, returned_objects=[],
-                              key=f"map_{title}_{view}_{opacity}")
-
-                render_results(meta, report, demo_map, side, CHANGE_VIEWS, change_hints(meta),
-                               after_map=lambda: change_section(meta))
-            else:
-                def demo_map(view, opacity):
-                    m = make_map(meta["bounds"])
-                    if view == "False color":
-                        overlay(m, png_uri(d / "falsecolor.png"), meta["bounds"], 1.0)
-                    else:
-                        overlay(m, png_uri(d / "rgb.png"), meta["bounds"], 1.0)
-                        if VIEWS[view]:
-                            overlay(m, png_uri(d / f"{VIEWS[view]}.png"), meta["bounds"], opacity)
-                    outline(m, meta["bounds"])
-                    st_folium(m, height=560, use_container_width=True, returned_objects=[],
-                              key=f"map_{title}_{view}_{opacity}")
-
-                render_results(meta, report, demo_map, side)
 
 
 # ----------------------------------------------------------------------------- analyze
@@ -1026,7 +773,7 @@ with tab_analyze:
   BlueCarbon-AI pulls a fresh cloud-free Sentinel-2 composite from Google Earth Engine, runs the model and returns a habitat
   map, carbon report and downloadable GeoTIFF.</p>
   <div class="bc-note">This deployment hasn't been connected to Earth Engine yet, so the live pipeline is switched off.
-  Everything in <b>Explore sites</b> works without it. The same analysis runs locally with
+  The mapped sites on the website work without it. The same analysis runs locally with
   <code>bluecarbon scene --bbox … --start … --end … -m model.pt</code>.</div>
 </div>""",
             unsafe_allow_html=True,
@@ -1154,215 +901,8 @@ with tab_analyze:
                                width="stretch")
 
 # ----------------------------------------------------------------------------- site screening
-if not EMBED:
-    with tab_screen:
-        st.markdown(
-            """
-<div class="bc-page">
-<h2>Is this coastline worth a carbon project?</h2>
-<p>A site screen answers that question before anyone pays for fieldwork. It combines the satellite habitat map
-with measured soil carbon, recent habitat change and a check of the legal status of the area, and ends with a plain
-verdict: promising, needs investigation, or unlikely to qualify.</p>
-
-<h3>What a site screen contains</h3>
-<ul class="bc-contents">
-<li><b>Habitat map and areas</b><span>Mangrove, salt marsh and seagrass in hectares, corrected for the model's known
-errors, with a likely range.</span></li>
-<li><b>Carbon stored and absorbed</b><span>Soil and plant carbon, using measured soil cores near the site where they
-exist and IPCC values where they don't.</span></li>
-<li><b>Credit potential</b><span>Low, mid and high credits per year after risk buffer, leakage and uncertainty
-deductions, and their value at current prices.</span></li>
-<li><b>Change over time</b><span>How much habitat was gained or lost over recent years, which decides whether a
-protection project can claim avoided loss.</span></li>
-<li><b>Rights and status checks</b><span>Protected areas, Ramsar listing, land tenure, carbon rights law and any
-existing carbon projects, each with its source.</span></li>
-<li><b>Verdict and next steps</b><span>Whether to move on to a feasibility study, and what to confirm on the ground
-first.</span></li>
-</ul>
-
-<h3>Who it is for</h3>
-<div class="bc-who">
-<div><b>Project developers</b><span>Rank many candidate sites quickly and spend fieldwork budget only on the best.</span></div>
-<div><b>Coastal agencies</b><span>See where blue carbon habitat is, how it is changing, and what it could earn.</span></div>
-<div><b>Credit buyers and investors</b><span>Check a project's claimed habitat area and carbon against an
-independent map.</span></div>
-<div><b>Conservation groups</b><span>Make the case for protecting a wetland with numbers a funder can check.</span></div>
-</div>
-
-<h3>Sample site screen</h3>
-<p>Laguna de Términos in Campeche, Mexico: one of the largest mangrove lagoons on the Gulf of Mexico, screened in
-English and Spanish.</p>
-</div>""",
-        unsafe_allow_html=True,
-    )
-    s1, s2, _ = st.columns([1, 1, 2])
-    for col, (lang_name, path) in zip((s1, s2), SAMPLE_REPORTS.items(), strict=True):
-        if path.exists():
-            col.download_button(f"Sample screen ({lang_name})", path.read_bytes(), path.name, mime="application/pdf",
-                                width="stretch", key=f"sample_{lang_name}")
-    st.markdown(
-        """
-<div class="bc-page">
-<p>Every site under <b>Explore sites</b> also has an automatic PDF report with the map, carbon and credit estimate.
-The rights and status checks are researched by hand, so they appear only in a full site screen.</p>
-<div class="bc-status-box">BlueCarbon-AI is in early development. Requests for site screens will open once the
-service is set up. Until then, all mapped sites and reports on this page are free to use.</div>
-<p class="bc-disclaimer">Site screens are estimates for early planning. They are not legal, financial or investment
-advice, and they are not carbon credits: only a registry issues credits, after independent validation and
-verification on the ground.</p>
-</div>""",
-        unsafe_allow_html=True,
-    )
 
 # ----------------------------------------------------------------------------- methodology
-if not EMBED:
-    with tab_method:
-        steps = [
-            ("01", "Acquire", "Sentinel-2 L2A surface reflectance, masked with Cloud Score+ and reduced to a seasonal median."),
-            ("02", "Label", "Reference labels fused from ESA WorldCover, Murray tidal flats and the Allen Coral Atlas."),
-            ("03", "Learn", "U-Net with a ResNet encoder on 10 bands, 4 indices and 3 context layers, trained with Dice + CE loss."),
-            ("04", "Map", "Overlapping tiles blended with a smooth window and flip test-time augmentation."),
-            ("05", "Account", "Error-adjusted areas × measured local soil carbon (or IPCC Tier 1), with Monte Carlo 90% intervals."),
-        ]
-        st.markdown('<div class="bc-steps">' + "".join(
-            f'<div class="bc-step"><div class="k">{k}</div><h4>{t}</h4><p>{p}</p></div>' for k, t, p in steps) + "</div>",
-            unsafe_allow_html=True)
-
-        cc = CFG.carbon.classes
-        carbon_rows = "".join(
-            f'<tr><td>{CLS[k].name}</td><td class="num">{v.soil[1]:.0f} <span class="bc-note">({v.soil[0]:.0f}–{v.soil[2]:.0f})</span></td>'
-            f'<td class="num">{v.biomass[1]:.0f} <span class="bc-note">({v.biomass[0]:g}–{v.biomass[2]:g})</span></td>'
-            f'<td class="num">{v.accumulation[1]:.2f} <span class="bc-note">({v.accumulation[0]:g}–{v.accumulation[2]:g})</span></td></tr>'
-            for k, v in cc.items())
-
-        st.markdown(
-            f"""
-<div class="bc-doc">
-<h3>Imagery</h3>
-<p>Each scene is a per-pixel median of every Sentinel-2 L2A acquisition in the chosen season
-(<code>COPERNICUS/S2_SR_HARMONIZED</code>) after removing cloud and shadow with Google's Cloud Score+
-(<code>cs_cdf ≥ 0.6</code>). Ten bands (B2–B8A, B11, B12) are exported at 10&nbsp;m in the local UTM zone,
-so every pixel has a true ground area. The model also receives four indices: NDVI (vegetation), NDWI and
-MNDWI (water), and NDMI (canopy moisture, which separates mangrove from dry upland).</p>
-<p><b>Clear-water image.</b> Seagrass is only visible where the seafloor shows through, and a seasonal median blends
-clear days with murky, glinty ones. So each scene also gets a clear-water image: for every pixel, the single
-cloud-free observation with the least near-infrared reflectance (least sun glint, haze and white water). Its blue,
-green, red and near-infrared bands, plus two band ratios that are largely insensitive to water depth, are inputs.</p>
-<p><b>Context layers.</b> Some habitats look identical from space: tidal salt marsh and inland freshwater marsh,
-or dense salt marsh and young mangrove. So the model also gets two layers that describe <i>where</i> a pixel is:
-elevation (NASADEM) and the probability that the tide reaches it (Murray et al., 2022). Both also help build the
-reference labels, so part of what the model learns from them is that labelling rule. That is why the scores on
-held-out estuaries, not the training fit, are the numbers that count. Latitude is deliberately <i>not</i> an input:
-an earlier model used it as a shortcut and missed mangroves on unseen coasts. Instead, mangroves are limited to
-their known latitude range (39°S–32.5°N) by an explicit rule, because frost kills them.</p>
-
-<h3>Reference labels</h3>
-<p>Training labels come from independent, peer-reviewed global products, not from thresholds on the
-model's own input bands. Pixels within one pixel of a class boundary are excluded, because edges are where these
-products are least reliable. Local survey polygons (for example eelgrass surveys) can override any source.</p>
-<table class="bc-table"><thead><tr><th>Class</th><th>Source</th><th>Rule</th></tr></thead><tbody>
-<tr><td>Open water · Other land</td><td>ESA WorldCover 2021 (10 m)</td><td>Classes 80 · 10–60, 100</td></tr>
-<tr><td>Mangrove</td><td>ESA WorldCover 2021</td><td>Class 95</td></tr>
-<tr><td>Salt marsh</td><td>ESA WorldCover + GWL_FCS30 wetland map (Zhang et al., 2023)</td><td>Herbaceous, grass or shrub cover that GWL_FCS30 classes as salt marsh. Tidal-zone vegetation it calls non-wetland is left unlabelled</td></tr>
-<tr><td>Freshwater wetland</td><td>ESA WorldCover + GWL_FCS30 + Murray et al. tidal wetlands</td><td>Herbaceous wetland outside the tidal zone, or classed as swamp or marsh. Mapped, but not counted as blue carbon</td></tr>
-<tr><td>Tidal flat</td><td>Murray et al., global intertidal</td><td>Tidal flat classification</td></tr>
-<tr><td>Seagrass</td><td>Allen Coral Atlas benthic map + FWC Florida statewide seagrass + Moreton Bay 2015 (Seamap Australia)</td><td>Atlas seagrass class (tropics) plus survey polygons from 2010 on, burned in over water only. Where seagrass exists but no map covers it (e.g. Shark Bay), water outside the Atlas footprint is left unlabelled rather than taught as open water</td></tr>
-</tbody></table>
-
-<h3>Model and evaluation</h3>
-<p>A U-Net with a ResNet-34 encoder (<code>segmentation-models-pytorch</code>) and a 22-channel input stem, trained
-with cross-entropy plus Dice loss and square-root inverse-frequency class weights, AdamW with a one-cycle
-schedule, mixed precision and early stopping on validation mIoU.</p>
-<p>Evaluation is built so the model can't score well by memorizing. Chips never overlap, whole 5&nbsp;km blocks are
-assigned to a single split, and five complete estuaries (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay) are never seen in
-training and are scored separately. The
-headline metrics are per-class IoU and F1. Overall accuracy is reported but not emphasized: a scene that is 70% water
-can score 90% accuracy while missing every marsh pixel.</p>
-
-<h3>Area and carbon accounting</h3>
-<p>Raw pixel counts are biased toward whatever the model over-predicts. Areas are therefore corrected with the
-stratified estimator of Olofsson et al. (2014), using the held-out confusion matrix. Carbon is then estimated per
-habitat:</p>
-<div class="bc-formula">stock (tCO₂e) = area (ha) × [ soil C to 1 m + living biomass C ] (tC/ha) × 44/12<br>
-sequestration (tCO₂e/yr) = area (ha) × soil C accumulation (tC/ha/yr) × 44/12</div>
-<p>Each coefficient is drawn from a triangular distribution over its published range, jointly with the area
-uncertainty (5,000 Monte Carlo draws), and results are reported as a mean with a 90% interval. Tier 1 defaults
-(IPCC 2013 Wetlands Supplement), used where no measured soil cores are available:</p>
-<table class="bc-table"><thead><tr><th>Habitat</th><th style="text-align:right">Soil C, tC/ha</th>
-<th style="text-align:right">Biomass C, tC/ha</th><th style="text-align:right">Accumulation, tC/ha/yr</th></tr></thead>
-<tbody>{carbon_rows}</tbody></table>
-<p><b>Measured soil carbon.</b> Where possible, the soil value is replaced with real measurements from the
-Smithsonian Coastal Carbon Library (open data from hundreds of studies). For every soil core, carbon to 1&nbsp;m is
-dry bulk density × organic carbon fraction, averaged over the sampled depth (at least 30&nbsp;cm) and scaled to
-1&nbsp;m. Only measurements the study confirms are <i>organic</i> carbon are used; total-carbon values, which count
-limestone carbonate in tropical seafloor, are replaced by an estimate from organic matter (Craft et al., 1991). A
-site uses the cores of that habitat within 100&nbsp;km (300&nbsp;km if needed) when there are at least 8; its range
-reflects the number of independent studies, not cores. Biomass and burial rates stay at IPCC values.</p>
-<p>The indicative credit value is based on annual sequestration at $15–40 per tCO₂e. Standing stock is not creditable
-on its own.</p>
-
-<h3>Limitations</h3>
-<ul>
-<li>Carbon values (measured nearby cores or IPCC global averages) are suited to screening and prioritization,
-not to issuing credits, which requires measurements at the project site.</li>
-<li>Seagrass is learned from the Allen Coral Atlas and official surveys (Florida, Moreton Bay). The model is now
-conservative: it rarely calls open water seagrass, but misses about half of seagrass in murky or deep water, and
-does not yet detect it in Moreton Bay or Shoalwater Bay. Treat seagrass areas as a lower bound.</li>
-<li>Tides change what is exposed in intertidal zones, and a median composite averages across tidal states.</li>
-<li>Reference products carry their own errors, which the model partly learns. The confidence intervals treat pixels
-as independent samples, so they understate the true uncertainty.</li>
-</ul>
-
-<h3>References</h3>
-<ul class="bc-refs">
-<li>IPCC (2014). <i>2013 Supplement to the 2006 IPCC Guidelines for National Greenhouse Gas Inventories: Wetlands</i>, Chapter 4.</li>
-<li>Olofsson, P. et al. (2014). Good practices for estimating area and assessing accuracy of land change. <i>Remote Sensing of Environment</i> 148.</li>
-<li>Zanaga, D. et al. (2022). ESA WorldCover 10 m 2021 v200.</li>
-<li>Murray, N. J. et al. (2019). The global distribution and trajectory of tidal flats. <i>Nature</i> 565.</li>
-<li>Coastal Carbon Network (2023). Coastal Carbon Library, v1.7.0. Smithsonian Environmental Research Center. doi:10.25573/serc.21565671.</li>
-<li>Craft, C. B. et al. (1991). Loss on ignition and Kjeldahl digestion for estimating organic carbon and total nitrogen in estuarine marsh soils. <i>Soil Sci. Soc. Am. J.</i> 55.</li>
-<li>Zhang, X. et al. (2023). GWL_FCS30: a global 30 m wetland map with a fine classification system. <i>Earth System Science Data</i> 15.</li>
-<li>Allen Coral Atlas (2022). Imagery, maps and monitoring of the world's tropical coral reefs.</li>
-<li>Pasquarella, V. et al. (2023). Cloud Score+: comprehensive cloud and cloud-shadow detection for Sentinel-2.</li>
-</ul>
-</div>""",
-        unsafe_allow_html=True,
-    )
 
 # ----------------------------------------------------------------------------- about
-if not EMBED:
-    with tab_about:
-        st.markdown(
-            f"""
-<div class="bc-page">
-<h2>About BlueCarbon-AI</h2>
-<p>Coastal wetlands are among the most carbon-dense ecosystems on Earth, and they are being lost faster than
-almost any other. Money for protecting them exists through carbon markets, but the first step, finding out what
-a site holds, is slow and expensive. BlueCarbon-AI makes that first step fast, cheap and repeatable.</p>
 
-<h3>How it works</h3>
-<p>A deep-learning model reads Sentinel-2 satellite images and labels every 10 by 10 metre patch of coast. It was
-trained on {_n_sites - _held} coastal sites around the world, using peer-reviewed global maps and official
-seagrass surveys as the answer key, and it is scored on {_held} estuaries it never saw during training. Carbon comes
-from {soil_core_count():,} measured soil cores in the Smithsonian Coastal Carbon Library, with IPCC values as the
-fallback. The full method, every data source and the known limits are on the Methodology tab.</p>
-
-<h3>Built on open data</h3>
-<p>Every input is free and public: Copernicus Sentinel-2 imagery through Google Earth Engine, ESA WorldCover, global
-tidal flat and wetland maps, the Allen Coral Atlas, state and national seagrass surveys, and the Coastal Carbon
-Library. The code is open source under the MIT License, so every number on this site can be checked.</p>
-
-<h3>Who is behind it</h3>
-<p>BlueCarbon-AI is built by Yanick Sanchez. The source code, model results and development history are on
-<a href="{REPO}" target="_blank">GitHub</a>.</p>
-</div>""",
-        unsafe_allow_html=True,
-    )
-
-if not EMBED:
-    st.markdown(
-        f'<div class="bc-footer"><span>BlueCarbon-AI, built by Yanick Sanchez. Estimates for screening only; not '
-        "legal, financial or investment advice.</span>"
-        f'<span><a href="{REPO}" target="_blank">Source code</a>, MIT License</span></div>',
-        unsafe_allow_html=True,
-    )

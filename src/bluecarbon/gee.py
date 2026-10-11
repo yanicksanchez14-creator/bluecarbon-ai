@@ -252,7 +252,7 @@ def tidal_zone(cfg: Config):
     return dem.lte(3).And(near_water), "elevation-fallback"
 
 
-LABEL_VERSION = "labels-v9"  # v9: mangrove = WorldCover AND Global Mangrove Watch; NWI/NSW/EA wetland surveys  # bump when the label rules change, so `fetch --labels-only` rebuilds
+LABEL_VERSION = "labels-v10"  # v10 = v9 with survey fixes; v9: mangrove = WorldCover AND Global Mangrove Watch; NWI/NSW/EA wetland surveys  # bump when the label rules change, so `fetch --labels-only` rebuilds
 
 
 def wetland_map(cfg: Config):

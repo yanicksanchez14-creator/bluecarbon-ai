@@ -65,6 +65,9 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
             gee.download_ancillary(site["bbox"], yr_start, yr_end, d / "ancillary.tif", cfg)
         if site.get("role") != "test":
             _fetch_extra_years(gee, site, d, s.get("extra_years") or [], cfg)
+        if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
+            typer.echo(f"[{site['name']}] built-up layer ...")
+            gee.download_built(site["bbox"], d / "built.tif", cfg)
         if labels_only and (d / "meta.json").exists() and \
                 gee.LABEL_VERSION in json.loads((d / "meta.json").read_text()).get("label_sources", []):
             typer.echo(f"[{site['name']}] labels already up to date, skipping (delete meta.json to redo)")

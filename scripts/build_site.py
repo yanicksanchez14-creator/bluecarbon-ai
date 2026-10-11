@@ -135,6 +135,8 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
         "center": [round((s + n) / 2, 4), round((w + e) / 2, 4)],
         "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs,
     }
+    if meta.get("sea_level"):
+        rec["sea_level"] = meta["sea_level"]
     if change:
         p = meta.get("periods") or {}
         a0, a1 = _best_areas(meta["t0"]), _best_areas(meta["t1"])

@@ -116,6 +116,14 @@ T = {
         deductions="Deductions applied: risk buffer {b:.0%}, leakage {lk:.0%}, uncertainty {u:.0%} (total {t:.0%}).",
         formula="Credits = area x carbon rate x (1 - deductions), as in the plan; real deductions come from the "
                 "registry's tools and the methodology.",
+        slr="Sea-level rise: room to move inland",
+        slr_text="Within {km:g} km behind the {wet} ha of mangrove and salt marsh there are <b>{room} ha</b> of open, low "
+                 "land (0 to {el:g} m above sea level, not built up) the wetland could move into: {pct} of its own area. "
+                 "Rating: <b>{rating}</b>. Global sea level is projected to rise {a:g} to {b:g} m by 2100 (IPCC AR6). "
+                 "Verra VM0033 requires projects to rate this risk.",
+        slr_none="Not yet available for this site (needs elevation and built-up layers).",
+        slr_ratings={"low": "low risk", "medium": "medium risk", "high": "high risk (coastal squeeze)",
+                     "not applicable": "not applicable (no mangrove or salt marsh)"},
         change="Change over time", change_none="Change study not yet available for this site.",
         change_col="Change", per_yr="per year",
         flags="Rights and status screen", flag_col="Check", status_col="Status", note_col="Finding",
@@ -157,6 +165,14 @@ T = {
         deductions="Deducciones aplicadas: reserva de riesgo {b:.0%}, fugas {lk:.0%}, incertidumbre {u:.0%} (total {t:.0%}).",
         formula="Créditos = área x tasa de carbono x (1 - deducciones), como en el plan; las deducciones reales "
                 "salen de las herramientas del registro y de la metodología.",
+        slr="Aumento del nivel del mar: espacio para migrar tierra adentro",
+        slr_text="A menos de {km:g} km detrás de las {wet} ha de manglar y marisma hay <b>{room} ha</b> de tierra baja y "
+                 "abierta (0 a {el:g} m sobre el nivel del mar, sin construir) hacia donde el humedal podría migrar: {pct} "
+                 "de su propia área. Calificación: <b>{rating}</b>. Se proyecta que el nivel del mar global suba de {a:g} a "
+                 "{b:g} m para 2100 (IPCC AR6). Verra VM0033 exige que los proyectos califiquen este riesgo.",
+        slr_none="Aún no disponible para este sitio (requiere capas de elevación y de zonas construidas).",
+        slr_ratings={"low": "riesgo bajo", "medium": "riesgo medio", "high": "riesgo alto (estrechamiento costero)",
+                     "not applicable": "no aplica (sin manglar ni marisma)"},
         change="Cambio en el tiempo", change_none="El estudio de cambio aún no está disponible para este sitio.",
         change_col="Cambio", per_yr="por año",
         flags="Revisión de derechos y estatus", flag_col="Revisión", status_col="Estatus", note_col="Hallazgo",
@@ -355,6 +371,18 @@ def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spe
     story.append(table(rows, [3.4 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch]))
     story.append(Paragraph(t["deductions"].format(b=a.buffer, lk=a.leakage, u=a.uncertainty, t=1 - a.keep) + " "
                            + t["formula"], small))
+
+    story.append(Paragraph(t["slr"], h2))
+    sl = meta.get("sea_level")
+    if sl and sl.get("ratio") is not None:
+        story.append(Paragraph(t["slr_text"].format(
+            km=sl["search_km"], wet=fmt(sl["wetland_ha"]), room=fmt(sl["room_ha"]), el=sl["max_elev_m"],
+            pct=f"{sl['ratio']:.0%}", rating=t["slr_ratings"][sl["rating"]], a=sl["ar6_2100_m"][0],
+            b=sl["ar6_2100_m"][1]), body))
+    elif sl:
+        story.append(Paragraph(t["slr_ratings"][sl["rating"]].capitalize() + ".", body))
+    else:
+        story.append(Paragraph(t["slr_none"], body))
 
     story.append(Paragraph(t["change"], h2))
     if change:

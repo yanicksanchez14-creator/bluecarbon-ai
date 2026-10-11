@@ -456,3 +456,13 @@ def site_biomass_stats(bbox: list[float]) -> dict:
     a, p = d.get("a") or {}, d.get("p") or {}
     return {"agb_mean": a.get("agb_mean"), "agb_p10": a.get("agb_p10"), "agb_p90": a.get("agb_p90"),
             "agb_count": a.get("agb_count") or 0, "precip_mm": p.get("bio12")}
+
+
+def built_up_image(cfg: Config):
+    """1 where ESA WorldCover 2021 says built up (class 50), else 0: towns and roads a wetland can't move into."""
+    _require_ee()
+    return ee.ImageCollection(cfg.labels.worldcover).first().select("Map").eq(50).unmask(0).rename("built").toUint8()
+
+
+def download_built(bbox: list[float], out_path: str | Path, cfg: Config) -> Path:
+    return download(built_up_image(cfg), bbox, out_path, cfg, "uint8", None, ["built"])

@@ -67,6 +67,12 @@
         <table class="hab-table"><thead><tr><th>Habitat (ha)</th><th class="num">${BC.esc(ch.t0)}</th><th class="num">${BC.esc(ch.t1)}</th><th class="num">Change</th></tr></thead><tbody>${cr}</tbody></table>
         <p class="small-note">Net change in stored carbon: ${net >= 0 ? "+" : "−"}${BC.fmt(Math.abs(net))} t CO₂. Small changes can come from tide, season or image quality rather than real habitat change.</p>`;
     }
+    const sl = s.sea_level;
+    const slr = sl && sl.ratio !== null && sl.ratio !== undefined ? `<h2>Sea-level rise</h2>
+        <p class="desc" style="margin-bottom:6px">Within ${sl.search_km} km behind the wetland there are <b>${BC.fmt(sl.room_ha)} ha</b> of open, low land
+        (0 to ${sl.max_elev_m} m above sea level, not built up) it could move into as the sea rises: ${Math.round(sl.ratio * 100)}% of its own area.</p>
+        <p class="small-note">Rating: <b>${{low: "low risk", medium: "medium risk", high: "high risk (coastal squeeze)"}[sl.rating]}</b>.
+        Sea level is projected to rise ${sl.ar6_2100_m[0]} to ${sl.ar6_2100_m[1]} m by 2100 (IPCC AR6).</p>` : "";
     const reports = s.reports ? `<h2>Report</h2><div class="dl">
         <a class="btn btn-solid btn-sm" href="${s.reports.en}" download>PDF (English)</a>
         <a class="btn btn-line btn-sm" href="${s.reports.es}" download>PDF (español)</a></div>
@@ -85,6 +91,7 @@
       <h2>Habitats found</h2>
       <table class="hab-table"><tbody>${rows}</tbody></table>
       <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}</p>
+      ${slr}
       ${change}
       ${reports}`;
   }

@@ -876,6 +876,16 @@ with tab_analyze:
                 except Exception:  # fall back to IPCC biomass rather than fail the analysis
                     bio_stats = None
                 rep = scene_report(tmp / "pred.tif", CFG.carbon, ck["metrics"].get("test_confusion"), bio_stats)
+                try:  # sea-level-rise screen: room for the wetland to move inland
+                    from bluecarbon.slr import slr_from_files
+
+                    st.write("Checking room for the wetland to move inland as the sea rises…")
+                    if not (tmp / "ancillary.tif").exists():
+                        gee.download_ancillary(bbox, str(start), str(end), tmp / "ancillary.tif", CFG)
+                    gee.download_built(bbox, tmp / "built.tif", CFG)
+                    sea_level = slr_from_files(tmp / "pred.tif", tmp / "ancillary.tif", tmp / "built.tif")
+                except Exception:
+                    sea_level = None
                 status.update(label="Analysis complete", state="complete", expanded=False)
             mb, bnds = _to_mercator(tmp / "image.tif", list(range(1, 11)), Resampling.bilinear, 0)
             mc, _ = _to_mercator(tmp / "pred.tif", [1], Resampling.nearest, 255)
@@ -900,14 +910,14 @@ with tab_analyze:
                 Image.fromarray(class_rgba(mc[0], 255)).save(page / "classes.png")
                 lat, lon = (bbox[1] + bbox[3]) / 2, (bbox[0] + bbox[2]) / 2
                 (page / "meta.json").write_text(json.dumps({
-                    **live_meta, "kind": "single", "report": rep, "period": f"{start} to {end}",
+                    **live_meta, "kind": "single", "report": rep, "period": f"{start} to {end}", "sea_level": sea_level,
                     "region": f"{abs(lat):.3f}° {'N' if lat >= 0 else 'S'}, {abs(lon):.3f}° {'E' if lon >= 0 else 'W'}"}))
                 pdfs = {lang: build_report(page, None, lang) for lang in ("en", "es")}
             except Exception as e:  # never lose the analysis over a report problem
                 st.caption(f"PDF report unavailable ({str(e)[:80]})")
             st.session_state["live"] = {"meta": live_meta, "report": rep, "bounds": bnds, "layers": layers,
                                         "rgb": rgba_uri(true_color(mb)), "tif": (tmp / "pred.tif").read_bytes(),
-                                        "pdf": pdfs}
+                                        "pdf": pdfs, "sea_level": sea_level}
 
         live = st.session_state.get("live")
         if live:
@@ -922,6 +932,16 @@ with tab_analyze:
                 st_folium(m2, height=540, use_container_width=True, returned_objects=[], key=f"live_{view}_{opacity}")
 
             render_results(live["meta"], live["report"], live_map)
+            sl = live.get("sea_level")
+            if sl and sl.get("ratio") is not None:
+                rating = {"low": "low risk", "medium": "medium risk", "high": "high risk (coastal squeeze)"}[sl["rating"]]
+                section("Sea-level rise", "Can the wetland move inland as the sea rises? Verra VM0033 asks every project.")
+                st.markdown(f'<div class="bc-card bc-found"><p>Within {sl["search_km"]:g} km behind the '
+                            f'{fmt(sl["wetland_ha"])} ha of mangrove and salt marsh there are <b>{fmt(sl["room_ha"])} ha</b> '
+                            f'of open, low land (0 to {sl["max_elev_m"]:g} m above sea level, not built up): '
+                            f'{sl["ratio"]:.0%} of the wetland\'s own area. Rating: <b>{rating}</b>. Global sea level is '
+                            f'projected to rise {sl["ar6_2100_m"][0]:g} to {sl["ar6_2100_m"][1]:g} m by 2100 (IPCC AR6).'
+                            "</p></div>", unsafe_allow_html=True)
             section("Download", "The report, the habitat map for GIS software, and the raw numbers.")
             d1, d2, d3, d4 = st.columns(4)
             pdfs = live.get("pdf") or {}

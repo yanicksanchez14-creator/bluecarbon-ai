@@ -76,6 +76,11 @@ def export_scene(scene_dir: str | Path, out_dir: str | Path, title: str, cfg: Co
     else:
         b, _ = _render_period(d, "", out, "")
         meta.update(kind="single", bounds=b, report=scene_report(d / "pred.tif", cfg.carbon, cm))
+        from .slr import slr_from_files
+
+        sl = slr_from_files(d / "pred.tif", d / "ancillary.tif", d / "built.tif")
+        if sl:
+            meta["sea_level"] = sl
     (out / "meta.json").write_text(json.dumps(meta, indent=2))
     return out
 

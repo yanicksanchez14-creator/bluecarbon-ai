@@ -155,6 +155,27 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
     return rec, meta.get("model") or {}
 
 
+def _cores_used(pages: list[Path]) -> int:
+    """Soil cores that actually feed a site page's carbon (within the radius each site used)."""
+    import numpy as np
+
+    from bluecarbon.carbon import _cores, _km
+
+    c = _cores()
+    if c is None:
+        return 0
+    used: set[int] = set()
+    for p in pages:
+        m = json.loads((p / "meta.json").read_text())
+        (s, w), (n, e) = m["bounds"]
+        for rep in ([m["report"]] if "report" in m else [m[t] for t in ("t0", "t1") if t in m]):
+            for k, v in rep["carbon"]["classes"].items():
+                if (v.get("soil") or {}).get("source") == "measured":
+                    d = _km((s + n) / 2, (w + e) / 2, c["lat"], c["lon"])
+                    used.update(np.flatnonzero((c["habitat"] == k) & (d <= v["soil"]["radius_km"])).tolist())
+    return len(used)
+
+
 def build(out: Path, pdf: bool = True) -> dict:
     if out.exists():
         shutil.rmtree(out)
@@ -192,6 +213,7 @@ def build(out: Path, pdf: bool = True) -> dict:
         "n_countries": len({s["country"] for s in n_sites}),
         "n_held_out": sum(s["held_out"] for s in n_sites),
         "n_soil_cores": sum(1 for _ in cores.open()) - 1 if cores.exists() else 0,
+        "n_soil_cores_used": _cores_used(pages),
         "blue_carbon_ha": round(sum(sum(s["areas_ha"][k] for k in BLUE_CARBON_KEYS) for s in n_sites)),
         "stock_tco2e": sum(s["carbon"]["stock_tco2e"]["mean"] for s in n_sites),
     }

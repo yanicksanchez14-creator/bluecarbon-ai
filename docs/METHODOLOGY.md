@@ -32,13 +32,14 @@ or made with index thresholds:
 | Salt marsh | WorldCover herbaceous, grass or shrub cover that the GWL_FCS30 wetland map (Zhang et al. 2023) classes as salt marsh. Tidal-zone vegetation it calls non-wetland is left unlabelled |
 | Freshwater wetland | WorldCover herbaceous wetland outside the tidal zone, or that GWL_FCS30 calls swamp / marsh |
 | Tidal flat | Murray et al. global intertidal change |
-| Seagrass | Allen Coral Atlas benthic map (tropics), plus official survey maps where they exist: the FWC Florida statewide seagrass map (surveys from 2010 on) and the 2015 Moreton Bay seagrass map (Seamap Australia), burned in over water only. At sites with seagrass that no map covers (e.g. Florida Bay, Tampa Bay), water outside the Atlas footprint is left unlabelled rather than taught as open water |
+| Seagrass | Allen Coral Atlas benthic map (tropics), plus official survey maps where they exist: the FWC Florida statewide seagrass map (surveys from 2004 on) and Seamap Australia (Moreton Bay 2015, Great Barrier Reef, Western Australia, Victoria 2023), burned in over water only, with unlabelled water within 1.5 km of a surveyed meadow taught as open water. Where seagrass exists but no map covers it, water outside the Atlas footprint is left unlabelled rather than taught as open water |
 
 Pixels within 1 px of a class boundary are ignored, because edges are where global products are
 least reliable.
 
-**Splitting.** Chips don't overlap. Whole 5 km blocks go to train, val or test, and two sites
-(Moreton Bay, Tampa Bay) are held out entirely. That tests geographic generalization, not memorization
+**Splitting.** Chips don't overlap. Whole 5 km blocks go to train, val or test, and five estuaries
+(Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay) are held out entirely. Extra years of
+imagery (2020, 2022) of the training sites go to training only. That tests geographic generalization, not memorization
 of neighbouring pixels.
 
 **Context layers.** Elevation (NASADEM) and tidal-wetland probability (Murray et al. 2022) are added as
@@ -77,8 +78,12 @@ standing stock is not creditable. Tier 1 values are global averages; any real pr
 site-measured stocks.
 
 ### Limitations
-- Seagrass is spectrally hard to separate from water, and global seagrass labels only cover tropical
-  reefs. Temperate seagrass needs local survey polygons.
+- Seagrass is the weakest habitat (0.38 IoU): it is spectrally hard to separate from water, and meadows in
+  murky or deep water are missed. Unseen Tampa Bay scores 0.62, Moreton Bay 0.12 and Shoalwater Bay 0.04.
+  Global seagrass labels only cover tropical reefs; temperate seagrass needs local survey polygons.
+- Area correction (Olofsson et al.) uses the model's accuracy pooled over all test areas, not each site's own,
+  so at a site where the model maps little seagrass the corrected seagrass area can be several times the mapped
+  area. Treat corrected seagrass areas as uncertain.
 - Tides change what the satellite sees in intertidal zones. A median composite averages over tides.
 - The global label products have their own errors, so the model learns those errors too.
 

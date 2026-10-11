@@ -143,6 +143,12 @@ def main() -> None:
         run("bluecarbon", "train", "--kind", "both")
     best = best_model()
     print((WORK / "model" / "best.txt").read_text(), "->", best)
+    live = Path("models") / Path("models/current.txt").read_text().strip() if Path("models/current.txt").exists() else None
+    if live and live.exists():  # grade the website's model and the new one on the same estuaries + labels
+        try:
+            run("bluecarbon", "compare", "--new", str(best), "--live", str(live), "--out", str(WORK / "compare.txt"))
+        except subprocess.CalledProcessError:
+            print("live vs new comparison failed", flush=True)
     try:  # seagrass specialist: second opinion on water/seagrass, saved switched off unless it helps
         run("bluecarbon", "seagrass-train", "-m", str(best))
     except subprocess.CalledProcessError:
@@ -199,6 +205,9 @@ def main() -> None:
         shutil.copy("data/site_biomass.json", out / "site_biomass.json")
     (out / "code_version.txt").write_text(code_version() + "\n")
     check = held_out_check()
+    if (WORK / "compare.txt").exists():
+        check += "\n\n" + (WORK / "compare.txt").read_text()
+        shutil.copy(WORK / "compare.txt", out / "compare.txt")
     (out / "held_out_check.txt").write_text(check + "\n")
     print("\n" + check)
     shutil.make_archive("results", "zip", ".", str(out))

@@ -350,6 +350,63 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
     typer.echo(f"wrote {out}")
 
 
+@app.command()
+def compare(new: Path = typer.Option(..., help="Newly trained model"),
+            live: Path = typer.Option(..., help="Model currently on the website"),
+            config: str = CfgOpt, sites: str = SitesOpt, out: Path = typer.Option(None)):
+    """Grade the live and the new model on the SAME held-out estuaries and the SAME current labels.
+
+    Prints per-estuary IoU for each blue carbon habitat, the change, and a verdict: PUBLISH when the new
+    model's mean blue carbon IoU over the held-out estuaries is at least the live one's and no habitat at
+    any estuary drops by more than 0.05; REVIEW otherwise."""
+    import numpy as np
+    import rasterio
+
+    from .metrics import confusion, summarize
+    from .predictors import load_predictor, read_ancillary
+    from .priors import apply_to_classes, raster_center_lat
+    from .schema import BLUE_CARBON_KEYS
+
+    cfg, s = _cfg(config), _sites(sites)
+    models = {"live": load_predictor(live, cfg.train.device), "new": load_predictor(new, cfg.train.device)}
+    rows, lines = {}, []
+    for site in [x for x in s["sites"] if x.get("role") == "test"]:
+        d = cfg.work / "sites" / site["name"]
+        if not (d / "image.tif").exists():
+            continue
+        with rasterio.open(d / "image.tif") as im:
+            bands, tr, crs = im.read(), im.transform, im.crs
+        with rasterio.open(d / "label.tif") as lb:
+            ref = lb.read(1)
+        lat = raster_center_lat(tr, crs, *ref.shape)
+        rows[site["name"]] = {}
+        for name, pr in models.items():
+            anc = read_ancillary(d / "image.tif", bands.shape[1:]) if pr.needs_ancillary else None
+            cls, _ = pr.predict(bands, cfg.predict.tile, cfg.predict.overlap, cfg.predict.tta, anc=anc)
+            rows[site["name"]][name] = summarize(confusion(ref, apply_to_classes(cls, lat)))["iou"]
+    lines.append("LIVE vs NEW on the same held-out estuaries and current labels (IoU)")
+    lines.append(f"  {'estuary':20s} {'habitat':10s} {'live':>6s} {'new':>6s} {'change':>7s}")
+    worst, live_v, new_v = 0.0, [], []
+    for site, r in rows.items():
+        for k in BLUE_CARBON_KEYS:
+            a, b = r["live"].get(k), r["new"].get(k)
+            if a is None and b is None:
+                continue
+            a, b = a or 0.0, b or 0.0
+            live_v.append(a)
+            new_v.append(b)
+            worst = min(worst, b - a)
+            lines.append(f"  {site:20s} {k:10s} {a:6.2f} {b:6.2f} {b - a:+7.2f}")
+    if new_v:
+        ok = np.mean(new_v) >= np.mean(live_v) and worst >= -0.05
+        lines.append(f"  mean blue carbon IoU: live {np.mean(live_v):.3f}  new {np.mean(new_v):.3f}  largest drop {worst:+.2f}")
+        lines.append(f"  VERDICT: {'PUBLISH' if ok else 'REVIEW (new model is worse somewhere; read the table)'}")
+    text = "\n".join(lines)
+    typer.echo(text)
+    if out:
+        Path(out).write_text(text + "\n")
+
+
 @app.command("seagrass-train")
 def seagrass_train(config: str = CfgOpt, model: Path = typer.Option(None, "--model", "-m"),
                    device: str = typer.Option(None)):

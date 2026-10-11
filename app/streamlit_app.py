@@ -597,6 +597,13 @@ def in_image_html(report: dict, only_blue: bool = False) -> str:
 
 
 
+def box_km2(bbox) -> float:
+    """Area of a lon/lat box on the sphere (same formula as the map's live readout)."""
+    r = 6378137.0
+    w, s_, e, n = bbox
+    return r * r * math.radians(e - w) * abs(math.sin(math.radians(n)) - math.sin(math.radians(s_))) / 1e6
+
+
 # ----------------------------------------------------------------------------- chrome
 EMBED = st.query_params.get("view") == "analyze"  # the website embeds only the live analysis tool
 
@@ -787,13 +794,43 @@ with tab_analyze:
         m = folium.Map(location=[32.78, -117.22], zoom_start=12, tiles=None)
         folium.TileLayer(ESRI, attr=ESRI_ATTR, name="Satellite").add_to(m)
         Draw(draw_options={"polyline": False, "polygon": False, "circle": False, "marker": False,
-                           "circlemarker": False, "rectangle": {"shapeOptions": {"color": "#14a3a0"}}},
+                           "circlemarker": False,
+                           "rectangle": {"shapeOptions": {"color": "#14a3a0"}, "showArea": True, "metric": True}},
              edit_options={"edit": False}).add_to(m)
+        # Live area while drawing. leaflet.draw's own text is in hectares without the limit (and crashes in some
+        # versions), so replace it: km² and the limit, said plainly when the box is too big. Attached to the map
+        # itself because streamlit-folium only runs the map's own scripts.
+        from branca.element import MacroElement
+        from jinja2 import Template
+
+        class _AreaReadout(MacroElement):
+            _template = Template(
+                "{% macro script(this, kwargs) %}"
+                "if (window.L && L.GeometryUtil) { L.GeometryUtil.readableArea = function (a) {"
+                f"var k = a / 1e6, lim = {MAX_AREA_KM2};"
+                "var t = (k < 10 ? k.toFixed(2) : k.toFixed(1)) + ' km²';"
+                "return k > lim ? '<b style=\"color:#ffb4a2\">' + t + ' - too big, limit ' + lim + ' km²</b>'"
+                " : t + ' of ' + lim + ' km² allowed'; }; }"
+                "{% endmacro %}")
+
+        m.add_child(_AreaReadout())
         out = st_folium(m, height=480, use_container_width=True, key="draw")
         feat = (out or {}).get("last_active_drawing")
+        bbox = km2 = None
+        if feat:
+            coords = np.array(feat["geometry"]["coordinates"][0])
+            bbox = [coords[:, 0].min(), coords[:, 1].min(), coords[:, 0].max(), coords[:, 1].max()]
+            km2 = box_km2(bbox)
+        too_big = km2 is not None and km2 > MAX_AREA_KM2
+        if km2 is not None:
+            msg = (f"Selected area: <b>{km2:,.1f} km²</b> ({km2 * 100:,.0f} ha). "
+                   + (f"That's over the {MAX_AREA_KM2} km² limit: draw a smaller box." if too_big
+                      else f"Within the {MAX_AREA_KM2} km² limit."))
+            st.markdown(f'<div class="bc-note" style="margin:.4rem 0;color:{"#9b2c2c" if too_big else "inherit"}">'
+                        f"{msg}</div>", unsafe_allow_html=True)
         c3.markdown("<div style='height:1.7rem'></div>", unsafe_allow_html=True)
-        run = c3.button("Run analysis", type="primary", disabled=feat is None, width="stretch")
-        if run and feat:
+        run = c3.button("Run analysis", type="primary", disabled=feat is None or too_big, width="stretch")
+        if run and feat and not too_big:
             import rasterio
             from rasterio.warp import Resampling
 
@@ -803,13 +840,6 @@ with tab_analyze:
             from bluecarbon.report import scene_report
             from bluecarbon.viz import class_rgba, true_color
 
-            coords = np.array(feat["geometry"]["coordinates"][0])
-            bbox = [coords[:, 0].min(), coords[:, 1].min(), coords[:, 0].max(), coords[:, 1].max()]
-            km2 = ((bbox[2] - bbox[0]) * 111.32 * math.cos(math.radians((bbox[1] + bbox[3]) / 2))
-                   * (bbox[3] - bbox[1]) * 110.57)
-            if km2 > MAX_AREA_KM2:
-                st.error(f"That box is {km2:,.0f} km². Please draw one under {MAX_AREA_KM2} km².")
-                st.stop()
             init_gee(sa)
             predictor = get_model()
             ck = predictor.meta

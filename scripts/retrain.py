@@ -135,12 +135,22 @@ def main() -> None:
     print("Code version:", code_version(), flush=True)
     skip_train = "--skip-train" in sys.argv
     if not skip_train:
-        fetch_parallel()
-        shutil.rmtree(WORK / "chips", ignore_errors=True)
-        run("bluecarbon", "chips")
+        import os
+
+        os.environ["BLUECARBON_TRAIN_STATE"] = str((WORK / "sites" / "_train_state.pt").resolve())
+        resuming = (WORK / "sites" / "_train_state.pt").exists()
+        if resuming:
+            print("\nTraining state found on Drive: skipping downloads and resuming training", flush=True)
+        else:
+            fetch_parallel()
+            shutil.rmtree(WORK / "chips", ignore_errors=True)
+        if not (WORK / "chips").exists():
+            run("bluecarbon", "chips")  # deterministic: the same sites give the same chips
         for old in (WORK / "model").glob("best.*"):
             old.unlink()
         run("bluecarbon", "train", "--kind", "both")
+        for f in ("_train_state.pt", "_train_best.pt"):  # finished: the next run starts fresh
+            (WORK / "sites" / f).unlink(missing_ok=True)
     best = best_model()
     print((WORK / "model" / "best.txt").read_text(), "->", best)
     live = Path("models") / Path("models/current.txt").read_text().strip() if Path("models/current.txt").exists() else None

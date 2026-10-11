@@ -37,6 +37,7 @@ def test_end_to_end(tmp_path):
     assert "test" in res and res["test"]["mIoU"] is not None
     assert json.loads((tmp_path / "model" / "metrics.json").read_text())["best_epoch"] >= 1
 
+
     model, norm, ck = load_checkpoint(tmp_path / "model" / "model.pt")
     assert ck["metrics"]["test_confusion"] is not None
 
@@ -190,3 +191,31 @@ def test_extra_year_chips_train_only(tmp_path):
     assert extra and all(r.split == "train" for r in extra)
     assert {(r.row, r.col) for r in extra} == train_cells
     assert all("_2020_" in r.path for r in extra)
+
+
+def _setup(tmp_path):
+    cfg = load_config(None, {
+        "model": {"encoder": "resnet18", "encoder_weights": None},
+        "train": {"epochs": 2, "batch_size": 4, "num_workers": 0, "lr": 3e-3, "device": "cpu", "amp": False},
+    })
+    recs = []
+    for i, split in enumerate(["train", "val"]):
+        d = tmp_path / f"site{i}"
+        d.mkdir()
+        make_scene(d / "image.tif", d / "label.tif", size=256, seed=i)
+        recs += make_chips(d / "image.tif", d / "label.tif", tmp_path / "chips", f"site{i}", size=128, stride=128,
+                           force_split=split)
+    return cfg, recs
+
+
+def test_train_resumes_from_saved_state(tmp_path, monkeypatch):
+    """A Colab disconnect mid-training: the second call picks up after the saved epoch."""
+    msgs = []
+    monkeypatch.setenv("BLUECARBON_TRAIN_STATE", str(tmp_path / "state" / "_train_state.pt"))
+    (tmp_path / "state").mkdir()
+    cfg, recs = _setup(tmp_path)
+    train(cfg, recs, tmp_path / "m1", log=msgs.append)
+    assert (tmp_path / "state" / "_train_state.pt").exists()
+    msgs.clear()
+    train(cfg, recs, tmp_path / "m2", log=msgs.append)
+    assert any(m.startswith("resuming after epoch") for m in msgs)

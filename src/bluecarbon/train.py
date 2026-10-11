@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import time
 from pathlib import Path
 
@@ -164,7 +165,32 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
 
     best, best_epoch, history = -1.0, -1, []
     ckpt = out / "model.pt"
-    for epoch in range(1, t.epochs + 1):
+    # Resume after a Colab disconnect: the full training state is saved every epoch next to the site cache
+    # (Google Drive in Colab), and picked up again if it belongs to the same chips and inputs.
+    state_p = Path(os.environ.get("BLUECARBON_TRAIN_STATE", "/nonexistent/_train_state.pt"))  # set by retrain.py
+    best_p = state_p.with_name("_train_best.pt")
+    sig = {"n_train": len(tr), "n_val": len(va), "features": list(features), "epochs": t.epochs}
+    start = 1
+    if state_p.exists() and best_p.exists():
+        try:
+            st = torch.load(state_p, map_location=device, weights_only=False)
+            if st.get("sig") == sig:
+                model.load_state_dict(st["model"])
+                opt.load_state_dict(st["opt"])
+                sched.load_state_dict(st["sched"])
+                scaler.load_state_dict(st["scaler"])
+                best, best_epoch, history, start = st["best"], st["best_epoch"], st["history"], st["epoch"] + 1
+                import shutil
+
+                shutil.copy(best_p, ckpt)
+                log(f"resuming after epoch {st['epoch']} (best val mIoU {best:.4f} at epoch {best_epoch})")
+            else:
+                log("saved training state is for different chips; starting fresh")
+        except Exception as e:
+            log(f"could not resume ({str(e)[:80]}); starting fresh")
+    for epoch in range(start, t.epochs + 1):
+        if epoch - best_epoch > t.patience and best_epoch > 0:
+            break
         model.train()
         t0, tot, nb = time.time(), 0.0, 0
         for x, y in dl_tr:
@@ -186,7 +212,18 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
         if val["mIoU"] > best:
             best, best_epoch = val["mIoU"], epoch
             save_checkpoint(ckpt, model, m.arch, m.encoder, norm, {"val": val, "epoch": epoch}, features=features)
-        elif epoch - best_epoch >= t.patience:
+        stop = val["mIoU"] <= best and epoch - best_epoch >= t.patience
+        if state_p.parent.exists():
+            import shutil
+
+            if best_epoch == epoch:
+                shutil.copy(ckpt, best_p)
+            tmp = state_p.with_name(state_p.name + ".tmp")
+            torch.save({"sig": sig, "epoch": epoch, "model": model.state_dict(), "opt": opt.state_dict(),
+                        "sched": sched.state_dict(), "scaler": scaler.state_dict(), "best": best,
+                        "best_epoch": best_epoch, "history": history}, tmp)
+            tmp.replace(state_p)
+        if stop:
             log(f"early stop: no val improvement for {t.patience} epochs")
             break
 

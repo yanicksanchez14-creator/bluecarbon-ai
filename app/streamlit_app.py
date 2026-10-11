@@ -626,9 +626,7 @@ if not EMBED and VIEW != "tool":
         'BlueCarbon-AI has moved to a new website</h1>'
         '<p style="font-size:1.08rem;line-height:1.6;margin:0 0 14px">If you were given this link, thank you for visiting. '
         f'On {SITE_LIVE} the project moved to its own website, which replaces this page as its home.</p>'
-        '<p style="font-size:1.02rem;line-height:1.6;margin:0 0 6px">The website has habitat and carbon maps of 44 coastal '
-        'sites on six continents, published accuracy on estuaries the model never saw during training, the full '
-        'methodology and sample site screening reports in English and Spanish.</p></div>',
+        '</div>',
         unsafe_allow_html=True)
     _, mid, _ = st.columns([1, 1.4, 1])
     with mid:

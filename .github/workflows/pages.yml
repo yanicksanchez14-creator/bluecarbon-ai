@@ -3,7 +3,7 @@ name: website
 on:
   push:
     branches: [main]
-    paths: ["site/**", "demo_data/**", "reports/screens/**", "docs/**", "scripts/build_site.py", "src/bluecarbon/screen.py", ".github/workflows/pages.yml"]
+    paths: ["site/**", "demo_data/**", "demo_kelp/**", "reports/screens/**", "docs/**", "scripts/build_site.py", "src/bluecarbon/screen.py", ".github/workflows/pages.yml"]
   workflow_dispatch:
 permissions:
   contents: read

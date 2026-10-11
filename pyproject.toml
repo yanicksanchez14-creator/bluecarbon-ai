@@ -30,6 +30,7 @@ gee = ["earthengine-api>=0.1.390"]
 app = ["streamlit>=1.35", "folium>=0.15", "streamlit-folium>=0.20", "earthengine-api>=0.1.390", "pandas>=2", "altair>=5"]
 dev = ["pytest>=7", "ruff>=0.4"]
 report = ["reportlab>=4"]
+kelp = ["xarray>=2023", "netCDF4>=1.6"]
 
 [project.scripts]
 bluecarbon = "bluecarbon.cli:app"

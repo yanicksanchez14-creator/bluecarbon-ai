@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelp canopy | BlueCarbon-AI</title>
+<meta name="description" content="Quarterly kelp canopy for California kelp beds from Sentinel-2, calibrated and scored against Kelpwatch.">
+<meta name="theme-color" content="#0d1f29">
+<link rel="icon" href="blank.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- HEADER -->
+<main>
+  <div class="wrap doc-head" style="border-bottom:0;padding-bottom:20px">
+    <p class="kicker">Kelp canopy (beta)</p>
+    <h1>California kelp forests, every quarter</h1>
+    <p class="lede">Floating kelp canopy mapped from Sentinel-2 every three months since 2016, calibrated against
+      Kelpwatch's diver-checked Landsat record and scored on kelp beds left out of the calibration.</p>
+  </div>
+  <div class="wrap kelp-layout">
+    <div class="kelp-map" id="kmap" role="img" aria-label="Map of kelp beds"></div>
+    <section class="kelp-panel" id="kpanel" aria-live="polite"></section>
+  </div>
+  <section class="section" style="padding-top:60px">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Method</p><h2>How the kelp numbers are made</h2></div>
+        <p class="lede">Built from published methods, so every step can be checked.</p>
+      </div>
+      <ol class="contents">
+        <li><b>Every clear image</b><span>Each cloud-free Sentinel-2 scene of the quarter, at 20 m. Floating canopy reflects near-infrared light; water absorbs it.</span></li>
+        <li><b>Floating Algae Index</b><span>Bands 4, 8A and 11 (Hu 2009), with the local ocean background removed, so haze and glint don't read as kelp.</span></li>
+        <li><b>Canopy fraction</b><span>Scaled between a detection threshold and a fully covered pixel, only within 2 km of shore.</span></li>
+        <li><b>Calibrated to Kelpwatch</b><span>Threshold and full-canopy value fitted to Kelpwatch (UC Santa Barbara), whose Landsat record is calibrated with divers.</span></li>
+        <li><b>Scored where it wasn't fitted</b><span>Two kelp beds are left out of the calibration; their agreement with Kelpwatch is the published accuracy.</span></li>
+      </ol>
+      <p class="small-note" style="margin-top:18px">Kelp carbon credits are not yet recognised by the major registries. This is a monitoring product: canopy extent and trend for restoration projects and their funders.</p>
+    </div>
+  </section>
+</main>
+<!-- FOOTER -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/common.js"></script>
+<script src="js/kelp.js"></script>
+</body>
+</html>

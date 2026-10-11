@@ -518,3 +518,36 @@ def download_landsat(bbox: list[float], year: int, out_path: str | Path, cfg: Co
 
     c30 = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": SCALE_M})})
     return download(landsat_composite(bbox_geometry(bbox), year), bbox, out_path, c30, "uint16", 0, LANDSAT_BANDS)
+
+
+def kelp_quarter_image(region, start: str, end: str, cfg: Config):
+    """Kelp canopy inputs for one quarter at 20 m: 90th-percentile Floating Algae Index over the clear
+    Sentinel-2 scenes (x 1e4, int16; -32768 = no clear scene), number of clear scenes, and land (WorldCover
+    not water). FAI = B8A - (B4 + (B11 - B4) * (865 - 665) / (1610 - 665)), Hu (2009)."""
+    _require_ee()
+    ic = cfg.imagery
+    s2 = ee.ImageCollection(ic.collection).filterBounds(region).filterDate(start, end)
+    cs = ee.ImageCollection(ic.cloud_score_collection)
+    linked = s2.linkCollection(cs, [ic.cloud_score_band])
+
+    def fai(im):
+        r = im.select(["B4", "B8A", "B11"]).divide(10000)
+        f = r.select("B8A").subtract(r.select("B4").add(r.select("B11").subtract(r.select("B4"))
+                                                        .multiply((865 - 665) / (1610 - 665))))
+        return f.rename("fai").updateMask(im.select(ic.cloud_score_band).gte(ic.clear_threshold))
+
+    col = linked.map(fai)
+    p90 = col.reduce(ee.Reducer.percentile([90])).rename("fai").multiply(10000).round().unmask(-32768).toInt16()
+    n = col.count().rename("n").unmask(0).toInt16()
+    wc = ee.ImageCollection(cfg.labels.worldcover).first().select("Map")
+    land = wc.neq(80).And(wc.neq(0)).unmask(0).rename("land").toInt16()
+    return ee.Image.cat([p90, n, land])
+
+
+def download_kelp_quarter(bbox: list[float], year: int, q: int, out_path: str | Path, cfg: Config) -> Path:
+    from .kelp import SCALE_M, quarter_dates
+
+    a, b = quarter_dates(year, q)
+    c20 = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": SCALE_M})})
+    return download(kelp_quarter_image(bbox_geometry(bbox), a, b, cfg), bbox, out_path, c20, "int16", None,
+                    ["fai", "n", "land"])

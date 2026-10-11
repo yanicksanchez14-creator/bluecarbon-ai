@@ -206,11 +206,27 @@ def build(out: Path, pdf: bool = True) -> dict:
         "sites": sites,
     }
     (data / "sites.json").write_text(json.dumps(doc, separators=(",", ":")))
+    _kelp(out)
     _methodology(out)
     _chrome(out)
     _cache_bust(out)
     (out / ".nojekyll").write_text("")
     return doc
+
+
+def _kelp(out: Path) -> None:
+    """Kelp pages from demo_kelp/ (scripts/kelp_pipeline.py): index + per-site canopy overlay."""
+    src = ROOT / "demo_kelp"
+    sites = []
+    if src.exists():
+        for p in sorted(src.glob("*/kelp.json")):
+            d = out / "data" / "kelp" / p.parent.name
+            d.mkdir(parents=True, exist_ok=True)
+            if (p.parent / "canopy_latest.png").exists():
+                shutil.copy(p.parent / "canopy_latest.png", d / "canopy_latest.png")
+            sites.append(json.loads(p.read_text()))
+    cal = json.loads((src / "calibration.json").read_text()) if (src / "calibration.json").exists() else {}
+    (out / "data" / "kelp.json").write_text(json.dumps({"sites": sites, "calibration": cal}, separators=(",", ":")))
 
 
 def _chrome(out: Path) -> None:

@@ -1,0 +1,42 @@
+# California kelp beds for the kelp canopy product. Boxes are [west, south, east, north] and cover the
+# nearshore band where canopy forms (giant kelp in the south and centre, bull kelp in the north).
+# role: test = never used to calibrate; its scores against Kelpwatch are the published accuracy.
+start_year: 2016          # Sentinel-2 A+B both flying from 2017; 2016 adds a partial first year
+sites:
+  - name: point_loma
+    title: Point Loma kelp forest
+    region: San Diego, California
+    bbox: [-117.30, 32.64, -117.23, 32.74]
+    species: giant kelp
+  - name: la_jolla
+    title: La Jolla
+    region: San Diego, California
+    bbox: [-117.31, 32.79, -117.25, 32.89]
+    species: giant kelp
+  - name: laguna_dana_point
+    title: Laguna Beach to Dana Point
+    region: Orange County, California
+    bbox: [-117.82, 33.43, -117.68, 33.56]
+    species: giant kelp
+    role: test
+  - name: palos_verdes
+    title: Palos Verdes
+    region: Los Angeles County, California
+    bbox: [-118.44, 33.70, -118.30, 33.80]
+    species: giant kelp
+  - name: santa_barbara
+    title: Santa Barbara Channel (Arroyo Quemado to Mohawk)
+    region: Santa Barbara, California
+    bbox: [-120.15, 34.38, -119.70, 34.47]
+    species: giant kelp
+  - name: carmel_monterey
+    title: Carmel Bay and Monterey Peninsula
+    region: Monterey, California
+    bbox: [-121.98, 36.50, -121.88, 36.63]
+    species: giant kelp
+    role: test
+  - name: mendocino
+    title: Mendocino coast
+    region: Mendocino County, California
+    bbox: [-123.85, 39.20, -123.75, 39.40]
+    species: bull kelp

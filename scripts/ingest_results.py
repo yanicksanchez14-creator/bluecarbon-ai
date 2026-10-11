@@ -57,6 +57,16 @@ def install_model(src: Path) -> tuple[Path, dict]:
         raise SystemExit(f"{dst.name} is {mb:.0f} MB, too big for GitHub. Attach it to a release and set MODEL_URL.")
     (ROOT / "models" / "current.txt").write_text(dst.name + "\n")
     print(f"model -> {dst.relative_to(ROOT)} ({mb:.1f} MB)")
+    from bluecarbon.seagrass import specialist_path_for
+
+    for f, to in ((specialist_path_for(src), specialist_path_for(dst)),
+                  (src.with_name("history_landsat.json"), ROOT / "models" / "history_landsat.json"),
+                  (src.with_name("site_biomass.json"), ROOT / "data" / "site_biomass.json")):
+        if f.exists():  # companions from the same run: seagrass specialist, history model, biomass summaries
+            shutil.copy(f, to)
+            print(f"{f.name} -> {to.relative_to(ROOT)}")
+        elif to.exists() and to.suffix == ".json" and "seagrass" in to.name:
+            to.unlink()  # a specialist tuned for the previous model must not ride along with a new one
     return dst, model_card(dst)
 
 

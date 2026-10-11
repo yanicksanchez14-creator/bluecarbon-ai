@@ -350,6 +350,27 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
     typer.echo(f"wrote {out}")
 
 
+@app.command("seagrass-train")
+def seagrass_train(config: str = CfgOpt, model: Path = typer.Option(None, "--model", "-m"),
+                   device: str = typer.Option(None)):
+    """Train the seagrass specialist against the chips; saved next to the model, on only if it helps."""
+    from .predictors import load_predictor
+    from .seagrass import specialist_path_for, train_specialist
+    from .tiling import read_index
+
+    cfg = _cfg(config)
+    model = model or cfg.work / "model" / (cfg.work / "model" / "best.txt").read_text().split()[1]
+    main = load_predictor(model, device or cfg.train.device, seagrass=False)
+    recs = read_index(cfg.work / "chips" / "index.json")
+
+    def predict_main(img, anc):
+        return main.predict(img, 256, 0, False, anc=anc if main.needs_ancillary else None)[0]
+
+    sp = train_specialist(recs, predict_main)
+    sp.save(specialist_path_for(model))
+    typer.echo(json.dumps(sp.metrics, indent=2))
+
+
 @app.command("history-fetch")
 def history_fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.Option(None, help="Site names"),
                   service_account: Path = typer.Option(None, help="Service account key JSON")):

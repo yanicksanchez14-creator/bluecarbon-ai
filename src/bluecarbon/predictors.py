@@ -71,8 +71,32 @@ def is_spectral(path: str | Path) -> bool:
         return f.read(1) == b"{"
 
 
-def load_predictor(path: str | Path, device: str = "auto") -> Predictor:
-    return SpectralPredictor(path) if is_spectral(path) else TorchPredictor(path, device)
+class _WithSeagrass(Predictor):
+    """The main model, with the seagrass specialist's second opinion on water / seagrass pixels."""
+
+    def __init__(self, base: Predictor, specialist):
+        self.base, self.specialist = base, specialist
+        self.kind, self.meta, self.needs_ancillary = base.kind, base.meta, base.needs_ancillary
+        self.features = getattr(base, "features", [])
+        self.meta = {**base.meta, "seagrass_specialist": specialist.metrics}
+
+    def predict(self, bands, tile=256, overlap=64, tta=True, progress=None, anc=None):
+        cls, conf = self.base.predict(bands, tile, overlap, tta, progress=progress, anc=anc)
+        fused = self.specialist.apply(cls, bands, anc[:8] if anc is not None else None)
+        return fused, conf
+
+
+def load_predictor(path: str | Path, device: str = "auto", seagrass: bool = True) -> Predictor:
+    base = SpectralPredictor(path) if is_spectral(path) else TorchPredictor(path, device)
+    if seagrass:
+        from .seagrass import SeagrassSpecialist, specialist_path_for
+
+        sp = specialist_path_for(path)
+        if sp.exists():
+            s = SeagrassSpecialist.load(sp)
+            if s.enabled:
+                return _WithSeagrass(base, s)
+    return base
 
 
 def model_card(path: str | Path) -> dict:

@@ -106,6 +106,20 @@ def held_out_check() -> str:
                 warn.append(f"  WARNING {s}: {c} mapped {m:.0f} ha vs reference {r:.0f} ha")
         lines.append(f"  {s:22s}" + "  ".join(row))
     lines += [""] + (warn or ["  all held-out blue carbon areas within 3x of reference"])
+    from bluecarbon.seagrass import specialist_path_for
+
+    try:
+        sp = specialist_path_for(best_model())
+    except Exception:
+        sp = None
+    if sp and sp.exists():
+        m = json.loads(sp.read_text()).get("metrics", {})
+        lines += ["", f"seagrass specialist ({'ON' if m.get('enabled') else 'off: did not help on validation'}), "
+                      f"threshold {m.get('threshold')}",
+                  f"  seagrass IoU held-out: main {m.get('test_seagrass_iou_main')}  with specialist "
+                  f"{m.get('test_seagrass_iou_fused')}",
+                  f"  water IoU held-out:    main {m.get('test_water_iou_main')}  with specialist "
+                  f"{m.get('test_water_iou_fused')}"]
     return "\n".join(lines)
 
 
@@ -129,6 +143,10 @@ def main() -> None:
         run("bluecarbon", "train", "--kind", "both")
     best = best_model()
     print((WORK / "model" / "best.txt").read_text(), "->", best)
+    try:  # seagrass specialist: second opinion on water/seagrass, saved switched off unless it helps
+        run("bluecarbon", "seagrass-train", "-m", str(best))
+    except subprocess.CalledProcessError:
+        print("seagrass specialist failed; using the main model alone", flush=True)
 
     run("bluecarbon", "case-study", "-m", str(best))
     shutil.rmtree("demo_data", ignore_errors=True)
@@ -164,6 +182,10 @@ def main() -> None:
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir()
     shutil.copy(best, out / best.name)
+    from bluecarbon.seagrass import specialist_path_for
+
+    if specialist_path_for(best).exists():
+        shutil.copy(specialist_path_for(best), out / specialist_path_for(best).name)
     shutil.copy(WORK / "model" / "best.txt", out / "best.txt")
     for f in ("spectral_metrics.json", "metrics.json"):
         if (WORK / "model" / f).exists():

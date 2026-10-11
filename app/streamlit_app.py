@@ -870,7 +870,12 @@ with tab_analyze:
                 prof.update(count=1, dtype="uint8", nodata=255)
                 with rasterio.open(tmp / "pred.tif", "w", **prof) as dst:
                     dst.write(cls, 1)
-                rep = scene_report(tmp / "pred.tif", CFG.carbon, ck["metrics"].get("test_confusion"))
+                st.write("Looking up measured mangrove biomass (NASA canopy-height map)…")
+                try:
+                    bio_stats = gee.site_biomass_stats(bbox)
+                except Exception:  # fall back to IPCC biomass rather than fail the analysis
+                    bio_stats = None
+                rep = scene_report(tmp / "pred.tif", CFG.carbon, ck["metrics"].get("test_confusion"), bio_stats)
                 status.update(label="Analysis complete", state="complete", expanded=False)
             mb, bnds = _to_mercator(tmp / "image.tif", list(range(1, 11)), Resampling.bilinear, 0)
             mc, _ = _to_mercator(tmp / "pred.tif", [1], Resampling.nearest, 255)

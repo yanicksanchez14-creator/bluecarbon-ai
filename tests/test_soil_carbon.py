@@ -44,3 +44,23 @@ def test_local_soil_and_fallback():
     assert all(v["source"] == "ipcc" for v in nowhere.values())
     rep = carbon_report({"mangrove": 100.0}, cfg, lat=27.7, lon=-82.6)
     assert rep["classes"]["mangrove"]["soil"]["source"] == "measured" and "Coastal Carbon" in rep["method"]
+
+
+def test_measured_mangrove_biomass():
+    """NASA biomass replaces the IPCC default for mangrove only, with IPCC factors and +/-30% map error."""
+    from bluecarbon.carbon import AGB_MAP_REL_ERROR, carbon_report, climate_zone, measured_biomass
+    from bluecarbon.config import CarbonCfg
+
+    cfg = CarbonCfg()
+    assert climate_zone(27.7, 1300) == "subtropical" and climate_zone(10, 800) == "tropical dry"
+    assert climate_zone(10, 2000) == climate_zone(10, None) == "tropical wet"
+    stats = {"agb_mean": 150.0, "agb_count": 5000, "precip_mm": 2200}
+    b = measured_biomass(stats, 9.0, cfg)
+    lo, mid, hi = b["mangrove"]["biomass"]
+    assert b["mangrove"]["source"] == "measured" and b["saltmarsh"]["source"] == "ipcc"
+    assert abs(mid - 150 * 1.49 * 0.451) < 1e-6 and lo < mid < hi
+    assert abs(lo / (150 * (1 - AGB_MAP_REL_ERROR) * 1.47 * 0.429) - 1) < 1e-6
+    # too few measured pixels -> IPCC
+    assert measured_biomass({**stats, "agb_count": 10}, 9.0, cfg)["mangrove"]["source"] == "ipcc"
+    rep = carbon_report({"mangrove": 100.0}, cfg, lat=9.0, lon=-80.0, biomass_stats=stats)
+    assert rep["classes"]["mangrove"]["biomass"]["source"] == "measured" and "Simard" in rep["method"]

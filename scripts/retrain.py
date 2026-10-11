@@ -148,6 +148,11 @@ def main() -> None:
                     held_out=bool(cs.get("held_out")))
         meta_p.write_text(json.dumps(meta, indent=2))
     run(sys.executable, "scripts/export_all_sites.py")
+    try:  # measured mangrove biomass for every page (seconds per site), then carbon with it
+        run("bluecarbon", "biomass")
+    except subprocess.CalledProcessError:
+        print("biomass lookup failed; carbon keeps IPCC biomass", flush=True)
+    run(sys.executable, "scripts/refresh_carbon.py")
 
     out = Path("results")
     shutil.rmtree(out, ignore_errors=True)
@@ -160,6 +165,8 @@ def main() -> None:
     labels = {p.parent.name: json.loads(p.read_text()).get("label_px") for p in (WORK / "sites").glob("*/meta.json")}
     (out / "label_summary.json").write_text(json.dumps(labels, indent=2))
     shutil.copytree("demo_data", out / "demo_data")
+    if Path("data/site_biomass.json").exists():
+        shutil.copy("data/site_biomass.json", out / "site_biomass.json")
     (out / "code_version.txt").write_text(code_version() + "\n")
     check = held_out_check()
     (out / "held_out_check.txt").write_text(check + "\n")

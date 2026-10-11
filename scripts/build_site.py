@@ -84,7 +84,10 @@ def _carbon(rep: dict) -> dict:
     per = {}
     for k, v in c["classes"].items():
         soil = v.get("soil") or {}
+        bio = v.get("biomass") or {}
         per[k] = {"area_ha": round(v["area_ha"], 1), "stock_tco2e": r(v["stock_tCO2e"]),
+                  "biomass": ({"source": "measured", "agb_mg_ha": bio.get("agb_mg_ha")} if bio.get("source") == "measured"
+                              else {"source": "ipcc"}),
                   "seq_tco2e_yr": r(v["sequestration_tCO2e_per_yr"]),
                   "soil": ({"source": "measured", "cores": soil.get("n_cores"), "studies": soil.get("n_studies"),
                             "radius_km": soil.get("radius_km")} if soil.get("source") == "measured"

@@ -19,7 +19,8 @@ def read_classes(path: str | Path):
         return ds.read(1), ds.transform, ds.crs
 
 
-def scene_report(pred_path: str | Path, cfg: CarbonCfg, test_confusion: list | None = None) -> dict:
+def scene_report(pred_path: str | Path, cfg: CarbonCfg, test_confusion: list | None = None,
+                 biomass_stats: dict | None = None) -> dict:
     from .priors import apply_to_classes, apply_to_confusion, raster_center_lonlat
 
     cls, transform, crs = read_classes(pred_path)
@@ -37,7 +38,7 @@ def scene_report(pred_path: str | Path, cfg: CarbonCfg, test_confusion: list | N
         basis = {k: v["adjusted_ha"] for k, v in adj.items()}
         sd = {k: v["ci95_ha"] / 1.96 for k, v in adj.items()}
     rep["carbon_area_basis"] = "error_adjusted" if sd else "mapped"
-    rep["carbon"] = carbon_report(basis, cfg, sd, lat=lat, lon=lon)
+    rep["carbon"] = carbon_report(basis, cfg, sd, lat=lat, lon=lon, biomass_stats=biomass_stats)
     return rep
 
 

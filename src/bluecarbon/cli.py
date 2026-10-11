@@ -310,5 +310,32 @@ def export_demo(scene_dir: Path, name: str = typer.Option(...), title: str = typ
     typer.echo(f"wrote {p}")
 
 
+@app.command()
+def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), help="Demo pages to summarise"),
+            out: Path = typer.Option(Path("data/site_biomass.json")),
+            service_account: Path = typer.Option(None, help="Service account key JSON")):
+    """Measured mangrove biomass + rainfall for every demo page (seconds per site, no imagery download).
+
+    Writes data/site_biomass.json; scripts/refresh_carbon.py then uses it for the carbon numbers."""
+    from . import gee
+
+    cfg = _cfg(config)
+    gee.init(cfg.project, service_account.read_text() if service_account else None)
+    res = json.loads(out.read_text()) if out.exists() else {}
+    for mp in sorted(demo.glob("*/meta.json")):
+        (s, w), (n, e) = json.loads(mp.read_text())["bounds"]
+        try:
+            res[mp.parent.name] = gee.site_biomass_stats([w, s, e, n])
+        except Exception as ex:  # one site failing must not lose the others
+            typer.echo(f"{mp.parent.name}: skipped ({str(ex)[:100]})")
+            continue
+        r = res[mp.parent.name]
+        typer.echo(f"{mp.parent.name:24s} mangrove biomass {r['agb_mean'] or 0:7.1f} Mg/ha over {r['agb_count']:>8,} px, "
+                   f"rain {r['precip_mm'] or 0:6.0f} mm")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(res, indent=1, sort_keys=True))
+    typer.echo(f"wrote {out}")
+
+
 if __name__ == "__main__":
     app()

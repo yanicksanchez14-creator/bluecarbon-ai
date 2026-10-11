@@ -116,6 +116,43 @@ def soil_sources(cfg: CarbonCfg, lat: float | None, lon: float | None) -> dict[s
     return out
 
 
+# Measured mangrove biomass (Simard et al. 2019, NASA): aboveground biomass from canopy height, per pixel.
+# Converted to carbon with the IPCC 2013 Wetlands Supplement factors (Table 4.2 carbon fraction, Table 4.5
+# below- to above-ground ratio by climate zone, each as its 95% interval).
+CARBON_FRACTION = (0.429, 0.451, 0.471)
+ROOT_SHOOT = {"tropical wet": (0.47, 0.49, 0.51), "tropical dry": (0.28, 0.29, 0.30), "subtropical": (0.91, 0.96, 1.0)}
+# The Simard map publishes no per-pixel error. Until our own field plots exist we carry +/-30% on the site
+# mean (the 12 m TanDEM-X successor reports 2.4 m height RMSE, about 20-30% of typical mangrove height).
+AGB_MAP_REL_ERROR = 0.30
+MIN_AGB_PIXELS = 50          # fewer measured pixels than this (~4.5 ha) -> IPCC default
+
+
+def climate_zone(lat: float, precip_mm: float | None) -> str:
+    """IPCC climate zone for mangrove root ratios: subtropical outside the tropics, tropical dry under 1,000 mm/yr."""
+    if abs(lat) > 23.44:
+        return "subtropical"
+    return "tropical dry" if precip_mm is not None and precip_mm < 1000 else "tropical wet"
+
+
+def measured_biomass(stats: dict | None, lat: float | None, cfg: CarbonCfg) -> dict[str, dict]:
+    """Biomass coefficients per habitat (t C/ha, low/mean/high) with their source.
+
+    stats = {"agb_mean": Mg/ha, "agb_count": pixels, "precip_mm": ...} from gee.site_biomass_stats, or None.
+    Mangrove uses the measured map when it covers the site; everything else stays IPCC Tier 1."""
+    out = {k: {"biomass": tuple(cfg.classes[k].biomass), "source": "ipcc"} for k in BLUE_CARBON_KEYS if k in cfg.classes}
+    if not stats or lat is None or (stats.get("agb_count") or 0) < MIN_AGB_PIXELS or not stats.get("agb_mean"):
+        return out
+    zone = climate_zone(lat, stats.get("precip_mm"))
+    agb, e = float(stats["agb_mean"]), AGB_MAP_REL_ERROR
+    r, cf = ROOT_SHOOT[zone], CARBON_FRACTION
+    out["mangrove"] = {
+        "biomass": (agb * (1 - e) * (1 + r[0]) * cf[0], agb * (1 + r[1]) * cf[1], agb * (1 + e) * (1 + r[2]) * cf[2]),
+        "source": "measured", "agb_mg_ha": round(agb, 1), "agb_pixels": int(stats["agb_count"]), "climate_zone": zone,
+        "dataset": "Simard et al. 2019 (NASA ORNL DAAC 1665), nominal year 2000",
+    }
+    return out
+
+
 def _tri(rng, lmh, n):
     lo, mo, hi = lmh
     if hi <= lo:
@@ -128,9 +165,11 @@ def _q(v: np.ndarray) -> dict:
 
 
 def carbon_report(areas_ha: dict[str, float], cfg: CarbonCfg, area_sd_ha: dict[str, float] | None = None,
-                  seed: int = 0, lat: float | None = None, lon: float | None = None) -> dict:
+                  seed: int = 0, lat: float | None = None, lon: float | None = None,
+                  biomass_stats: dict | None = None) -> dict:
     rng = np.random.default_rng(seed)
     soils = soil_sources(cfg, lat, lon)
+    bio = measured_biomass(biomass_stats, lat, cfg)
     n = cfg.monte_carlo
     total_stock = np.zeros(n)
     total_seq = np.zeros(n)
@@ -142,7 +181,7 @@ def carbon_report(areas_ha: dict[str, float], cfg: CarbonCfg, area_sd_ha: dict[s
             continue
         sd = (area_sd_ha or {}).get(k, 0.0)
         area = np.clip(rng.normal(a, sd, n), 0, None) if sd > 0 else np.full(n, a)
-        stock_c = area * (_tri(rng, soils[k]["soil"], n) + _tri(rng, c.biomass, n))
+        stock_c = area * (_tri(rng, soils[k]["soil"], n) + _tri(rng, bio[k]["biomass"], n))
         seq_c = area * _tri(rng, c.accumulation, n)
         total_stock += stock_c
         total_seq += seq_c
@@ -152,6 +191,7 @@ def carbon_report(areas_ha: dict[str, float], cfg: CarbonCfg, area_sd_ha: dict[s
             "stock_tCO2e": _q(stock_c * cfg.co2_per_c),
             "sequestration_tCO2e_per_yr": _q(seq_c * cfg.co2_per_c),
             "soil": soils[k],
+            "biomass": {**bio[k], "biomass": tuple(round(x, 1) for x in bio[k]["biomass"])},
         }
     stock_co2 = total_stock * cfg.co2_per_c
     seq_co2 = total_seq * cfg.co2_per_c
@@ -171,18 +211,20 @@ def carbon_report(areas_ha: dict[str, float], cfg: CarbonCfg, area_sd_ha: dict[s
 
 def _method(per: dict, n: int) -> str:
     measured = [k for k, v in per.items() if v["soil"]["source"] == "measured"]
-    if not measured:
-        return f"IPCC 2013 Wetlands Supplement Tier 1; triangular Monte Carlo, n={n}"
-    return (f"Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for "
-            f"{', '.join(measured)}, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; "
-            f"triangular Monte Carlo, n={n}")
+    bio = [k for k, v in per.items() if (v.get("biomass") or {}).get("source") == "measured"]
+    soil = (f"Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for "
+            f"{', '.join(measured)}, IPCC Tier 1 otherwise" if measured else "Soil carbon IPCC 2013 Wetlands Supplement Tier 1")
+    biomass = ("mangrove biomass from the NASA canopy-height biomass map (Simard et al. 2019) with IPCC carbon and "
+               "root factors, other biomass IPCC Tier 1" if bio else "biomass IPCC Tier 1")
+    return f"{soil}; {biomass}; burial rates IPCC Tier 1; triangular Monte Carlo, n={n}"
 
 
 def change_report(areas_t0: dict[str, float], areas_t1: dict[str, float], cfg: CarbonCfg, seed: int = 0,
-                  lat: float | None = None, lon: float | None = None) -> dict:
+                  lat: float | None = None, lon: float | None = None, biomass_stats: dict | None = None) -> dict:
     """Area change per class and the carbon implication of blue carbon gain/loss."""
     rng = np.random.default_rng(seed)
     soils = soil_sources(cfg, lat, lon)
+    bio = measured_biomass(biomass_stats, lat, cfg)
     n = cfg.monte_carlo
     delta = {k: areas_t1.get(k, 0.0) - areas_t0.get(k, 0.0) for k in CLASS_KEYS}
     net = np.zeros(n)
@@ -192,7 +234,7 @@ def change_report(areas_t0: dict[str, float], areas_t1: dict[str, float], cfg: C
         d = delta.get(k, 0.0)
         if c is None or d == 0:
             continue
-        v = d * (_tri(rng, soils[k]["soil"], n) + _tri(rng, c.biomass, n)) * cfg.co2_per_c
+        v = d * (_tri(rng, soils[k]["soil"], n) + _tri(rng, bio[k]["biomass"], n)) * cfg.co2_per_c
         net += v
         per[k] = {"delta_ha": d, "stock_change_tCO2e": _q(v)}
     return {"delta_ha": delta, "classes": per, "net_stock_change_tCO2e": _q(net)}

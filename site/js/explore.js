@@ -50,6 +50,10 @@
     const soilNote = measured.length
       ? `Soil carbon from ${Math.max(...measured.map(v => v.soil.cores))} measured cores within ${Math.max(...measured.map(v => v.soil.radius_km))} km (Smithsonian Coastal Carbon Library)${measured.length < soil.length ? "; IPCC values for the rest" : ""}.`
       : "Soil carbon from IPCC global default values; no measured cores nearby.";
+    const mg = c.classes.mangrove && c.classes.mangrove.biomass;
+    const bioNote = mg && mg.source === "measured"
+      ? ` Mangrove biomass from NASA's canopy-height map (${BC.fmt(mg.agb_mg_ha)} t/ha above ground, ±30%).`
+      : " Biomass from IPCC default values.";
     let change = "";
     if (s.change) {
       const ch = s.change;
@@ -80,7 +84,7 @@
       </div>
       <h2>Habitats found</h2>
       <table class="hab-table"><tbody>${rows}</tbody></table>
-      <p class="small-note">Areas corrected for the model's known errors. ${soilNote}</p>
+      <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}</p>
       ${change}
       ${reports}`;
   }

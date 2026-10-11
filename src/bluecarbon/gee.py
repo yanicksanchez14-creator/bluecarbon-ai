@@ -436,3 +436,23 @@ def download(image, bbox: list[float], out_path: str | Path, cfg: Config, dtype:
 def bbox_geometry(bbox: list[float]):
     _require_ee()
     return ee.Geometry.Rectangle(bbox, proj="EPSG:4326", geodesic=False)
+
+
+MANGROVE_AGB = "projects/sat-io/open-datasets/global_mangrove_distribution/agb"  # Simard et al. 2019, Mg/ha
+
+
+def site_biomass_stats(bbox: list[float]) -> dict:
+    """Measured mangrove aboveground biomass in a box (NASA map, Simard et al. 2019) and mean annual rainfall
+    (WorldClim, for the IPCC climate zone). One small server-side summary, no imagery download."""
+    _require_ee()
+    region = bbox_geometry(bbox)
+    agb = ee.ImageCollection(MANGROVE_AGB).mosaic().select([0], ["agb"])
+    red = (ee.Reducer.mean().combine(ee.Reducer.percentile([10, 90]), "", True)
+           .combine(ee.Reducer.count(), "", True))
+    a = agb.reduceRegion(red, region, 30, maxPixels=int(1e10), bestEffort=True)
+    p = ee.Image("WORLDCLIM/V1/BIO").select("bio12").reduceRegion(ee.Reducer.mean(), region, 1000, bestEffort=True)
+    with _Watchdog(REQUEST_TIMEOUT_S + 60):
+        d = ee.Dictionary({"a": a, "p": p}).getInfo()
+    a, p = d.get("a") or {}, d.get("p") or {}
+    return {"agb_mean": a.get("agb_mean"), "agb_p10": a.get("agb_p10"), "agb_p90": a.get("agb_p90"),
+            "agb_count": a.get("agb_count") or 0, "precip_mm": p.get("bio12")}

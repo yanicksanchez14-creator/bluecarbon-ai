@@ -108,6 +108,7 @@ T = {
         habitats="Habitats found", hab_col="Habitat", area_col="Area (ha)", range_col="Likely range (ha)",
         carbon="Carbon", stock_col="Stored (t CO2e)", seq_col="Absorbed per year (t CO2e)", soil_col="Soil carbon source",
         soil_measured="measured cores ({n} within {r} km, {s} studies)", soil_ipcc="IPCC global default",
+        bio_measured="biomass: NASA canopy-height map, {agb:.0f} t/ha above ground (\u00b130%)", bio_ipcc="biomass: IPCC default",
         credits="Credit potential (illustrative)", lens_col="Basis", low="Low", mid="Mid", high="High",
         seq_lens="Sequestration of existing habitat (credits per year)",
         loss_lens="Avoided loss, if protection stops the observed loss (credits per year)",
@@ -126,7 +127,9 @@ T = {
             "Map accuracy on unseen areas for this habitat: F1 {f1}. Areas are corrected for the model's "
             "known errors; the range shown is a plain-language margin, not a statistical interval.",
             "Carbon: soil carbon from measured cores where available (Smithsonian Coastal Carbon Library), "
-            "otherwise IPCC 2013 Wetlands Supplement Tier 1 defaults; biomass and burial rates IPCC Tier 1.",
+            "otherwise IPCC 2013 Wetlands Supplement Tier 1 defaults. Mangrove biomass from NASA's canopy-height "
+            "biomass map (Simard et al. 2019) where it covers the site, with IPCC carbon and root factors and a "
+            "\u00b130% map error; other biomass and burial rates IPCC Tier 1.",
             "Seagrass is mapped conservatively and is a lower bound; murky or deep meadows are often missed.",
         ],
         disclaimer="Screening and estimates only. Not legal, financial or investment advice. Only a registry "
@@ -144,8 +147,9 @@ T = {
         why="Por qué", maps="Imagen satelital y mapa de hábitats", sat="Imagen satelital (Sentinel-2)",
         hab="Mapa de hábitats", habitats="Hábitats encontrados", hab_col="Hábitat", area_col="Área (ha)",
         range_col="Rango probable (ha)", carbon="Carbono", stock_col="Almacenado (t CO2e)",
-        seq_col="Absorbido por año (t CO2e)", soil_col="Fuente del carbono en suelo",
+        seq_col="Absorbido por año (t CO2e)", soil_col="Fuente del carbono",
         soil_measured="núcleos medidos ({n} a menos de {r} km, {s} estudios)", soil_ipcc="valor global del IPCC",
+        bio_measured="biomasa: mapa de altura de dosel de la NASA, {agb:.0f} t/ha aérea (\u00b130%)", bio_ipcc="biomasa: valor del IPCC",
         credits="Potencial de créditos (ilustrativo)", lens_col="Base", low="Bajo", mid="Medio", high="Alto",
         seq_lens="Secuestro del hábitat existente (créditos por año)",
         loss_lens="Pérdida evitada, si la protección detiene la pérdida observada (créditos por año)",
@@ -164,7 +168,9 @@ T = {
             "Precisión del mapa en zonas no vistas para este hábitat: F1 {f1}. Las áreas se corrigen según los "
             "errores conocidos del modelo; el rango es un margen aproximado, no un intervalo estadístico.",
             "Carbono: carbono en suelo de núcleos medidos cuando existen (Smithsonian Coastal Carbon Library); "
-            "si no, valores Nivel 1 del IPCC (Suplemento de Humedales 2013); biomasa y tasas de entierro IPCC Nivel 1.",
+            "si no, valores Nivel 1 del IPCC (Suplemento de Humedales 2013). Biomasa de manglar del mapa de altura de "
+            "dosel de la NASA (Simard et al. 2019) donde cubre el sitio, con factores del IPCC y error de \u00b130%; "
+            "otra biomasa y tasas de entierro IPCC Nivel 1.",
             "Los pastos marinos se mapean de forma conservadora y son un mínimo; praderas turbias o profundas "
             "suelen no detectarse.",
         ],
@@ -331,6 +337,8 @@ def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spe
         sl = c.get("soil") or {}
         src = (t["soil_measured"].format(n=sl["n_cores"], r=sl["radius_km"], s=sl["n_studies"])
                if sl.get("source") == "measured" else t["soil_ipcc"])
+        bl = c.get("biomass") or {}
+        src += "; " + (t["bio_measured"].format(agb=bl["agb_mg_ha"]) if bl.get("source") == "measured" else t["bio_ipcc"])
         rows.append([hab_name(k, lang), f"{fmt(c['stock_tCO2e']['mean'])} ({fmt(c['stock_tCO2e']['p05'])}–"
                      f"{fmt(c['stock_tCO2e']['p95'])})", fmt(c["sequestration_tCO2e_per_yr"]["mean"]), src])
     story.append(table(rows, [1.4 * inch, 2.2 * inch, 1.5 * inch, 1.9 * inch]))

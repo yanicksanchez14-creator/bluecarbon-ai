@@ -623,12 +623,15 @@ if not EMBED:  # opened directly (not inside the website): a slim header pointin
 tab_analyze = st.container()
 
 # ----------------------------------------------------------------------------- explore
-VIEWS = {"Habitats": "classes", "Blue carbon only": "bluecarbon", "Satellite": None, "False color": "falsecolor"}
+VIEWS = {"Habitats": "classes", "Blue carbon only": "bluecarbon", "Satellite": None, "False color": "falsecolor",
+         "Confidence": "confidence"}
 HINTS = {
     "Habitats": "Each color shows what the AI thinks covers that patch of ground or water.",
     "Blue carbon only": "Only mangrove, salt marsh and seagrass: the habitats counted in the carbon numbers.",
     "Satellite": "The cloud-free satellite photo the AI analysed, in natural color.",
     "False color": "An infrared view where healthy plants glow red. Scientists use it to spot vegetation that is hard to see in normal color.",
+    "Confidence": "Where to doubt the map: orange marks pixels the model was unsure about (under about 90% confident), "
+                  "darker orange the least sure. Clear means confident.",
 }
 
 
@@ -863,19 +866,23 @@ with tab_analyze:
                 st.write("Segmenting habitats…")
                 with rasterio.open(tmp / "image.tif") as src:
                     bands, prof = src.read(), src.profile
-                cls, _ = predictor.predict(bands, CFG.predict.tile, CFG.predict.overlap, anc=anc)
+                cls, conf = predictor.predict(bands, CFG.predict.tile, CFG.predict.overlap, anc=anc)
                 from bluecarbon.priors import apply_to_classes
 
                 cls = apply_to_classes(cls, (bbox[1] + bbox[3]) / 2)
-                prof.update(count=1, dtype="uint8", nodata=255)
+                prof.update(count=2, dtype="uint8", nodata=255)
                 with rasterio.open(tmp / "pred.tif", "w", **prof) as dst:
                     dst.write(cls, 1)
+                    dst.write(np.round(np.nan_to_num(conf) * 100).astype(np.uint8), 2)
                 st.write("Looking up measured mangrove biomass (NASA canopy-height map)…")
                 try:
                     bio_stats = gee.site_biomass_stats(bbox)
                 except Exception:  # fall back to IPCC biomass rather than fail the analysis
                     bio_stats = None
                 rep = scene_report(tmp / "pred.tif", CFG.carbon, ck["metrics"].get("test_confusion"), bio_stats)
+                from bluecarbon.demo import confidence_summary
+
+                rep["confidence"] = confidence_summary(tmp / "pred.tif")
                 try:  # sea-level-rise screen: room for the wetland to move inland
                     from bluecarbon.slr import slr_from_files
 
@@ -889,12 +896,15 @@ with tab_analyze:
                 status.update(label="Analysis complete", state="complete", expanded=False)
             mb, bnds = _to_mercator(tmp / "image.tif", list(range(1, 11)), Resampling.bilinear, 0)
             mc, _ = _to_mercator(tmp / "pred.tif", [1], Resampling.nearest, 255)
+            mconf, _ = _to_mercator(tmp / "pred.tif", [2], Resampling.nearest, 255)
             from bluecarbon.schema import KEY_TO_ID
+            from bluecarbon.viz import confidence_rgba
 
             layers = {
                 "classes": rgba_uri(class_rgba(mc[0], 200)),
                 "bluecarbon": rgba_uri(class_rgba(mc[0], 220, [KEY_TO_ID[k] for k in BLUE_CARBON_KEYS])),
                 "falsecolor": rgba_uri(true_color(mb, rgb_bands=("B8", "B4", "B3"), gamma=1.0)),
+                "confidence": rgba_uri(confidence_rgba(mconf[0], mc[0])),
             }
             live_meta = {"title": "Your area", "model": {**ck.get("extra", {}), "arch": ck["arch"], "kind": ck["kind"],
                                                          "encoder": ck["encoder"], "test": ck["metrics"].get("test")}}
@@ -932,6 +942,13 @@ with tab_analyze:
                 st_folium(m2, height=540, use_container_width=True, returned_objects=[], key=f"live_{view}_{opacity}")
 
             render_results(live["meta"], live["report"], live_map)
+            confs = (live["report"].get("confidence") or {})
+            if confs:
+                section("How sure is the model here?", "Model confidence on this image, per habitat. Switch the map to "
+                        "Confidence to see where it was unsure.")
+                st.markdown('<div class="bc-card bc-found"><p>' + " ".join(
+                    f"{CLS[k].name}: {v['mean_pct']:.0f}% average confidence, {v['low_share']:.0%} of its area under 60%."
+                    for k, v in confs.items()) + "</p></div>", unsafe_allow_html=True)
             sl = live.get("sea_level")
             if sl and sl.get("ratio") is not None:
                 rating = {"low": "low risk", "medium": "medium risk", "high": "high risk (coastal squeeze)"}[sl["rating"]]

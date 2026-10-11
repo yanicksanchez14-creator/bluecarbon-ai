@@ -16,7 +16,7 @@ from .carbon import class_areas_ha
 from .config import Config
 from .report import change_scene_report, scene_report
 from .schema import BLUE_CARBON_KEYS, CLASSES, IGNORE_INDEX, KEY_TO_ID
-from .viz import change_rgba, class_rgba, save_png, true_color
+from .viz import change_rgba, class_rgba, confidence_rgba, save_png, true_color
 
 MAX_PX = 1600
 
@@ -49,7 +49,29 @@ def _render_period(d: Path, prefix: str, out: Path, tag: str) -> tuple[list, np.
     cls, _ = _to_mercator(pred, [1], Resampling.nearest, IGNORE_INDEX)
     save_png(class_rgba(cls[0], 200), out / f"classes{tag}.png")
     save_png(class_rgba(cls[0], 220, [KEY_TO_ID[k] for k in BLUE_CARBON_KEYS]), out / f"bluecarbon{tag}.png")
+    with rasterio.open(pred) as p:
+        has_conf = p.count >= 2
+    if has_conf:
+        conf, _ = _to_mercator(pred, [2], Resampling.nearest, 255)
+        save_png(confidence_rgba(conf[0], cls[0]), out / f"confidence{tag}.png")
     return bounds, cls[0]
+
+
+def confidence_summary(pred_path) -> dict | None:
+    """How sure the model is about each blue carbon habitat it mapped: mean confidence and the share of that
+    habitat's area mapped with under 60% confidence. Softmax confidence, not yet calibrated on held-out data."""
+    with rasterio.open(pred_path) as p:
+        if p.count < 2:
+            return None
+        cls, conf = p.read(1), p.read(2).astype(float)
+    out = {}
+    for k in BLUE_CARBON_KEYS:
+        m = cls == KEY_TO_ID[k]
+        if m.sum() < 25:
+            continue
+        c = conf[m]
+        out[k] = {"mean_pct": round(float(c.mean()), 1), "low_share": round(float((c < 60).mean()), 3)}
+    return out
 
 
 def export_scene(scene_dir: str | Path, out_dir: str | Path, title: str, cfg: Config,
@@ -76,6 +98,9 @@ def export_scene(scene_dir: str | Path, out_dir: str | Path, title: str, cfg: Co
     else:
         b, _ = _render_period(d, "", out, "")
         meta.update(kind="single", bounds=b, report=scene_report(d / "pred.tif", cfg.carbon, cm))
+        cs = confidence_summary(d / "pred.tif")
+        if cs:
+            meta["report"]["confidence"] = cs
         from .slr import slr_from_files
 
         sl = slr_from_files(d / "pred.tif", d / "ancillary.tif", d / "built.tif")

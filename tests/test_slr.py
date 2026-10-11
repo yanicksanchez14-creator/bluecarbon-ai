@@ -24,3 +24,21 @@ def test_room_to_migrate():
     assert r["room_ha"] == 2.0 and r["rating"] == "medium"
     built[:, 40:60] = 1
     assert slr_exposure(cls, elev, built, t, crs)["rating"] == "high"
+
+
+def test_confidence_summary(tmp_path):
+    import rasterio
+
+    from bluecarbon.demo import confidence_summary
+
+    cls = np.full((20, 20), KEY_TO_ID["water"], np.uint8)
+    cls[:10] = KEY_TO_ID["mangrove"]
+    conf = np.full((20, 20), 95, np.uint8)
+    conf[:5] = 50                                      # half the mangrove mapped with low confidence
+    p = tmp_path / "pred.tif"
+    with rasterio.open(p, "w", driver="GTiff", width=20, height=20, count=2, dtype="uint8",
+                       transform=from_origin(0, 0, 10, 10), crs=CRS.from_epsg(32617)) as ds:
+        ds.write(cls, 1)
+        ds.write(conf, 2)
+    s = confidence_summary(p)
+    assert s["mangrove"] == {"mean_pct": 72.5, "low_share": 0.5}

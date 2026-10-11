@@ -52,6 +52,20 @@ def change_rgba(t0: np.ndarray, t1: np.ndarray, blue_ids: list[int]) -> np.ndarr
     return out
 
 
+def confidence_rgba(conf_pct: np.ndarray, class_map: np.ndarray, only: list[int] | None = None) -> np.ndarray:
+    """Where to doubt the map: low model confidence shown warm and opaque, high confidence clear.
+    conf_pct is the model's probability for the chosen class (0-100); 255 = no data."""
+    c = conf_pct.astype(float)
+    valid = (conf_pct != 255) & (class_map != 255)
+    if only is not None:
+        valid &= np.isin(class_map, only)
+    doubt = np.clip((90 - c) / 50, 0, 1)            # 90%+ -> clear, 40% or less -> full colour
+    out = np.zeros((*conf_pct.shape, 4), np.uint8)
+    out[..., 0], out[..., 1], out[..., 2] = 242, (166 - 90 * doubt).astype(np.uint8), 90
+    out[..., 3] = np.where(valid, (40 + 200 * doubt) * (doubt > 0), 0).astype(np.uint8)
+    return out
+
+
 def save_png(rgba: np.ndarray, path) -> None:
     import matplotlib.pyplot as plt
 

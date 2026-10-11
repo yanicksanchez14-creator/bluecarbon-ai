@@ -116,6 +116,8 @@ T = {
         deductions="Deductions applied: risk buffer {b:.0%}, leakage {lk:.0%}, uncertainty {u:.0%} (total {t:.0%}).",
         formula="Credits = area x carbon rate x (1 - deductions), as in the plan; real deductions come from the "
                 "registry's tools and the methodology.",
+        conf_line="Model confidence on this image: {items}. Low-confidence areas (under 60%) are the first places to check on the ground.",
+        conf_item="{hab} {mean:.0f}% average, {low:.0%} of its area under 60%",
         slr="Sea-level rise: room to move inland",
         slr_text="Within {km:g} km behind the {wet} ha of mangrove and salt marsh there are <b>{room} ha</b> of open, low "
                  "land (0 to {el:g} m above sea level, not built up) the wetland could move into: {pct} of its own area. "
@@ -165,6 +167,8 @@ T = {
         deductions="Deducciones aplicadas: reserva de riesgo {b:.0%}, fugas {lk:.0%}, incertidumbre {u:.0%} (total {t:.0%}).",
         formula="Créditos = área x tasa de carbono x (1 - deducciones), como en el plan; las deducciones reales "
                 "salen de las herramientas del registro y de la metodología.",
+        conf_line="Confianza del modelo en esta imagen: {items}. Las zonas de baja confianza (menos de 60%) son las primeras a verificar en campo.",
+        conf_item="{hab} {mean:.0f}% en promedio, {low:.0%} de su área por debajo de 60%",
         slr="Aumento del nivel del mar: espacio para migrar tierra adentro",
         slr_text="A menos de {km:g} km detrás de las {wet} ha de manglar y marisma hay <b>{room} ha</b> de tierra baja y "
                  "abierta (0 a {el:g} m sobre el nivel del mar, sin construir) hacia donde el humedal podría migrar: {pct} "
@@ -344,6 +348,11 @@ def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spe
         if best >= 1:
             rows.append([f"<b>{hab_name(k, lang)}</b>", fmt(best), f"{fmt(lo)} – {fmt(hi)}"])
     story.append(table(rows, [2.6 * inch, 1.6 * inch, 2.8 * inch]))
+    confs = rep.get("confidence") or {}
+    if confs:
+        items = "; ".join(t["conf_item"].format(hab=hab_name(k, lang), mean=v["mean_pct"], low=v["low_share"])
+                          for k, v in confs.items())
+        story.append(Paragraph(t["conf_line"].format(items=items), small))
 
     story.append(Paragraph(t["carbon"], h2))
     rows = [[t["hab_col"], t["stock_col"], t["seq_col"], t["soil_col"]]]

@@ -9,7 +9,8 @@
   let doc, C, site, view = 0, base = null, over = null, outline = null;
   const opacity = document.getElementById("opacity");
 
-  const layersFor = s => s.kind === "change" ? CHANGE : SINGLE;
+  const layersFor = s => s.kind === "change" ? CHANGE
+    : SINGLE.concat(s.images.confidence ? [["Confidence", "confidence"]] : []);
 
   function drawLayers() {
     const views = layersFor(site), [, key] = views[view];
@@ -27,7 +28,9 @@
 
   function legend(key) {
     const el = document.getElementById("legend");
-    if (key === "change") {
+    if (key === "confidence") {
+      el.innerHTML = '<span><i style="background:#f2a65a"></i>Model unsure</span><span><i style="background:#f24c5a"></i>Least sure</span><span>Clear = confident</span>';
+    } else if (key === "change") {
       el.innerHTML = '<span><i style="background:#22c55e"></i>Blue carbon gained</span><span><i style="background:#ef4444"></i>Blue carbon lost</span>';
     } else if (key && !key.startsWith("falsecolor")) {
       const blueOnly = key === "bluecarbon";
@@ -91,6 +94,8 @@
       <h2>Habitats found</h2>
       <table class="hab-table"><tbody>${rows}</tbody></table>
       <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}</p>
+      ${s.confidence ? `<p class="small-note">Model confidence: ${Object.entries(s.confidence).map(([k, v]) =>
+        `${C[k].name.toLowerCase()} ${Math.round(v.mean_pct)}% average, ${Math.round(v.low_share * 100)}% of its area under 60%`).join("; ")}.</p>` : ""}
       ${slr}
       ${change}
       ${reports}`;

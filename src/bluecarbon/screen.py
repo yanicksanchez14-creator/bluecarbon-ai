@@ -126,6 +126,10 @@ T = {
         slr_none="Not yet available for this site (needs elevation and built-up layers).",
         slr_ratings={"low": "low risk", "medium": "medium risk", "high": "high risk (coastal squeeze)",
                      "not applicable": "not applicable (no mangrove or salt marsh)"},
+        history="Habitat since {y0} (Landsat, ha, corrected for map error)",
+        history_note="Landsat 30 m, 3-year composites; a coarser model than the habitat map above, scored on unseen "
+                     "estuaries (mangrove IoU {m}). Use for trends.",
+        year="Year",
         change="Change over time", change_none="Change study not yet available for this site.",
         change_col="Change", per_yr="per year",
         flags="Rights and status screen", flag_col="Check", status_col="Status", note_col="Finding",
@@ -177,6 +181,10 @@ T = {
         slr_none="Aún no disponible para este sitio (requiere capas de elevación y de zonas construidas).",
         slr_ratings={"low": "riesgo bajo", "medium": "riesgo medio", "high": "riesgo alto (estrechamiento costero)",
                      "not applicable": "no aplica (sin manglar ni marisma)"},
+        history="Hábitat desde {y0} (Landsat, ha, corregido por error del mapa)",
+        history_note="Landsat 30 m, compuestos de 3 años; un modelo más grueso que el mapa de hábitats, evaluado en "
+                     "estuarios no vistos (IoU de manglar {m}). Úsese para tendencias.",
+        year="Año",
         change="Cambio en el tiempo", change_none="El estudio de cambio aún no está disponible para este sitio.",
         change_col="Cambio", per_yr="por año",
         flags="Revisión de derechos y estatus", flag_col="Revisión", status_col="Estatus", note_col="Hallazgo",
@@ -380,6 +388,21 @@ def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spe
     story.append(table(rows, [3.4 * inch, 1.2 * inch, 1.2 * inch, 1.2 * inch]))
     story.append(Paragraph(t["deductions"].format(b=a.buffer, lk=a.leakage, u=a.uncertainty, t=1 - a.keep) + " "
                            + t["formula"], small))
+
+    hist_p = page / "history.json"
+    if hist_p.exists():
+        hist = json.loads(hist_p.read_text())
+        ep = [e for e in hist["epochs"] if "adjusted_ha" in e]
+        keys = [k for k in BLUE_CARBON_KEYS if ep and max(e["adjusted_ha"].get(k, {}).get("ha", 0) for e in ep) >= 1]
+        if len(ep) >= 2 and keys:
+            story.append(Paragraph(t["history"].format(y0=ep[0]["year"]), h2))
+            rows = [[t["year"]] + [hab_name(k, lang) for k in keys]]
+            for e in ep:
+                rows.append([str(e["year"])] + [f"{fmt(e['adjusted_ha'][k]['ha'])} \u00b1 {fmt(e['adjusted_ha'][k]['ci95'])}"
+                                                for k in keys])
+            story.append(table(rows, [1.0 * inch] + [6.0 * inch / len(keys)] * len(keys)))
+            miou = ((hist.get("model") or {}).get("iou") or {}).get("mangrove")
+            story.append(Paragraph(t["history_note"].format(m=f"{miou:.2f}" if miou is not None else "-"), small))
 
     story.append(Paragraph(t["slr"], h2))
     sl = meta.get("sea_level")

@@ -135,6 +135,12 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
         "center": [round((s + n) / 2, 4), round((w + e) / 2, 4)],
         "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs,
     }
+    if (page / "history.json").exists():
+        h = json.loads((page / "history.json").read_text())
+        rec["history"] = {"epochs": [{"year": e["year"], **({"ha": {k: v["ha"] for k, v in e["adjusted_ha"].items()},
+                                                            "ci": {k: v["ci95"] for k, v in e["adjusted_ha"].items()}}
+                                                           if "adjusted_ha" in e else {})} for e in h["epochs"]],
+                          "model": h.get("model"), "scale_m": h.get("scale_m")}
     if rep.get("confidence"):
         rec["confidence"] = rep["confidence"]
     if meta.get("sea_level"):

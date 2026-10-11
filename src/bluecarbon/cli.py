@@ -350,5 +350,57 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
     typer.echo(f"wrote {out}")
 
 
+@app.command("history-fetch")
+def history_fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.Option(None, help="Site names"),
+                  service_account: Path = typer.Option(None, help="Service account key JSON")):
+    """Landsat 30 m composites for every site: the label year (training) and every history epoch."""
+    from . import gee
+    from .history import EPOCHS, LABEL_YEAR
+
+    cfg, s = _cfg(config), _sites(sites)
+    gee.init(cfg.project, service_account.read_text() if service_account else None)
+    for site in s["sites"]:
+        if only and site["name"] not in only:
+            continue
+        d = cfg.work / "sites" / site["name"]
+        for y in [LABEL_YEAR] + EPOCHS:
+            p = d / f"landsat_{y}.tif"
+            if not p.exists():
+                typer.echo(f"[{site['name']}] Landsat {y - 1}-{y + 1} ...")
+                gee.download_landsat(site["bbox"], y, p, cfg)
+
+
+@app.command("history-train")
+def history_train(config: str = CfgOpt, sites: str = SitesOpt,
+                  out: Path = typer.Option(Path("models/history_landsat.json"))):
+    """Train the Landsat history model on the reference labels; score it on the held-out estuaries."""
+    from .history import train
+
+    cfg, s = _cfg(config), _sites(sites)
+    test = [x["name"] for x in s["sites"] if x.get("role") == "test"]
+    tr = [x["name"] for x in s["sites"] if x.get("role") != "test"]
+    m = train(cfg.work / "sites", tr, test, out)
+    t = m["test"]
+    typer.echo(f"history model on held-out estuaries: mIoU {t['mIoU']}, IoU {t['iou']}")
+
+
+@app.command("history-run")
+def history_run(config: str = CfgOpt, model: Path = typer.Option(Path("models/history_landsat.json")),
+                demo: Path = typer.Option(Path("demo_data"))):
+    """Blue carbon area per epoch (1985 to today) for every demo page that has Landsat composites."""
+    from .history import load, site_history
+
+    cfg = _cfg(config)
+    booster, metrics = load(model)
+    for mp in sorted(demo.glob("*/meta.json")):
+        d = cfg.work / "sites" / mp.parent.name
+        if not d.exists():
+            continue
+        h = site_history(booster, metrics, d)
+        if h:
+            (mp.parent / "history.json").write_text(json.dumps(h, indent=1))
+            typer.echo(f"{mp.parent.name}: {sum('areas_ha' in r for r in h['epochs'])} epochs")
+
+
 if __name__ == "__main__":
     app()

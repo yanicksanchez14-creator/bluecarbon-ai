@@ -42,6 +42,36 @@
     el.style.display = el.innerHTML ? "grid" : "none";
   }
 
+  // Blue carbon area per epoch (Landsat history): one line per habitat, a band for the 95% interval.
+  function historyChart(h) {
+    const ep = h.epochs.filter(e => e.ha);
+    if (ep.length < 2) return "";
+    const keys = BC.BLUE.filter(k => Math.max(...ep.map(e => e.ha[k] || 0)) >= 1);
+    if (!keys.length) return "";
+    const W = 340, H = 170, L = 46, R = 18, T = 10, B = 24;
+    const x0 = ep[0].year, x1 = ep[ep.length - 1].year;
+    const ymax = Math.max(...ep.flatMap(e => keys.map(k => (e.ha[k] || 0) + (e.ci[k] || 0)))) * 1.08 || 1;
+    const X = y => L + (W - L - R) * (y - x0) / (x1 - x0), Y = v => T + (H - T - B) * (1 - v / ymax);
+    const ticks = [0, ymax / 2, ymax].map(v => `<text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${BC.fmt(v)}</text>
+      <line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/>`).join("");
+    const years = ep.map(e => `<text x="${X(e.year)}" y="${H - 6}" text-anchor="middle">${e.year}</text>`).join("");
+    const lines = keys.map(k => {
+      const c = C[k].color;
+      const band = ep.map(e => `${X(e.year)},${Y((e.ha[k] || 0) + (e.ci[k] || 0))}`).join(" ") + " " +
+        ep.slice().reverse().map(e => `${X(e.year)},${Y(Math.max(0, (e.ha[k] || 0) - (e.ci[k] || 0)))}`).join(" ");
+      const pts = ep.map(e => `${X(e.year)},${Y(e.ha[k] || 0)}`).join(" ");
+      return `<polygon points="${band}" fill="${c}" opacity=".15"/><polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2"/>` +
+        ep.map(e => `<circle cx="${X(e.year)}" cy="${Y(e.ha[k] || 0)}" r="2.6" fill="${c}"><title>${C[k].name} ${e.year}: ${BC.fmt(e.ha[k] || 0)} ha</title></circle>`).join("");
+    }).join("");
+    const iou = (h.model && h.model.iou) || {};
+    return `<h2>Habitat since ${x0}</h2>
+      <svg class="hist" viewBox="0 0 ${W} ${H}" role="img" aria-label="Blue carbon habitat area by year">${ticks}${years}${lines}</svg>
+      <div class="map-legend" style="position:static;box-shadow:none;padding:4px 0;display:flex;gap:14px">${keys.map(k =>
+        `<span><i style="background:${C[k].color}"></i>${C[k].name}</span>`).join("")}</div>
+      <p class="small-note">Hectares from Landsat (${h.scale_m || 30} m, 3-year composites), corrected for the history model's errors; shaded = 95% range.
+      History model on unseen estuaries: ${keys.map(k => `${C[k].name.toLowerCase()} IoU ${iou[k] != null ? iou[k].toFixed(2) : "–"}`).join(", ")}. Coarser than the main map: use it for trends.</p>`;
+  }
+
   function panel() {
     const s = site, c = s.carbon, a = s.areas_ha;
     const badge = s.kind === "change" ? '<span class="badge">Change over time</span>'
@@ -96,6 +126,7 @@
       <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}</p>
       ${s.confidence ? `<p class="small-note">Model confidence: ${Object.entries(s.confidence).map(([k, v]) =>
         `${C[k].name.toLowerCase()} ${Math.round(v.mean_pct)}% average, ${Math.round(v.low_share * 100)}% of its area under 60%`).join("; ")}.</p>` : ""}
+      ${s.history ? historyChart(s.history) : ""}
       ${slr}
       ${change}
       ${reports}`;

@@ -352,3 +352,8 @@ h3 { font: 500 20px/1.3 var(--sans); letter-spacing: -.01em; margin: 0 0 8px; }
   .nav-actions { flex-direction: column; gap: 8px; margin: 14px 0 0; }
   .nav-actions .btn { width: 100%; border-bottom: 0; }
 }
+
+/* habitat history chart (site panel) */
+.hist { width: 100%; height: auto; display: block; margin-top: 4px; }
+.hist text { font: 400 10px var(--mono); fill: var(--muted); }
+.hist .grid { stroke: var(--line); stroke-width: 1; }

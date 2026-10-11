@@ -153,6 +153,12 @@ def main() -> None:
     except subprocess.CalledProcessError:
         print("biomass lookup failed; carbon keeps IPCC biomass", flush=True)
     run(sys.executable, "scripts/refresh_carbon.py")
+    try:  # habitat history 1985 to today (Landsat): its own model, scored on the held-out estuaries
+        run("bluecarbon", "history-fetch")
+        run("bluecarbon", "history-train")
+        run("bluecarbon", "history-run")
+    except subprocess.CalledProcessError:
+        print("habitat history failed; the rest of the results are unaffected", flush=True)
 
     out = Path("results")
     shutil.rmtree(out, ignore_errors=True)
@@ -165,6 +171,8 @@ def main() -> None:
     labels = {p.parent.name: json.loads(p.read_text()).get("label_px") for p in (WORK / "sites").glob("*/meta.json")}
     (out / "label_summary.json").write_text(json.dumps(labels, indent=2))
     shutil.copytree("demo_data", out / "demo_data")
+    if Path("models/history_landsat.json").exists():
+        shutil.copy("models/history_landsat.json", out / "history_landsat.json")
     if Path("data/site_biomass.json").exists():
         shutil.copy("data/site_biomass.json", out / "site_biomass.json")
     (out / "code_version.txt").write_text(code_version() + "\n")

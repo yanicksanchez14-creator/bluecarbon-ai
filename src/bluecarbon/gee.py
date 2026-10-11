@@ -481,3 +481,40 @@ def radar_image(region, start: str, end: str):
 
 def download_radar(bbox: list[float], start: str, end: str, out_path: str | Path, cfg: Config) -> Path:
     return download(radar_image(bbox_geometry(bbox), start, end), bbox, out_path, cfg, "int16", None, ["s1_vv", "s1_vh"])
+
+
+# Roy et al. (2016) ETM+ -> OLI surface reflectance harmonisation (OLS), applied to Landsat 5 and 7.
+_ROY_SLOPE = [0.8474, 0.8483, 0.9047, 0.8462, 0.8937, 0.9071]
+_ROY_ITCP = [0.0003, 0.0088, 0.0061, 0.0412, 0.0254, 0.0172]
+_LS = {"LANDSAT/LT05/C02/T1_L2": ["SR_B1", "SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B7"],
+       "LANDSAT/LE07/C02/T1_L2": ["SR_B1", "SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B7"],
+       "LANDSAT/LC08/C02/T1_L2": ["SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B6", "SR_B7"],
+       "LANDSAT/LC09/C02/T1_L2": ["SR_B2", "SR_B3", "SR_B4", "SR_B5", "SR_B6", "SR_B7"]}
+
+
+def landsat_composite(region, year: int, half_window: int = 1):
+    """Three-year (year +/- 1) median of cloud-masked Landsat 5/7/8/9 surface reflectance, harmonised to
+    OLI, as uint16 reflectance x 1e4 in bands blue, green, red, nir, swir1, swir2."""
+    _require_ee()
+    from .history import LANDSAT_BANDS
+
+    start, end = f"{year - half_window}-01-01", f"{year + half_window + 1}-01-01"
+    cols = []
+    for cid, bands in _LS.items():
+        def prep(im, bands=bands, oli=cid.startswith("LANDSAT/LC")):
+            qa = im.select("QA_PIXEL")
+            clear = qa.bitwiseAnd(0b11010).eq(0)  # dilated cloud, cloud, cloud shadow
+            sr = im.select(bands).multiply(0.0000275).add(-0.2)
+            if not oli:
+                sr = sr.multiply(ee.Image.constant(_ROY_SLOPE)).add(ee.Image.constant(_ROY_ITCP))
+            return sr.rename(LANDSAT_BANDS).updateMask(clear)
+        cols.append(ee.ImageCollection(cid).filterBounds(region).filterDate(start, end).map(prep))
+    merged = cols[0].merge(cols[1]).merge(cols[2]).merge(cols[3])
+    return merged.median().clamp(0, 1).multiply(10000).toUint16()
+
+
+def download_landsat(bbox: list[float], year: int, out_path: str | Path, cfg: Config) -> Path:
+    from .history import LANDSAT_BANDS, SCALE_M
+
+    c30 = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": SCALE_M})})
+    return download(landsat_composite(bbox_geometry(bbox), year), bbox, out_path, c30, "uint16", 0, LANDSAT_BANDS)

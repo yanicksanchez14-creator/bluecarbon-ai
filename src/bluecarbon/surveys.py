@@ -18,6 +18,7 @@ hiccup never stops a training run.
 
 from __future__ import annotations
 
+import http.client
 import json
 import urllib.parse
 import urllib.request
@@ -30,10 +31,28 @@ from .schema import IGNORE_INDEX, KEY_TO_ID
 UA = {"User-Agent": "BlueCarbon-AI (https://github.com/yanicksanchez14-creator/bluecarbon-ai)"}
 
 
-def _get_json(url: str, params: dict, timeout: int = 120) -> dict:
+def _ssl_context():
+    """Some agency servers (e.g. the US wetlands service) close TLS without a close_notify, which
+    OpenSSL 3 reports as UNEXPECTED_EOF_WHILE_READING. Certificates are still verified."""
+    import ssl
+
+    ctx = ssl.create_default_context()
+    ctx.options |= getattr(ssl, "OP_IGNORE_UNEXPECTED_EOF", 0)
+    return ctx
+
+
+def _get_json(url: str, params: dict, timeout: int = 120, tries: int = 4) -> dict:
+    import time
+
     req = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read().decode("utf-8"))
+    for i in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout, context=_ssl_context()) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except (OSError, http.client.HTTPException):
+            if i == tries - 1:
+                raise
+            time.sleep(5 * (i + 1))  # busy server: back off and retry
 
 
 def _intersects(a: list[float], b: list[float]) -> bool:
@@ -106,7 +125,7 @@ def fetch_wfs(url: str, layer: str, bbox: list[float] | None = None) -> list[dic
 SURVEY_CACHE = Path("runs/default/surveys")
 
 
-def fetch_zip(url: str, bbox: list[float], cache: Path = SURVEY_CACHE) -> list[dict]:
+def fetch_zip(url: str, bbox: list[float], cache: Path = SURVEY_CACHE, layer: str | None = None) -> list[dict]:
     """GeoJSON features (EPSG:4326) inside bbox from a zipped shapefile published as a plain download
     (e.g. MassGIS). Downloaded once per run folder, then read from the cache."""
     import geopandas as gpd
@@ -118,10 +137,10 @@ def fetch_zip(url: str, bbox: list[float], cache: Path = SURVEY_CACHE) -> list[d
         import os
 
         part = dst.with_name(f"{dst.name}.{os.getpid()}.part")  # several sites download in parallel
-        with urllib.request.urlopen(req, timeout=600) as r:
+        with urllib.request.urlopen(req, timeout=600, context=_ssl_context()) as r:
             part.write_bytes(r.read())
         part.replace(dst)
-    gdf = gpd.read_file(f"zip://{dst}")
+    gdf = gpd.read_file(f"zip://{dst}", layer=layer) if layer else gpd.read_file(f"zip://{dst}")
     gdf = gdf.to_crs(4326) if gdf.crs else gdf.set_crs(4326)
     w, s, e, n = bbox
     gdf = gdf.cx[w:e, s:n]
@@ -132,7 +151,7 @@ def fetch_survey(s: dict, bbox: list[float]) -> list[dict]:
     if s["kind"] == "arcgis":
         return fetch_arcgis(s["url"], bbox, s.get("where", "1=1"))
     if s["kind"] == "zip":
-        return fetch_zip(s["url"], bbox)
+        return fetch_zip(s["url"], bbox, layer=s.get("layer"))
     return [f for f in fetch_wfs(s["url"], s["layer"], bbox if s.get("bbox_query", True) else None) if f.get("geometry")]
 
 

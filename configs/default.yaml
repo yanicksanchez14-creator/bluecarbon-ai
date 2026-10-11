@@ -84,7 +84,7 @@ labels:
       url: https://geoserver.imas.utas.edu.au/geoserver/seamap/wfs
       layer: seamap:SeamapAus_NSW_estuarine_macrophytes_2022
       extent: [149.8, -37.5, 153.6, -28.1]
-      keep: {SM_HAB_CLS: ["seagrass"]}
+      keep: {SM_HAB_CLS: ["zostera", "posidonia", "ruppia", "halophila", "seagrass"]}   # classes are taxa
       negatives_within_m: 1500
       citation: "NSW Department of Primary Industries (2022), NSW Estuarine Macrophytes, via Seamap Australia"
     - name: seamap-hervey-bay-seagrass-1998
@@ -122,6 +122,7 @@ labels:
     - name: massdep-eelgrass-2019-2023
       kind: zip
       url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/eelgrass_phase6.zip
+      layer: EELGRASS_PHASE6_POLY       # the zip also holds the study-area boundaries (default layer)
       extent: [-71.2, 41.2, -69.9, 42.9]
       negatives_within_m: 1500          # aerial survey with boat ground truth
       citation: "MassDEP Eelgrass Mapping Project, Phase 6 (2019-2023), via MassGIS"
@@ -155,6 +156,7 @@ labels:
       layer: seamap:SeamapAus_NSW_estuarine_macrophytes_2022
       extent: [149.8, -37.5, 153.6, -28.1]
       keep: {SM_HAB_CLS: ["saltmarsh"]}
+      drop: {SM_HAB_CLS: ["mangrove"]}   # mixed Mangrove/Saltmarsh polygons are neither
       authoritative: true
       citation: "NSW Department of Primary Industries (2022), NSW Estuarine Macrophytes, via Seamap Australia"
     - name: seamap-nsw-macrophytes-mangrove
@@ -164,6 +166,7 @@ labels:
       layer: seamap:SeamapAus_NSW_estuarine_macrophytes_2022
       extent: [149.8, -37.5, 153.6, -28.1]
       keep: {SM_HAB_CLS: ["mangrove"]}
+      drop: {SM_HAB_CLS: ["saltmarsh"]}
       citation: "NSW Department of Primary Industries (2022), NSW Estuarine Macrophytes, via Seamap Australia"
   # GWL_FCS30 global 30 m wetland map (Zhang et al. 2023), which has an explicit salt marsh class
   # (186; 181 swamp, 182 marsh = freshwater). Salt marsh is labelled where it agrees with

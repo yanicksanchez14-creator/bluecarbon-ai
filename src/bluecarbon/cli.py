@@ -41,6 +41,9 @@ def _fetch_extra_years(gee, site: dict, d: Path, years: list[int], cfg) -> None:
         if not gee.ancillary_ok(anc_p):
             typer.echo(f"[{site['name']}] {y} ancillary + clear-water layers ...")
             gee.download_ancillary(site["bbox"], f"{y}-01-01", f"{y + 1}-01-01", anc_p, cfg)
+        if not (d / f"radar_{y}.tif").exists():
+            typer.echo(f"[{site['name']}] {y} radar (Sentinel-1) ...")
+            gee.download_radar(site["bbox"], f"{y}-01-01", f"{y + 1}-01-01", d / f"radar_{y}.tif", cfg)
 
 
 @app.command()
@@ -65,6 +68,9 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
             gee.download_ancillary(site["bbox"], yr_start, yr_end, d / "ancillary.tif", cfg)
         if site.get("role") != "test":
             _fetch_extra_years(gee, site, d, s.get("extra_years") or [], cfg)
+        if (d / "image.tif").exists() and not (d / "radar.tif").exists():  # Sentinel-1, a model input
+            typer.echo(f"[{site['name']}] radar (Sentinel-1) ...")
+            gee.download_radar(site["bbox"], yr_start, yr_end, d / "radar.tif", cfg)
         if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
             typer.echo(f"[{site['name']}] built-up layer ...")
             gee.download_built(site["bbox"], d / "built.tif", cfg)
@@ -114,14 +120,15 @@ def chips(config: str = CfgOpt, sites: str = SitesOpt):
             continue
         r = make_chips(d / "image.tif", d / "label.tif", out, site["name"], c.size, c.stride, c.min_labeled_frac,
                        c.block_km, c.split, c.seed, "test" if site.get("role") == "test" else None,
-                       ancillary_path=d / "ancillary.tif")
+                       ancillary_path=d / "ancillary.tif", radar_path=d / "radar.tif")
         n_extra = 0
         if site.get("role") != "test":
             for y in s.get("extra_years") or []:
                 if (d / f"image_{y}.tif").exists() and (d / f"ancillary_{y}.tif").exists():
                     rx = make_chips(d / f"image_{y}.tif", d / "label.tif", out, site["name"], c.size, c.stride,
                                     c.min_labeled_frac, c.block_km, c.split, c.seed,
-                                    ancillary_path=d / f"ancillary_{y}.tif", tag=str(y), only_splits={"train"})
+                                    ancillary_path=d / f"ancillary_{y}.tif", tag=str(y), only_splits={"train"},
+                                    radar_path=d / f"radar_{y}.tif")
                     n_extra += len(rx)
                     r += rx
         typer.echo(f"{site['name']}: {len(r)} chips ({n_extra} from extra years)")
@@ -263,6 +270,7 @@ def scene(bbox: list[float] = typer.Option(..., help="lon_min lat_min lon_max la
     img = gee.s2_composite(gee.bbox_geometry(bbox), start, end, cfg)
     gee.download(img, bbox, d / "image.tif", cfg, "uint16", 0, S2_BANDS)
     gee.download_ancillary(bbox, start, end, d / "ancillary.tif", cfg)
+    gee.download_radar(bbox, start, end, d / "radar.tif", cfg)
     predict(d / "image.tif", model, d / "pred.tif", config)
     report(d / "pred.tif", model, config, d)
 
@@ -295,6 +303,8 @@ def case_study(model: Path = typer.Option(..., "--model", "-m"), config: str = C
                 gee.download(img, cs["bbox"], d / f"{key}_image.tif", cfg, "uint16", 0, S2_BANDS)
             if not gee.ancillary_ok(d / f"{key}_ancillary.tif"):  # clear-water bands differ per period
                 gee.download_ancillary(cs["bbox"], a, b, d / f"{key}_ancillary.tif", cfg)
+            if not (d / f"{key}_radar.tif").exists():
+                gee.download_radar(cs["bbox"], a, b, d / f"{key}_radar.tif", cfg)
             predict(d / f"{key}_image.tif", model, d / f"{key}_pred.tif", config)
         rep = change_scene_report(d / "t0_pred.tif", d / "t1_pred.tif", cfg.carbon)
         write_report(rep, d, "change_report")

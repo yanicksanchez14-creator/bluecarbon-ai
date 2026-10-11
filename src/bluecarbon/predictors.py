@@ -52,6 +52,7 @@ class SpectralPredictor(Predictor):
         from .spectral import SpectralModel
 
         self.model = SpectralModel.load(path)
+        self.features = list(self.model.features)
         self.needs_ancillary = self.model.uses_ancillary
         self.meta = {**self.model.info, "metrics": self.model.metrics, "extra": self.model.extra}
 
@@ -96,7 +97,15 @@ def ancillary_path_for(image_path: str | Path) -> Path | None:
     return None
 
 
+def radar_path_for(image_path: str | Path) -> Path | None:
+    """radar.tif (Sentinel-1) next to image.tif, image_2020.tif -> radar_2020.tif, t0_image -> t0_radar."""
+    p = Path(image_path)
+    cand = p.with_name(p.name.replace("image", "radar"))
+    return cand if cand.exists() and cand != p else None
+
+
 def read_ancillary(image_path: str | Path, shape: tuple[int, int]) -> np.ndarray | None:
+    """Context stack for a model: ancillary.tif bands, then Sentinel-1 radar bands when radar.tif exists."""
     import rasterio
 
     a = ancillary_path_for(image_path)
@@ -106,4 +115,10 @@ def read_ancillary(image_path: str | Path, shape: tuple[int, int]) -> np.ndarray
         arr = ds.read()
     if arr.shape[1:] != tuple(shape):
         raise ValueError(f"{a} is {arr.shape[1:]} but the image is {shape}")
+    r = radar_path_for(image_path)
+    if r is not None:
+        with rasterio.open(r) as ds:
+            rad = ds.read()
+        if rad.shape[1:] == arr.shape[1:]:
+            arr = np.concatenate([arr.astype(np.int16), rad.astype(np.int16)])
     return arr

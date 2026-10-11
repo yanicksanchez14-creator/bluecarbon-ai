@@ -45,7 +45,7 @@ def make_chips(image_path: str | Path, label_path: str | Path, out_dir: str | Pa
                size: int = 256, stride: int = 256, min_labeled_frac: float = 0.2, block_km: float = 5,
                fractions=(0.7, 0.15, 0.15), seed: int = 42, force_split: str | None = None,
                ancillary_path: str | Path | None = None, tag: str = "",
-               only_splits: set[str] | None = None) -> list[ChipRecord]:
+               only_splits: set[str] | None = None, radar_path: str | Path | None = None) -> list[ChipRecord]:
     """`tag` names chips from an extra image of the same site (e.g. another year); the split is still
     decided by the site's spatial blocks, so a location is in the same split in every year.
     `only_splits`: keep only chips in these splits (extra years go to training only, so validation and
@@ -54,6 +54,10 @@ def make_chips(image_path: str | Path, label_path: str | Path, out_dir: str | Pa
     out_dir.mkdir(parents=True, exist_ok=True)
     records: list[ChipRecord] = []
     anc_ds = rasterio.open(ancillary_path) if ancillary_path and Path(ancillary_path).exists() else None
+    rad_ds = (rasterio.open(radar_path) if anc_ds is not None and radar_path and Path(radar_path).exists() else None)
+    if rad_ds is not None and (rad_ds.width, rad_ds.height) != (anc_ds.width, anc_ds.height):
+        rad_ds.close()
+        rad_ds = None
     with rasterio.open(image_path) as im, rasterio.open(label_path) as lb:
         if (im.width, im.height) != (lb.width, lb.height) or im.transform != lb.transform:
             raise ValueError(f"{image_path} and {label_path} are not on the same grid")
@@ -74,11 +78,15 @@ def make_chips(image_path: str | Path, label_path: str | Path, out_dir: str | Pa
                 p = out_dir / f"{site}{'_' + tag if tag else ''}_r{r:05d}_c{c:05d}.npz"
                 extra = {}
                 if anc_ds is not None:
-                    extra["anc"] = anc_ds.read(window=win).astype(np.int16)
+                    a = anc_ds.read(window=win).astype(np.int16)
+                    if rad_ds is not None:  # radar appended after the ancillary bands
+                        a = np.concatenate([a, rad_ds.read(window=win).astype(np.int16)])
+                    extra["anc"] = a
                 np.savez_compressed(p, image=x.astype(np.uint16), label=y, **extra)
                 records.append(ChipRecord(str(p), site, split, r, c, frac))
-    if anc_ds is not None:
-        anc_ds.close()
+    for ds in (anc_ds, rad_ds):
+        if ds is not None:
+            ds.close()
     return records
 
 

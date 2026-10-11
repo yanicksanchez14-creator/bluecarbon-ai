@@ -466,3 +466,18 @@ def built_up_image(cfg: Config):
 
 def download_built(bbox: list[float], out_path: str | Path, cfg: Config) -> Path:
     return download(built_up_image(cfg), bbox, out_path, cfg, "uint8", None, ["built"])
+
+
+def radar_image(region, start: str, end: str):
+    """Sentinel-1 GRD (IW, VV + VH) median backscatter over the period, dB x 100 as int16.
+    Pixels with no radar pass read -3000 (-30 dB)."""
+    _require_ee()
+    col = (ee.ImageCollection("COPERNICUS/S1_GRD").filterBounds(region).filterDate(start, end)
+           .filter(ee.Filter.eq("instrumentMode", "IW"))
+           .filter(ee.Filter.listContains("transmitterReceiverPolarisation", "VV"))
+           .filter(ee.Filter.listContains("transmitterReceiverPolarisation", "VH")))
+    return col.select(["VV", "VH"]).median().multiply(100).unmask(-3000).toInt16().rename(["s1_vv", "s1_vh"])
+
+
+def download_radar(bbox: list[float], start: str, end: str, out_path: str | Path, cfg: Config) -> Path:
+    return download(radar_image(bbox_geometry(bbox), start, end), bbox, out_path, cfg, "int16", None, ["s1_vv", "s1_vh"])

@@ -861,8 +861,14 @@ with tab_analyze:
                 if getattr(predictor, "needs_ancillary", False):
                     st.write("Fetching elevation, tidal and clear-water layers…")
                     gee.download_ancillary(bbox, str(start), str(end), tmp / "ancillary.tif", CFG)
-                    with rasterio.open(tmp / "ancillary.tif") as a:
-                        anc = a.read()
+                    if any(f.startswith("S1_") for f in getattr(predictor, "features", [])):
+                        st.write("Fetching Sentinel-1 radar…")
+                        gee.download_radar(bbox, str(start), str(end), tmp / "radar.tif", CFG)
+                    from bluecarbon.predictors import read_ancillary
+
+                    with rasterio.open(tmp / "image.tif") as im:
+                        img_shape = im.shape
+                    anc = read_ancillary(tmp / "image.tif", img_shape)
                 st.write("Segmenting habitats…")
                 with rasterio.open(tmp / "image.tif") as src:
                     bands, prof = src.read(), src.profile

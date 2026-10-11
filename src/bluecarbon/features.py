@@ -51,7 +51,14 @@ ANCILLARY_FEATURES: list[str] = ANC_FEATURES_V1 + ["DEPTH"]
 N_ANC_FEATURES = len(ANCILLARY_FEATURES)
 FEATURE_NAMES_ANC: list[str] = FEATURE_NAMES + ANCILLARY_FEATURES
 FEATURE_NAMES_ANC_V1: list[str] = FEATURE_NAMES + ANC_FEATURES_V1
-KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC)
+# Sentinel-1 C-band radar (radar.tif next to the image, 2 bands, dB x 100): sees through cloud and
+# responds to structure (mangrove trunks and roots scatter strongly; flat water reflects away). Appended to
+# the ancillary stack as bands 8-9 when present.
+RADAR_BANDS: list[str] = ["s1_vv", "s1_vh"]
+RADAR_FEATURES: list[str] = ["S1_VV", "S1_VH", "S1_VH_VV"]
+FEATURE_NAMES_ANC_RADAR: list[str] = FEATURE_NAMES_ANC_V1 + RADAR_FEATURES
+KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC) | set(RADAR_FEATURES)
+RADAR_OFFSET = len(ANCILLARY_BANDS)  # first radar band in a combined context stack
 
 
 def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
@@ -72,6 +79,11 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
     }
     if anc.shape[0] > DEPTH_BAND:
         out["DEPTH"] = np.clip(a[DEPTH_BAND], 0, 50) / 50.0
+    if anc.shape[0] >= RADAR_OFFSET + len(RADAR_BANDS):
+        vv, vh = a[RADAR_OFFSET] / 100.0, a[RADAR_OFFSET + 1] / 100.0   # dB
+        out["S1_VV"] = (np.clip(vv, -30, 5) + 30) / 35.0
+        out["S1_VH"] = (np.clip(vh, -35, 0) + 35) / 35.0
+        out["S1_VH_VV"] = np.clip(vh - vv, -20, 5) / 20.0
     return {k: v.astype(np.float32) for k, v in out.items()}
 
 
@@ -79,11 +91,14 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
 # Florida Bay (really 1-3 m). The ~450 m global grid is unreliable in shallow coastal bays, which is
 # exactly where seagrass grows. The clear-water band ratios carry the usable depth signal instead.
 USE_DEPTH_FEATURE = False
+USE_RADAR_FEATURE = True   # new models use Sentinel-1 when every chip has it
 
 
 def default_feature_names(anc: np.ndarray | None) -> list[str]:
     if anc is None:
         return list(FEATURE_NAMES)
+    if USE_RADAR_FEATURE and anc.shape[0] >= RADAR_OFFSET + len(RADAR_BANDS):
+        return FEATURE_NAMES_ANC_RADAR
     if USE_DEPTH_FEATURE and anc.shape[0] > DEPTH_BAND:
         return FEATURE_NAMES_ANC
     return FEATURE_NAMES_ANC_V1

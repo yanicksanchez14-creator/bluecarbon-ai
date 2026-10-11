@@ -139,7 +139,7 @@ labels:
       kind: arcgis
       class: mangrove
       url: https://fwspublicservices.wim.usgs.gov/wetlandsmapservice/rest/services/Wetlands/MapServer/0
-      where: "ATTRIBUTE LIKE 'E2SS3%' OR ATTRIBUTE LIKE 'E2FO3%'"   # estuarine broad-leaved evergreen = mangrove
+      where: "WETLAND_TYPE = 'Estuarine and Marine Wetland' AND ATTRIBUTE LIKE 'E2SS3%'"   # mangrove scrub (an OR query returns HTTP 500)
       extent: [-98.0, 24.3, -80.0, 30.5]
       citation: "US Fish and Wildlife Service, National Wetlands Inventory (estuarine broad-leaved evergreen)"
     - name: ea-england-saltmarsh-2016-2019

@@ -56,40 +56,40 @@ scale.
 <!-- results:start -->
 ## Results
 
-The model was trained on 39 coastal sites on six continents and scored on areas it **never saw during
-training**: held-out 5 km blocks from every site, plus five entire estuaries (Mission Bay, Plum Island,
-Moreton Bay, Shoalwater Bay and Tampa Bay). The deep-learning model (U-Net, ResNet-34 encoder) beat the
-gradient-boosted alternative and is the one deployed.
+The model was trained on 39 coastal sites on six continents (2021 imagery, plus 2020 and 2022 images of the
+same sites) and scored on areas it **never saw during training**: held-out 5 km blocks from every site, plus
+five entire estuaries (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay and Tampa Bay). The
+deep-learning model (U-Net, ResNet-34 encoder) beat the gradient-boosted alternative and is the one deployed.
 
 | Habitat | IoU | F1 | What it means |
 |---|---:|---:|---|
-| **Mangrove** ◆ | **0.93** | **0.97** | Reliable, including on unseen estuaries (Tampa Bay 0.89, Shoalwater Bay 0.87, Moreton Bay 0.85) |
-| **Salt marsh** ◆ | **0.84** | **0.91** | Strong on large marshes (unseen Plum Island 0.93 and Mission Bay 0.80; Georgia 0.99, Mont-Saint-Michel 0.89); weak where marsh is a thin fringe |
-| **Seagrass** ◆ | **0.37** | **0.54** | Conservative: rarely false, but misses about half of seagrass in murky or deep water. Unseen Tampa Bay: 3,402 ha mapped vs 3,277 ha surveyed |
-| Open water | 0.87 | 0.93 | Reliable; only 3% of water is mistaken for seagrass |
-| Other land | 0.93 | 0.96 | Reliable |
-| Tidal flat | 0.73 | 0.84 | Fair |
-| Freshwater wetland | 0.59 | 0.74 | Separates inland marsh from tidal salt marsh |
+| **Mangrove** ◆ | **0.94** | **0.97** | Reliable, including on unseen estuaries (Tampa Bay 0.91, Shoalwater Bay 0.86, Moreton Bay 0.86) |
+| **Salt marsh** ◆ | **0.82** | **0.90** | Strong on large marshes (unseen Plum Island 0.91); weak where marsh is a thin fringe (unseen Mission Bay 0.58) |
+| **Seagrass** ◆ | **0.38** | **0.55** | Improving: unseen Tampa Bay 0.62 (was not reported per site before), and now detected in Moreton Bay (0.12) where the previous model found almost none. Still misses most meadows in murky or deep water |
+| Open water | 0.84 | 0.91 | Reliable |
+| Other land | 0.93 | 0.97 | Reliable |
+| Tidal flat | 0.72 | 0.84 | Fair |
+| Freshwater wetland | 0.60 | 0.75 | Separates inland marsh from tidal salt marsh |
 | **Mean (7 classes)** | **0.75** | **0.84** | |
 
 ◆ = blue carbon habitat. IoU (intersection over union) measures how well the predicted map overlaps
-the reference map, where 1.0 is a perfect match. Overall pixel accuracy (92%) is reported but isn't the
-headline number, because open water dominates it.
+the reference map, where 1.0 is a perfect match. Overall pixel accuracy (90%) is reported but isn't the
+headline number, because open water dominates it. Scores use the current reference labels (more seagrass
+survey maps and stricter salt marsh than before), so they are harder to earn than the previous model's.
 
 **How it got here.** The first model scored mangrove 0.90, salt marsh 0.35 and seagrass 0.00. Since then:
 salt marsh labels from a dedicated wetland map; seagrass labels from the Allen Coral Atlas plus official
-survey maps (Florida FWC statewide, Moreton Bay 2015), with open-water examples next to every surveyed
-meadow; a clear-water image that lets the seafloor show through; elevation and tide as inputs; 39 training
-sites instead of 11; and per-estuary checks, which caught a model using latitude as a shortcut. The previous
-model scored seagrass 0.44 but mapped 11% of open water as seagrass (Tampa Bay: 14,751 ha vs 3,277 surveyed);
-this one trades some detection for far fewer false alarms.
+survey maps (Florida FWC; Seamap Australia for Moreton Bay, the Great Barrier Reef, Western Australia and
+Victoria), with open-water examples next to every surveyed meadow; a clear-water image that lets the seafloor
+show through; elevation and tide as inputs; extra years of imagery; and per-estuary checks, which caught an
+earlier model using latitude as a shortcut.
 
-**Next steps:** more seagrass training data for murky and temperate water, multi-year imagery, and
-field checks against dive surveys.
+**Next:** Sentinel-1 radar input, a seagrass specialist model, habitat history back to 1985, and field checks
+against dive surveys.
 
 ![Held-out sites: satellite image (top) and BlueCarbon-AI habitat map (bottom)](docs/img/hero.png)
 
-The live app includes 45 mapped sites, among them a 2018 → 2024 change analysis of Mission Bay.
+The website maps 44 sites, plus 2018 → 2024 (Mission Bay) and 2019 → 2025 (Laguna de Términos) change studies.
 <!-- results:end -->
 
 ## How it works

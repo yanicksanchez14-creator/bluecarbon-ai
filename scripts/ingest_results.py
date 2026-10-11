@@ -29,9 +29,11 @@ MODEL_INFO = {
     "pilot": False,
     "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training "
                   "(Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
-    "training_data": "Sentinel-2 2021 composites and clear-water images of 39 coastal sites on six continents, "
-                     "labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and "
-                     "the Allen Coral Atlas, plus official seagrass surveys (Florida FWC, Moreton Bay)",
+    "training_data": "Sentinel-2 composites and clear-water images of 39 coastal sites on six continents for 2021, "
+                     "plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the "
+                     "GWL_FCS30 wetland map, Murray et al. tidal flats and the Allen Coral Atlas, plus official "
+                     "seagrass surveys (Florida FWC; Seamap Australia: Moreton Bay, Great Barrier Reef, Western "
+                     "Australia, Victoria)",
     "uses_context": True,
 }
 PILOT_PATHS = ["models/pilot_spectral_mission_bay_2018.json", "data/pilot", "scripts/pilot_spectral.py",

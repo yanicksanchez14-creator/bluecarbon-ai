@@ -628,16 +628,11 @@ if not EMBED and VIEW != "tool":
         f'On {SITE_LIVE} the project moved to its own website, which replaces this page as its home.</p>'
         '<p style="font-size:1.02rem;line-height:1.6;margin:0 0 6px">The website has habitat and carbon maps of 44 coastal '
         'sites on six continents, published accuracy on estuaries the model never saw during training, the full '
-        'methodology and sample site screening reports in English and Spanish. This address now hosts only the '
-        'live analysis tool.</p></div>',
+        'methodology and sample site screening reports in English and Spanish.</p></div>',
         unsafe_allow_html=True)
-    _, mid, _ = st.columns([1, 3, 1])
+    _, mid, _ = st.columns([1, 1.4, 1])
     with mid:
-        a, b = st.columns(2)
-        a.link_button("Visit the BlueCarbon-AI website", SITE, type="primary", use_container_width=True)
-        if b.button("Open the live analysis tool", use_container_width=True):
-            st.query_params["view"] = "tool"
-            st.rerun()
+        st.link_button("Visit the BlueCarbon-AI website", SITE, type="primary", use_container_width=True)
         st.markdown(
             '<p style="font-size:.88rem;color:#4b5a61;margin-top:18px">Yanick Sanchez · '
             '<a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai" target="_blank" style="color:#3f5f50">'

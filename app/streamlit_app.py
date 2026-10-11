@@ -625,7 +625,9 @@ if not EMBED and VIEW != "tool":
         '<h1 style="font-family:var(--serif);font-weight:400;font-size:2.8rem;line-height:1.1;margin:0 0 18px">'
         'BlueCarbon-AI has moved to a new website</h1>'
         '<p style="font-size:1.08rem;line-height:1.6;margin:0 0 14px">If you were given this link, thank you for visiting. '
-        f'On {SITE_LIVE} the project moved to its own website, which replaces this page as its home.</p>'
+        f'On {SITE_LIVE}, BlueCarbon-AI moved from this page to its own website.</p>'
+        '<p style="font-size:1.02rem;line-height:1.6;margin:0 0 6px">This page was the early prototype. The project '
+        'outgrew it, so it now has a dedicated website built to hold everything as it grows.</p>'
         '</div>',
         unsafe_allow_html=True)
     _, mid, _ = st.columns([1, 1.4, 1])

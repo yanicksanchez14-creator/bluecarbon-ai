@@ -54,8 +54,8 @@ def test_read_kelpwatch_layout(tmp_path):
     ds.to_netcdf(p)
     kw = read_kelpwatch(p, [-117.30, 32.64, -117.23, 32.74])
     assert kw["area_m2"].shape == (2, 2) and list(kw["quarter"]) == [2, 3]
-    from rasterio.transform import from_origin
     from rasterio.crs import CRS
+    from rasterio.transform import from_origin
 
     cells = kelpwatch_cells(kw, 1, from_origin(474000, 3621000, 20, 20), CRS.from_epsg(32611), (600, 600))
     assert cells.sum() == 900.0

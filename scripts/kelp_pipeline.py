@@ -25,8 +25,17 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from bluecarbon import gee  # noqa: E402
 from bluecarbon.config import load_config  # noqa: E402
-from bluecarbon.kelp import (SCALE_M, calibrate, download_kelpwatch, kelp_fraction, kelpwatch_cells,  # noqa: E402
-                             quarters, read_kelpwatch, save_json, site_series)
+from bluecarbon.kelp import (  # noqa: E402
+    SCALE_M,
+    calibrate,
+    download_kelpwatch,
+    kelp_fraction,
+    kelpwatch_cells,
+    quarters,
+    read_kelpwatch,
+    save_json,
+    site_series,
+)
 
 WORK = ROOT / "runs" / "default" / "sites" / "_kelp"
 OUT = ROOT / "demo_kelp"

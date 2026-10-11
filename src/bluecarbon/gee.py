@@ -252,7 +252,7 @@ def tidal_zone(cfg: Config):
     return dem.lte(3).And(near_water), "elevation-fallback"
 
 
-LABEL_VERSION = "labels-v8"  # v8: no GEBCO depth rule (v7 dropped real shallow seagrass)  # bump when the label rules change, so `fetch --labels-only` rebuilds
+LABEL_VERSION = "labels-v9"  # v9: mangrove = WorldCover AND Global Mangrove Watch; NWI/NSW/EA wetland surveys  # bump when the label rules change, so `fetch --labels-only` rebuilds
 
 
 def wetland_map(cfg: Config):
@@ -329,6 +329,18 @@ def reference_labels(region, cfg: Config, report: dict | None = None, seagrass_u
         # herbaceous wetland outside the tidal zone = freshwater marsh (not blue carbon)
         lab = lab.where(wc.eq(90).And(marsh.Not()), k["freshwater"])
     lab = lab.where(wc.eq(95), k["mangrove"])
+    if lc.mangrove_map:
+        # Second, independent mangrove map (Global Mangrove Watch v3, ALOS radar + Landsat, Bunting et al.
+        # 2022). Mangrove is labelled only where both maps agree; where only one says mangrove the pixel
+        # is left unlabelled, so the answer key holds only mangrove two published maps confirm.
+        try:
+            ee.data.getAsset(lc.mangrove_map)  # fail here (not mid-download) if the asset is gone
+            gmw = ee.Image(0).paint(ee.FeatureCollection(lc.mangrove_map).filterBounds(region), 1).eq(1)
+            lab = lab.where(wc.eq(95).And(gmw.Not()), ign)
+            lab = lab.where(gmw.And(wc.neq(95)).And(wc.neq(80)), ign)
+            used.append("gmw-v3-2020")
+        except Exception as e:
+            print(f"[bluecarbon] mangrove map unavailable ({str(e)[:80]})", flush=True)
 
     aca_footprint = ee.Image(0)
     if _asset_bands(lc.reef_habitat):

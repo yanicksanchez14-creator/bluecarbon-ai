@@ -29,11 +29,14 @@ MODEL_INFO = {
     "pilot": False,
     "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training "
                   "(Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
-    "training_data": "Sentinel-2 composites and clear-water images of 39 coastal sites on six continents for 2021, "
+    "training_data": "Sentinel-2 composites and clear-water images of 71 coastal sites on six continents for 2021, "
                      "plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the "
-                     "GWL_FCS30 wetland map, Murray et al. tidal flats and the Allen Coral Atlas, plus official "
-                     "seagrass surveys (Florida FWC; Seamap Australia: Moreton Bay, Great Barrier Reef, Western "
-                     "Australia, Victoria)",
+                     "GWL_FCS30 wetland map, Murray et al. tidal flats, the Allen Coral Atlas and Global Mangrove "
+                     "Watch v3 (mangrove only where it agrees with WorldCover), plus official survey maps: US "
+                     "National Wetlands Inventory, Environment Agency saltmarsh (England), NSW estuarine "
+                     "macrophytes, Florida FWC, VIMS Chesapeake SAV, Texas Benthic Atlas, MassDEP eelgrass, the "
+                     "California eelgrass compilation and Seamap Australia (Moreton Bay, Great Barrier Reef, "
+                     "Western Australia, Victoria, Hervey Bay)",
     "uses_context": True,
 }
 PILOT_PATHS = ["models/pilot_spectral_mission_bay_2018.json", "data/pilot", "scripts/pilot_spectral.py",

@@ -22,14 +22,14 @@ def run(*args: str) -> None:
     subprocess.run(args, check=True)
 
 
-FETCH_WORKERS = 4
+FETCH_WORKERS = 6
 
 
 def fetch_parallel(workers: int = FETCH_WORKERS) -> None:
     """Download every site with `workers` separate processes (each its own Earth Engine session).
 
     One site at a time took ~1 h per site with the extra years, longer than Colab's 24 h session
-    limit. Earth Engine serves several requests at once, so 4 sites in parallel is ~4x faster.
+    limit. Earth Engine serves several requests at once, so 6 sites in parallel is ~6x faster.
     Each line is prefixed with its site name. A site that fails is retried once at the end, alone.
     """
     import threading

@@ -212,6 +212,7 @@ def build(out: Path, pdf: bool = True) -> dict:
         "n_sites": len(n_sites), "n_change": len(sites) - len(n_sites),
         "n_countries": len({s["country"] for s in n_sites}),
         "n_held_out": sum(s["held_out"] for s in n_sites),
+        "n_train_sites": sum(not s["held_out"] for s in n_sites),
         "n_soil_cores": sum(1 for _ in cores.open()) - 1 if cores.exists() else 0,
         "n_soil_cores_used": _cores_used(pages),
         "blue_carbon_ha": round(sum(sum(s["areas_ha"][k] for k in BLUE_CARBON_KEYS) for s in n_sites)),

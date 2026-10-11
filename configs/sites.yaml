@@ -63,6 +63,39 @@ sites:
   - {name: shoalwater_bay_au,    bbox: [150.250, -22.550, 150.500, -22.300], role: test, note: "Held-out: mangrove and seagrass, Great Barrier Reef coast"}
   - {name: moreton_bay_au,       bbox: [153.100, -27.500, 153.350, -27.250], role: test, seagrass_unmapped: true, note: "Held-out: mangrove, salt marsh, seagrass"}
   - {name: tampa_bay_fl,         bbox: [-82.700, 27.600, -82.500, 27.800], role: test, seagrass_unmapped: true, note: "Held-out: mangrove + seagrass"}
+  # ---- added Oct 2026: sites with official survey maps (or two agreeing global maps) as answer keys ----
+  - {name: lower_laguna_madre_tx, bbox: [-97.350, 26.100, -97.150, 26.350], note: "Seagrass (NOAA/TPWD Texas Benthic Atlas) and salt marsh (NWI)"}
+  - {name: redfish_bay_tx,        bbox: [-97.200, 27.820, -97.000, 27.980], note: "Seagrass (Texas Benthic Atlas), mangrove and salt marsh (NWI)"}
+  - {name: mobjack_bay_va,        bbox: [-76.450, 37.250, -76.250, 37.420], note: "Eelgrass and widgeon grass (VIMS annual SAV survey), salt marsh (NWI)"}
+  - {name: tangier_sound_md,      bbox: [-76.100, 37.920, -75.920, 38.080], note: "Smith Island SAV beds (VIMS) and salt marsh (NWI)"}
+  - {name: south_bay_va,          bbox: [-75.880, 37.180, -75.700, 37.330], note: "Restored eelgrass meadows (VIMS) and salt marsh (NWI)"}
+  - {name: buzzards_bay_ma,       bbox: [-70.800, 41.520, -70.600, 41.700], note: "Eelgrass (MassDEP 2019-2023 survey), salt marsh (NWI)"}
+  - {name: duxbury_bay_ma,        bbox: [-70.720, 41.960, -70.580, 42.080], note: "Eelgrass (MassDEP) and salt marsh (NWI)"}
+  - {name: humboldt_bay_ca,       bbox: [-124.280, 40.680, -124.100, 40.880], note: "Eelgrass (California compilation) and salt marsh (NWI)"}
+  - {name: elkhorn_slough_ca,     bbox: [-121.820, 36.780, -121.720, 36.860], note: "Salt marsh (NWI) and eelgrass (California compilation)"}
+  - {name: willapa_bay_wa,        bbox: [-124.080, 46.400, -123.880, 46.620], seagrass_unmapped: true, note: "Salt marsh (NWI); eelgrass not mapped by a survey we can load"}
+  - {name: barnegat_bay_nj,       bbox: [-74.250, 39.680, -74.050, 39.850], seagrass_unmapped: true, note: "Salt marsh (NWI); eelgrass not mapped by a survey we can load"}
+  - {name: cape_romain_sc,        bbox: [-79.620, 32.920, -79.420, 33.080], note: "Salt marsh (NWI)"}
+  - {name: great_bay_nh,          bbox: [-70.950, 43.030, -70.830, 43.130], seagrass_unmapped: true, note: "Salt marsh (NWI); eelgrass not mapped by a survey we can load"}
+  - {name: rookery_bay_fl,        bbox: [-81.800, 25.950, -81.650, 26.100], seagrass_unmapped: true, note: "Mangrove (NWI, GMW), seagrass (FWC)"}
+  - {name: port_stephens_au,      bbox: [151.950, -32.760, 152.200, -32.620], note: "Seagrass, mangrove and salt marsh (NSW DPI estuarine macrophytes)"}
+  - {name: jervis_bay_au,         bbox: [150.660, -35.180, 150.840, -35.020], note: "Posidonia and Zostera seagrass (NSW DPI)"}
+  - {name: botany_bay_au,         bbox: [151.120, -34.060, 151.260, -33.960], note: "Seagrass, mangrove and salt marsh (NSW DPI)"}
+  - {name: wallis_lake_au,        bbox: [152.440, -32.320, 152.560, -32.140], note: "Seagrass, mangrove and salt marsh (NSW DPI)"}
+  - {name: great_sandy_strait_au, bbox: [152.850, -25.800, 153.050, -25.550], note: "Mangrove (GMW) and seagrass (Seamap Hervey Bay survey)"}
+  - {name: exmouth_gulf_au,       bbox: [114.100, -22.350, 114.350, -22.100], note: "Arid mangrove (GMW), seagrass (WA marine habitats)"}
+  - {name: the_wash_uk,           bbox: [0.050, 52.820, 0.400, 52.980], note: "Salt marsh (Environment Agency aerial survey)"}
+  - {name: chichester_harbour_uk, bbox: [-0.960, 50.770, -0.820, 50.850], note: "Salt marsh (Environment Agency)"}
+  - {name: blackwater_essex_uk,   bbox: [0.760, 51.700, 0.980, 51.800], note: "Salt marsh (Environment Agency)"}
+  - {name: gazi_bay_ke,           bbox: [39.450, -4.500, 39.580, -4.380], note: "Mangrove (WorldCover + GMW) and seagrass (Allen Coral Atlas); home of Mikoko Pamoja"}
+  - {name: rufiji_delta_tz,       bbox: [39.200, -8.050, 39.450, -7.800], note: "Mangrove (WorldCover + GMW)"}
+  - {name: matang_my,             bbox: [100.450, 4.700, 100.650, 4.950], note: "Mangrove (WorldCover + GMW), managed forest reserve"}
+  - {name: mahakam_delta_id,      bbox: [117.350, -0.800, 117.600, -0.550], note: "Mangrove and aquaculture ponds (WorldCover + GMW)"}
+  - {name: bintuni_bay_id,        bbox: [133.050, -2.450, 133.300, -2.200], note: "Mangrove (WorldCover + GMW)"}
+  - {name: braganca_br,           bbox: [-46.800, -1.100, -46.550, -0.850], note: "Macrotidal Amazon mangrove (WorldCover + GMW)"}
+  - {name: guayas_ec,             bbox: [-80.100, -2.750, -79.850, -2.500], note: "Mangrove and shrimp ponds (WorldCover + GMW)"}
+  - {name: gulf_of_fonseca_hn,    bbox: [-87.450, 13.100, -87.250, 13.300], note: "Mangrove and shrimp ponds (WorldCover + GMW)"}
+  - {name: niger_delta_ng,        bbox: [6.600, 4.300, 6.850, 4.550], note: "Mangrove (WorldCover + GMW)"}
 
 # Before/after change studies shown in the demo app (and used by the site screen reports).
 case_studies:

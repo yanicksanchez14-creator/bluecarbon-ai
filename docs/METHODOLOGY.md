@@ -14,8 +14,9 @@ B11, B12 at 10 m in the local UTM zone. The model also gets NDVI, NDWI, MNDWI an
 
 **Clear-water image.** Seagrass is visible from space only where the seafloor shows through, and a
 yearly median blends clear days with murky, glinty ones. Each site therefore also gets a clear-water
-image: for every pixel, the single cloud-free observation of the period with the lowest near-infrared
-reflectance (least sun glint, haze and white water). Its blue, green, red and NIR bands, plus the
+image: for every pixel, the median of the clearest 20% of its cloud-free observations of the period,
+ranked by near-infrared reflectance (least sun glint, haze and white water). A single clearest day is noisy;
+the median of several clear days is stable while still letting a shallow seafloor show through. Its blue, green, red and NIR bands, plus the
 log band ratios ln(B2/B3) and ln(B3/B4) (largely insensitive to water depth, after Lyzenga and Stumpf),
 are model inputs.
 
@@ -76,6 +77,26 @@ distribution (5,000 Monte Carlo draws), together with the area uncertainty, and 
 as the mean and 90% interval. The indicative credit value uses **annual sequestration only**, since
 standing stock is not creditable. Tier 1 values are global averages; any real project needs
 site-measured stocks.
+
+### Next model (in training)
+
+The next training run nearly doubles the training set, from 39 to 71 sites, and adds official survey
+maps as answer keys. A new model replaces the live one only if it scores at least as well on the five
+held-out estuaries (same labels for both models).
+
+- **Salt marsh:** US Fish and Wildlife Service National Wetlands Inventory (estuarine intertidal
+  emergent), Environment Agency saltmarsh extents for England (aerial survey 2016-2019) and NSW
+  estuarine macrophytes. Inside a survey's coverage it is taken as the complete map: where the global
+  maps call a pixel salt marsh and the survey does not, the pixel is left out of training and scoring.
+- **Mangrove:** labelled only where ESA WorldCover and Global Mangrove Watch v3 (Bunting et al. 2022)
+  agree, plus the National Wetlands Inventory and NSW surveys.
+- **Seagrass:** Virginia Institute of Marine Science annual SAV survey (2020-2024), the NOAA and Texas
+  Parks and Wildlife Texas Benthic Atlas, MassDEP eelgrass survey 2019-2023, the California eelgrass
+  compilation, NSW estuarine macrophytes and Seamap Australia Hervey Bay.
+- **New sites:** Texas, Chesapeake and Virginia coastal bays, Massachusetts, California, Washington,
+  New Jersey, South Carolina, New Hampshire and Florida in the US; four NSW estuaries, the Great Sandy
+  Strait and Exmouth Gulf in Australia; three English salt marshes; and mangrove coasts in Kenya,
+  Tanzania, Malaysia, Indonesia, Brazil, Ecuador, Honduras and Nigeria.
 
 ### Limitations
 - Seagrass is the weakest habitat (0.38 IoU): it is spectrally hard to separate from water, and meadows in

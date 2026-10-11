@@ -73,7 +73,7 @@
             alt="Habitat map of Tampa Bay" loading="lazy" style="position:absolute;inset:0;opacity:.9"></figure>
           <span class="n">2</span>
           <h3>Every patch of coast labelled</h3>
-          <p>A deep-learning model trained on 39 coastal sites around the world labels each 10 by 10 m patch as mangrove,
+          <p>A deep-learning model trained on <span data-k="n_train_sites">39</span> coastal sites around the world labels each 10 by 10 m patch as mangrove,
             salt marsh, seagrass, tidal flat, water or land.</p>
         </article>
         <article class="step">
@@ -127,6 +127,33 @@
           <a class="btn btn-ghost" href="methodology.html">Read the full methodology</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="training">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Training data</p><h2>What the model learned from</h2></div>
+        <p class="lede">The model is only as good as its answer keys. Every training label comes from a published map or an
+          official field survey, and the test estuaries are never shown to it.</p>
+      </div>
+      <div class="who facts">
+        <div><h3><span data-k="n_train_sites">39</span> training sites</h3><p>Mangrove deltas, salt marshes and seagrass
+          lagoons on six continents, each seen in three years of imagery (2020, 2021 and 2022) so the model learns the habitat,
+          not one season's light.</p></div>
+        <div><h3>Two images per year</h3><p>A cloud-free Sentinel-2 composite at 10 m, plus a clear-water image built from the
+          clearest 20% of days, where the seafloor shows through, with elevation and tidal-wetland context.</p></div>
+        <div><h3>Verifiable answer keys</h3><p>ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and the
+          Allen Coral Atlas, plus official seagrass surveys: Florida FWC and Seamap Australia (Moreton Bay, Great Barrier
+          Reef, Western Australia, Victoria).</p></div>
+        <div><h3><span data-k="n_held_out">5</span> held-out estuaries</h3><p>Tampa Bay, Moreton Bay, Shoalwater Bay, Plum Island
+          and Mission Bay are kept out of training entirely. A new model replaces the live one only if it scores at least as
+          well on them.</p></div>
+      </div>
+      <p class="lede" style="margin-top:32px;max-width:none">Next training run: 71 sites, adding official survey maps as answer keys
+        (US National Wetlands Inventory, Environment Agency salt marsh, VIMS, Texas, Massachusetts, California and NSW seagrass
+        surveys) and a second mangrove map, Global Mangrove Watch, so mangrove is only taught where two maps agree.
+        <a href="methodology.html">What changes</a></p>
     </div>
   </section>
 

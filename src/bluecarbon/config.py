@@ -31,6 +31,7 @@ class LabelsCfg(BaseModel):
     bathymetry: str = "projects/sat-io/open-datasets/gebco/gebco_grid"
     seagrass_max_depth_m: float | None = None
     wetland_map: str = "projects/sat-io/open-datasets/GWL_FCS30"
+    mangrove_map: str | None = "projects/sat-io/open-datasets/GMW/extent/gmw_v3_2020_vec"
     wetland_year: int = 2021
     dem: str = "NASA/NASADEM_HGT/001"
     overrides: str | None = None

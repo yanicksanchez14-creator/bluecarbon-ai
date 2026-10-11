@@ -613,25 +613,43 @@ EMBED = st.query_params.get("view") == "analyze"  # the website embeds only the 
 
 
 
-if not EMBED:  # opened directly (not inside the website): a slim header pointing to the website
+SITE_LIVE = "October 10, 2026"
+VIEW = st.query_params.get("view")
+if not EMBED and VIEW != "tool":
+    # Landing page for old links (this Streamlit address was the project's home before the website launched).
+    st.markdown(
+        f'<div class="bc-top"><div class="bc-brand"><div class="bc-word">BlueCarbon<span>-AI</span></div></div></div>'
+        '<div style="max-width:760px;margin:6vh auto 0;color:#0d1f29">'
+        '<p style="font-family:var(--mono, monospace);font-size:.8rem;letter-spacing:.06em;color:#3f5f50;margin:0 0 10px">'
+        f'NOTICE · UPDATED {SITE_LIVE.upper()}</p>'
+        '<h1 style="font-family:var(--serif);font-weight:400;font-size:2.8rem;line-height:1.1;margin:0 0 18px">'
+        'BlueCarbon-AI has moved to a new website</h1>'
+        '<p style="font-size:1.08rem;line-height:1.6;margin:0 0 14px">If you were given this link, thank you for visiting. '
+        f'On {SITE_LIVE} the project moved to its own website, which replaces this page as its home.</p>'
+        '<p style="font-size:1.02rem;line-height:1.6;margin:0 0 6px">The website has habitat and carbon maps of 44 coastal '
+        'sites on six continents, published accuracy on estuaries the model never saw during training, the full '
+        'methodology and sample site screening reports in English and Spanish. This address now hosts only the '
+        'live analysis tool.</p></div>',
+        unsafe_allow_html=True)
+    _, mid, _ = st.columns([1, 3, 1])
+    with mid:
+        a, b = st.columns(2)
+        a.link_button("Visit the BlueCarbon-AI website", SITE, type="primary", use_container_width=True)
+        if b.button("Open the live analysis tool", use_container_width=True):
+            st.query_params["view"] = "tool"
+            st.rerun()
+        st.markdown(
+            '<p style="font-size:.88rem;color:#4b5a61;margin-top:18px">Yanick Sanchez · '
+            '<a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai" target="_blank" style="color:#3f5f50">'
+            f'Source code on GitHub</a> · Website: <a href="{SITE}" target="_blank" style="color:#3f5f50">{SITE}</a></p>',
+            unsafe_allow_html=True)
+    st.stop()
+if not EMBED:  # the live tool opened directly: a slim header pointing to the website
     st.markdown(
         f'<div class="bc-top"><div class="bc-brand"><div class="bc-word">BlueCarbon<span>-AI</span></div></div>'
-        f'<div class="bc-links"><a href="{SITE}">Website</a><a href="{SITE}explore.html">Site map</a>'
-        f'<a href="{SITE}methodology.html">Methodology</a></div></div>'
-        '<div style="border:1px solid #3f5f50;border-left:4px solid #3f5f50;background:#eef3f0;border-radius:6px;'
-        'padding:18px 22px;margin:4px 0 26px;color:#0d1f29">'
-        '<div style="font-size:1.15rem;font-weight:600;margin-bottom:6px">BlueCarbon-AI has a new home</div>'
-        '<div style="font-size:.98rem;line-height:1.55">If you followed a link from my resume, thank you for visiting. '
-        'The project has grown since that link went out: the full website now has habitat and carbon maps of 44 '
-        'coastal sites on six continents, published accuracy on estuaries the model never saw, a methodology '
-        'write-up and sample site screening reports. This page is now just the live analysis tool.</div>'
-        f'<div style="margin-top:14px"><a href="{SITE}" target="_top" style="display:inline-block;background:#0d1f29;'
-        'color:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;font-weight:600">'
-        'Visit the BlueCarbon-AI website &rarr;</a>'
-        '<span style="margin-left:14px;font-size:.9rem;color:#3f5f50">or keep scrolling to try the live tool</span>'
-        '</div><div style="margin-top:10px;font-size:.85rem;color:#4b5a61">Yanick Sanchez · '
-        '<a href="https://github.com/yanicksanchez14-creator/bluecarbon-ai" target="_top" style="color:#3f5f50">'
-        'source code on GitHub</a></div></div>'
+        f'<div class="bc-links"><a href="{SITE}" target="_blank">Website</a>'
+        f'<a href="{SITE}explore.html" target="_blank">Site maps</a>'
+        f'<a href="{SITE}methodology.html" target="_blank">Methodology</a></div></div>'
         '<h1 style="font-family:var(--serif);font-weight:400;font-size:2.6rem;margin:0 0 .3rem">Analyze an area</h1>',
         unsafe_allow_html=True)
 tab_analyze = st.container()

@@ -207,7 +207,7 @@ def build(out: Path, pdf: bool = True) -> dict:
     }
     (data / "sites.json").write_text(json.dumps(doc, separators=(",", ":")))
     _kelp(out)
-    _methodology(out)
+    _methodology(out, doc)
     _chrome(out)
     _cache_bust(out)
     (out / ".nojekyll").write_text("")
@@ -256,7 +256,52 @@ def _cache_bust(out: Path) -> None:
         page.write_text(html)
 
 
-def _methodology(out: Path) -> None:
+def _error_table(doc: dict) -> str:
+    """'Error on every number': what each published number is, and how wrong it can be."""
+    import html as h
+
+    iou = (doc.get("model") or {}).get("iou") or {}
+    f = lambda k: f"{iou[k]:.2f}" if iou.get(k) is not None else "–"  # noqa: E731
+    hist = next((s["history"]["model"] for s in doc["sites"] if s.get("history")), None)
+    hiou = (hist or {}).get("iou") or {}
+    kelp_p = ROOT / "demo_kelp" / "calibration.json"
+    kc = json.loads(kelp_p.read_text()) if kelp_p.exists() else {}
+    ks = ((kc.get("held_out") or {}).get("site_quarter_ha") or {})
+    rows = [
+        ("Habitat map, per pixel", f"Scored on test areas kept out of training (5 whole estuaries plus held-back 5 km "
+         f"blocks): IoU mangrove {f('mangrove')}, "
+         f"salt marsh {f('saltmarsh')}, seagrass {f('seagrass')}", "Model test set, published with every model"),
+        ("Habitat areas (ha)", "Corrected for the model's known mistakes with its held-out confusion matrix; 95% interval "
+         "shown. Site screens add a plain-language range of \u00b1(1 \u2212 F1)", "Olofsson et al. (2014)"),
+        ("Soil carbon (t C/ha)", "Measured: 5-95% range of nearby soil cores, widened when few independent studies. "
+         "Otherwise the IPCC Tier 1 range", "Smithsonian Coastal Carbon Library; IPCC 2013 Wetlands Supplement"),
+        ("Mangrove biomass (t C/ha)", "NASA canopy-height biomass map \u00b130% (no per-pixel error published), "
+         "times IPCC carbon fraction and root ratio 95% intervals. Otherwise the IPCC range",
+         "Simard et al. (2019); IPCC Tables 4.2 and 4.5"),
+        ("Other biomass and burial rates", "IPCC Tier 1 ranges", "IPCC 2013 Wetlands Supplement"),
+        ("Carbon stored and absorbed", "5,000 Monte Carlo draws over every input above at once; 90% interval shown",
+         "Our own propagation"),
+        ("Credit potential", "Low, mid and high from the absorption range, after risk buffer, leakage and uncertainty "
+         "deductions. Illustrative: registries set the real deductions", "Business-plan formula; Verra VM0033"),
+        ("Sea-level-rise room (ha)", "No statistical error: elevation is NASADEM, which reads the top of vegetation, so "
+         "the room is a conservative low estimate", "NASADEM; ESA WorldCover; IPCC AR6 for 2100"),
+        ("Model confidence", "The model's own probability per pixel. Not yet calibrated against held-out accuracy, so "
+         "read it as a ranking of where to doubt the map", "Our model"),
+        ("Habitat since 1985 (ha)", "Separate Landsat model, IoU on the 5 held-out estuaries: "
+         + (", ".join(f"{k.replace('saltmarsh', 'salt marsh')} {v:.2f}" for k, v in hiou.items()
+                      if k in ("mangrove", "saltmarsh", "seagrass") and v is not None) or "published after the first run")
+         + "; 95% interval per year", "Landsat 5/7/8/9; Olofsson et al. (2014)"),
+        ("Kelp canopy (ha per quarter)", (f"Against Kelpwatch on kelp beds left out of calibration: r\u00b2 {ks['r2']}, "
+                                          f"error \u00b1{ks['rmse']} ha, bias {ks['bias']} ha")
+         if ks.get("r2") is not None else "Published after the first calibration run", "Kelpwatch (UC Santa Barbara)"),
+    ]
+    body = "".join(f"<tr><td>{h.escape(a)}</td><td>{h.escape(b)}</td><td>{h.escape(c)}</td></tr>" for a, b, c in rows)
+    return ("<h2 id='error-on-every-number'>Error on every number</h2><p>Every number this site and its reports "
+            "publish, with how wrong it can be and where that comes from.</p><table><thead><tr><th>Number</th>"
+            f"<th>Error published</th><th>Source</th></tr></thead><tbody>{body}</tbody></table>")
+
+
+def _methodology(out: Path, doc: dict | None = None) -> None:
     import re
 
     import markdown
@@ -270,6 +315,8 @@ def _methodology(out: Path) -> None:
     # The text diagram in the Markdown (for GitHub) becomes a real figure on the website.
     fig = (ROOT / "site" / "partials" / "pipeline.html").read_text()
     html = re.sub(r"<pre><code>[^<]*Sentinel-2 L2A.*?</code></pre>", lambda _: fig, html, count=1, flags=re.S)
+    if doc is not None:  # the error table goes right after the pipeline figure
+        html = html.replace("</figure>", "</figure>" + _error_table(doc), 1)
     page = out / "methodology.html"
     page.write_text(page.read_text().replace("<!-- METHODOLOGY -->", html))
 

@@ -149,6 +149,19 @@ def fetch_zip(url: str, bbox: list[float], cache: Path = SURVEY_CACHE, layer: st
 
 
 def fetch_survey(s: dict, bbox: list[float]) -> list[dict]:
+    """Features of one survey inside bbox. `fallback_urls`: mirrors of the same layer, tried in order when the
+    main server can't be reached (e.g. gisrest.defra.gov.uk times out from Colab)."""
+    urls = [s["url"]] + list(s.get("fallback_urls") or [])
+    for i, u in enumerate(urls):
+        try:
+            return _fetch_one({**s, "url": u}, bbox)
+        except Exception:
+            if i == len(urls) - 1:
+                raise
+    return []
+
+
+def _fetch_one(s: dict, bbox: list[float]) -> list[dict]:
     if s["kind"] == "arcgis":
         return fetch_arcgis(s["url"], bbox, s.get("where", "1=1"), page=s.get("page", 500),
                             timeout=s.get("timeout", 120))
@@ -284,7 +297,9 @@ def apply_surveys(label_path: str | Path, image_path: str | Path, bbox: list[flo
                 if report is not None and n:
                     report.setdefault("label_sources", []).append(s["name"])
             except Exception as e:  # never let an unreachable survey stop the run
-                log(f"  seagrass survey {s['name']} skipped ({str(e)[:120]})")
+                log(f"  survey {s['name']} skipped ({str(e)[:120]})")
+                if report is not None:   # recorded, so the next fetch rebuilds this site's labels
+                    report.setdefault("label_failures", []).append(s["name"])
         ds.write(lab, 1)
     return total
 

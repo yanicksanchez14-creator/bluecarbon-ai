@@ -80,10 +80,17 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
             typer.echo(f"[{site['name']}] built-up layer ...")
             gee.download_built(site["bbox"], d / "built.tif", cfg)
-        if labels_only and (d / "meta.json").exists() and \
-                gee.LABEL_VERSION in json.loads((d / "meta.json").read_text()).get("label_sources", []):
-            typer.echo(f"[{site['name']}] labels already up to date, skipping (delete meta.json to redo)")
-            continue
+        from .surveys import _intersects
+
+        # survey servers fixed since a site was labelled (a new mirror): rebuild only the sites they cover
+        relabel = [f"relabel:{s['name']}" for s in cfg.labels.seagrass_surveys
+                   if s.get("relabel_once") and _intersects(site["bbox"], s.get("extent", [-180, -90, 180, 90]))]
+        if labels_only and (d / "meta.json").exists():
+            m = json.loads((d / "meta.json").read_text())
+            done = m.get("label_sources", []) + m.get("relabel_done", [])
+            if gee.LABEL_VERSION in done and not m.get("label_failures") and all(r in done for r in relabel):
+                typer.echo(f"[{site['name']}] labels already up to date, skipping (delete meta.json to redo)")
+                continue
         region = gee.bbox_geometry(site["bbox"])
         if not (labels_only and (d / "image.tif").exists()):
             img = gee.s2_composite(region, f"{year}-01-01", f"{year + 1}-01-01", cfg)
@@ -106,7 +113,8 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if cfg.labels.seagrass_max_depth_m:
             ignore_deep_seagrass(d / "label.tif", d / "ancillary.tif", cfg.labels.seagrass_max_depth_m, typer.echo)
         hist = postprocess_label_file(d / "label.tif", cfg.labels.boundary_ignore_px, cfg.labels.overrides)
-        (d / "meta.json").write_text(json.dumps({**site, "year": year, "label_px": hist, **info}, indent=2))
+        (d / "meta.json").write_text(json.dumps({**site, "year": year, "label_px": hist, **info,
+                                                 "relabel_done": relabel}, indent=2))
         typer.echo(f"[{site['name']}] label pixels: {hist}  sources: {info.get('label_sources')}")
 
 

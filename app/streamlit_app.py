@@ -869,6 +869,10 @@ with tab_analyze:
         if feat:
             coords = np.array(feat["geometry"]["coordinates"][0])
             bbox = [coords[:, 0].min(), coords[:, 1].min(), coords[:, 0].max(), coords[:, 1].max()]
+            # The map wraps around the world, so a box drawn after panning past the date line has
+            # longitudes beyond +/-180 (e.g. 513 for Australia). Bring it back to -180..180.
+            shift = 360 * math.floor((bbox[0] + 180) / 360)
+            bbox = [float(bbox[0] - shift), float(bbox[1]), float(bbox[2] - shift), float(bbox[3])]
             km2 = box_km2(bbox)
         too_big = km2 is not None and km2 > MAX_AREA_KM2
         if km2 is not None:

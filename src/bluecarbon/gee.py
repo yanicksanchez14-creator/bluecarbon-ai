@@ -98,7 +98,8 @@ class _Watchdog:
 
 # --------------------------------------------------------------------------- geometry
 def utm_epsg(lon: float, lat: float) -> int:
-    zone = int(math.floor((lon + 180) / 6) + 1)
+    lon = (lon + 180) % 360 - 180  # wrapped map longitudes (e.g. 513) -> -180..180
+    zone = min(60, int(math.floor((lon + 180) / 6) + 1))
     return (32600 if lat >= 0 else 32700) + zone
 
 

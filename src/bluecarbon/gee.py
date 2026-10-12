@@ -519,7 +519,7 @@ def landsat_composite(region, year: int, half_window: int = 1):
             sr = im.select(bands).multiply(0.0000275).add(-0.2)
             if not oli:
                 sr = sr.multiply(ee.Image.constant(_ROY_SLOPE)).add(ee.Image.constant(_ROY_ITCP))
-            return sr.rename(LANDSAT_BANDS).updateMask(clear)
+            return sr.rename(LANDSAT_BANDS).updateMask(clear).toFloat()  # same band type in every sensor
         cols.append(ee.ImageCollection(cid).filterBounds(region).filterDate(start, end).map(prep))
     merged = cols[0].merge(cols[1]).merge(cols[2]).merge(cols[3])
     return merged.median().clamp(0, 1).multiply(10000).toUint16()

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 
 from .features import REFLECTANCE_SCALE, S2_BANDS
@@ -69,6 +71,7 @@ def confidence_rgba(conf_pct: np.ndarray, class_map: np.ndarray, only: list[int]
 def save_png(rgba: np.ndarray, path) -> None:
     import matplotlib.pyplot as plt
 
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     plt.imsave(path, rgba)
 
 

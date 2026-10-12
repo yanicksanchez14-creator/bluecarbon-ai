@@ -107,7 +107,13 @@ def main() -> None:
     kw_path = a.kelpwatch if a.kelpwatch.exists() else download_kelpwatch(a.kelpwatch)
     samples, per_site = [], {}
     for s in spec["sites"]:
-        kw = read_kelpwatch(kw_path, s["bbox"])
+        kw_cache = WORK / s["name"] / "kelpwatch_site.npz"  # on Drive: a disconnect never repeats this slow read
+        if kw_cache.exists():
+            kw = dict(np.load(kw_cache))
+        else:
+            kw = read_kelpwatch(kw_path, s["bbox"])
+            kw_cache.parent.mkdir(parents=True, exist_ok=True)
+            np.savez_compressed(kw_cache, **{k: np.asarray(v) for k, v in kw.items()})
         tidx = {(int(y), int(q)): i for i, (y, q) in enumerate(zip(kw["year"], kw["quarter"], strict=True))}
         per_site[s["name"]] = []
         for y, q in qs:
@@ -124,7 +130,15 @@ def main() -> None:
         print(f"{s['name']}: {len(per_site[s['name']])} quarters, {len(kw['lat'])} Kelpwatch pixels", flush=True)
 
     test = {s["name"] for s in spec["sites"] if s.get("role") == "test"}
-    cal = calibrate(samples, test)
+    cal_cache = WORK / "calibration_cache.json"  # on Drive, so a disconnect after calibrating never repeats it
+    key = {"sites": sorted(s["name"] for s in spec["sites"]), "test": sorted(test), "n_samples": len(samples)}
+    cached = json.loads(cal_cache.read_text()) if cal_cache.exists() else {}
+    if cached.get("key") == key:
+        cal = cached["cal"]
+        print("using saved calibration from Drive", flush=True)
+    else:
+        cal = calibrate(samples, test)
+        cal_cache.write_text(json.dumps({"key": key, "cal": cal}))
     print(json.dumps(cal, indent=1), flush=True)
     shutil.rmtree(OUT, ignore_errors=True)
     save_json({**cal, "sites_calibration": sorted({s["name"] for s in spec["sites"]} - test),

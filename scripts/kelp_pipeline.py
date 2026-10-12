@@ -208,9 +208,13 @@ def main() -> None:
         if not a.no_fetch:
             fetch(spec, qs_ls, cfg, ls_dir, gee.download_kelp_quarter_landsat, "Landsat")
         smp_ls, per_ls = load_samples(spec, qs_ls, ls_dir, 30, kw_path)
+        fit = lambda s: s["year"] % 2 == 0 and s["quarter"] in (2, 3)  # noqa: E731
+        for rows in per_ls.values():   # 1,400 quarters: keep memory low (half precision, cache only the fit subset)
+            for s in rows:
+                s["fai"] = s["fai"].astype(np.float16)
+                s["_nocache"] = not fit(s)
         if smp_ls:
-            cal_ls = cached_calibration("landsat", smp_ls, test, zones,
-                                        fit_filter=lambda s: s["year"] % 2 == 0 and s["quarter"] in (2, 3))
+            cal_ls = cached_calibration("landsat", smp_ls, test, zones, fit_filter=fit)
             c = json.loads((OUT / "calibration.json").read_text())
             c["landsat"] = cal_ls
             save_json(c, OUT / "calibration.json")

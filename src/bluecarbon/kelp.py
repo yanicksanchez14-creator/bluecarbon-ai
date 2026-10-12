@@ -91,6 +91,8 @@ def kelp_fraction(fai_p90: np.ndarray, land: np.ndarray, px_m: float, threshold:
 
 
 def _sample_fraction(s: dict, threshold: float, endmember: float, shore_m: float = 0.0) -> np.ndarray:
+    if s.get("_nocache"):  # long records (Landsat 1984-2015): only the fitting subset is cached, to save memory
+        return fraction_from_signal(kelp_signal(s["fai"], s["land"], s["px_m"]), threshold, endmember, shore_m)
     if "_sig" not in s:  # cache the expensive part on the sample
         s["_sig"] = kelp_signal(s["fai"], s["land"], s["px_m"])
     return fraction_from_signal(s["_sig"], threshold, endmember, shore_m)

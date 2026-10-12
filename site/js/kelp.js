@@ -272,6 +272,15 @@
     sites.forEach(s => L.circleMarker([(s.bounds[0][0] + s.bounds[1][0]) / 2, (s.bounds[0][1] + s.bounds[1][1]) / 2],
       { radius: 6, weight: 2, color: "#fff", fillColor: s.held_out ? KW : OURS, fillOpacity: 1 })
       .bindTooltip(s.title).on("click", () => select(s, true)).addTo(map));
+    const first = Math.min(...sites.map(s => (s.kelpwatch_history || s.series)[0]?.year ?? 9999));
+    const pics = sites.some(s => (s.rgb_years || []).length);
+    if (first < 2016) {
+      $("ktitle").textContent = `California's kelp forests, from ${first} to this quarter`;
+      $("klede").textContent = `${pics ? `A summer satellite picture of every kelp bed for every year since ${first}, our` : "Our"} ` +
+        `Sentinel-2 canopy map for every quarter since 2016, and the Kelpwatch record since ${first} for comparison. ` +
+        "Drag the timeline, or press play.";
+    }
+    if (!pics) { const b = document.querySelector('[data-layer="rgb"]'); b.hidden = true; show.rgb = false; }
     figures(sites, d.calibration); story(sites); accuracy(d.calibration);
     select(sites.find(s => s.name === "santa_barbara") || sites[0], false);
   });

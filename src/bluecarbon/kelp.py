@@ -156,7 +156,7 @@ def read_kelpwatch(nc_path: Path, bbox: list[float]) -> dict:
     keep = (lon >= w) & (lon <= e) & (lat >= s) & (lat <= n)
     area = ds[area_n]
     st_dim = ds[lat_n].dims[0]
-    area = area.transpose(..., st_dim).values[..., keep]
+    area = area.isel({st_dim: np.flatnonzero(keep)}).transpose(..., st_dim).values  # load only this site, not 2.3 GB
     return {"lat": lat[keep], "lon": lon[keep], "year": ds[year_n].values.astype(int),
             "quarter": ds[q_n].values.astype(int), "area_m2": np.nan_to_num(area.astype(np.float64))}
 

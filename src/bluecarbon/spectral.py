@@ -179,7 +179,11 @@ def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, 
     rng = np.random.default_rng(seed)
     tr = [r for r in records if r.split == "train"]
     use_anc = chips_have_ancillary(records)
-    names = chip_feature_names(records, use_anc)
+    names = chip_feature_names(records, use_anc, log)
+    from .data import drop_unsupported
+
+    records = drop_unsupported(records, names) if use_anc else records
+    tr = [r for r in records if r.split == "train"]
     xs, ys = [], []
     for r in tr:
         img, lab = load_chip(r.path)

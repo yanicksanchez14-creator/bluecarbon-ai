@@ -140,7 +140,10 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     np.random.seed(cfg.chips.seed)
     device = resolve_device(cfg.train.device)
     use_anc = cfg.model.use_ancillary and chips_have_ancillary(records)
-    features = chip_feature_names(records, use_anc)
+    features = chip_feature_names(records, use_anc, log)
+    from .data import drop_unsupported
+
+    tr, va = drop_unsupported(tr, features), drop_unsupported(va, features)
     log(f"inputs: {len(features)} features: {', '.join(features)}")
     norm = fit_normalizer(tr, use_anc=use_anc, names=features)
     freq = class_frequencies(tr)

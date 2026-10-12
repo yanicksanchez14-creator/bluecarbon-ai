@@ -43,3 +43,20 @@ def test_height_biomass_fit_recovers_power_law():
     r = fit_height_biomass(list(zip(h, 4 * h ** 1.3 * np.exp(rng.normal(0, 0.2, 300)), strict=True)))
     assert abs(r["hb_b"] - 1.3) < 0.1 and r["hb_r2_cv"] > 0.8
     assert fit_height_biomass([(5, 10)] * 10) == {}
+
+
+def test_missing_lband_drops_sites_not_the_input(tmp_path):
+    from bluecarbon.data import chip_feature_names, drop_unsupported
+    from bluecarbon.tiling import ChipRecord
+
+    recs = []
+    for i in range(10):
+        bands = 12 if i else 10          # site s0 has no L-band (failed download)
+        p = tmp_path / f"c{i}.npz"
+        np.savez(p, image=np.zeros((10, 4, 4), np.uint16), label=np.zeros((4, 4), np.uint8),
+                 anc=np.zeros((bands, 4, 4), np.int16))
+        recs.append(ChipRecord(path=str(p), site=f"s{i}", split="test" if i == 9 else "train", row=0, col=0,
+                                labeled_frac=1.0))
+    names = chip_feature_names(recs, True, log=lambda *_: None)
+    assert "ALOS_HH" in names
+    assert {r.site for r in drop_unsupported(recs, names)} == {f"s{i}" for i in range(1, 10)}

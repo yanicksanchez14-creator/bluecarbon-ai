@@ -25,15 +25,40 @@ def chips_have_ancillary(records: list[ChipRecord]) -> bool:
     return bool(records) and all(load_chip_anc(r.path) is not None for r in records[:50])
 
 
-def chip_feature_names(records: list[ChipRecord], use_anc: bool) -> list[str]:
-    """Feature names the chips support (all chips must share one ancillary layout)."""
+def _site_feature_sets(records: list[ChipRecord]) -> dict[str, tuple[str, ...]]:
+    from .features import default_feature_names
+
+    first: dict[str, ChipRecord] = {}
+    for r in records:
+        first.setdefault(r.site, r)
+    return {s: tuple(default_feature_names(load_chip_anc(r.path))) for s, r in first.items()}
+
+
+def chip_feature_names(records: list[ChipRecord], use_anc: bool, log=print) -> list[str]:
+    """Feature names for training: the richest input set (e.g. with L-band radar) that every held-out site and at
+    least 85% of all sites have. Sites missing it (a failed download) are dropped from training by
+    `drop_unsupported` instead of silently removing that input for every site."""
     from .features import default_feature_names
 
     if not use_anc:
         return default_feature_names(None)
-    step = max(1, len(records) // 200)  # sample across all sites, not every chip
-    sets = {tuple(default_feature_names(load_chip_anc(r.path))) for r in records[::step]}
-    return list(min(sets, key=len))
+    sets = _site_feature_sets(records)
+    test_sites = {r.site for r in records if r.split == "test"}
+    for cand in sorted(set(sets.values()), key=len, reverse=True):
+        has = [s for s, fs in sets.items() if set(cand) <= set(fs)]
+        if set(test_sites) <= set(has) and len(has) >= 0.85 * len(sets):
+            missing = sorted(set(sets) - set(has))
+            if missing:
+                log(f"WARNING: {len(missing)} site(s) lack some inputs and are left out of training: "
+                    + ", ".join(missing))
+            return list(cand)
+    return list(min(sets.values(), key=len))
+
+
+def drop_unsupported(records: list[ChipRecord], names: list[str]) -> list[ChipRecord]:
+    sets = _site_feature_sets(records)
+    ok = {s for s, fs in sets.items() if set(names) <= set(fs)}
+    return [r for r in records if r.site in ok]
 
 
 class ChipDataset(Dataset):

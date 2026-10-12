@@ -1,70 +1,278 @@
-/* Kelp page: map of kelp beds, quarterly canopy chart (ours vs Kelpwatch), latest canopy overlay. */
+/* Kelp page: explorer with a quarter-by-quarter timeline (1984 on), yearly satellite pictures, our Sentinel-2
+   canopy maps (2016 on), Kelpwatch's Landsat record for comparison, a 40-year chart and a bed-by-bed summary. */
 (function () {
-  const map = L.map("kmap", { scrollWheelZoom: false }).setView([34.6, -119.6], 6);
-  L.tileLayer(BC.ESRI, { attribution: BC.ESRI_ATTR, maxZoom: 16 }).addTo(map);
-  const panel = document.getElementById("kpanel");
-  let overlay = null;
+  const OURS = "#d6a026", KW = "#6fd3bf", HEAT = [2014, 2017];   // 2014-2016 marine heatwave ("the Blob")
+  const $ = id => document.getElementById(id);
+  const qkey = (y, q) => `${y}_${q}`;
+  const qlab = (y, q) => `${y} Q${q}`;
+  const MONTHS = ["", "Jan to Mar", "Apr to Jun", "Jul to Sep", "Oct to Dec"];
+  const tnum = (y, q) => y + (q - 1) / 4;
 
-  function chart(series) {
-    const s = series.filter(r => r.coverage >= 0.5);
-    if (s.length < 2) return "<p class='small-note'>Not enough clear quarters yet.</p>";
-    const W = 420, H = 190, L0 = 46, R = 14, T = 10, B = 24;
-    const t = r => r.year + (r.quarter - 1) / 4;
-    const x0 = t(s[0]), x1 = t(s[s.length - 1]);
-    const ymax = Math.max(...s.map(r => Math.max(r.canopy_ha + (r.plus_minus_ha || 0), r.kelpwatch_ha || 0))) * 1.1 || 1;
-    const X = v => L0 + (W - L0 - R) * (v - x0) / (x1 - x0 || 1), Y = v => T + (H - T - B) * (1 - v / ymax);
-    const ours = s.map(r => `${X(t(r))},${Y(r.canopy_ha)}`).join(" ");
-    const kwp = s.filter(r => r.kelpwatch_ha != null);
-    const kwl = kwp.map(r => `${X(t(r))},${Y(r.kelpwatch_ha)}`).join(" ");
-    const band = s.some(r => r.plus_minus_ha) ? `<polygon fill="#d6a026" opacity=".15" points="${s.map(r => `${X(t(r))},${Y(r.canopy_ha + r.plus_minus_ha)}`).join(" ")} ${s.slice().reverse().map(r => `${X(t(r))},${Y(Math.max(0, r.canopy_ha - r.plus_minus_ha))}`).join(" ")}"/>` : "";
-    const years = [...new Set(s.map(r => r.year))].filter((y, i, a) => a.length < 8 || y % 2 === 0)
-      .map(y => `<text x="${X(y)}" y="${H - 6}" text-anchor="middle">${y}</text>`).join("");
-    const ticks = [0, ymax / 2, ymax].map(v => `<text x="${L0 - 6}" y="${Y(v) + 4}" text-anchor="end">${BC.fmt(v)}</text><line x1="${L0}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/>`).join("");
-    return `<svg class="hist" viewBox="0 0 ${W} ${H}" role="img" aria-label="Kelp canopy area by quarter">${ticks}${years}${band}
-      ${kwl ? `<polyline points="${kwl}" fill="none" stroke="#6f7e81" stroke-width="1.5" stroke-dasharray="4 3"/>` : ""}
-      <polyline points="${ours}" fill="none" stroke="#d6a026" stroke-width="2"/></svg>
-      <div class="map-legend" style="position:static;box-shadow:none;padding:4px 0;display:flex;gap:14px">
-        <span><i style="background:#d6a026"></i>BlueCarbon-AI (Sentinel-2)</span><span><i style="background:#6f7e81"></i>Kelpwatch (Landsat)</span></div>`;
+  const map = L.map("kmap", { scrollWheelZoom: false, zoomControl: true, attributionControl: true }).setView([34.6, -119.6], 6);
+  L.tileLayer(BC.ESRI, { attribution: BC.ESRI_ATTR + " · Kelpwatch: SBC LTER (CC BY 4.0)", maxZoom: 17 }).addTo(map);
+  map.createPane("rgb").style.zIndex = 390;
+  map.createPane("canopy").style.zIndex = 420;
+  const show = { rgb: true, ours: true, kw: false };
+  let doc = null, site = null, T = [], idx = 0, timer = null, layers = { rgb: null, ours: null, kw: null };
+
+  // ---------------------------------------------------------------------------------------------- data
+  function annualPeak(rows, val) {          // {year: largest quarter of the year}
+    const out = {};
+    rows.forEach(r => { const v = val(r); if (v != null && (out[r.year] == null || v > out[r.year])) out[r.year] = v; });
+    return out;
+  }
+  const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  function stats(s) {
+    const kwh = s.kelpwatch_history || [];
+    const ours = s.series.filter(r => r.coverage >= 0.5);
+    const kp = annualPeak(kwh, r => r.ha), op = annualPeak(ours, r => r.canopy_ha);
+    const before = mean(Object.entries(kp).filter(([y]) => +y < HEAT[0]).map(([, v]) => v));
+    const lowYears = Object.entries(kp).filter(([y]) => +y >= HEAT[0] && +y < HEAT[1]);
+    const low = lowYears.length ? lowYears.reduce((m, e) => (e[1] < m[1] ? e : m)) : null;
+    const lastFull = Math.max(...ours.filter(r => r.quarter === 4).map(r => r.year), -Infinity);
+    const latestYear = Number.isFinite(lastFull) ? lastFull : null;
+    const latest = latestYear != null ? op[latestYear] : null;
+    return { kp, op, before, low, latestYear, latest, ratio: before && latest != null ? latest / before : null };
+  }
+  function timeline(s) {
+    const keys = new Map();
+    (s.kelpwatch_history || []).forEach(r => keys.set(qkey(r.year, r.quarter), [r.year, r.quarter]));
+    s.series.forEach(r => keys.set(qkey(r.year, r.quarter), [r.year, r.quarter]));
+    const all = [...keys.values()].sort((a, b) => tnum(...a) - tnum(...b));
+    if (!all.length) return [];
+    const out = [];
+    for (let y = all[0][0], q = all[0][1]; tnum(y, q) <= tnum(...all[all.length - 1]); q === 4 ? (y++, q = 1) : q++) out.push([y, q]);
+    return out;
+  }
+  const at = (s, y, q) => ({
+    ours: s.series.find(r => r.year === y && r.quarter === q),
+    kw: (s.kelpwatch_history || []).find(r => r.year === y && r.quarter === q),
+  });
+
+  // ---------------------------------------------------------------------------------------------- map layers
+  function overlay(name, url, bounds, opacity) {
+    if (!url || !bounds) { if (layers[name]) { map.removeLayer(layers[name]); layers[name] = null; } return; }
+    if (layers[name]) { if (layers[name]._url !== url) layers[name].setUrl(url); layers[name].setBounds(L.latLngBounds(bounds)); }
+    else layers[name] = L.imageOverlay(url, bounds, { opacity, pane: name === "rgb" ? "rgb" : "canopy", interactive: false }).addTo(map);
+  }
+  const base = s => `data/kelp/${s.name}`;
+  function urls(s, y, q) {
+    const k = qkey(y, q);
+    const frames = s.frames || [];
+    const latestKey = qkey(s.latest.year, s.latest.quarter);
+    return {
+      rgb: (s.rgb_years || []).includes(y) ? `${base(s)}/rgb/${y}.jpg` : null,
+      ours: frames.includes(k) ? `${base(s)}/frames/${k}.png` : (!frames.length && k === latestKey ? `${base(s)}/canopy_latest.png` : null),
+      kw: (s.kw_years || []).includes(y) ? `${base(s)}/kw/${y}.png` : null,
+    };
+  }
+  function preload(s, i) {
+    for (let j = i + 1; j < Math.min(T.length, i + 6); j++) Object.values(urls(s, ...T[j])).forEach(u => { if (u) new Image().src = u; });
+  }
+  function render() {
+    if (!site || !T.length) return;
+    const [y, q] = T[idx];
+    const u = urls(site, y, q);
+    overlay("rgb", show.rgb ? u.rgb : null, site.rgb_bounds || site.bounds, 1);
+    overlay("ours", show.ours ? u.ours : null, site.frame_bounds || site.bounds, 0.95);
+    overlay("kw", show.kw || (show.ours && !u.ours && u.kw) ? u.kw : null, site.kw_bounds || site.bounds, 0.9);
+    const v = at(site, y, q);
+    const src = u.ours && show.ours ? "BlueCarbon-AI canopy" : (layers.kw ? "Kelpwatch canopy (yearly peak)" : "no canopy map for this quarter");
+    $("kstamp").innerHTML = `<b>${y}</b><span>Q${q} · ${MONTHS[q]}</span><small>${u.rgb && show.rgb ? `Summer ${y} picture · ` : ""}${src}</small>`;
+    $("kslider").value = idx;
+    $("kslider").setAttribute("aria-valuetext", qlab(y, q));
+    cursor(y, q);
+    panel(v, y, q, u);
+    preload(site, idx);
   }
 
-  function show(site, cal) {
-    if (overlay) map.removeLayer(overlay);
-    overlay = L.imageOverlay(`data/kelp/${site.name}/canopy_latest.png`, site.bounds).addTo(map);
-    map.fitBounds(site.bounds, { padding: [20, 20] });
-    const last = site.series.filter(r => r.coverage >= 0.5).slice(-1)[0];
-    const peak = site.series.reduce((m, r) => r.coverage >= 0.5 && r.canopy_ha > (m ? m.canopy_ha : -1) ? r : m, null);
-    const ho = (cal.held_out || {}).site_quarter_ha || {};
-    panel.innerHTML = `<span class="badge${site.held_out ? "" : " train"}">${site.held_out ? "Left out of calibration" : "Calibration site"}</span>
-      <h1>${BC.esc(site.title)}</h1><p class="where">${BC.esc(site.region)}, ${BC.esc(site.species)}</p>
-      <div class="kpis">
-        <div><b>${last ? BC.fmt(last.canopy_ha) : "–"}</b><small>hectares of canopy, ${last ? `${last.year} Q${last.quarter}` : ""}</small></div>
-        <div><b>${peak ? BC.fmt(peak.canopy_ha) : "–"}</b><small>peak quarter since ${site.series[0].year}${peak ? ` (${peak.year} Q${peak.quarter})` : ""}</small></div>
+  // ---------------------------------------------------------------------------------------------- chart
+  let chartScale = null;
+  function chart(s) {
+    const W = 1000, H = 210, L0 = 46, R = 12, T0 = 12, B = 26;
+    const ours = s.series.filter(r => r.coverage >= 0.5), kwh = s.kelpwatch_history || [];
+    if (!T.length) { $("kchart").innerHTML = ""; return; }
+    const x0 = tnum(...T[0]), x1 = tnum(...T[T.length - 1]) + 0.25;
+    const ymax = Math.max(1, ...ours.map(r => r.canopy_ha + (r.plus_minus_ha || 0)), ...kwh.map(r => r.ha)) * 1.08;
+    const X = v => L0 + (W - L0 - R) * (v - x0) / (x1 - x0 || 1), Y = v => T0 + (H - T0 - B) * (1 - v / ymax);
+    chartScale = { X, x0, x1, L0, R, W };
+    const step = x1 - x0 > 20 ? 5 : x1 - x0 > 8 ? 2 : 1;
+    const years = []; for (let yy = Math.ceil(x0 / step) * step; yy <= x1; yy += step) years.push(yy);
+    const grid = years.map(yy => `<line class="g" x1="${X(yy)}" x2="${X(yy)}" y1="${T0}" y2="${H - B}"/><text x="${X(yy)}" y="${H - 8}" text-anchor="middle">${yy}</text>`).join("");
+    const yt = [0, ymax / 2, ymax].map(v => `<text x="${L0 - 6}" y="${Y(v) + 4}" text-anchor="end">${BC.fmt(Math.round(v))}</text>`).join("");
+    const heat = HEAT[1] > x0 ? `<rect class="heat" x="${X(Math.max(HEAT[0], x0))}" width="${X(HEAT[1]) - X(Math.max(HEAT[0], x0))}" y="${T0}" height="${H - T0 - B}"/><text class="heat-t" x="${X(Math.max(HEAT[0], x0)) + 4}" y="${T0 + 12}">2014–16 heatwave</text>` : "";
+    const line = (rows, v) => rows.map(r => `${X(tnum(r.year, r.quarter) + 0.125).toFixed(1)},${Y(v(r)).toFixed(1)}`).join(" ");
+    const band = ours.some(r => r.plus_minus_ha) ? `<polygon fill="${OURS}" opacity=".16" points="${line(ours, r => r.canopy_ha + (r.plus_minus_ha || 0))} ${line(ours.slice().reverse(), r => Math.max(0, r.canopy_ha - (r.plus_minus_ha || 0)))}"/>` : "";
+    $("kchart").innerHTML = `<div class="kx-readout" id="kread"></div>
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Canopy area every quarter (hectares)">
+        ${heat}${grid}${yt}${band}
+        ${kwh.length ? `<polyline points="${line(kwh, r => r.ha)}" fill="none" stroke="${KW}" stroke-width="1.4" vector-effect="non-scaling-stroke"/>` : ""}
+        <polyline points="${line(ours, r => r.canopy_ha)}" fill="none" stroke="${OURS}" stroke-width="2.2" vector-effect="non-scaling-stroke"/>
+        <line id="kcur" class="cur" y1="${T0}" y2="${H - B}"/>
+      </svg>
+      <div class="kx-chart-legend"><span><i style="background:${OURS}"></i>BlueCarbon-AI, hectares of canopy (band: ±held-out error)</span>${kwh.length ? `<span><i style="background:${KW}"></i>Kelpwatch</span>` : ""}<span class="hint">Click the chart to jump to a quarter</span></div>`;
+    const svg = $("kchart").querySelector("svg");
+    const pick = e => {
+      const r = svg.getBoundingClientRect(), xv = ((e.clientX - r.left) / r.width) * W;
+      const t = x0 + (xv - L0) / (W - L0 - R) * (x1 - x0);
+      let best = 0; T.forEach((k, i) => { if (Math.abs(tnum(...k) - t) < Math.abs(tnum(...T[best]) - t)) best = i; });
+      return best;
+    };
+    svg.addEventListener("click", e => { stop(); idx = pick(e); render(); });
+    svg.addEventListener("mousemove", e => {
+      const [y, q] = T[pick(e)], v = at(site, y, q);
+      $("kread").textContent = `${qlab(y, q)}: ${v.ours ? `BlueCarbon-AI ${BC.fmt(v.ours.canopy_ha)} ha` : ""}${v.ours && v.kw ? " · " : ""}${v.kw ? `Kelpwatch ${BC.fmt(v.kw.ha)} ha` : ""}` || qlab(y, q);
+    });
+    svg.addEventListener("mouseleave", () => { $("kread").textContent = ""; });
+  }
+  function cursor(y, q) {
+    const c = $("kcur");
+    if (c && chartScale) { const x = chartScale.X(tnum(y, q) + 0.125); c.setAttribute("x1", x); c.setAttribute("x2", x); }
+  }
+
+  // ---------------------------------------------------------------------------------------------- panel
+  function spark(s) {
+    const st = stats(s), pts = Object.entries(Object.keys(st.kp).length ? st.kp : st.op).map(([y, v]) => [+y, v]);
+    if (pts.length < 2) return "";
+    const W = 120, H = 30, x0 = pts[0][0], x1 = pts[pts.length - 1][0], m = Math.max(...pts.map(p => p[1])) || 1;
+    const p = pts.map(([y, v]) => `${(W * (y - x0) / (x1 - x0 || 1)).toFixed(1)},${(H - 2 - (H - 4) * v / m).toFixed(1)}`).join(" ");
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${p}" fill="none" stroke="${Object.keys(st.kp).length ? KW : OURS}" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>`;
+  }
+  function pct(r) { return r == null ? "–" : `${Math.round(r * 100)}%`; }
+  function panel(v, y, q, u) {
+    const s = site, st = stats(s);
+    const cur = v.ours ? `${BC.fmt(v.ours.canopy_ha)} <small>ha</small>` : "–";
+    const kwv = v.kw ? `${BC.fmt(v.kw.ha)} <small>ha</small>` : "–";
+    const why = !v.ours && tnum(y, q) < 2016 ? "Before Sentinel-2: the canopy shown is Kelpwatch's Landsat record."
+      : !v.ours ? "No clear Sentinel-2 view this quarter." : v.ours.coverage < 0.5 ? "Under half the area was clear of cloud this quarter." : "";
+    $("kpanel").innerHTML = `<span class="badge${s.held_out ? "" : " train"}">${s.held_out ? "Left out of calibration" : "Calibration site"}</span>
+      <h1>${BC.esc(s.title)}</h1><p class="where">${BC.esc(s.region)}, ${BC.esc(s.species)}</p>
+      <p class="kx-q">${qlab(y, q)}</p>
+      <div class="kpis kx-kpis">
+        <div><b>${cur}</b><small>BlueCarbon-AI canopy${v.ours && v.ours.plus_minus_ha ? ` ±${BC.fmt(v.ours.plus_minus_ha)} ha` : ""}</small></div>
+        <div><b>${kwv}</b><small>Kelpwatch canopy</small></div>
       </div>
-      <h2>Canopy every quarter (ha)</h2>${chart(site.series)}
-      <p class="small-note">On kelp beds left out of calibration, quarterly canopy agrees with Kelpwatch with r² ${ho.r2 ?? "–"}
-        (error ±${ho.rmse ?? "–"} ha, bias ${ho.bias ?? "–"} ha). Quarters with under half the area clear of cloud are not shown.</p>`;
+      ${why ? `<p class="small-note">${why}</p>` : ""}
+      <h2>The long view</h2>
+      <dl class="kx-dl">
+        ${st.before != null ? `<div><dt>Average yearly peak, 1984–2013</dt><dd>${BC.fmt(st.before)} ha</dd></div>` : ""}
+        ${st.low ? `<div><dt>Lowest during the 2014–16 heatwave</dt><dd>${BC.fmt(st.low[1])} ha (${st.low[0]})</dd></div>` : ""}
+        ${st.latest != null ? `<div><dt>Peak in ${st.latestYear} (BlueCarbon-AI)</dt><dd>${BC.fmt(st.latest)} ha</dd></div>` : ""}
+        ${st.ratio != null ? `<div><dt>${st.latestYear} compared with before the heatwave</dt><dd class="${st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</dd></div>` : ""}
+      </dl>
+      <div class="kx-actions">
+        <button type="button" class="btn btn-line kx-csv">Download data (CSV)</button>
+        <button type="button" class="btn btn-line kx-fit">Zoom to bed</button>
+      </div>`;
+    $("kpanel").querySelector(".kx-csv").addEventListener("click", () => csv(s));
+    $("kpanel").querySelector(".kx-fit").addEventListener("click", () => map.fitBounds(s.bounds, { padding: [20, 20] }));
+  }
+  function csv(s) {
+    const rows = [["year", "quarter", "bluecarbon_ai_ha", "plus_minus_ha", "clear_fraction", "kelpwatch_ha"]];
+    timeline(s).forEach(([y, q]) => {
+      const v = at(s, y, q);
+      rows.push([y, q, v.ours ? v.ours.canopy_ha : "", v.ours ? (v.ours.plus_minus_ha ?? "") : "", v.ours ? v.ours.coverage : "", v.kw ? v.kw.ha : ""]);
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([rows.map(r => r.join(",")).join("\n")], { type: "text/csv" }));
+    a.download = `kelp_${s.name}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
 
-  fetch("data/kelp.json").then(r => r.ok ? r.json() : null).then(doc => {
-    if (!doc || !doc.sites || !doc.sites.length) {
-      panel.innerHTML = `<span class="badge">In calibration</span><h1>First results soon</h1>
-        <p class="desc">Seven California kelp beds, from Point Loma to Mendocino, are being mapped every quarter since 2016
-        and calibrated against Kelpwatch. Results, accuracy and reports appear here when the first run finishes.</p>`;
+  // ---------------------------------------------------------------------------------------------- selection + time
+  function select(s, keepTime) {
+    const prev = T[idx];
+    site = s; T = timeline(s);
+    idx = keepTime && prev ? Math.max(0, T.findIndex(k => k[0] === prev[0] && k[1] === prev[1])) : T.length - 1;
+    if (idx < 0) idx = T.length - 1;
+    $("kslider").max = Math.max(0, T.length - 1);
+    document.querySelectorAll("#kbeds button").forEach(b => b.setAttribute("aria-current", b.dataset.site === s.name ? "true" : "false"));
+    map.fitBounds(s.bounds, { padding: [20, 20] });
+    chart(s); render();
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; $("kplay").innerHTML = "&#9654;"; $("kplay").setAttribute("aria-label", "Play"); } }
+  function play() {
+    if (timer) return stop();
+    if (idx >= T.length - 1) idx = 0;
+    $("kplay").innerHTML = "&#10074;&#10074;"; $("kplay").setAttribute("aria-label", "Pause");
+    timer = setInterval(() => { if (idx >= T.length - 1) return stop(); idx++; render(); }, +$("kspeed").value);
+  }
+  $("kplay").addEventListener("click", play);
+  $("kspeed").addEventListener("change", () => { if (timer) { stop(); play(); } });
+  $("kprev").addEventListener("click", () => { stop(); idx = Math.max(0, idx - 1); render(); });
+  $("knext").addEventListener("click", () => { stop(); idx = Math.min(T.length - 1, idx + 1); render(); });
+  $("kslider").addEventListener("input", e => { stop(); idx = +e.target.value; render(); });
+  document.querySelectorAll(".kx-layers button").forEach(b => b.addEventListener("click", () => {
+    show[b.dataset.layer] = !show[b.dataset.layer]; b.setAttribute("aria-pressed", show[b.dataset.layer]); render();
+  }));
+  document.addEventListener("keydown", e => {
+    if (e.target.closest("input, select, textarea")) return;
+    if (e.key === "ArrowLeft") { stop(); idx = Math.max(0, idx - 1); render(); }
+    if (e.key === "ArrowRight") { stop(); idx = Math.min(T.length - 1, idx + 1); render(); }
+  });
+
+  // ---------------------------------------------------------------------------------------------- page sections
+  function figures(sites, cal) {
+    const sts = sites.map(stats);
+    const lastQ = sites.map(s => s.series.filter(r => r.coverage >= 0.5).slice(-1)[0]).filter(Boolean);
+    const total = lastQ.reduce((a, r) => a + r.canopy_ha, 0);
+    const first = Math.min(...sites.map(s => (s.kelpwatch_history || s.series)[0]?.year ?? 9999));
+    const before = sts.every(x => x.before != null) ? sts.reduce((a, x) => a + x.before, 0) : null;
+    const ho = ((cal || {}).held_out || {}).site_quarter_ha || {};
+    const f = [
+      [`${sites.length}`, "kelp beds, Point Loma to Mendocino"],
+      [`${first}–${Math.max(...sites.map(s => s.latest.year))}`, "years of record on the map"],
+      [`${BC.fmt(Math.round(total))} ha`, `of floating canopy in the latest mapped quarter`],
+    ];
+    if (before != null) f.push([`${BC.fmt(Math.round(before))} ha`, "average yearly peak before the 2014–16 heatwave"]);
+    if (ho.r2 != null) f.push([ho.r2.toFixed(2), "agreement with Kelpwatch on beds never used to tune (r²)"]);
+    $("kfig").innerHTML = f.map(([b, t]) => `<div><b>${b}</b><span>${t}</span></div>`).join("");
+  }
+  function story(sites) {
+    const rows = sites.map(s => [s, stats(s)]);
+    const has = rows.some(([, st]) => st.before != null);
+    $("kstory").innerHTML = `<table class="kstory-t"><thead><tr><th>Kelp bed</th>${has ? "<th>Average yearly peak, 1984–2013</th><th>Heatwave low</th>" : ""}<th>Latest full year</th>${has ? "<th>Now vs before</th>" : "<th>Peak since 2016</th>"}<th>Trend</th></tr></thead><tbody>${rows.map(([s, st]) => {
+      const peak = Object.entries(st.op).reduce((m, e) => (e[1] > (m ? m[1] : -1) ? e : m), null);
+      return `<tr><td><button type="button" data-go="${s.name}">${BC.esc(s.title)}</button><small>${BC.esc(s.species)}</small></td>
+        ${has ? `<td>${st.before != null ? `${BC.fmt(st.before)} ha` : "–"}</td><td>${st.low ? `${BC.fmt(st.low[1])} ha <small>${st.low[0]}</small>` : "–"}</td>` : ""}
+        <td>${st.latest != null ? `${BC.fmt(st.latest)} ha <small>${st.latestYear}</small>` : "–"}</td>
+        ${has ? `<td class="${st.ratio == null ? "" : st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</td>` : `<td>${peak ? `${BC.fmt(peak[1])} ha <small>${peak[0]}</small>` : "–"}</td>`}
+        <td>${spark(s)}</td></tr>`;
+    }).join("")}</tbody></table>
+    <p class="small-note">${has ? "Before and during the heatwave: Kelpwatch (Landsat). Latest year: BlueCarbon-AI (Sentinel-2), which on held-out beds runs within a few hectares of Kelpwatch on average. Yearly peak = the largest quarter of the year." : "The 1984–2015 Kelpwatch record and yearly pictures appear here after the next kelp refresh."}</p>`;
+    $("kstory").querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
+      select(sites.find(s => s.name === b.dataset.go), true);
+      document.querySelector(".kx").scrollIntoView({ behavior: "smooth" });
+    }));
+  }
+  function accuracy(cal) {
+    const ho = ((cal || {}).held_out || {}), sq = ho.site_quarter_ha || {}, cm = ho.cells_m2 || {};
+    const card = (h, n, t) => `<div class="score-card"><p class="sc-h">${h}</p><p class="sc-n">${n}</p><p class="sc-t">${t}</p></div>`;
+    if (sq.r2 == null) return;
+    $("kacc").innerHTML =
+      card("Agreement, site total", sq.r2.toFixed(2), `r² of quarterly canopy against Kelpwatch, ${sq.n} site-quarters`) +
+      card("Tracks the ups and downs", sq.corr.toFixed(2), "Correlation with Kelpwatch over time, through heatwaves and recovery") +
+      card("Typical error", `±${Math.round(sq.rmse)} ha`, `Per site and quarter; average bias ${sq.bias > 0 ? "+" : ""}${sq.bias} ha, so not inflated`) +
+      card("Where the canopy is", cm.r2 != null ? cm.r2.toFixed(2) : "–", "r² of canopy in each 300 m cell, so it is in the right place");
+  }
+
+  fetch("data/kelp.json").then(r => r.ok ? r.json() : null).then(d => {
+    if (!d || !d.sites || !d.sites.length) {
+      $("kpanel").innerHTML = `<span class="badge">In calibration</span><h1>First results soon</h1>`;
       return;
     }
-    doc.sites.forEach(s => {
-      L.circleMarker([(s.bounds[0][0] + s.bounds[1][0]) / 2, (s.bounds[0][1] + s.bounds[1][1]) / 2],
-        { radius: 7, weight: 2, color: "#fff", fillColor: s.held_out ? "#6fd3bf" : "#d6a026", fillOpacity: 1 })
-        .bindTooltip(s.title).on("click", () => show(s, doc.calibration)).addTo(map);
-    });
-    show(doc.sites[0], doc.calibration);
-    const ho = ((doc.calibration || {}).held_out || {}), sq = ho.site_quarter_ha || {}, cm = ho.cells_m2 || {};
-    const card = (h, n, t) => `<div class="score-card"><p class="sc-h">${h}</p><p class="sc-n">${n}</p><p class="sc-t">${t}</p></div>`;
-    const acc = document.getElementById("kacc");
-    if (acc && sq.r2 != null) acc.innerHTML =
-      card("Agreement, site total", sq.r2.toFixed(2), `r\u00b2 of quarterly canopy against Kelpwatch, ${sq.n} site-quarters`) +
-      card("Tracks the ups and downs", sq.corr.toFixed(2), "Correlation with Kelpwatch over time, through heatwaves and recovery") +
-      card("Typical error", `\u00b1${Math.round(sq.rmse)} ha`, `Per site and quarter; average bias ${sq.bias > 0 ? "+" : ""}${sq.bias} ha, so not inflated`) +
-      card("Where the canopy is", cm.r2 != null ? cm.r2.toFixed(2) : "\u2013", "r\u00b2 of canopy in each 300 m cell, so it is in the right place");
+    doc = d;
+    const sites = d.sites.slice().sort((a, b) => b.bounds[1][0] - a.bounds[1][0]);   // north to south
+    $("kbeds").innerHTML = sites.map(s => {
+      const last = s.series.filter(r => r.coverage >= 0.5).slice(-1)[0];
+      return `<li><button type="button" data-site="${s.name}"><span class="nm">${BC.esc(s.title)}</span>
+        <span class="mt">${BC.esc(s.region.split(",")[0])}${s.held_out ? " · held out" : ""}</span>
+        ${spark(s)}<span class="v">${last ? `${BC.fmt(last.canopy_ha)} ha` : "–"}</span></button></li>`;
+    }).join("");
+    $("kbeds").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { stop(); select(sites.find(s => s.name === b.dataset.site), true); }));
+    sites.forEach(s => L.circleMarker([(s.bounds[0][0] + s.bounds[1][0]) / 2, (s.bounds[0][1] + s.bounds[1][1]) / 2],
+      { radius: 6, weight: 2, color: "#fff", fillColor: s.held_out ? KW : OURS, fillOpacity: 1 })
+      .bindTooltip(s.title).on("click", () => select(s, true)).addTo(map));
+    figures(sites, d.calibration); story(sites); accuracy(d.calibration);
+    select(sites.find(s => s.name === "santa_barbara") || sites[0], false);
   });
 })();

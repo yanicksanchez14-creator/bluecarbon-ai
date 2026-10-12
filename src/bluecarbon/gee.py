@@ -679,3 +679,35 @@ def download_kelp_quarter(bbox: list[float], year: int, q: int, out_path: str | 
     c20 = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": SCALE_M})})
     return download(kelp_quarter_image(bbox_geometry(bbox), a, b, cfg), bbox, out_path, c20, "int16", None,
                     ["fai", "n", "land"])
+
+
+def kelp_rgb_image(region, year: int, cfg: Config):
+    """Summer (June to September) true-colour picture of a kelp coast for the website's year slider, as 8-bit
+    RGB. 2016 on: Sentinel-2 (cloud-masked median, 10 m bands). Before: Landsat 5/7/8 surface reflectance
+    (median of that summer's clear scenes; 2012 is Landsat 7 only and shows its scan-line gaps)."""
+    _require_ee()
+    start, end = f"{year}-06-01", f"{year}-10-01"
+    if year >= 2016:
+        ic = cfg.imagery
+        s2 = ee.ImageCollection(ic.collection).filterBounds(region).filterDate(start, end)
+        linked = s2.linkCollection(ee.ImageCollection(ic.cloud_score_collection), [ic.cloud_score_band])
+        rgb = (linked.map(lambda im: im.updateMask(im.select(ic.cloud_score_band).gte(ic.clear_threshold))
+                          .select(["B4", "B3", "B2"]).divide(10000).toFloat())
+               .median().rename(["r", "g", "b"]))
+    else:
+        cols = []
+        for cid, bands in _LS.items():
+            rgb_b = [bands[2], bands[1], bands[0]]   # red, green, blue in that sensor's band names
+
+            def prep(im, rgb_b=rgb_b):
+                clear = im.select("QA_PIXEL").bitwiseAnd(0b11010).eq(0)
+                return im.select(rgb_b).multiply(0.0000275).add(-0.2).rename(["r", "g", "b"]).updateMask(clear).toFloat()
+            cols.append(ee.ImageCollection(cid).filterBounds(region).filterDate(start, end).map(prep))
+        rgb = cols[0].merge(cols[1]).merge(cols[2]).merge(cols[3]).median()
+    return rgb.visualize(bands=["r", "g", "b"], min=0, max=0.16, gamma=1.25).rename(["r", "g", "b"]).unmask(0).toUint8()
+
+
+def download_kelp_rgb(bbox: list[float], year: int, out_path: str | Path, cfg: Config) -> Path:
+    scale = 20 if year >= 2016 else 30
+    c = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": scale})})
+    return download(kelp_rgb_image(bbox_geometry(bbox), year, cfg), bbox, out_path, c, "uint8", 0, ["r", "g", "b"])

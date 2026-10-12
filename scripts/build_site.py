@@ -263,6 +263,9 @@ def _kelp(out: Path) -> None:
             d.mkdir(parents=True, exist_ok=True)
             if (p.parent / "canopy_latest.png").exists():
                 shutil.copy(p.parent / "canopy_latest.png", d / "canopy_latest.png")
+            for sub in ("frames", "kw", "rgb"):   # every quarter's map, Kelpwatch yearly maps, yearly pictures
+                if (p.parent / sub).is_dir():
+                    shutil.copytree(p.parent / sub, d / sub, dirs_exist_ok=True)
             sites.append(json.loads(p.read_text()))
     cal = json.loads((src / "calibration.json").read_text()) if (src / "calibration.json").exists() else {}
     (out / "data" / "kelp.json").write_text(json.dumps({"sites": sites, "calibration": cal}, separators=(",", ":")))

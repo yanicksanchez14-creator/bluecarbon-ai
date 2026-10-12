@@ -56,7 +56,7 @@ def read_quarter(p: Path):
     return fai, n, land.astype(bool), tr, crs
 
 
-def fraction_png(frac: np.ndarray, tr, crs, dst: Path) -> list:
+def fraction_png(frac: np.ndarray, tr, crs, dst: Path, color=(214, 160, 38)) -> list:
     """Kelp fraction as a warm overlay in Web Mercator for the website; returns [[s, w], [n, e]]."""
     import tempfile
 
@@ -75,7 +75,7 @@ def fraction_png(frac: np.ndarray, tr, crs, dst: Path) -> list:
     f = m[0].astype(float)
     rgba = np.zeros((*f.shape, 4), np.uint8)
     on = (f > 0) & (f <= 100)
-    rgba[..., 0], rgba[..., 1], rgba[..., 2] = 214, 160, 38
+    rgba[..., 0], rgba[..., 1], rgba[..., 2] = color
     rgba[..., 3] = np.where(on, 90 + 1.6 * np.clip(f, 0, 100), 0).astype(np.uint8)
     save_png(rgba, dst)
     return bounds
@@ -160,6 +160,10 @@ def main() -> None:
                    "held_out": s["name"] in test, "bbox": s["bbox"], "bounds": bounds, "series": series,
                    "latest": {"year": latest["year"], "quarter": latest["quarter"]}},
                   OUT / s["name"] / "kelp.json")
+    if not a.no_fetch:  # yearly pictures, every quarter's canopy map and Kelpwatch since 1984 for the website
+        from kelp_gallery import build_gallery
+
+        build_gallery(cfg, spec, OUT, WORK, kw_path, cal)
     shutil.make_archive(str(ROOT / "results_kelp"), "zip", str(ROOT), "demo_kelp")
     print("\nDone: results_kelp.zip. Download it with: from google.colab import files; "
           "files.download('results_kelp.zip')")

@@ -16,17 +16,53 @@
 <body>
 <!-- HEADER -->
 <main>
-  <div class="wrap doc-head" style="border-bottom:0;padding-bottom:20px">
+  <div class="wrap doc-head kelp-head">
     <p class="kicker">Kelp canopy (beta)</p>
-    <h1>California kelp forests, every quarter</h1>
-    <p class="lede">Floating kelp canopy mapped from Sentinel-2 every three months since 2016, calibrated against
-      Kelpwatch's diver-checked Landsat record and scored on kelp beds left out of the calibration.</p>
+    <h1>California's kelp forests, from 1984 to this quarter</h1>
+    <p class="lede">A summer satellite picture of every kelp bed for every year since 1984, our Sentinel-2 canopy map
+      for every quarter since 2016, and the Kelpwatch record for comparison. Drag the timeline, or press play.</p>
+    <div class="kfigures" id="kfig" aria-live="polite"></div>
   </div>
-  <div class="wrap kelp-layout">
-    <div class="kelp-map" id="kmap" role="img" aria-label="Map of kelp beds"></div>
-    <section class="kelp-panel" id="kpanel" aria-live="polite"></section>
-  </div>
-  <section class="section" style="padding-top:56px;padding-bottom:0">
+
+  <section class="kx" aria-label="Kelp explorer">
+    <div class="kx-grid">
+      <aside class="kx-list" aria-label="Kelp beds"><p class="kx-label">Kelp beds, north to south</p><ul id="kbeds"></ul></aside>
+      <div class="kx-main">
+        <div class="kx-map-wrap">
+          <div id="kmap" class="kx-map" role="img" aria-label="Map of the selected kelp bed"></div>
+          <div class="kx-stamp" id="kstamp" aria-live="polite"></div>
+          <div class="kx-layers" role="group" aria-label="Map layers">
+            <button type="button" data-layer="rgb" aria-pressed="true">Satellite picture</button>
+            <button type="button" data-layer="ours" aria-pressed="true">Canopy: BlueCarbon-AI</button>
+            <button type="button" data-layer="kw" aria-pressed="false">Canopy: Kelpwatch</button>
+          </div>
+          <div class="kx-legend"><span><i class="sw-ours"></i>BlueCarbon-AI (Sentinel-2, 20 m)</span><span><i class="sw-kw"></i>Kelpwatch (Landsat, 30 m)</span></div>
+        </div>
+        <div class="kx-time">
+          <button type="button" class="kx-play" id="kplay" aria-label="Play">&#9654;</button>
+          <button type="button" class="kx-step" id="kprev" aria-label="Previous quarter">&lsaquo;</button>
+          <input type="range" id="kslider" min="0" max="0" value="0" aria-label="Quarter">
+          <button type="button" class="kx-step" id="knext" aria-label="Next quarter">&rsaquo;</button>
+          <select id="kspeed" aria-label="Speed"><option value="700">1x</option><option value="300" selected>2x</option><option value="120">4x</option></select>
+        </div>
+        <div class="kx-chart" id="kchart"></div>
+      </div>
+      <section class="kx-panel" id="kpanel" aria-live="polite"></section>
+    </div>
+  </section>
+
+  <section class="section kelp-story" style="padding:70px 0 0">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">What the record shows</p><h2>Forty years of canopy, bed by bed</h2></div>
+        <p class="lede">Computed from the Kelpwatch Landsat record (1984 on) and our Sentinel-2 maps (2016 on). Every number
+          updates when a new quarter is mapped.</p>
+      </div>
+      <div class="kstory" id="kstory"></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding:70px 0 0">
     <div class="wrap">
       <div class="section-head">
         <div><p class="kicker">Accuracy</p><h2>Checked against Kelpwatch on kelp beds it was never tuned on</h2></div>
@@ -35,7 +71,8 @@
       <div class="score-cards" id="kacc"></div>
     </div>
   </section>
-  <section class="section" style="padding-top:40px">
+
+  <section class="section" style="padding-top:60px">
     <div class="wrap">
       <div class="section-head">
         <div><p class="kicker">Method</p><h2>How the kelp numbers are made</h2></div>
@@ -47,8 +84,9 @@
         <li><b>Canopy fraction</b><span>Scaled between a detection threshold and a fully covered pixel, within 2 km of shore, leaving out the surf zone where breaking waves look like floating kelp.</span></li>
         <li><b>Calibrated to Kelpwatch</b><span>Threshold, full-canopy value and surf-zone width fitted to Kelpwatch (UC Santa Barbara), whose Landsat record is calibrated with divers.</span></li>
         <li><b>Scored where it wasn't fitted</b><span>Two kelp beds are left out of the calibration; their agreement with Kelpwatch is the published accuracy.</span></li>
+        <li><b>Pictures and history</b><span>Each year's picture is the median of that summer's clear scenes: Sentinel-2 from 2016, Landsat 5, 7 and 8 before. The canopy before 2016 is Kelpwatch's own record (SBC LTER, CC BY 4.0), shown in teal and never mixed with ours.</span></li>
       </ol>
-      <p class="small-note" style="margin-top:18px">Kelp carbon credits are not yet recognised by the major registries. This is a monitoring product: canopy extent and trend for restoration projects and their funders.</p>
+      <p class="small-note" style="margin-top:18px">Kelpwatch data: Bell, Cavanaugh et al., Santa Barbara Coastal LTER, <a href="https://kelpwatch.org">kelpwatch.org</a>. Kelp carbon credits are not yet recognised by the major registries. This is a monitoring product: canopy extent and trend for restoration projects and their funders.</p>
     </div>
   </section>
 </main>

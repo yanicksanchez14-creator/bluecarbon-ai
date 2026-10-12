@@ -75,27 +75,55 @@ KELPWATCH_PACKAGE = ("knb-lter-sbc", 74)
 PASTA = "https://pasta.lternet.edu/package"
 
 
-def download_kelpwatch(dst: Path) -> Path:
-    """The newest SBC LTER quarterly kelp canopy NetCDF (Kelpwatch's data) via the EDI PASTA API.
-    Free and public; nothing is billed. If the API layout changes, download it by hand from
-    portal.edirepository.org (package knb-lter-sbc.74) and pass the file path instead."""
+def _http(url: str, timeout: int = 120, tries: int = 4) -> bytes:
+    """GET with a browser-like User-Agent: EDI answers 403 Forbidden to Python's default 'Python-urllib'."""
+    import time
+    import urllib.error
     import urllib.request
 
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/124.0 Safari/537.36 BlueCarbon-AI",
+        "Accept": "*/*"})
+    for k in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except (urllib.error.URLError, TimeoutError) as e:
+            if k == tries - 1:
+                raise
+            print(f"  EDI request failed ({e}); retrying", flush=True)
+            time.sleep(5 * (k + 1))
+    raise RuntimeError("unreachable")
+
+
+MANUAL = ("Download it by hand: open https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=74 "
+          "-> Data Entities -> the .nc file, save it to Google Drive as {dst}, and run the cell again.")
+
+
+def download_kelpwatch(dst: Path) -> Path:
+    """The newest SBC LTER quarterly kelp canopy NetCDF (Kelpwatch's data) via the EDI PASTA API.
+    Free and public; nothing is billed. If the API refuses, download it by hand (see MANUAL)."""
     dst = Path(dst)
     if dst.exists():
         return dst
     scope, ident = KELPWATCH_PACKAGE
-    rev = urllib.request.urlopen(f"{PASTA}/eml/{scope}/{ident}?filter=newest", timeout=60).read().decode().strip()
-    urls = urllib.request.urlopen(f"{PASTA}/data/eml/{scope}/{ident}/{rev}", timeout=60).read().decode().split()
-    for u in urls:
-        name = urllib.request.urlopen(f"{PASTA}/name/eml/{scope}/{ident}/{rev}/{u.rsplit('/', 1)[-1]}",
-                                      timeout=60).read().decode().strip()
-        if name.lower().endswith(".nc"):
-            dst.parent.mkdir(parents=True, exist_ok=True)
-            print(f"downloading Kelpwatch data: {name} (revision {rev})", flush=True)
-            urllib.request.urlretrieve(u, dst)
-            return dst
-    raise RuntimeError(f"no NetCDF in EDI package {scope}.{ident} revision {rev}; download it by hand")
+    rev = "?"
+    try:
+        rev = _http(f"{PASTA}/eml/{scope}/{ident}?filter=newest", 60).decode().strip()
+        urls = _http(f"{PASTA}/data/eml/{scope}/{ident}/{rev}", 60).decode().split()
+        for u in urls:
+            name = _http(f"{PASTA}/name/eml/{scope}/{ident}/{rev}/{u.rsplit('/', 1)[-1]}", 60).decode().strip()
+            if name.lower().endswith(".nc"):
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                print(f"downloading Kelpwatch data: {name} (revision {rev})", flush=True)
+                tmp = dst.with_suffix(".part")
+                tmp.write_bytes(_http(u, 1800))
+                tmp.rename(dst)
+                return dst
+    except Exception as e:
+        raise RuntimeError(f"could not download Kelpwatch data from EDI ({e}). " + MANUAL.format(dst=dst)) from e
+    raise RuntimeError(f"no NetCDF in EDI package {scope}.{ident} revision {rev}. " + MANUAL.format(dst=dst))
 
 
 def _pick(names, *cands):

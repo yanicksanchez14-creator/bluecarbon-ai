@@ -31,8 +31,12 @@
     const low = lowYears.length ? lowYears.reduce((m, e) => (e[1] < m[1] ? e : m)) : null;
     const lastFull = Math.max(...ours.filter(r => r.quarter === 4).map(r => r.year), -Infinity);
     const latestYear = Number.isFinite(lastFull) ? lastFull : null;
-    const latest = latestYear != null ? op[latestYear] : null;
-    return { kp, op, before, low, latestYear, latest, ratio: before && latest != null ? latest / before : null };
+    const latest = latestYear != null ? op[latestYear] : null;          // ours
+    const latestKw = latestYear != null ? kp[latestYear] : null;       // Kelpwatch, same year
+    // "now vs before" compares like with like: Kelpwatch against Kelpwatch when it has the year, else ours
+    const now = latestKw != null ? latestKw : latest;
+    return { kp, op, before, low, latestYear, latest, latestKw, ratio: before && now != null ? now / before : null,
+             ratioSrc: latestKw != null ? "Kelpwatch" : "BlueCarbon-AI" };
   }
   function timeline(s) {
     const keys = new Map();
@@ -158,8 +162,9 @@
       <dl class="kx-dl">
         ${st.before != null ? `<div><dt>Average yearly peak, 1984–2013</dt><dd>${BC.fmt(st.before)} ha</dd></div>` : ""}
         ${st.low ? `<div><dt>Lowest during the 2014–16 heatwave</dt><dd>${BC.fmt(st.low[1])} ha (${st.low[0]})</dd></div>` : ""}
-        ${st.latest != null ? `<div><dt>Peak in ${st.latestYear} (BlueCarbon-AI)</dt><dd>${BC.fmt(st.latest)} ha</dd></div>` : ""}
-        ${st.ratio != null ? `<div><dt>${st.latestYear} compared with before the heatwave</dt><dd class="${st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</dd></div>` : ""}
+        ${st.latestKw != null ? `<div><dt>Peak in ${st.latestYear}, Kelpwatch</dt><dd>${BC.fmt(st.latestKw)} ha</dd></div>` : ""}
+        ${st.latest != null ? `<div><dt>Peak in ${st.latestYear}, BlueCarbon-AI</dt><dd>${BC.fmt(st.latest)} ha</dd></div>` : ""}
+        ${st.ratio != null ? `<div><dt>${st.latestYear} compared with before the heatwave (${st.ratioSrc})</dt><dd class="${st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</dd></div>` : ""}
       </dl>
       <div class="kx-actions">
         <button type="button" class="btn btn-line kx-csv">Download data (CSV)</button>
@@ -235,15 +240,16 @@
   function story(sites) {
     const rows = sites.map(s => [s, stats(s)]);
     const has = rows.some(([, st]) => st.before != null);
-    $("kstory").innerHTML = `<table class="kstory-t"><thead><tr><th>Kelp bed</th>${has ? "<th>Average yearly peak, 1984–2013</th><th>Heatwave low</th>" : ""}<th>Latest full year</th>${has ? "<th>Now vs before</th>" : "<th>Peak since 2016</th>"}<th>Trend</th></tr></thead><tbody>${rows.map(([s, st]) => {
+    $("kstory").innerHTML = `<table class="kstory-t"><thead><tr><th>Kelp bed</th>${has ? "<th>Average yearly peak, 1984–2013</th><th>Heatwave low</th>" : ""}${has ? "<th>Latest year, Kelpwatch</th>" : ""}<th>Latest year, BlueCarbon-AI</th>${has ? "<th>Now vs before</th>" : "<th>Peak since 2016</th>"}<th>Trend</th></tr></thead><tbody>${rows.map(([s, st]) => {
       const peak = Object.entries(st.op).reduce((m, e) => (e[1] > (m ? m[1] : -1) ? e : m), null);
       return `<tr><td><button type="button" data-go="${s.name}">${BC.esc(s.title)}</button><small>${BC.esc(s.species)}</small></td>
         ${has ? `<td>${st.before != null ? `${BC.fmt(st.before)} ha` : "–"}</td><td>${st.low ? `${BC.fmt(st.low[1])} ha <small>${st.low[0]}</small>` : "–"}</td>` : ""}
+        ${has ? `<td>${st.latestKw != null ? `${BC.fmt(st.latestKw)} ha <small>${st.latestYear}</small>` : "–"}</td>` : ""}
         <td>${st.latest != null ? `${BC.fmt(st.latest)} ha <small>${st.latestYear}</small>` : "–"}</td>
         ${has ? `<td class="${st.ratio == null ? "" : st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</td>` : `<td>${peak ? `${BC.fmt(peak[1])} ha <small>${peak[0]}</small>` : "–"}</td>`}
         <td>${spark(s)}</td></tr>`;
     }).join("")}</tbody></table>
-    <p class="small-note">${has ? "Before and during the heatwave: Kelpwatch (Landsat). Latest year: BlueCarbon-AI (Sentinel-2), which on held-out beds runs within a few hectares of Kelpwatch on average. Yearly peak = the largest quarter of the year." : "The 1984–2015 Kelpwatch record and yearly pictures appear here after the next kelp refresh."}</p>`;
+    <p class="small-note">${has ? "Yearly peak = the largest quarter of the year. \"Now vs before\" compares Kelpwatch with Kelpwatch, so the two satellite records are never mixed in one number. Where our latest year differs a lot from Kelpwatch's (for example Mendocino's bull kelp, or Point Loma), that bed's figures are less certain." : "The 1984–2015 Kelpwatch record and yearly pictures appear here after the next kelp refresh."}</p>`;
     $("kstory").querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
       select(sites.find(s => s.name === b.dataset.go), true);
       document.querySelector(".kx").scrollIntoView({ behavior: "smooth" });

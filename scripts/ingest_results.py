@@ -66,7 +66,8 @@ def install_model(src: Path) -> tuple[Path, dict]:
 
     for f, to in ((specialist_path_for(src), specialist_path_for(dst)),
                   (src.with_name("history_landsat.json"), ROOT / "models" / "history_landsat.json"),
-                  (src.with_name("site_biomass.json"), ROOT / "data" / "site_biomass.json")):
+                  (src.with_name("site_biomass.json"), ROOT / "data" / "site_biomass.json"),
+                  (src.with_name("site_gmw.json"), ROOT / "data" / "site_gmw.json")):
         if f.exists():  # companions from the same run: seagrass specialist, history model, biomass summaries
             shutil.copy(f, to)
             print(f"{f.name} -> {to.relative_to(ROOT)}")

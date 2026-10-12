@@ -201,6 +201,10 @@ def main() -> None:
     except subprocess.CalledProcessError:
         print("biomass lookup failed; carbon keeps IPCC biomass", flush=True)
     run(sys.executable, "scripts/refresh_carbon.py")
+    try:  # Global Mangrove Watch 1996-2020: independent check of mangrove change
+        run(sys.executable, "scripts/gmw_check.py")
+    except subprocess.CalledProcessError:
+        print("Global Mangrove Watch check failed; the rest of the results are unaffected", flush=True)
     try:  # habitat history 1985 to today (Landsat): its own model, scored on the held-out estuaries
         run("bluecarbon", "history-fetch")
         run("bluecarbon", "history-train")
@@ -231,6 +235,8 @@ def main() -> None:
         shutil.copy("models/history_landsat.json", out / "history_landsat.json")
     if Path("data/site_biomass.json").exists():
         shutil.copy("data/site_biomass.json", out / "site_biomass.json")
+    if Path("data/site_gmw.json").exists():
+        shutil.copy("data/site_gmw.json", out / "site_gmw.json")
     (out / "code_version.txt").write_text(code_version() + "\n")
     check = held_out_check()
     if (WORK / "compare.txt").exists():

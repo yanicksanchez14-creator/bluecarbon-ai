@@ -150,6 +150,10 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
         "center": [round((s + n) / 2, 4), round((w + e) / 2, 4)],
         "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs, "lidar": _lidar(sid),
     }
+    gp = ROOT / "data" / "site_gmw.json"
+    gmw = (json.loads(gp.read_text()) if gp.exists() else {}).get(sid)
+    if gmw and gmw.get("gmw_ha"):
+        rec["gmw"] = gmw
     from bluecarbon.sources import number_sources
 
     rp = ROOT / "models" / "model_report.json"

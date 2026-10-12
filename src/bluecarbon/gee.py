@@ -773,3 +773,25 @@ def sea_surface_temperature(bbox: list[float], first_year: int, last_year: int) 
         rows = qs.map(one).getInfo()
     return [{"year": int(r["year"]), "quarter": int(r["quarter"]), "c": round(r["sst"] * 0.01, 2)}
             for r in rows if r.get("sst") is not None]
+
+
+GMW_YEARS = (1996, 2007, 2008, 2009, 2010, 2015, 2016, 2017, 2018, 2019, 2020)
+GMW_VEC = "projects/sat-io/open-datasets/GMW/extent/gmw_v3_{year}_vec"   # Global Mangrove Watch v3 (Bunting 2022)
+
+
+def gmw_areas(bbox: list[float], years=GMW_YEARS) -> dict[int, float]:
+    """Mangrove area (ha) inside a box in each Global Mangrove Watch v3 year, 1996-2020: an independent record of
+    mangrove loss and gain to check our Landsat history against. Years whose layer can't be read are skipped."""
+    _require_ee()
+    region = bbox_geometry(bbox)
+    out = {}
+    for y in years:
+        try:
+            fc = ee.FeatureCollection(GMW_VEC.format(year=y)).filterBounds(region)
+            img = ee.Image(0).paint(fc, 1).selfMask().multiply(ee.Image.pixelArea()).divide(1e4)
+            with _Watchdog(REQUEST_TIMEOUT_S + 60):
+                v = img.reduceRegion(ee.Reducer.sum(), region, 25, maxPixels=int(1e10), bestEffort=True).getInfo()
+            out[y] = round(float(next(iter(v.values())) or 0), 1)
+        except Exception as e:
+            print(f"  GMW {y} skipped ({str(e)[:80]})", flush=True)
+    return out

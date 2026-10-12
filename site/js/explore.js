@@ -137,6 +137,10 @@
         <p class="small-note">Measured = from field or lidar measurements near this site. Mapped = from satellite maps of this site.
         IPCC default = a global value used where nothing local exists. Computed = combined from the numbers above.</p></details>` : ""}
       ${s.history ? historyChart(s.history) : ""}
+      ${s.gmw ? (() => { const g = Object.entries(s.gmw.gmw_ha).map(([y, v]) => [+y, v]).sort((a, b) => a[0] - b[0]);
+        if (g.length < 2) return ""; const [y0, a0] = g[0], [y1, a1] = g[g.length - 1], ag = s.gmw.agreement;
+        return `<p class="small-note">Independent check, Global Mangrove Watch: ${BC.fmt(a0)} ha of mangrove in ${y0}, ${BC.fmt(a1)} ha in ${y1}
+          (${a0 ? `${a1 >= a0 ? "+" : ""}${Math.round(100 * (a1 - a0) / a0)}%` : "–"}).${ag ? ` Our Landsat history ${ag.same_direction ? "shows the same direction of change" : "shows the opposite direction of change"} (${ag.ours_change_pct >= 0 ? "+" : ""}${ag.ours_change_pct}%), and differs by ${ag.median_diff_pct}% in a typical year.` : ""}</p>`; })() : ""}
       ${slr}
       ${change}
       ${reports}`;

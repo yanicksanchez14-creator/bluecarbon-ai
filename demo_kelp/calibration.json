@@ -1,0 +1,52 @@
+{
+ "threshold": 0.016,
+ "endmember": 0.1,
+ "shore_m": 120,
+ "cell_m": 300,
+ "min_coverage": 0.5,
+ "calibration": {
+  "cells_m2": {
+   "n": 38595,
+   "r2": 0.318,
+   "rmse": 2935.3,
+   "bias": -178.9,
+   "corr": 0.573
+  },
+  "site_quarter_ha": {
+   "n": 210,
+   "r2": 0.345,
+   "rmse": 21.6,
+   "bias": -3.3,
+   "corr": 0.606
+  }
+ },
+ "held_out": {
+  "cells_m2": {
+   "n": 15573,
+   "r2": 0.649,
+   "rmse": 1921.4,
+   "bias": -112.9,
+   "corr": 0.809
+  },
+  "site_quarter_ha": {
+   "n": 84,
+   "r2": 0.747,
+   "rmse": 13.4,
+   "bias": -2.1,
+   "corr": 0.903
+  }
+ },
+ "sites_calibration": [
+  "la_jolla",
+  "mendocino",
+  "palos_verdes",
+  "point_loma",
+  "santa_barbara"
+ ],
+ "sites_held_out": [
+  "carmel_monterey",
+  "laguna_dana_point"
+ ],
+ "kelpwatch_file": "kelpwatch.nc",
+ "method": "Sentinel-2 Floating Algae Index (B4, B8A, B11), quarterly 90th percentile, background removed, surf zone masked, scaled to canopy fraction; threshold, end member and surf-zone buffer fitted to Kelpwatch on calibration sites; quarters under 50% clear ocean not scored"
+}

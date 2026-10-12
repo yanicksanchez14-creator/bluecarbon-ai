@@ -1,0 +1,372 @@
+{
+ "name": "point_loma",
+ "title": "Point Loma kelp forest",
+ "region": "San Diego, California",
+ "species": "giant kelp",
+ "held_out": false,
+ "bbox": [
+  -117.3,
+  32.64,
+  -117.23,
+  32.74
+ ],
+ "bounds": [
+  [
+   32.639748774924506,
+   -117.30035579583752
+  ],
+  [
+   32.74029504595495,
+   -117.22970166140632
+  ]
+ ],
+ "series": [
+  {
+   "year": 2016,
+   "quarter": 1,
+   "canopy_ha": 1.11,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.01
+  },
+  {
+   "year": 2016,
+   "quarter": 2,
+   "canopy_ha": 3.62,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.02
+  },
+  {
+   "year": 2016,
+   "quarter": 3,
+   "canopy_ha": 0.43,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2016,
+   "quarter": 4,
+   "canopy_ha": 0.51,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.73
+  },
+  {
+   "year": 2017,
+   "quarter": 1,
+   "canopy_ha": 5.28,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 4.89
+  },
+  {
+   "year": 2017,
+   "quarter": 2,
+   "canopy_ha": 27.39,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.6
+  },
+  {
+   "year": 2017,
+   "quarter": 3,
+   "canopy_ha": 2.6,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.18
+  },
+  {
+   "year": 2017,
+   "quarter": 4,
+   "canopy_ha": 3.13,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 7.77
+  },
+  {
+   "year": 2018,
+   "quarter": 1,
+   "canopy_ha": 3.81,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 8.54
+  },
+  {
+   "year": 2018,
+   "quarter": 2,
+   "canopy_ha": 47.58,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 47.72
+  },
+  {
+   "year": 2018,
+   "quarter": 3,
+   "canopy_ha": 18.4,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 34.72
+  },
+  {
+   "year": 2018,
+   "quarter": 4,
+   "canopy_ha": 0.93,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 3.95
+  },
+  {
+   "year": 2019,
+   "quarter": 1,
+   "canopy_ha": 2.29,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 14.64
+  },
+  {
+   "year": 2019,
+   "quarter": 2,
+   "canopy_ha": 26.48,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 47.99
+  },
+  {
+   "year": 2019,
+   "quarter": 3,
+   "canopy_ha": 17.54,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 63.56
+  },
+  {
+   "year": 2019,
+   "quarter": 4,
+   "canopy_ha": 0.69,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 2.96
+  },
+  {
+   "year": 2020,
+   "quarter": 1,
+   "canopy_ha": 1.4,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 8.24
+  },
+  {
+   "year": 2020,
+   "quarter": 2,
+   "canopy_ha": 27.06,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 32.0
+  },
+  {
+   "year": 2020,
+   "quarter": 3,
+   "canopy_ha": 11.56,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 26.82
+  },
+  {
+   "year": 2020,
+   "quarter": 4,
+   "canopy_ha": 6.92,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 24.38
+  },
+  {
+   "year": 2021,
+   "quarter": 1,
+   "canopy_ha": 3.84,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 14.34
+  },
+  {
+   "year": 2021,
+   "quarter": 2,
+   "canopy_ha": 14.28,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 12.23
+  },
+  {
+   "year": 2021,
+   "quarter": 3,
+   "canopy_ha": 1.7,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 3.47
+  },
+  {
+   "year": 2021,
+   "quarter": 4,
+   "canopy_ha": 3.26,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 12.67
+  },
+  {
+   "year": 2022,
+   "quarter": 1,
+   "canopy_ha": 1.1,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 7.37
+  },
+  {
+   "year": 2022,
+   "quarter": 2,
+   "canopy_ha": 7.2,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 18.11
+  },
+  {
+   "year": 2022,
+   "quarter": 3,
+   "canopy_ha": 6.22,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 21.55
+  },
+  {
+   "year": 2022,
+   "quarter": 4,
+   "canopy_ha": 1.22,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 10.07
+  },
+  {
+   "year": 2023,
+   "quarter": 1,
+   "canopy_ha": 0.2,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.01
+  },
+  {
+   "year": 2023,
+   "quarter": 2,
+   "canopy_ha": 1.55,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2023,
+   "quarter": 3,
+   "canopy_ha": 2.3,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.07
+  },
+  {
+   "year": 2023,
+   "quarter": 4,
+   "canopy_ha": 0.55,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.54
+  },
+  {
+   "year": 2024,
+   "quarter": 1,
+   "canopy_ha": 0.27,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.02
+  },
+  {
+   "year": 2024,
+   "quarter": 2,
+   "canopy_ha": 4.96,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.88
+  },
+  {
+   "year": 2024,
+   "quarter": 3,
+   "canopy_ha": 2.91,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 0.05
+  },
+  {
+   "year": 2024,
+   "quarter": 4,
+   "canopy_ha": 1.21,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 2.25
+  },
+  {
+   "year": 2025,
+   "quarter": 1,
+   "canopy_ha": 0.86,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 2.13
+  },
+  {
+   "year": 2025,
+   "quarter": 2,
+   "canopy_ha": 4.96,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 1.8
+  },
+  {
+   "year": 2025,
+   "quarter": 3,
+   "canopy_ha": 0.57,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 1.7
+  },
+  {
+   "year": 2025,
+   "quarter": 4,
+   "canopy_ha": 7.57,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 44.68
+  },
+  {
+   "year": 2026,
+   "quarter": 1,
+   "canopy_ha": 6.31,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 19.85
+  },
+  {
+   "year": 2026,
+   "quarter": 2,
+   "canopy_ha": 4.06,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4,
+   "kelpwatch_ha": 1.95
+  },
+  {
+   "year": 2026,
+   "quarter": 3,
+   "canopy_ha": 5.46,
+   "coverage": 1.0,
+   "plus_minus_ha": 13.4
+  }
+ ],
+ "latest": {
+  "year": 2026,
+  "quarter": 3
+ }
+}

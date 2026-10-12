@@ -58,5 +58,13 @@
         .bindTooltip(s.title).on("click", () => show(s, doc.calibration)).addTo(map);
     });
     show(doc.sites[0], doc.calibration);
+    const ho = ((doc.calibration || {}).held_out || {}), sq = ho.site_quarter_ha || {}, cm = ho.cells_m2 || {};
+    const card = (h, n, t) => `<div class="score-card"><p class="sc-h">${h}</p><p class="sc-n">${n}</p><p class="sc-t">${t}</p></div>`;
+    const acc = document.getElementById("kacc");
+    if (acc && sq.r2 != null) acc.innerHTML =
+      card("Agreement, site total", sq.r2.toFixed(2), `r\u00b2 of quarterly canopy against Kelpwatch, ${sq.n} site-quarters`) +
+      card("Tracks the ups and downs", sq.corr.toFixed(2), "Correlation with Kelpwatch over time, through heatwaves and recovery") +
+      card("Typical error", `\u00b1${Math.round(sq.rmse)} ha`, `Per site and quarter; average bias ${sq.bias > 0 ? "+" : ""}${sq.bias} ha, so not inflated`) +
+      card("Where the canopy is", cm.r2 != null ? cm.r2.toFixed(2) : "\u2013", "r\u00b2 of canopy in each 300 m cell, so it is in the right place");
   });
 })();

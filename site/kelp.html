@@ -26,7 +26,16 @@
     <div class="kelp-map" id="kmap" role="img" aria-label="Map of kelp beds"></div>
     <section class="kelp-panel" id="kpanel" aria-live="polite"></section>
   </div>
-  <section class="section" style="padding-top:60px">
+  <section class="section" style="padding-top:56px;padding-bottom:0">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Accuracy</p><h2>Checked against Kelpwatch on kelp beds it was never tuned on</h2></div>
+        <p class="lede">Carmel–Monterey and Laguna–Dana Point were left out of calibration, every quarter from 2016.</p>
+      </div>
+      <div class="score-cards" id="kacc"></div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:40px">
     <div class="wrap">
       <div class="section-head">
         <div><p class="kicker">Method</p><h2>How the kelp numbers are made</h2></div>
@@ -35,8 +44,8 @@
       <ol class="contents">
         <li><b>Every clear image</b><span>Each cloud-free Sentinel-2 scene of the quarter, at 20 m. Floating canopy reflects near-infrared light; water absorbs it.</span></li>
         <li><b>Floating Algae Index</b><span>Bands 4, 8A and 11 (Hu 2009), with the local ocean background removed, so haze and glint don't read as kelp.</span></li>
-        <li><b>Canopy fraction</b><span>Scaled between a detection threshold and a fully covered pixel, only within 2 km of shore.</span></li>
-        <li><b>Calibrated to Kelpwatch</b><span>Threshold and full-canopy value fitted to Kelpwatch (UC Santa Barbara), whose Landsat record is calibrated with divers.</span></li>
+        <li><b>Canopy fraction</b><span>Scaled between a detection threshold and a fully covered pixel, within 2 km of shore, leaving out the surf zone where breaking waves look like floating kelp.</span></li>
+        <li><b>Calibrated to Kelpwatch</b><span>Threshold, full-canopy value and surf-zone width fitted to Kelpwatch (UC Santa Barbara), whose Landsat record is calibrated with divers.</span></li>
         <li><b>Scored where it wasn't fitted</b><span>Two kelp beds are left out of the calibration; their agreement with Kelpwatch is the published accuracy.</span></li>
       </ol>
       <p class="small-note" style="margin-top:18px">Kelp carbon credits are not yet recognised by the major registries. This is a monitoring product: canopy extent and trend for restoration projects and their funders.</p>

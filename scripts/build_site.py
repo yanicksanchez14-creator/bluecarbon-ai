@@ -462,6 +462,22 @@ def _accuracy(out: Path, doc: dict) -> None:
             parts.append(f"<tr><td>{name(s)}</td>{cells}</tr>")
         parts.append("</tbody></table>")
     parts.append("</details>")
+    kc_p = ROOT / "demo_kelp" / "calibration.json"
+    if kc_p.exists():
+        kc = json.loads(kc_p.read_text())
+        sq, cm = (kc.get("held_out") or {}).get("site_quarter_ha") or {}, (kc.get("held_out") or {}).get("cells_m2") or {}
+        if sq.get("r2") is not None:
+            parts += ['<h2 id="kelp">Kelp canopy</h2>',
+                      "<p>A separate Sentinel-2 method, calibrated against Kelpwatch (UC Santa Barbara) on five California "
+                      "kelp beds and scored on two it was never tuned on (" + ", ".join(
+                          s.replace("_", " ").title() for s in kc.get("sites_held_out", [])) + "), every quarter "
+                      "since 2016. See the <a href=\"kelp.html\">kelp page</a>.</p>",
+                      '<div class="score-cards">',
+                      card("Agreement, site total", f"{sq['r2']:.2f}", f"r\u00b2 against Kelpwatch, {sq['n']} site-quarters"),
+                      card("Tracks change over time", f"{sq['corr']:.2f}", "Correlation with Kelpwatch"),
+                      card("Typical error", f"\u00b1{sq['rmse']:.0f} ha", f"Per site and quarter; bias {sq['bias']:+.1f} ha"),
+                      card("Placement", f"{cm.get('r2', 0):.2f}", "r\u00b2 per 300 m cell"),
+                      "</div>"]
     parts += ['<h2 id="limits">Limits, and what the next model adds</h2><ul>',
               "<li><b>Seagrass in murky water.</b> No satellite sees the seafloor through turbid water, and many surveyed "
               "meadows at Moreton and Shoalwater Bay were mapped by boat and diver in water the satellite cannot see "

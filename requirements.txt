@@ -6,6 +6,7 @@ torchvision>=0.18
 segmentation-models-pytorch>=0.3.3
 numpy>=1.24
 rasterio>=1.3
+pyproj>=3.6        # ships proj.db; the app points PROJ at it if rasterio's copy is missing
 pyyaml>=6
 pydantic>=2
 typer>=0.9

@@ -22,6 +22,25 @@ import streamlit as st
 from folium.plugins import Draw, Fullscreen
 from streamlit_folium import st_folium
 
+
+def _proj_data() -> None:
+    """Point PROJ at a proj.db that exists. On Streamlit Cloud (Python 3.14) rasterio can come without its
+    bundled PROJ data, and every EPSG lookup then fails ("The EPSG code is unknown")."""
+    import importlib.util
+
+    cands = []
+    for mod, sub in (("rasterio", "proj_data"), ("pyproj", "proj_dir/share/proj")):
+        spec = importlib.util.find_spec(mod)
+        if spec and spec.origin:
+            cands.append(Path(spec.origin).parent / sub)
+    cands += [Path("/usr/share/proj")]
+    for c in cands:
+        if (c / "proj.db").exists():
+            os.environ["PROJ_DATA"] = os.environ["PROJ_LIB"] = str(c)
+            return
+
+
+_proj_data()  # before rasterio is first imported
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 # Streamlit reruns this script in a long-lived process, so an updated deploy can otherwise keep an

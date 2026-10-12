@@ -873,7 +873,8 @@ with tab_analyze:
         c1, c2, c3 = st.columns([1, 1, 1])
         start = c1.date_input("Start", pd.Timestamp("2024-05-01"))
         end = c2.date_input("End", pd.Timestamp("2024-09-30"))
-        m = folium.Map(location=[32.78, -117.22], zoom_start=12, tiles=None)
+        # opens on Rookery Bay and the Ten Thousand Islands, SW Florida: mangrove, seagrass and tidal flats in one view
+        m = folium.Map(location=[25.98, -81.70], zoom_start=12, tiles=None)
         folium.TileLayer(ESRI, attr=ESRI_ATTR, name="Satellite").add_to(m)
         Draw(draw_options={"polyline": False, "polygon": False, "circle": False, "marker": False,
                            "circlemarker": False,

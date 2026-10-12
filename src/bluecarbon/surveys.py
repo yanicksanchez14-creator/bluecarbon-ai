@@ -60,7 +60,7 @@ def _intersects(a: list[float], b: list[float]) -> bool:
 
 
 def _ring_area(r) -> float:
-    return 0.5 * sum(x0 * y1 - x1 * y0 for (x0, y0, *_), (x1, y1, *_) in zip(r, r[1:] + r[:1]))
+    return 0.5 * sum(x0 * y1 - x1 * y0 for (x0, y0, *_), (x1, y1, *_) in zip(r, r[1:] + r[:1], strict=True))
 
 
 def esri_to_geojson(f: dict) -> dict:

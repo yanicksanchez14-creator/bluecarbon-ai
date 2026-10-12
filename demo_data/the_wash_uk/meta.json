@@ -147,13 +147,15 @@
       },
       "saltmarsh": {
         "mapped_ha": 3315.15,
-        "adjusted_ha": 3275.87,
-        "ci95_ha": 0.98
+        "adjusted_ha": 3174.09,
+        "ci95_ha": 0.95,
+        "capped": true
       },
       "seagrass": {
         "mapped_ha": 0.0,
-        "adjusted_ha": 1501.18,
-        "ci95_ha": 2.91
+        "adjusted_ha": 0.0,
+        "ci95_ha": 0.0,
+        "capped": true
       },
       "tidal_flat": {
         "mapped_ha": 13312.1,
@@ -175,21 +177,21 @@
     "carbon": {
       "classes": {
         "saltmarsh": {
-          "area_ha": 3275.87,
+          "area_ha": 3174.09,
           "stock_tC": {
-            "mean": 613370.3710089154,
-            "p05": 511204.46532072,
-            "p95": 722299.607409566
+            "mean": 594313.1931563936,
+            "p05": 495321.61273094185,
+            "p95": 699857.9759399206
           },
           "stock_tCO2e": {
-            "mean": 2249229.1504896926,
-            "p05": 1874586.77433108,
-            "p95": 2648672.6603708784
+            "mean": 2179346.4793044957,
+            "p05": 1816344.3538843638,
+            "p95": 2566379.197771689
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 10865.932277864606,
-            "p05": 9223.800245336419,
-            "p95": 12447.101668507978
+            "mean": 10528.332008175332,
+            "p05": 8937.219536239567,
+            "p95": 12060.375613474334
           },
           "soil": {
             "soil": [
@@ -210,57 +212,23 @@
             ],
             "source": "ipcc"
           }
-        },
-        "seagrass": {
-          "area_ha": 1501.18,
-          "stock_tC": {
-            "mean": 167244.08846307365,
-            "p05": 139962.4339519039,
-            "p95": 196565.2903870202
-          },
-          "stock_tCO2e": {
-            "mean": 613284.0723940912,
-            "p05": 513242.2453016315,
-            "p95": 720804.9198492031
-          },
-          "sequestration_tCO2e_per_yr": {
-            "mean": 2447.7881073369817,
-            "p05": 1537.2214167519837,
-            "p95": 3420.5675672836437
-          },
-          "soil": {
-            "soil": [
-              84.0,
-              108.0,
-              139.0
-            ],
-            "source": "ipcc"
-          },
-          "biomass": {
-            "biomass": [
-              0.5,
-              1.0,
-              2.0
-            ],
-            "source": "ipcc"
-          }
         }
       },
-      "blue_carbon_area_ha": 4777.05,
+      "blue_carbon_area_ha": 3174.09,
       "total_stock_tCO2e": {
-        "mean": 2862513.2228837837,
-        "p05": 2474952.25236546,
-        "p95": 3272596.287224904
+        "mean": 2179346.4793044957,
+        "p05": 1816344.3538843638,
+        "p95": 2566379.197771689
       },
       "total_sequestration_tCO2e_per_yr": {
-        "mean": 13313.720385201586,
-        "p05": 11469.610283105094,
-        "p95": 15157.30891608796
+        "mean": 10528.332008175332,
+        "p05": 8937.219536239567,
+        "p95": 12060.375613474334
       },
       "indicative_annual_value_usd": {
-        "low": 199705.8057780238,
-        "mid": 332843.0096300397,
-        "high": 532548.8154080635
+        "low": 157924.98012263,
+        "mid": 263208.30020438327,
+        "high": 421133.2803270133
       },
       "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     },

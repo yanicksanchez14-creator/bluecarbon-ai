@@ -433,8 +433,10 @@ def _accuracy(out: Path, doc: dict) -> None:
               "and Shoalwater Bay map about a quarter of the surveyed seagrass). Treat seagrass areas as a lower bound.</li>",
               "<li><b>Salt marsh in tropical mangrove estuaries</b> (Shoalwater, Moreton, Tampa) is rare and thin, and "
               "scores low; where salt marsh is extensive (Plum Island, Mission Bay) it scores 0.82-0.94.</li>",
-              "<li>Areas are corrected for the model's known mistakes using its accuracy over all test areas, which can "
-              "overstate seagrass at sites where little is mapped. Per-region accuracy is in development.</li>",
+              "<li>Areas are corrected for the model's known mistakes, but the correction for blue carbon habitats is "
+              "capped at what the model's measured accuracy supports (mapped area \u00d7 precision \u00f7 recall), so "
+              "carbon is never based on habitat the map did not find. That is deliberately conservative: where seagrass is "
+              "badly under-mapped (Moreton Bay) the published area stays below the true area.</li>",
               "<li>Scores are against published and official reference maps, which have their own errors.</li></ul>"]
     page = out / "accuracy.html"
     page.write_text(page.read_text().replace("<!-- ACCURACY -->", "\n".join(parts)))

@@ -142,8 +142,9 @@
       },
       "mangrove": {
         "mapped_ha": 73.35,
-        "adjusted_ha": 132.73,
-        "ci95_ha": 0.59
+        "adjusted_ha": 73.05,
+        "ci95_ha": 0.32,
+        "capped": true
       },
       "saltmarsh": {
         "mapped_ha": 4130.91,
@@ -152,8 +153,9 @@
       },
       "seagrass": {
         "mapped_ha": 1674.5,
-        "adjusted_ha": 3528.26,
-        "ci95_ha": 3.87
+        "adjusted_ha": 2073.54,
+        "ci95_ha": 2.27,
+        "capped": true
       },
       "tidal_flat": {
         "mapped_ha": 1780.36,
@@ -175,21 +177,21 @@
     "carbon": {
       "classes": {
         "mangrove": {
-          "area_ha": 132.73,
+          "area_ha": 73.05,
           "stock_tC": {
-            "mean": 36450.284989158485,
-            "p05": 31637.014600564624,
-            "p95": 41225.436353133235
+            "mean": 20060.979551489705,
+            "p05": 17411.975104002253,
+            "p95": 22688.786336188216
           },
           "stock_tCO2e": {
-            "mean": 133663.19505524417,
-            "p05": 116012.93254027047,
-            "p95": 151173.67510693954
+            "mean": 73563.61201531274,
+            "p05": 63849.71270637625,
+            "p95": 83199.77949480219
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 799.159654074895,
-            "p05": 686.5420799325685,
-            "p95": 914.9588792873133
+            "mean": 439.8298748277291,
+            "p05": 377.8629328464554,
+            "p95": 503.56691709705825
           },
           "soil": {
             "soil": [
@@ -253,21 +255,21 @@
           }
         },
         "seagrass": {
-          "area_ha": 3528.26,
+          "area_ha": 2073.54,
           "stock_tC": {
-            "mean": 393517.9780685889,
-            "p05": 329839.2279850377,
-            "p95": 461290.7096586667
+            "mean": 231268.46585726386,
+            "p05": 193844.810932387,
+            "p95": 271098.0183810509
           },
           "stock_tCO2e": {
-            "mean": 1443030.4255775155,
-            "p05": 1209520.4490211334,
-            "p95": 1691553.0323183308
+            "mean": 848061.4642985865,
+            "p05": 710828.9216890631,
+            "p95": 994116.4334033136
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 5735.8843345575215,
-            "p05": 3585.6782466515783,
-            "p95": 8044.078090981159
+            "mean": 3370.949365021279,
+            "p05": 2107.2864715361284,
+            "p95": 4727.470453143534
           },
           "soil": {
             "soil": [
@@ -287,21 +289,21 @@
           }
         }
       },
-      "blue_carbon_area_ha": 7465.2,
+      "blue_carbon_area_ha": 5950.8,
       "total_stock_tCO2e": {
-        "mean": 4530930.223796629,
-        "p05": 3801955.125861226,
-        "p95": 5254025.818736389
+        "mean": 3875861.6794777694,
+        "p05": 3171603.8902775436,
+        "p95": 4576424.737626345
       },
       "total_sequestration_tCO2e_per_yr": {
-        "mean": 19152.09983694893,
-        "p05": 16266.324386025368,
-        "p95": 22041.2009116313
+        "mean": 16427.835088165517,
+        "p05": 14140.836817966032,
+        "p95": 18676.1318823355
       },
       "indicative_annual_value_usd": {
-        "low": 287281.497554234,
-        "mid": 478802.49592372327,
-        "high": 766083.9934779573
+        "low": 246417.52632248276,
+        "mid": 410695.8772041379,
+        "high": 657113.4035266207
       },
       "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for mangrove, saltmarsh, IPCC Tier 1 otherwise; mangrove biomass from the NASA canopy-height biomass map (Simard et al. 2019) with IPCC carbon and root factors, other biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     },

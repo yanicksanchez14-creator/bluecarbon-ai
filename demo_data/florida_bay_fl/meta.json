@@ -290,7 +290,7 @@
           }
         }
       },
-      "blue_carbon_area_ha": 32710.91,
+      "blue_carbon_area_ha": 32710.909999999996,
       "total_stock_tCO2e": {
         "mean": 41493693.831552364,
         "p05": 37264742.76698417,

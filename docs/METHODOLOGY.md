@@ -104,9 +104,11 @@ this run, so those sites used the global maps; they are retried in the next run.
 - Seagrass is the weakest habitat (0.46 IoU): it is spectrally hard to separate from water, and meadows in
   murky or deep water are missed. Unseen Tampa Bay scores 0.69, Moreton Bay 0.12 and Shoalwater Bay 0.18.
   Global seagrass labels only cover tropical reefs; temperate seagrass needs local survey polygons.
-- Area correction (Olofsson et al.) uses the model's accuracy pooled over all test areas, not each site's own,
-  so at a site where the model maps little seagrass the corrected seagrass area can be several times the mapped
-  area. Treat corrected seagrass areas as uncertain.
+- Area correction (Olofsson et al.) uses the model's accuracy pooled over all test areas. On its own that can
+  move a large share of a site's open water into seagrass that the map never found, so for mangrove, salt
+  marsh and seagrass the corrected area is capped at mapped area x precision / recall. This is conservative
+  (carbon is never claimed for habitat the map did not see) and under-states seagrass where it is badly
+  under-mapped.
 - Tides change what the satellite sees in intertidal zones. A median composite averages over tides.
 - The global label products have their own errors, so the model learns those errors too.
 

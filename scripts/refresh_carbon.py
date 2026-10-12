@@ -17,9 +17,30 @@ from bluecarbon.config import load_config
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _model_pr() -> tuple[dict, dict]:
+    """Precision and recall per class on the live model's test set (the same errors the correction uses)."""
+    import torch
+
+    cur = ROOT / "models" / (ROOT / "models" / "current.txt").read_text().strip()
+    if cur.suffix != ".pt":
+        return {}, {}
+    t = (torch.load(cur, map_location="cpu", weights_only=False).get("metrics") or {}).get("test") or {}
+    return t.get("precision") or {}, t.get("recall") or {}
+
+
+PREC, REC = None, None
+
+
 def _basis(rep: dict) -> tuple[dict, dict | None]:
+    global PREC, REC
     adj = rep.get("error_adjusted_areas_ha")
     if adj:
+        from bluecarbon.metrics import cap_adjusted
+
+        if PREC is None:
+            PREC, REC = _model_pr()
+        if PREC:
+            adj = rep["error_adjusted_areas_ha"] = cap_adjusted(adj, PREC, REC)
         return {k: v["adjusted_ha"] for k, v in adj.items()}, {k: v["ci95_ha"] / 1.96 for k, v in adj.items()}
     return rep["areas_ha"], None
 

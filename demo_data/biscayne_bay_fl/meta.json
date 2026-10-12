@@ -147,8 +147,9 @@
       },
       "saltmarsh": {
         "mapped_ha": 4.01,
-        "adjusted_ha": 5.45,
-        "ci95_ha": 0.15
+        "adjusted_ha": 3.84,
+        "ci95_ha": 0.11,
+        "capped": true
       },
       "seagrass": {
         "mapped_ha": 32690.8,
@@ -216,21 +217,21 @@
           }
         },
         "saltmarsh": {
-          "area_ha": 5.45,
+          "area_ha": 3.84,
           "stock_tC": {
-            "mean": 1184.7379560221664,
-            "p05": 770.4956309288043,
-            "p95": 1594.6825526544596
+            "mean": 834.74947563332,
+            "p05": 542.7502068580219,
+            "p95": 1123.5825669485444
           },
           "stock_tCO2e": {
-            "mean": 4344.434084733283,
-            "p05": 2825.407478615925,
-            "p95": 5847.700920583903
+            "mean": 3061.0263271473846,
+            "p05": 1990.265008548366,
+            "p95": 4120.177273000312
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 18.074337429050274,
-            "p05": 15.303588186695928,
-            "p95": 20.82104918583916
+            "mean": 12.734912289447472,
+            "p05": 10.78110560230808,
+            "p95": 14.672205016774058
           },
           "soil": {
             "soil": [
@@ -290,21 +291,21 @@
           }
         }
       },
-      "blue_carbon_area_ha": 23902.33,
+      "blue_carbon_area_ha": 23900.72,
       "total_stock_tCO2e": {
-        "mean": 11608960.426949054,
-        "p05": 8072103.034881767,
-        "p95": 15269784.443414392
+        "mean": 11607677.019191468,
+        "p05": 8071135.585068447,
+        "p95": 15268759.608644696
       },
       "total_sequestration_tCO2e_per_yr": {
-        "mean": 41965.25562685489,
-        "p05": 27848.348763729005,
-        "p95": 57040.19817083523
+        "mean": 41959.91620171528,
+        "p05": 27842.859143614474,
+        "p95": 57034.14513350928
       },
       "indicative_annual_value_usd": {
-        "low": 629478.8344028234,
-        "mid": 1049131.3906713722,
-        "high": 1678610.2250741955
+        "low": 629398.7430257292,
+        "mid": 1048997.9050428818,
+        "high": 1678396.648068611
       },
       "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for mangrove, saltmarsh, seagrass, IPCC Tier 1 otherwise; mangrove biomass from the NASA canopy-height biomass map (Simard et al. 2019) with IPCC carbon and root factors, other biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
     },

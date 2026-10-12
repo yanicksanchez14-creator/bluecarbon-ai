@@ -471,19 +471,42 @@ def site_biomass_stats(bbox: list[float]) -> dict:
             "agb_count": a.get("agb_count") or 0, "precip_mm": p.get("bio12")}
 
 
-PALSAR_YEARLY = "JAXA/ALOS/PALSAR/YEARLY/SAR_EPOCH"   # ALOS-2 PALSAR-2 25 m yearly mosaics (JAXA)
+PALSAR_YEARLY = "JAXA/ALOS/PALSAR/YEARLY/SAR_EPOCH"   # ALOS-2 PALSAR-2 25 m yearly mosaics (JAXA), 2015-
+PALSAR_YEARLY_CLASSIC = "JAXA/ALOS/PALSAR/YEARLY/SAR"  # the original yearly mosaics, 2007-2010 and 2015-2021
 
 
 def lband_image(region, year: int):
-    """ALOS PALSAR-2 L-band HH/HV for the mosaic year closest to `year`, gamma0 dB x 100 as int16
-    (dB = 10 log10(DN^2) - 83, JAXA). No coverage reads -3000 (-30 dB)."""
+    """ALOS PALSAR-2 L-band HH/HV, gamma0 dB x 100 as int16 (dB = 10 log10(DN^2) - 83, JAXA).
+
+    Per pixel, the valid observation from the mosaic year closest to `year` (both JAXA collections). DN = 0 means
+    no data in those mosaics: it is masked, never turned into dB (log of 0 gave -327 dB in the first version).
+    No coverage at all reads -3000; values are clamped to -50..10 dB."""
     _require_ee()
-    col = ee.ImageCollection(PALSAR_YEARLY).filterBounds(region)
     t0 = ee.Date.fromYMD(year, 7, 1)
-    img = ee.Image(col.map(lambda im: im.set("d", ee.Number(im.date().difference(t0, "day")).abs()))
-                   .sort("d").first())
-    db = img.select(["HH", "HV"]).toFloat().pow(2).log10().multiply(10).subtract(83)
-    return db.multiply(100).unmask(-3000).toInt16().rename(["alos_hh", "alos_hv"])
+
+    def prep(im):
+        dn = im.select(["HH", "HV"]).toFloat()
+        valid = dn.select("HH").gt(0).And(dn.select("HV").gt(0))
+        db = dn.pow(2).log10().multiply(10).subtract(83).updateMask(valid)
+        near = (ee.Image.constant(ee.Number(im.date().difference(t0, "day")).abs().multiply(-1)).toFloat()
+                .rename("near").updateMask(valid))
+        return db.addBands(near)
+
+    col = (ee.ImageCollection(PALSAR_YEARLY).select(["HH", "HV"])
+           .merge(ee.ImageCollection(PALSAR_YEARLY_CLASSIC).select(["HH", "HV"]))
+           .filterBounds(region).map(prep))
+    img = col.qualityMosaic("near").select(["HH", "HV"])
+    return img.clamp(-50, 10).multiply(100).unmask(-3000).toInt16().rename(["alos_hh", "alos_hv"])
+
+
+def lband_ok(path) -> bool:
+    """False for a missing L-band file or one from the first (broken) version, full of -327 dB."""
+    p = Path(path)
+    if not p.exists():
+        return False
+    with rasterio.open(p) as ds:
+        a = ds.read(2)
+    return float((a < -5000).mean()) < 0.05
 
 
 def download_lband(bbox: list[float], year: int, out_path: str | Path, cfg: Config) -> Path:

@@ -106,6 +106,8 @@ def main() -> None:
                   f"HV median {np.median(hv) if hv.size else float('nan'):.1f} dB (mangrove is about -15)", flush=True)
             if ok < 0.5:
                 problems.append("L-band sample has almost no data over a mangrove forest")
+            elif not (hv.size and -30 < np.median(hv) < -5):
+                problems.append(f"L-band values look wrong (HV median {np.median(hv):.1f} dB; expected -30 to -5)")
             p = gee.download_ancillary(TEST_BOX, "2021-01-01", "2022-01-01", Path(tmp) / "anc.tif", cfg)
             print("  ok    clear-water + elevation sample", flush=True)
         except Exception as e:

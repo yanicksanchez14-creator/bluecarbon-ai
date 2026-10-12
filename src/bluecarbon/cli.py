@@ -44,7 +44,7 @@ def _fetch_extra_years(gee, site: dict, d: Path, years: list[int], cfg) -> None:
         if not (d / f"radar_{y}.tif").exists():
             typer.echo(f"[{site['name']}] {y} radar (Sentinel-1) ...")
             gee.download_radar(site["bbox"], f"{y}-01-01", f"{y + 1}-01-01", d / f"radar_{y}.tif", cfg)
-        if not (d / f"lband_{y}.tif").exists():
+        if not gee.lband_ok(d / f"lband_{y}.tif"):
             typer.echo(f"[{site['name']}] {y} L-band radar (ALOS PALSAR-2) ...")
             gee.download_lband(site["bbox"], y, d / f"lband_{y}.tif", cfg)
 
@@ -74,7 +74,7 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if (d / "image.tif").exists() and not (d / "radar.tif").exists():  # Sentinel-1, a model input
             typer.echo(f"[{site['name']}] radar (Sentinel-1) ...")
             gee.download_radar(site["bbox"], yr_start, yr_end, d / "radar.tif", cfg)
-        if (d / "image.tif").exists() and not (d / "lband.tif").exists():  # ALOS PALSAR-2, a model input
+        if (d / "image.tif").exists() and not gee.lband_ok(d / "lband.tif"):  # ALOS PALSAR-2, a model input
             typer.echo(f"[{site['name']}] L-band radar (ALOS PALSAR-2) ...")
             gee.download_lband(site["bbox"], int(str(yr_start)[:4]), d / "lband.tif", cfg)
         if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
@@ -312,7 +312,7 @@ def case_study(model: Path = typer.Option(..., "--model", "-m"), config: str = C
                 gee.download_ancillary(cs["bbox"], a, b, d / f"{key}_ancillary.tif", cfg)
             if not (d / f"{key}_radar.tif").exists():
                 gee.download_radar(cs["bbox"], a, b, d / f"{key}_radar.tif", cfg)
-            if not (d / f"{key}_lband.tif").exists():
+            if not gee.lband_ok(d / f"{key}_lband.tif"):
                 gee.download_lband(cs["bbox"], int(a[:4]), d / f"{key}_lband.tif", cfg)
             predict(d / f"{key}_image.tif", model, d / f"{key}_pred.tif", config)
         rep = change_scene_report(d / "t0_pred.tif", d / "t1_pred.tif", cfg.carbon)

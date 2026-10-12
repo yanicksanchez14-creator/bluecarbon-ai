@@ -61,9 +61,11 @@ def _rgb_jpeg(tif: Path, dst: Path) -> list:
 
     from bluecarbon.demo import _to_mercator
 
-    m, bounds = _to_mercator(tif, [1, 2, 3], Resampling.bilinear, 0)
+    m, bounds = _to_mercator(tif, [1, 2, 3], Resampling.nearest, 0)
     dst.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(np.moveaxis(m, 0, -1).astype(np.uint8)).save(dst, quality=78, optimize=True, progressive=True)
+    rgb = np.moveaxis(m, 0, -1).astype(np.uint8)
+    alpha = np.where(rgb.astype(np.int16).sum(-1) < 24, 0, 255).astype(np.uint8)   # no data: see-through
+    Image.fromarray(np.dstack([rgb, alpha]), "RGBA").save(dst, "WEBP", quality=80, method=3)
     return bounds
 
 
@@ -109,7 +111,7 @@ def build_gallery(cfg, spec: dict, out: Path, work: Path, kw_path: Path | None, 
             try:
                 if not tif.exists():
                     gee.download_kelp_rgb(s["bbox"], y, tif, cfg)
-                meta["rgb_bounds"] = _rgb_jpeg(tif, o / "rgb" / f"{y}.jpg")
+                meta["rgb_bounds"] = _rgb_jpeg(tif, o / "rgb" / f"{y}.webp")
                 rgb_years.append(y)
             except Exception as e:  # a year with no clear summer scene: skip it
                 log(f"[{s['name']}] {y} picture skipped ({str(e)[:80]})")

@@ -61,7 +61,7 @@
     const frames = s.frames || [];
     const latestKey = qkey(s.latest.year, s.latest.quarter);
     return {
-      rgb: (s.rgb_years || []).includes(y) ? `${base(s)}/rgb/${y}.jpg` : null,
+      rgb: (s.rgb_years || []).includes(y) ? `${base(s)}/rgb/${y}.webp` : null,
       ours: frames.includes(k) ? `${base(s)}/frames/${k}.png` : (!frames.length && k === latestKey ? `${base(s)}/canopy_latest.png` : null),
       kw: (s.kw_years || []).includes(y) ? `${base(s)}/kw/${y}.png` : null,
     };
@@ -78,7 +78,8 @@
     overlay("kw", show.kw || (show.ours && !u.ours && u.kw) ? u.kw : null, site.kw_bounds || site.bounds, 0.9);
     const v = at(site, y, q);
     const src = u.ours && show.ours ? "BlueCarbon-AI canopy" : (layers.kw ? "Kelpwatch canopy (yearly peak)" : "no canopy map for this quarter");
-    $("kstamp").innerHTML = `<b>${y}</b><span>Q${q} · ${MONTHS[q]}</span><small>${u.rgb && show.rgb ? `Summer ${y} picture · ` : ""}${src}</small>`;
+    const sensor = y >= 2016 ? "Sentinel-2" : y === 2012 ? "Landsat 7, with its scan-line gaps" : y >= 2013 ? "Landsat 8" : y >= 1999 ? "Landsat 5 and 7" : "Landsat 5";
+    $("kstamp").innerHTML = `<b>${y}</b><span>Q${q} · ${MONTHS[q]}</span><small>${u.rgb && show.rgb ? `Summer ${y} picture (${sensor}) · ` : ""}${src}</small>`;
     $("kslider").value = idx;
     $("kslider").setAttribute("aria-valuetext", qlab(y, q));
     cursor(y, q);

@@ -374,3 +374,11 @@ h3 { font: 500 20px/1.3 var(--sans); letter-spacing: -.01em; margin: 0 0 8px; }
 .site-footer .version { font-family: var(--mono, monospace); font-size: 12px; opacity: .7; margin-top: 10px; }
 .site-footer .version a { color: inherit; }
 .prose td.muted { color: var(--ink-2); font-size: 13px; }
+.score-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0 26px; }
+.score-card { border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 14px; background: #fff; }
+.score-card .sc-h { margin: 0; font-size: 13px; color: var(--ink-2); }
+.score-card .sc-n { margin: 6px 0; font-family: var(--serif, serif); font-size: 34px; line-height: 1.05; color: var(--ink); }
+.score-card .sc-t { margin: 0; font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+details.more-detail { border-top: 1px solid var(--line); padding-top: 10px; margin-bottom: 18px; }
+details.more-detail summary { cursor: pointer; font-weight: 500; padding: 6px 0; }
+@media (max-width: 900px) { .score-cards { grid-template-columns: 1fr 1fr; } }

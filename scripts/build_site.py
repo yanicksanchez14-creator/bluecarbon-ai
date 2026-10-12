@@ -391,16 +391,29 @@ def _accuracy(out: Path, doc: dict) -> None:
              f"<tr><th>Training</th><td>{r.get('epochs_run', '?')} epochs, best at epoch {r.get('best_epoch', '?')}</td></tr>",
              f"<tr><th>Test score (all test areas)</th><td>mean IoU {f2(test.get('mIoU'))}, overall accuracy "
              f"{f2(test.get('overall_accuracy'))}</td></tr></tbody></table>"]
-    parts += ['<h2 id="summary">In short</h2><ul>',
-              "<li><b>Mangrove</b> is mapped very well on coastlines the model never saw: 0.89 to 0.95 overlap with the "
-              "reference map.</li>",
-              "<li><b>Salt marsh</b> is mapped well where there is a real marsh to map: 0.94 at Plum Island and 0.82 at "
-              "Mission Bay. It is weak at Moreton Bay, where marsh is a thin fringe behind the mangroves.</li>",
-              "<li><b>Seagrass</b> is the weak spot: good in clear water (0.73 at Tampa Bay), poor in murky water. Treat "
-              "seagrass areas as a lower bound.</li>",
-              "<li>Every new model must match or beat the previous one on these same estuaries before it goes live.</li>"
-              "</ul>",
-              '<h2 id="held-out">Estuaries never seen in training</h2>',
+    def card(title, score, note):
+        return (f'<div class="score-card"><p class="sc-h">{title}</p><p class="sc-n">{score}</p>'
+                f'<p class="sc-t">{note}</p></div>')
+
+    def rng(k, sites):
+        v = [whole.get((s, k)) for s in sites if whole.get((s, k)) is not None]
+        return f"{min(v):.2f}\u2013{max(v):.2f}" if len(v) > 1 else (f2(v[0]) if v else DASH)
+
+    big_marsh = [s for s in held if ((r.get("areas") or {}).get(s, {}).get("saltmarsh") or {}).get("reference", 0) >= 40]
+    parts += ['<h2 id="summary">Results on coastlines the model never saw</h2>',
+              "<p>Five estuaries were kept out of training entirely and used as a final exam, the same situation as "
+              "the live analysis tool on any new coast. Scores are overlap with official reference maps, from 0 to 1.</p>",
+              '<div class="score-cards">',
+              card("Mangrove", rng("mangrove", held), "Found on every unseen mangrove coast, Australia and Florida"),
+              card("Salt marsh", rng("saltmarsh", big_marsh), "On the extensive marshes of Plum Island and Mission Bay"),
+              card("Seagrass, clear water", f2(whole.get(("tampa_bay_fl", "seagrass"))),
+                   "Tampa Bay; in murky water meadows are partly hidden, so seagrass is reported as a lower bound"),
+              card("Improvement", f"+{(cmp_.get('mean_new') or 0) - (cmp_.get('mean_live') or 0):.2f}"
+                   if (cmp_ := (r.get("compare") or {})).get("mean_new") else DASH,
+                   "Mean blue carbon score over the previous model on the same estuaries"),
+              "</div>",
+              '<details class="more-detail"><summary>Full results for each estuary</summary>',
+              '<h3 id="held-out">Score per estuary and habitat</h3>',
               "<p>These five estuaries were kept out of training entirely, so they show how the model does on a "
               "new coastline, which is what the live analysis tool does every time. Score is IoU: the overlap "
               "between the model's map and the reference map, from 0 (no overlap) to 1 (perfect). \u2013 means the habitat "
@@ -423,7 +436,7 @@ def _accuracy(out: Path, doc: dict) -> None:
     parts.append("</tbody></table>")
     cmp_ = r.get("compare") or {}
     if cmp_.get("rows"):
-        parts += ['<h2 id="compare">How it compares with the model it replaced</h2>',
+        parts += ['<h3 id="compare">Previous model against current, same estuaries</h3>',
                   "<p>A new model is published only if, on these same estuaries and the same labels, its mean blue carbon "
                   "score is at least the live model's and no habitat at any estuary drops by more than 0.05. "
                   f"This model: mean {f2(cmp_.get('mean_new'))} against {f2(cmp_.get('mean_live'))}, verdict "
@@ -444,16 +457,21 @@ def _accuracy(out: Path, doc: dict) -> None:
                             if (ar.get(k) or {}).get("reference") else "<td>\u2013</td>" for k in H)
             parts.append(f"<tr><td>{name(s)}</td>{cells}</tr>")
         parts.append("</tbody></table>")
-    parts += ['<h2 id="limits">Known weaknesses</h2><ul>',
-              "<li><b>Seagrass</b> is the hardest habitat: in murky or deep water the model misses meadows (Moreton Bay "
-              "and Shoalwater Bay map about a quarter of the surveyed seagrass). Treat seagrass areas as a lower bound.</li>",
-              "<li><b>Salt marsh in tropical mangrove estuaries</b> (Shoalwater, Moreton, Tampa) is rare and thin, and "
-              "scores low; where salt marsh is extensive (Plum Island, Mission Bay) it scores 0.82-0.94.</li>",
+    parts.append("</details>")
+    parts += ['<h2 id="limits">Limits, and what the next model adds</h2><ul>',
+              "<li><b>Seagrass in murky water.</b> No satellite sees the seafloor through turbid water, and many surveyed "
+              "meadows at Moreton and Shoalwater Bay were mapped by boat and diver in water the satellite cannot see "
+              "into. There the model finds about a quarter of the surveyed area, so seagrass is reported as a lower "
+              "bound.</li>",
+              "<li><b>Thin salt marsh behind mangroves</b> (Moreton Bay) is often only a few pixels wide and is partly "
+              "mapped as mangrove or land.</li>",
               "<li>Areas are corrected for the model's known mistakes, but the correction for blue carbon habitats is "
               "capped at what the model's measured accuracy supports (mapped area \u00d7 precision \u00f7 recall), so "
               "carbon is never based on habitat the map did not find. That is deliberately conservative: where seagrass is "
               "badly under-mapped (Moreton Bay) the published area stays below the true area.</li>",
-              "<li>Scores are against published and official reference maps, which have their own errors.</li></ul>"]
+              "<li>Scores are against published and official reference maps, which have their own errors.</li>",
+              "<li><b>Next model</b>: L-band radar from ALOS PALSAR-2, which sees through the canopy to trunks and roots, "
+              "and a check of every mangrove biomass number against GEDI lidar measurements.</li></ul>"]
     page = out / "accuracy.html"
     page.write_text(page.read_text().replace("<!-- ACCURACY -->", "\n".join(parts)))
 

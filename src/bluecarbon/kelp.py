@@ -60,36 +60,40 @@ def _background(fai: np.ndarray, ocean: np.ndarray) -> np.ndarray:
     return zoom(coarse, k, order=1)[:h, :w]
 
 
-def kelp_signal(fai_p90: np.ndarray, land: np.ndarray, px_m: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Background-removed FAI and masks. Independent of threshold/end member, so calibration computes it once."""
+def kelp_signal(fai_p90: np.ndarray, land: np.ndarray, px_m: float) -> tuple:
+    """Background-removed FAI, masks and distance to shore. Independent of the fitted settings, so calibration
+    computes it once per quarter."""
     from scipy.ndimage import distance_transform_edt
 
     fai = fai_p90.astype(np.float32)
     finite = np.isfinite(fai)
     ocean = ~land & finite
     sfai = fai - _background(fai, ocean)
-    near = distance_transform_edt(~land) * px_m <= NEARSHORE_KM * 1000 if land.any() else np.ones_like(land)
-    return sfai, ocean & near, finite
+    dist = (distance_transform_edt(~land) * px_m if land.any() else np.full(land.shape, 1e5)).astype(np.float32)
+    keep = ocean & (dist <= NEARSHORE_KM * 1000)
+    # cached for every quarter of every site during calibration: store compactly (half precision is ample here)
+    return sfai.astype(np.float16), keep, finite, np.minimum(dist, 60000).astype(np.float16)
 
 
-def fraction_from_signal(sig: tuple, threshold: float, endmember: float) -> np.ndarray:
-    sfai, keep, finite = sig
-    frac = np.clip((sfai - threshold) / max(endmember - threshold, 1e-6), 0, 1)
-    frac[~keep] = 0
+def fraction_from_signal(sig: tuple, threshold: float, endmember: float, shore_m: float = 0.0) -> np.ndarray:
+    """shore_m: ignore the surf zone (breaking waves and foam look like floating kelp to the FAI)."""
+    sfai, keep, finite, dist = sig
+    frac = np.clip((sfai.astype(np.float32) - threshold) / max(endmember - threshold, 1e-6), 0, 1)
+    frac[~(keep & (dist >= shore_m))] = 0
     frac[~finite] = np.nan
     return frac.astype(np.float32)
 
 
 def kelp_fraction(fai_p90: np.ndarray, land: np.ndarray, px_m: float, threshold: float = DEFAULT_THRESHOLD,
-                  endmember: float = DEFAULT_ENDMEMBER) -> np.ndarray:
+                  endmember: float = DEFAULT_ENDMEMBER, shore_m: float = 0.0) -> np.ndarray:
     """fai_p90: quarterly 90th-percentile FAI (reflectance; NaN = no clear scene); land: bool."""
-    return fraction_from_signal(kelp_signal(fai_p90, land, px_m), threshold, endmember)
+    return fraction_from_signal(kelp_signal(fai_p90, land, px_m), threshold, endmember, shore_m)
 
 
-def _sample_fraction(s: dict, threshold: float, endmember: float) -> np.ndarray:
+def _sample_fraction(s: dict, threshold: float, endmember: float, shore_m: float = 0.0) -> np.ndarray:
     if "_sig" not in s:  # cache the expensive part on the sample
         s["_sig"] = kelp_signal(s["fai"], s["land"], s["px_m"])
-    return fraction_from_signal(s["_sig"], threshold, endmember)
+    return fraction_from_signal(s["_sig"], threshold, endmember, shore_m)
 
 
 def canopy_ha(frac: np.ndarray, px_m: float) -> float:
@@ -224,11 +228,23 @@ def _stats(ours: np.ndarray, ref: np.ndarray) -> dict:
             "bias": round(float(np.mean(ours - ref)), 1), "corr": round(float(np.corrcoef(ours, ref)[0, 1]), 3)}
 
 
-def pairs(samples: list[dict], threshold: float, endmember: float) -> tuple[np.ndarray, np.ndarray, list]:
+MIN_COVERAGE = 0.5   # quarters where under half the ocean had a clear scene are too patchy to score
+
+
+def _covered(s: dict) -> bool:
+    if "_cov" not in s:
+        s["_cov"] = coverage(s["fai"], s["land"])
+    return s["_cov"] >= MIN_COVERAGE
+
+
+def pairs(samples: list[dict], threshold: float, endmember: float, shore_m: float = 0.0
+          ) -> tuple[np.ndarray, np.ndarray, list]:
     """samples: [{"fai", "land", "px_m", "kw_cells", "site", "year", "quarter"}] -> cell pairs + site totals."""
     o, r, totals = [], [], []
     for s in samples:
-        f = _sample_fraction(s, threshold, endmember)
+        if not _covered(s):
+            continue
+        f = _sample_fraction(s, threshold, endmember, shore_m)
         oc = our_cells(f, s["px_m"])
         kc = s["kw_cells"][: oc.shape[0], : oc.shape[1]]
         oc = oc[: kc.shape[0], : kc.shape[1]]
@@ -239,23 +255,35 @@ def pairs(samples: list[dict], threshold: float, endmember: float) -> tuple[np.n
     return (np.concatenate(o) if o else np.zeros(0)), (np.concatenate(r) if r else np.zeros(0)), totals
 
 
+THRESHOLDS = (0.002, 0.003, 0.004, 0.006, 0.008, 0.012, 0.016, 0.024)
+ENDMEMBERS = (0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.22, 0.28)
+SHORE_M = (0, 40, 80, 120)
+
+
 def calibrate(samples: list[dict], test_sites: set[str]) -> dict:
-    """Grid-search threshold and end member on calibration sites (cell RMSE), then score held-out sites."""
+    """Grid-search threshold, end member and surf-zone buffer on the calibration sites, then score the held-out
+    sites. The fit balances per-cell placement (300 m cells) and each site's total canopy per quarter, the number
+    that is published; fitting cells alone left site totals ~30 ha too high."""
     cal = [s for s in samples if s["site"] not in test_sites]
     best = None
-    for t in (0.002, 0.003, 0.004, 0.006, 0.008, 0.012):
-        for e in (0.04, 0.06, 0.08, 0.10, 0.14, 0.18, 0.22):
+    for t in THRESHOLDS:
+        print(f"  calibrating: threshold {t} ...", flush=True)
+        for e in ENDMEMBERS:
             if e <= t * 2:
                 continue
-            o, r, _ = pairs(cal, t, e)
-            print(f"  calibrating: threshold {t}, end member {e}", flush=True)
-            rmse = float(np.sqrt(np.mean((o - r) ** 2))) if o.size else np.inf
-            if best is None or rmse < best[0]:
-                best = (rmse, t, e)
-    _, t, e = best
-    res = {"threshold": t, "endmember": e, "cell_m": CELL_M}
+            for b in SHORE_M:
+                o, r, tot = pairs(cal, t, e, b)
+                if not o.size:
+                    continue
+                so, sr = np.array([x[3] for x in tot]), np.array([x[4] for x in tot])
+                score = (np.sqrt(np.mean((o - r) ** 2)) / (np.std(r) or 1)
+                         + np.sqrt(np.mean((so - sr) ** 2)) / (np.std(sr) or 1))
+                if best is None or score < best[0]:
+                    best = (score, t, e, b)
+    _, t, e, b = best
+    res = {"threshold": t, "endmember": e, "shore_m": b, "cell_m": CELL_M, "min_coverage": MIN_COVERAGE}
     for name, group in (("calibration", cal), ("held_out", [s for s in samples if s["site"] in test_sites])):
-        o, r, totals = pairs(group, t, e)
+        o, r, totals = pairs(group, t, e, b)
         site_o = [x[3] for x in totals]
         site_r = [x[4] for x in totals]
         res[name] = {"cells_m2": _stats(o, r), "site_quarter_ha": _stats(site_o, site_r)}
@@ -267,7 +295,7 @@ def site_series(samples: list[dict], cal: dict) -> list[dict]:
     out = []
     ho = (cal.get("held_out") or {}).get("site_quarter_ha") or {}
     for s in sorted(samples, key=lambda s: (s["year"], s["quarter"])):
-        f = _sample_fraction(s, cal["threshold"], cal["endmember"])
+        f = _sample_fraction(s, cal["threshold"], cal["endmember"], cal.get("shore_m", 0))
         ha = canopy_ha(f, s["px_m"])
         row = {"year": s["year"], "quarter": s["quarter"], "canopy_ha": round(ha, 2),
                "coverage": round(coverage(s["fai"], s["land"]), 2)}

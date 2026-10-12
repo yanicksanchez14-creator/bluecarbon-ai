@@ -131,7 +131,7 @@ def main() -> None:
 
     test = {s["name"] for s in spec["sites"] if s.get("role") == "test"}
     cal_cache = WORK / "calibration_cache.json"  # on Drive, so a disconnect after calibrating never repeats it
-    key = {"sites": sorted(s["name"] for s in spec["sites"]), "test": sorted(test), "n_samples": len(samples)}
+    key = {"method": 2, "sites": sorted(s["name"] for s in spec["sites"]), "test": sorted(test), "n_samples": len(samples)}
     cached = json.loads(cal_cache.read_text()) if cal_cache.exists() else {}
     if cached.get("key") == key:
         cal = cached["cal"]
@@ -144,7 +144,8 @@ def main() -> None:
     save_json({**cal, "sites_calibration": sorted({s["name"] for s in spec["sites"]} - test),
                "sites_held_out": sorted(test), "kelpwatch_file": kw_path.name,
                "method": "Sentinel-2 Floating Algae Index (B4, B8A, B11), quarterly 90th percentile, background "
-                         "removed, scaled to canopy fraction; threshold and end member fitted to Kelpwatch"},
+                         "removed, surf zone masked, scaled to canopy fraction; threshold, end member and surf-zone "
+                         "buffer fitted to Kelpwatch on calibration sites; quarters under 50% clear ocean not scored"},
               OUT / "calibration.json")
     for s in spec["sites"]:
         smp = per_site[s["name"]]
@@ -152,7 +153,8 @@ def main() -> None:
             continue
         series = site_series(smp, cal)
         latest = next((x for x in reversed(smp) if np.isfinite(x["fai"]).mean() > 0.6), smp[-1])
-        frac = kelp_fraction(latest["fai"], latest["land"], SCALE_M, cal["threshold"], cal["endmember"])
+        frac = kelp_fraction(latest["fai"], latest["land"], SCALE_M, cal["threshold"], cal["endmember"],
+                             cal.get("shore_m", 0))
         bounds = fraction_png(frac, latest["tr"], latest["crs"], OUT / s["name"] / "canopy_latest.png")
         save_json({"name": s["name"], "title": s["title"], "region": s["region"], "species": s["species"],
                    "held_out": s["name"] in test, "bbox": s["bbox"], "bounds": bounds, "series": series,

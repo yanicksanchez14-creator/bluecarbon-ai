@@ -59,3 +59,16 @@ def test_read_kelpwatch_layout(tmp_path):
 
     cells = kelpwatch_cells(kw, 1, from_origin(474000, 3621000, 20, 20), CRS.from_epsg(32611), (600, 600))
     assert cells.sum() == 900.0
+
+
+def test_surf_zone_foam_is_masked_by_calibration():
+    samples = []
+    for i, (site, cover) in enumerate([("a", 0.5), ("a", 0.7), ("b", 0.4), ("b", 0.8), ("t", 0.6)]):
+        fai, land, truth = _scene(i, cover=cover)
+        fai[:, 10:12] += 0.05                                         # breaking waves along the shore (40 m wide)
+        samples.append({"site": site, "year": 2020, "quarter": i % 4 + 1, "fai": fai, "land": land, "px_m": 20.0,
+                        "kw_cells": our_cells(truth, 20.0), "tr": from_origin(0, 0, 20, 20),
+                        "crs": CRS.from_epsg(32611)})
+    cal = calibrate(samples, {"t"})
+    assert cal["shore_m"] >= 40
+    assert abs(cal["held_out"]["site_quarter_ha"].get("bias", 0)) < 2

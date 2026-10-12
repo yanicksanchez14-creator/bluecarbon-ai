@@ -143,7 +143,16 @@ def main() -> None:
         import os
 
         os.environ["BLUECARBON_TRAIN_STATE"] = str((WORK / "sites" / "_train_state.pt").resolve())
+        from bluecarbon.gee import LABEL_VERSION
+
+        tag = WORK / "sites" / "_train_state_labels.txt"   # which label version the saved training state is for
+        if (WORK / "sites" / "_train_state.pt").exists() and (not tag.exists() or tag.read_text().strip() != LABEL_VERSION):
+            print("Old training state from an earlier run found: discarding it (new sites and labels)", flush=True)
+            for f in ("_train_state.pt", "_train_best.pt"):
+                (WORK / "sites" / f).unlink(missing_ok=True)
         resuming = (WORK / "sites" / "_train_state.pt").exists()
+        tag.parent.mkdir(parents=True, exist_ok=True)
+        tag.write_text(LABEL_VERSION + "\n")
         if resuming:
             print("\nTraining state found on Drive: skipping downloads and resuming training", flush=True)
         else:

@@ -133,6 +133,11 @@ def code_version() -> str:
 
 def main() -> None:
     print("Code version:", code_version(), flush=True)
+    flag = WORK / "PREFLIGHT_FAILED.txt"
+    if flag.exists():  # with "Run all", a failed preflight must not start a 20-hour run
+        print("Not starting: the preflight check failed:\n" + flag.read_text()
+              + "Paste the preflight output to Claude, or delete " + str(flag) + " to train anyway.", flush=True)
+        sys.exit(1)
     skip_train = "--skip-train" in sys.argv
     if not skip_train:
         import os

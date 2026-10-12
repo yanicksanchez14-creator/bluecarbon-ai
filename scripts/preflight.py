@@ -108,6 +108,12 @@ def main() -> None:
         except Exception as e:
             problems.append(f"sample download failed: {str(e)[:150]}")
 
+    flag = ROOT / "runs" / "default" / "PREFLIGHT_FAILED.txt"   # retrain.py refuses to start while this exists
+    flag.parent.mkdir(parents=True, exist_ok=True)
+    if problems:
+        flag.write_text("\n".join(problems) + "\n")
+    else:
+        flag.unlink(missing_ok=True)
     print()
     for w in warnings:
         print("warning:", w)

@@ -374,6 +374,7 @@ def _accuracy(out: Path, doc: dict) -> None:
     f2 = lambda v: "–" if v is None else f"{v:.2f}"  # noqa: E731
     H = {"mangrove": "Mangrove", "saltmarsh": "Salt marsh", "seagrass": "Seagrass"}
     DASH = "\u2013"
+    MIN_REF_HA = 25
     test = r.get("test") or {}
     held = [s["id"] for s in doc["sites"] if s.get("held_out") and s["id"] in (r.get("areas") or r.get("test_per_site") or {})]
     # whole-estuary scores from the publishing comparison (same numbers as the table below it); test-chip
@@ -390,10 +391,20 @@ def _accuracy(out: Path, doc: dict) -> None:
              f"<tr><th>Training</th><td>{r.get('epochs_run', '?')} epochs, best at epoch {r.get('best_epoch', '?')}</td></tr>",
              f"<tr><th>Test score (all test areas)</th><td>mean IoU {f2(test.get('mIoU'))}, overall accuracy "
              f"{f2(test.get('overall_accuracy'))}</td></tr></tbody></table>"]
-    parts += ['<h2 id="held-out">Estuaries never seen in training</h2>',
+    parts += ['<h2 id="summary">In short</h2><ul>',
+              "<li><b>Mangrove</b> is mapped very well on coastlines the model never saw: 0.89 to 0.95 overlap with the "
+              "reference map.</li>",
+              "<li><b>Salt marsh</b> is mapped well where there is a real marsh to map: 0.94 at Plum Island and 0.82 at "
+              "Mission Bay. It is weak at Moreton Bay, where marsh is a thin fringe behind the mangroves.</li>",
+              "<li><b>Seagrass</b> is the weak spot: good in clear water (0.73 at Tampa Bay), poor in murky water. Treat "
+              "seagrass areas as a lower bound.</li>",
+              "<li>Every new model must match or beat the previous one on these same estuaries before it goes live.</li>"
+              "</ul>",
+              '<h2 id="held-out">Estuaries never seen in training</h2>',
               "<p>These five estuaries were kept out of training entirely, so they show how the model does on a "
               "new coastline, which is what the live analysis tool does every time. Score is IoU: the overlap "
-              "between the model's map and the reference map, from 0 to 1 (\u2013 = habitat not present).</p>",
+              "between the model's map and the reference map, from 0 (no overlap) to 1 (perfect). \u2013 means the habitat "
+              "is not there; where the reference map has only a few hectares, a score would be noise, so none is shown.</p>",
               "<table><thead><tr><th>Estuary</th>" + "".join(f"<th>{v}</th>" for v in H.values()) + "</tr></thead><tbody>"]
     per = r.get("test_per_site") or {}
     for s in held:
@@ -401,8 +412,13 @@ def _accuracy(out: Path, doc: dict) -> None:
         ar = (r.get("areas") or {}).get(s) or {}
         cells = []
         for k in H:
-            present = (ar.get(k) or {}).get("reference", 1) > 0
-            cells.append(f"<td>{f2(whole.get((s, k), iou.get(k))) if present else DASH}</td>")
+            ref = (ar.get(k) or {}).get("reference", 1000)
+            if ref <= 0:
+                cells.append(f"<td>{DASH}</td>")
+            elif ref < MIN_REF_HA:  # a few hectares: one misplaced field edge swings the score from 0 to 1
+                cells.append(f'<td class="muted">too little to score ({ref} ha)</td>')
+            else:
+                cells.append(f"<td>{f2(whole.get((s, k), iou.get(k)))}</td>")
         parts.append(f"<tr><td>{name(s)}</td>{''.join(cells)}</tr>")
     parts.append("</tbody></table>")
     cmp_ = r.get("compare") or {}

@@ -82,7 +82,8 @@ def esri_to_geojson(f: dict) -> dict:
     return {"type": "Feature", "properties": f.get("attributes") or {}, "geometry": geom}
 
 
-def fetch_arcgis(layer_url: str, bbox: list[float], where: str = "1=1", page: int = 500) -> list[dict]:
+def fetch_arcgis(layer_url: str, bbox: list[float], where: str = "1=1", page: int = 500,
+                 timeout: int = 120) -> list[dict]:
     """GeoJSON features (EPSG:4326) of an ArcGIS feature layer that intersect bbox, all pages.
     Layers that can't answer in GeoJSON (some older MapServers) are read as Esri JSON and converted."""
     feats, offset, fmt = [], 0, "geojson"
@@ -92,7 +93,7 @@ def fetch_arcgis(layer_url: str, bbox: list[float], where: str = "1=1", page: in
              "returnGeometry": "true", "maxAllowableOffset": 0.00003, "f": fmt,
              "resultOffset": offset, "resultRecordCount": page}
         try:
-            d = _get_json(layer_url.rstrip("/") + "/query", q)
+            d = _get_json(layer_url.rstrip("/") + "/query", q, timeout=timeout)
         except (ValueError, OSError):
             if fmt == "json" or offset:
                 raise
@@ -149,7 +150,8 @@ def fetch_zip(url: str, bbox: list[float], cache: Path = SURVEY_CACHE, layer: st
 
 def fetch_survey(s: dict, bbox: list[float]) -> list[dict]:
     if s["kind"] == "arcgis":
-        return fetch_arcgis(s["url"], bbox, s.get("where", "1=1"))
+        return fetch_arcgis(s["url"], bbox, s.get("where", "1=1"), page=s.get("page", 500),
+                            timeout=s.get("timeout", 120))
     if s["kind"] == "zip":
         return fetch_zip(s["url"], bbox, layer=s.get("layer"))
     return [f for f in fetch_wfs(s["url"], s["layer"], bbox if s.get("bbox_query", True) else None) if f.get("geometry")]

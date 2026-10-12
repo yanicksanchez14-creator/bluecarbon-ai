@@ -128,6 +128,13 @@ def radar_path_for(image_path: str | Path) -> Path | None:
     return cand if cand.exists() and cand != p else None
 
 
+def lband_path_for(image_path: str | Path) -> Path | None:
+    """lband.tif (ALOS PALSAR L-band) next to image.tif, image_2020.tif -> lband_2020.tif."""
+    p = Path(image_path)
+    cand = p.with_name(p.name.replace("image", "lband"))
+    return cand if cand.exists() and cand != p else None
+
+
 def read_ancillary(image_path: str | Path, shape: tuple[int, int]) -> np.ndarray | None:
     """Context stack for a model: ancillary.tif bands, then Sentinel-1 radar bands when radar.tif exists."""
     import rasterio
@@ -145,4 +152,10 @@ def read_ancillary(image_path: str | Path, shape: tuple[int, int]) -> np.ndarray
             rad = ds.read()
         if rad.shape[1:] == arr.shape[1:]:
             arr = np.concatenate([arr.astype(np.int16), rad.astype(np.int16)])
+            lb = lband_path_for(image_path)
+            if lb is not None:
+                with rasterio.open(lb) as ds:
+                    lband = ds.read()
+                if lband.shape[1:] == arr.shape[1:]:
+                    arr = np.concatenate([arr, lband.astype(np.int16)])
     return arr

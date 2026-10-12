@@ -57,8 +57,15 @@ FEATURE_NAMES_ANC_V1: list[str] = FEATURE_NAMES + ANC_FEATURES_V1
 RADAR_BANDS: list[str] = ["s1_vv", "s1_vh"]
 RADAR_FEATURES: list[str] = ["S1_VV", "S1_VH", "S1_VH_VV"]
 FEATURE_NAMES_ANC_RADAR: list[str] = FEATURE_NAMES_ANC_V1 + RADAR_FEATURES
-KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC) | set(RADAR_FEATURES)
+# ALOS PALSAR-2 L-band yearly mosaic (lband.tif, 2 bands HH/HV, gamma0 dB x 100). The 23 cm wavelength goes
+# through the canopy and scatters off trunks and prop roots, so it separates mangrove forest from marsh and
+# shrub where Sentinel-1 (5.6 cm) only sees the leaves. Appended after the Sentinel-1 bands.
+LBAND_BANDS: list[str] = ["alos_hh", "alos_hv"]
+LBAND_FEATURES: list[str] = ["ALOS_HH", "ALOS_HV", "ALOS_HV_HH"]
+FEATURE_NAMES_ANC_RADAR_LBAND: list[str] = FEATURE_NAMES_ANC_RADAR + LBAND_FEATURES
+KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC) | set(RADAR_FEATURES) | set(LBAND_FEATURES)
 RADAR_OFFSET = len(ANCILLARY_BANDS)  # first radar band in a combined context stack
+LBAND_OFFSET = RADAR_OFFSET + len(RADAR_BANDS)
 
 
 def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
@@ -84,6 +91,11 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
         out["S1_VV"] = (np.clip(vv, -30, 5) + 30) / 35.0
         out["S1_VH"] = (np.clip(vh, -35, 0) + 35) / 35.0
         out["S1_VH_VV"] = np.clip(vh - vv, -20, 5) / 20.0
+    if anc.shape[0] >= LBAND_OFFSET + len(LBAND_BANDS):
+        hh, hv = a[LBAND_OFFSET] / 100.0, a[LBAND_OFFSET + 1] / 100.0   # dB
+        out["ALOS_HH"] = (np.clip(hh, -30, 5) + 30) / 35.0
+        out["ALOS_HV"] = (np.clip(hv, -35, 0) + 35) / 35.0
+        out["ALOS_HV_HH"] = np.clip(hv - hh, -20, 5) / 20.0
     return {k: v.astype(np.float32) for k, v in out.items()}
 
 
@@ -92,11 +104,14 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
 # exactly where seagrass grows. The clear-water band ratios carry the usable depth signal instead.
 USE_DEPTH_FEATURE = False
 USE_RADAR_FEATURE = True   # new models use Sentinel-1 when every chip has it
+USE_LBAND_FEATURE = True   # ... and ALOS PALSAR L-band when every chip has it
 
 
 def default_feature_names(anc: np.ndarray | None) -> list[str]:
     if anc is None:
         return list(FEATURE_NAMES)
+    if USE_LBAND_FEATURE and anc.shape[0] >= LBAND_OFFSET + len(LBAND_BANDS):
+        return FEATURE_NAMES_ANC_RADAR_LBAND
     if USE_RADAR_FEATURE and anc.shape[0] >= RADAR_OFFSET + len(RADAR_BANDS):
         return FEATURE_NAMES_ANC_RADAR
     if USE_DEPTH_FEATURE and anc.shape[0] > DEPTH_BAND:

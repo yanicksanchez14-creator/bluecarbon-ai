@@ -471,6 +471,49 @@ def site_biomass_stats(bbox: list[float]) -> dict:
             "agb_count": a.get("agb_count") or 0, "precip_mm": p.get("bio12")}
 
 
+PALSAR_YEARLY = "JAXA/ALOS/PALSAR/YEARLY/SAR_EPOCH"   # ALOS-2 PALSAR-2 25 m yearly mosaics (JAXA)
+
+
+def lband_image(region, year: int):
+    """ALOS PALSAR-2 L-band HH/HV for the mosaic year closest to `year`, gamma0 dB x 100 as int16
+    (dB = 10 log10(DN^2) - 83, JAXA). No coverage reads -3000 (-30 dB)."""
+    _require_ee()
+    col = ee.ImageCollection(PALSAR_YEARLY).filterBounds(region)
+    t0 = ee.Date.fromYMD(year, 7, 1)
+    img = ee.Image(col.map(lambda im: im.set("d", ee.Number(im.date().difference(t0, "day")).abs()))
+                   .sort("d").first())
+    db = img.select(["HH", "HV"]).toFloat().pow(2).log10().multiply(10).subtract(83)
+    return db.multiply(100).unmask(-3000).toInt16().rename(["alos_hh", "alos_hv"])
+
+
+def download_lband(bbox: list[float], year: int, out_path: str | Path, cfg: Config) -> Path:
+    return download(lband_image(bbox_geometry(bbox), year), bbox, out_path, cfg, "int16", None, ["alos_hh", "alos_hv"])
+
+
+GEDI_L4A = "LARSE/GEDI/GEDI04_A_002_MONTHLY"   # GEDI lidar footprint biomass (Dubayah et al.), rasterised 25 m
+CANOPY_HEIGHT = "users/nlang/ETH_GlobalCanopyHeight_2020_10m_v1"   # Lang et al. 2023, 10 m
+
+
+def lidar_biomass_check(bbox: list[float]) -> dict:
+    """Independent check of the NASA mangrove biomass map inside a box: GEDI lidar footprint biomass
+    (quality-filtered, 2019-2023) and ETH 10 m canopy height, both over the map's mangrove pixels."""
+    _require_ee()
+    region = bbox_geometry(bbox)
+    mang = ee.ImageCollection(MANGROVE_AGB).mosaic().select(0).gt(0)
+    gedi = (ee.ImageCollection(GEDI_L4A).filterBounds(region).filterDate("2019-01-01", "2024-01-01")
+            .map(lambda im: im.updateMask(im.select("l4_quality_flag").eq(1)).select("agbd")).mosaic().updateMask(mang))
+    red = (ee.Reducer.mean().combine(ee.Reducer.percentile([10, 90]), "", True)
+           .combine(ee.Reducer.count(), "", True))
+    g = gedi.reduceRegion(red, region, 25, maxPixels=int(1e10), bestEffort=True)
+    h = ee.Image(CANOPY_HEIGHT).select(0).rename("h").updateMask(mang).reduceRegion(red, region, 10,
+                                                                                    maxPixels=int(1e10), bestEffort=True)
+    with _Watchdog(REQUEST_TIMEOUT_S + 60):
+        d = ee.Dictionary({"g": g, "h": h}).getInfo()
+    g, h = d.get("g") or {}, d.get("h") or {}
+    return {"gedi_agbd_mean": g.get("agbd_mean"), "gedi_agbd_p10": g.get("agbd_p10"), "gedi_agbd_p90": g.get("agbd_p90"),
+            "gedi_footprints": g.get("agbd_count") or 0, "canopy_h_mean": h.get("h_mean"), "canopy_h_p90": h.get("h_p90")}
+
+
 def built_up_image(cfg: Config):
     """1 where ESA WorldCover 2021 says built up (class 50), else 0: towns and roads a wetland can't move into."""
     _require_ee()

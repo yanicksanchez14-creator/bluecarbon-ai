@@ -44,6 +44,9 @@ def _fetch_extra_years(gee, site: dict, d: Path, years: list[int], cfg) -> None:
         if not (d / f"radar_{y}.tif").exists():
             typer.echo(f"[{site['name']}] {y} radar (Sentinel-1) ...")
             gee.download_radar(site["bbox"], f"{y}-01-01", f"{y + 1}-01-01", d / f"radar_{y}.tif", cfg)
+        if not (d / f"lband_{y}.tif").exists():
+            typer.echo(f"[{site['name']}] {y} L-band radar (ALOS PALSAR-2) ...")
+            gee.download_lband(site["bbox"], y, d / f"lband_{y}.tif", cfg)
 
 
 @app.command()
@@ -71,6 +74,9 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if (d / "image.tif").exists() and not (d / "radar.tif").exists():  # Sentinel-1, a model input
             typer.echo(f"[{site['name']}] radar (Sentinel-1) ...")
             gee.download_radar(site["bbox"], yr_start, yr_end, d / "radar.tif", cfg)
+        if (d / "image.tif").exists() and not (d / "lband.tif").exists():  # ALOS PALSAR-2, a model input
+            typer.echo(f"[{site['name']}] L-band radar (ALOS PALSAR-2) ...")
+            gee.download_lband(site["bbox"], int(str(yr_start)[:4]), d / "lband.tif", cfg)
         if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
             typer.echo(f"[{site['name']}] built-up layer ...")
             gee.download_built(site["bbox"], d / "built.tif", cfg)
@@ -120,7 +126,7 @@ def chips(config: str = CfgOpt, sites: str = SitesOpt):
             continue
         r = make_chips(d / "image.tif", d / "label.tif", out, site["name"], c.size, c.stride, c.min_labeled_frac,
                        c.block_km, c.split, c.seed, "test" if site.get("role") == "test" else None,
-                       ancillary_path=d / "ancillary.tif", radar_path=d / "radar.tif")
+                       ancillary_path=d / "ancillary.tif", radar_path=d / "radar.tif", lband_path=d / "lband.tif")
         n_extra = 0
         if site.get("role") != "test":
             for y in s.get("extra_years") or []:
@@ -128,7 +134,7 @@ def chips(config: str = CfgOpt, sites: str = SitesOpt):
                     rx = make_chips(d / f"image_{y}.tif", d / "label.tif", out, site["name"], c.size, c.stride,
                                     c.min_labeled_frac, c.block_km, c.split, c.seed,
                                     ancillary_path=d / f"ancillary_{y}.tif", tag=str(y), only_splits={"train"},
-                                    radar_path=d / f"radar_{y}.tif")
+                                    radar_path=d / f"radar_{y}.tif", lband_path=d / f"lband_{y}.tif")
                     n_extra += len(rx)
                     r += rx
         typer.echo(f"{site['name']}: {len(r)} chips ({n_extra} from extra years)")
@@ -271,6 +277,7 @@ def scene(bbox: list[float] = typer.Option(..., help="lon_min lat_min lon_max la
     gee.download(img, bbox, d / "image.tif", cfg, "uint16", 0, S2_BANDS)
     gee.download_ancillary(bbox, start, end, d / "ancillary.tif", cfg)
     gee.download_radar(bbox, start, end, d / "radar.tif", cfg)
+    gee.download_lband(bbox, int(start[:4]), d / "lband.tif", cfg)
     predict(d / "image.tif", model, d / "pred.tif", config)
     report(d / "pred.tif", model, config, d)
 
@@ -305,6 +312,8 @@ def case_study(model: Path = typer.Option(..., "--model", "-m"), config: str = C
                 gee.download_ancillary(cs["bbox"], a, b, d / f"{key}_ancillary.tif", cfg)
             if not (d / f"{key}_radar.tif").exists():
                 gee.download_radar(cs["bbox"], a, b, d / f"{key}_radar.tif", cfg)
+            if not (d / f"{key}_lband.tif").exists():
+                gee.download_lband(cs["bbox"], int(a[:4]), d / f"{key}_lband.tif", cfg)
             predict(d / f"{key}_image.tif", model, d / f"{key}_pred.tif", config)
         rep = change_scene_report(d / "t0_pred.tif", d / "t1_pred.tif", cfg.carbon)
         write_report(rep, d, "change_report")
@@ -339,12 +348,19 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
         (s, w), (n, e) = json.loads(mp.read_text())["bounds"]
         try:
             res[mp.parent.name] = gee.site_biomass_stats([w, s, e, n])
+            if (res[mp.parent.name].get("agb_count") or 0) > 0:  # mangrove: independent lidar check
+                try:
+                    res[mp.parent.name].update(gee.lidar_biomass_check([w, s, e, n]))
+                except Exception as ex:
+                    typer.echo(f"{mp.parent.name}: lidar check skipped ({str(ex)[:100]})")
         except Exception as ex:  # one site failing must not lose the others
             typer.echo(f"{mp.parent.name}: skipped ({str(ex)[:100]})")
             continue
         r = res[mp.parent.name]
         typer.echo(f"{mp.parent.name:24s} mangrove biomass {r['agb_mean'] or 0:7.1f} Mg/ha over {r['agb_count']:>8,} px, "
-                   f"rain {r['precip_mm'] or 0:6.0f} mm")
+                   f"rain {r['precip_mm'] or 0:6.0f} mm"
+                   + (f", GEDI lidar {r['gedi_agbd_mean']:.1f} Mg/ha ({r['gedi_footprints']} footprints)"
+                      if r.get("gedi_agbd_mean") else ""))
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(res, indent=1, sort_keys=True))
     typer.echo(f"wrote {out}")

@@ -914,6 +914,9 @@ with tab_analyze:
                     if any(f.startswith("S1_") for f in getattr(predictor, "features", [])):
                         st.write("Fetching Sentinel-1 radar…")
                         gee.download_radar(bbox, str(start), str(end), tmp / "radar.tif", CFG)
+                    if any(f.startswith("ALOS_") for f in getattr(predictor, "features", [])):
+                        st.write("Fetching ALOS PALSAR-2 L-band radar…")
+                        gee.download_lband(bbox, int(str(start)[:4]), tmp / "lband.tif", CFG)
                     from bluecarbon.predictors import read_ancillary
 
                     with rasterio.open(tmp / "image.tif") as im:

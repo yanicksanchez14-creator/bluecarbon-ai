@@ -87,6 +87,9 @@
     const bioNote = mg && mg.source === "measured"
       ? ` Mangrove biomass from NASA's canopy-height map (${BC.fmt(mg.agb_mg_ha)} t/ha above ground, ±30%).`
       : " Biomass from IPCC default values.";
+    const L = s.lidar;
+    const lidarNote = L ? ` Checked against ${BC.fmt(L.footprints)} GEDI lidar measurements over these mangroves: ${BC.fmt(L.gedi_agb)} t/ha`
+      + (L.canopy_h ? `, mean canopy height ${L.canopy_h} m.` : ".") : "";
     let change = "";
     if (s.change) {
       const ch = s.change;
@@ -123,7 +126,7 @@
       </div>
       <h2>Habitats found</h2>
       <table class="hab-table"><tbody>${rows}</tbody></table>
-      <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}</p>
+      <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}${lidarNote}</p>
       ${s.confidence ? `<p class="small-note">Model confidence: ${Object.entries(s.confidence).map(([k, v]) =>
         `${C[k].name.toLowerCase()} ${Math.round(v.mean_pct)}% average, ${Math.round(v.low_share * 100)}% of its area under 60%`).join("; ")}.</p>` : ""}
       ${s.history ? historyChart(s.history) : ""}

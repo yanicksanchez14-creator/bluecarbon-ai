@@ -96,6 +96,17 @@ def _carbon(rep: dict) -> dict:
             "value_usd_yr": r(c.get("indicative_annual_value_usd") or {}), "classes": per}
 
 
+def _lidar(sid: str) -> dict | None:
+    """GEDI lidar biomass and canopy height over the site's mangroves (data/site_biomass.json), if measured."""
+    p = ROOT / "data" / "site_biomass.json"
+    b = (json.loads(p.read_text()) if p.exists() else {}).get(sid) or {}
+    if not b.get("gedi_agbd_mean") or (b.get("gedi_footprints") or 0) < 20:
+        return None
+    return {"gedi_agb": round(b["gedi_agbd_mean"]), "footprints": b["gedi_footprints"],
+            "map_agb": round(b["agb_mean"]) if b.get("agb_mean") else None,
+            "canopy_h": round(b["canopy_h_mean"], 1) if b.get("canopy_h_mean") else None}
+
+
 def site_record(page: Path, out: Path) -> tuple[dict, dict]:
     meta = json.loads((page / "meta.json").read_text())
     sid = page.name
@@ -133,7 +144,7 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
         "period": meta.get("period", ""), "kind": meta["kind"], "held_out": bool(meta.get("held_out")),
         "description": meta.get("description", ""), "bounds": meta["bounds"],
         "center": [round((s + n) / 2, 4), round((w + e) / 2, 4)],
-        "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs,
+        "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs, "lidar": _lidar(sid),
     }
     if (page / "history.json").exists():
         h = json.loads((page / "history.json").read_text())

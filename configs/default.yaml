@@ -146,6 +146,8 @@ labels:
       kind: arcgis
       class: saltmarsh
       url: https://gisrest.defra.gov.uk/server/rest/services/EA/SaltmarshExtentsAndZonation/MapServer/0
+      timeout: 600                      # slow from Colab (timed out at 120 s in Oct 2026)
+      page: 100
       extent: [-6.5, 49.8, 2.0, 55.9]
       authoritative: true
       citation: "Environment Agency, Saltmarsh Extents and Zonation (aerial survey 2016-2019), Open Government Licence"

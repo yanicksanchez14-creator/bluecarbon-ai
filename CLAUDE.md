@@ -27,7 +27,10 @@ Order of work (status locked in Oct 12 2026; the Doc's "Status" table is the det
    Global Mangrove Watch change check vs our Landsat history; live-tool sources CSV; page weight + mobile checks.
 4. NEXT RUN: years 2019 + 2023 and wet/dry seasons; hard-example mining; U-Net + LightGBM ensemble (keep only
    if held-out improves); tide-relative elevation; Plum Island false seagrass; Mission Bay edges.
-5. LATER: kelp Tasmania/Chile/South Africa; Puget Sound eelgrass (needs a better survey); Netherlands and China
+   DONE Oct 12: source labels, GMW change check, live-tool sources CSV, page weight/mobile. Then the owner said:
+   no new code until this run's results are in.
+5. LATER: Sanderman 2018 mangrove soil carbon (not in Earth Engine: the owner downloads the 30 m map from Harvard
+   Dataverse, ~1 GB, then wire it in as a 2nd soil source with a disagreement flag); kelp Tasmania/Chile/South Africa; Puget Sound eelgrass (needs a better survey); Netherlands and China
    official marsh maps. Paid upgrades only with the owner's decision.
 Known issues to fix: Plum Island false seagrass, Mission Bay salt marsh drop, murky-water seagrass.
 Every run: no-paid-services test, compare before publishing, held-out table, 200-point spot-check per test site.

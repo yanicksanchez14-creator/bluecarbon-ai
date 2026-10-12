@@ -616,6 +616,39 @@ def in_image_html(report: dict, only_blue: bool = False) -> str:
 
 
 
+def sources_csv(report: dict, meta: dict) -> str:
+    """Every number of a live analysis with its value, unit, type (measured / mapped / IPCC default / computed /
+    illustrative) and named source, as CSV: the same labels as the website and the PDF reports."""
+    import csv
+    import io
+
+    from bluecarbon.sources import number_sources
+
+    c = report.get("carbon") or {}
+    classes = c.get("classes") or {}
+    kinds = {r["number"]: r for r in number_sources(classes, "en", "model v2", None, bool(meta.get("sea_level")))}
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["number", "habitat", "value", "low", "high", "unit", "type", "source"])
+    for k, v in classes.items():
+        name = {"mangrove": "Mangrove", "saltmarsh": "Salt marsh", "seagrass": "Seagrass"}.get(k, k)
+        area = next((r for n, r in kinds.items() if n.startswith("Habitat areas")), None)
+        if area:
+            w.writerow(["area", k, round(v["area_ha"], 2), "", "", "ha", area["label"], area["source"]])
+        for key, unit, label in (("soil", "t C/ha", "soil carbon"), ("biomass", "t C/ha", "biomass")):
+            row = kinds.get(f"{name} {label}")
+            val = [round(x, 1) for x in ((v.get(key) or {}).get(key) or [])] or ["", "", ""]
+            if row:
+                w.writerow([label, k, val[1], val[0], val[2], unit, row["label"], row["source"]])
+        tot = kinds.get("Carbon stored and absorbed (totals)")
+        for key, unit in (("stock_tCO2e", "t CO2e"), ("sequestration_tCO2e_per_yr", "t CO2e per year")):
+            d = v.get(key) or {}
+            if tot and d:
+                w.writerow([key, k, round(d.get("mean", 0)), round(d.get("p05", 0)), round(d.get("p95", 0)), unit,
+                            tot["label"], tot["source"]])
+    return buf.getvalue()
+
+
 def box_km2(bbox) -> float:
     """Area of a lon/lat box on the sphere (same formula as the map's live readout)."""
     r = 6378137.0
@@ -1018,8 +1051,8 @@ with tab_analyze:
                             f'{sl["ratio"]:.0%} of the wetland\'s own area. Rating: <b>{rating}</b>. Global sea level is '
                             f'projected to rise {sl["ar6_2100_m"][0]:g} to {sl["ar6_2100_m"][1]:g} m by 2100 (IPCC AR6).'
                             "</p></div>", unsafe_allow_html=True)
-            section("Download", "The report, the habitat map for GIS software, and the raw numbers.")
-            d1, d2, d3, d4 = st.columns(4)
+            section("Download", "The report, the habitat map for GIS software, the raw numbers and where each comes from.")
+            d1, d2, d3, d4, d5 = st.columns(5)
             pdfs = live.get("pdf") or {}
             if pdfs.get("en"):
                 d1.download_button("PDF report (English)", pdfs["en"], "bluecarbon_report_en.pdf", mime="application/pdf",
@@ -1030,6 +1063,8 @@ with tab_analyze:
             d3.download_button("Habitat map (GeoTIFF)", live["tif"], "bluecarbon_habitats.tif", width="stretch")
             d4.download_button("Numbers (JSON)", json.dumps(live["report"], indent=2), "bluecarbon_report.json",
                                width="stretch")
+            d5.download_button("Sources (CSV)", sources_csv(live["report"], live.get("meta") or {}),
+                               "bluecarbon_sources.csv", mime="text/csv", width="stretch")
 
 # ----------------------------------------------------------------------------- site screening
 

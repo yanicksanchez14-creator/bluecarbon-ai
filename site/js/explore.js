@@ -131,6 +131,11 @@
       <p class="small-note">Areas corrected for the model's known errors. ${soilNote}${bioNote}${lidarNote}</p>
       ${s.confidence ? `<p class="small-note">Model confidence: ${Object.entries(s.confidence).map(([k, v]) =>
         `${C[k].name.toLowerCase()} ${Math.round(v.mean_pct)}% average, ${Math.round(v.low_share * 100)}% of its area under 60%`).join("; ")}.</p>` : ""}
+      ${s.sources && s.sources.length ? `<details class="srcs"><summary>Where each number comes from</summary>
+        <table class="src-table"><tbody>${s.sources.map(r => `<tr><td>${BC.esc(r.number)}</td>
+          <td><span class="src-chip src-${r.kind}">${BC.esc(r.label)}</span></td><td>${BC.esc(r.source)}</td></tr>`).join("")}</tbody></table>
+        <p class="small-note">Measured = from field or lidar measurements near this site. Mapped = from satellite maps of this site.
+        IPCC default = a global value used where nothing local exists. Computed = combined from the numbers above.</p></details>` : ""}
       ${s.history ? historyChart(s.history) : ""}
       ${slr}
       ${change}

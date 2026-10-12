@@ -150,6 +150,11 @@ def site_record(page: Path, out: Path) -> tuple[dict, dict]:
         "center": [round((s + n) / 2, 4), round((w + e) / 2, 4)],
         "areas_ha": _best_areas(rep), "carbon": _carbon(rep), "images": imgs, "lidar": _lidar(sid),
     }
+    from bluecarbon.sources import number_sources
+
+    rp = ROOT / "models" / "model_report.json"
+    mv = f"model v2, code {json.loads(rp.read_text()).get('code_version', '')}" if rp.exists() else "model v2"
+    rec["sources"] = number_sources(rep["carbon"]["classes"], "en", mv, rec["lidar"], bool(meta.get("sea_level")))
     if (page / "history.json").exists():
         h = json.loads((page / "history.json").read_text())
         rec["history"] = {"epochs": [{"year": e["year"], **({"ha": {k: v["ha"] for k, v in e["adjusted_ha"].items()},

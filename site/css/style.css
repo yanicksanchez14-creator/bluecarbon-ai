@@ -469,3 +469,12 @@ details.more-detail summary { cursor: pointer; font-weight: 500; padding: 6px 0;
 .kx-sst text { font: 400 10px var(--mono); fill: var(--on-deep-2); }
 .kx-score, .kx-sstnote { font-size: 12.5px; color: var(--on-deep-2); margin: 10px 0 0; line-height: 1.45; }
 .kx-sstnote b.bad { color: #ef8f7d; } .kx-sstnote b.good { color: #8cc4f2; } .kx-sstnote b { color: #fff; font-weight: 500; }
+.srcs { margin: 18px 0 4px; border-top: 1px solid var(--line); padding-top: 10px; }
+.srcs summary { cursor: pointer; font: 500 14px var(--sans); padding: 4px 0; }
+.src-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.src-table td { padding: 7px 8px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+.src-table td:first-child { color: var(--ink); white-space: nowrap; }
+.src-chip { display: inline-block; font: 400 11px var(--mono); padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+.src-measured { background: #d6efe6; color: #1f5b49; } .src-mapped { background: #dbe8f5; color: #23486e; }
+.src-ipcc { background: #ecebe6; color: #5b5a52; } .src-computed { background: #efe6f5; color: #553a6b; }
+.src-illustrative { background: #f7ecd6; color: #6b4d12; }

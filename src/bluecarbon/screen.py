@@ -109,6 +109,7 @@ T = {
         carbon="Carbon", stock_col="Stored (t CO2e)", seq_col="Absorbed per year (t CO2e)", soil_col="Soil carbon source",
         soil_measured="measured cores ({n} within {r} km, {s} studies)", soil_ipcc="IPCC global default",
         bio_measured="biomass: NASA canopy-height map, {agb:.0f} t/ha above ground (\u00b130%)", bio_ipcc="biomass: IPCC default",
+        sources_h="Where each number comes from", src_num="Number", src_kind="Type", src_src="Source",
         credits="Credit potential (illustrative)", lens_col="Basis", low="Low", mid="Mid", high="High",
         seq_lens="Sequestration of existing habitat (credits per year)",
         loss_lens="Avoided loss, if protection stops the observed loss (credits per year)",
@@ -164,6 +165,7 @@ T = {
         seq_col="Absorbido por año (t CO2e)", soil_col="Fuente del carbono",
         soil_measured="núcleos medidos ({n} a menos de {r} km, {s} estudios)", soil_ipcc="valor global del IPCC",
         bio_measured="biomasa: mapa de altura de dosel de la NASA, {agb:.0f} t/ha aérea (\u00b130%)", bio_ipcc="biomasa: valor del IPCC",
+        sources_h="De dónde sale cada número", src_num="Número", src_kind="Tipo", src_src="Fuente",
         credits="Potencial de créditos (ilustrativo)", lens_col="Base", low="Bajo", mid="Medio", high="Alto",
         seq_lens="Secuestro del hábitat existente (créditos por año)",
         loss_lens="Pérdida evitada, si la protección detiene la pérdida observada (créditos por año)",
@@ -375,6 +377,13 @@ def build_report(page: Path, out_path: Path | None = None, lang: str = "en", spe
         rows.append([hab_name(k, lang), f"{fmt(c['stock_tCO2e']['mean'])} ({fmt(c['stock_tCO2e']['p05'])}–"
                      f"{fmt(c['stock_tCO2e']['p95'])})", fmt(c["sequestration_tCO2e_per_yr"]["mean"]), src])
     story.append(table(rows, [1.4 * inch, 2.2 * inch, 1.5 * inch, 1.9 * inch]))
+    from .sources import number_sources
+
+    srcs = number_sources(rep["carbon"]["classes"], lang, "model v2", None, bool(meta.get("sea_level")))
+    if srcs:
+        story.append(Paragraph(t["sources_h"], h2))
+        story.append(table([[t["src_num"], t["src_kind"], t["src_src"]]]
+                           + [[r["number"], r["label"], r["source"]] for r in srcs], [2.0 * inch, 1.1 * inch, 3.9 * inch]))
 
     story.append(Paragraph(t["credits"], h2))
     rows = [[t["lens_col"], t["low"], t["mid"], t["high"]],

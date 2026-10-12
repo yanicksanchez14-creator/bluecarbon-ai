@@ -98,7 +98,8 @@ def _http(url: str, timeout: int = 120, tries: int = 4) -> bytes:
 
 
 MANUAL = ("Download it by hand: open https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=74 "
-          "-> Data Entities -> the .nc file, save it to Google Drive as {dst}, and run the cell again.")
+          "-> Data Entities -> the .nc file, upload it to Google Drive as My Drive/bluecarbon-ai-cache/sites/_kelp/"
+          "kelpwatch.nc (in Colab that is {dst}), and run the cell again.")
 
 
 def download_kelpwatch(dst: Path) -> Path:

@@ -404,7 +404,7 @@ def _accuracy(out: Path, doc: dict) -> None:
               "<p>These five estuaries were kept out of training entirely, so they show how the model does on a "
               "new coastline, which is what the live analysis tool does every time. Score is IoU: the overlap "
               "between the model's map and the reference map, from 0 (no overlap) to 1 (perfect). \u2013 means the habitat "
-              "is not there; where the reference map has only a few hectares, a score would be noise, so none is shown.</p>",
+              "is not there, or covers under 25 hectares, too little to score fairly.</p>",
               "<table><thead><tr><th>Estuary</th>" + "".join(f"<th>{v}</th>" for v in H.values()) + "</tr></thead><tbody>"]
     per = r.get("test_per_site") or {}
     for s in held:
@@ -416,7 +416,7 @@ def _accuracy(out: Path, doc: dict) -> None:
             if ref <= 0:
                 cells.append(f"<td>{DASH}</td>")
             elif ref < MIN_REF_HA:  # a few hectares: one misplaced field edge swings the score from 0 to 1
-                cells.append(f'<td class="muted">too little to score ({ref} ha)</td>')
+                cells.append(f"<td>{DASH}</td>")
             else:
                 cells.append(f"<td>{f2(whole.get((s, k), iou.get(k)))}</td>")
         parts.append(f"<tr><td>{name(s)}</td>{''.join(cells)}</tr>")

@@ -478,3 +478,6 @@ details.more-detail summary { cursor: pointer; font-weight: 500; padding: 6px 0;
 .src-measured { background: #d6efe6; color: #1f5b49; } .src-mapped { background: #dbe8f5; color: #23486e; }
 .src-ipcc { background: #ecebe6; color: #5b5a52; } .src-computed { background: #efe6f5; color: #553a6b; }
 .src-illustrative { background: #f7ecd6; color: #6b4d12; }
+.kstory { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 760px) { .kstory-t { font-size: 13px; } .kstory-t th:nth-child(4), .kstory-t td:nth-child(4),
+  .kstory-t th:nth-child(6), .kstory-t td:nth-child(6) { display: none; } .kstory-t .spark { width: 80px; } }

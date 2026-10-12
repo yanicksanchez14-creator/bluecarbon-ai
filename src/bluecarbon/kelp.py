@@ -42,23 +42,54 @@ def quarter_dates(year: int, q: int) -> tuple[str, str]:
 
 
 # ---------------------------------------------------------------------------------------- per-pixel maths
+def _background(fai: np.ndarray, ocean: np.ndarray) -> np.ndarray:
+    """Local ocean background: median of nearby ocean pixels over a ~BG_WINDOW-pixel window.
+
+    Computed on a 3x coarser grid and expanded back, which is ~10x faster than a full-resolution 21x21 median
+    filter (that made calibration take many hours) and gives the same smooth background."""
+    from scipy.ndimage import median_filter, zoom
+
+    fill = np.nanmedian(fai[ocean]) if ocean.any() else 0.0
+    src = np.where(ocean, fai, fill).astype(np.float32)
+    k = 3
+    h, w = src.shape
+    H, W = -(-h // k) * k, -(-w // k) * k
+    pad = np.pad(src, ((0, H - h), (0, W - w)), mode="edge")
+    coarse = np.median(pad.reshape(H // k, k, W // k, k).transpose(0, 2, 1, 3).reshape(H // k, W // k, -1), axis=2)
+    coarse = median_filter(coarse, size=max(3, BG_WINDOW // k), mode="nearest")
+    return zoom(coarse, k, order=1)[:h, :w]
+
+
+def kelp_signal(fai_p90: np.ndarray, land: np.ndarray, px_m: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Background-removed FAI and masks. Independent of threshold/end member, so calibration computes it once."""
+    from scipy.ndimage import distance_transform_edt
+
+    fai = fai_p90.astype(np.float32)
+    finite = np.isfinite(fai)
+    ocean = ~land & finite
+    sfai = fai - _background(fai, ocean)
+    near = distance_transform_edt(~land) * px_m <= NEARSHORE_KM * 1000 if land.any() else np.ones_like(land)
+    return sfai, ocean & near, finite
+
+
+def fraction_from_signal(sig: tuple, threshold: float, endmember: float) -> np.ndarray:
+    sfai, keep, finite = sig
+    frac = np.clip((sfai - threshold) / max(endmember - threshold, 1e-6), 0, 1)
+    frac[~keep] = 0
+    frac[~finite] = np.nan
+    return frac.astype(np.float32)
+
+
 def kelp_fraction(fai_p90: np.ndarray, land: np.ndarray, px_m: float, threshold: float = DEFAULT_THRESHOLD,
                   endmember: float = DEFAULT_ENDMEMBER) -> np.ndarray:
     """fai_p90: quarterly 90th-percentile FAI (reflectance; NaN = no clear scene); land: bool."""
-    from scipy.ndimage import distance_transform_edt, median_filter
+    return fraction_from_signal(kelp_signal(fai_p90, land, px_m), threshold, endmember)
 
-    fai = fai_p90.astype(np.float32)
-    ocean = ~land & np.isfinite(fai)
-    bg_src = np.where(ocean, fai, np.nan)
-    # local ocean background: median of nearby ocean pixels (NaN-safe via fill with the global ocean median)
-    fill = np.nanmedian(bg_src) if ocean.any() else 0.0
-    bg = median_filter(np.where(ocean, fai, fill), size=BG_WINDOW, mode="nearest")
-    sfai = fai - bg
-    near = distance_transform_edt(~land) * px_m <= NEARSHORE_KM * 1000 if land.any() else np.ones_like(land)
-    frac = np.clip((sfai - threshold) / max(endmember - threshold, 1e-6), 0, 1)
-    frac[~(ocean & near)] = 0
-    frac[~np.isfinite(fai)] = np.nan
-    return frac.astype(np.float32)
+
+def _sample_fraction(s: dict, threshold: float, endmember: float) -> np.ndarray:
+    if "_sig" not in s:  # cache the expensive part on the sample
+        s["_sig"] = kelp_signal(s["fai"], s["land"], s["px_m"])
+    return fraction_from_signal(s["_sig"], threshold, endmember)
 
 
 def canopy_ha(frac: np.ndarray, px_m: float) -> float:
@@ -197,7 +228,7 @@ def pairs(samples: list[dict], threshold: float, endmember: float) -> tuple[np.n
     """samples: [{"fai", "land", "px_m", "kw_cells", "site", "year", "quarter"}] -> cell pairs + site totals."""
     o, r, totals = [], [], []
     for s in samples:
-        f = kelp_fraction(s["fai"], s["land"], s["px_m"], threshold, endmember)
+        f = _sample_fraction(s, threshold, endmember)
         oc = our_cells(f, s["px_m"])
         kc = s["kw_cells"][: oc.shape[0], : oc.shape[1]]
         oc = oc[: kc.shape[0], : kc.shape[1]]
@@ -217,6 +248,7 @@ def calibrate(samples: list[dict], test_sites: set[str]) -> dict:
             if e <= t * 2:
                 continue
             o, r, _ = pairs(cal, t, e)
+            print(f"  calibrating: threshold {t}, end member {e}", flush=True)
             rmse = float(np.sqrt(np.mean((o - r) ** 2))) if o.size else np.inf
             if best is None or rmse < best[0]:
                 best = (rmse, t, e)
@@ -235,7 +267,7 @@ def site_series(samples: list[dict], cal: dict) -> list[dict]:
     out = []
     ho = (cal.get("held_out") or {}).get("site_quarter_ha") or {}
     for s in sorted(samples, key=lambda s: (s["year"], s["quarter"])):
-        f = kelp_fraction(s["fai"], s["land"], s["px_m"], cal["threshold"], cal["endmember"])
+        f = _sample_fraction(s, cal["threshold"], cal["endmember"])
         ha = canopy_ha(f, s["px_m"])
         row = {"year": s["year"], "quarter": s["quarter"], "canopy_ha": round(ha, 2),
                "coverage": round(coverage(s["fai"], s["land"]), 2)}

@@ -264,7 +264,9 @@ def apply_surveys(label_path: str | Path, image_path: str | Path, bbox: list[flo
         for s in todo:
             try:
                 feats = fetch_survey(s, bbox)
-                if s.get("keep") or s.get("drop"):
+                if s.get("all_features"):  # every polygon is seagrass (e.g. Posidonia / Zostera bed classes)
+                    how = f"all {len(feats)} features"
+                elif s.get("keep") or s.get("drop"):
                     n0 = len(feats)
                     feats = filter_features(feats, s.get("keep"), s.get("drop"))
                     how = f"kept {len(feats)}/{n0} features matching {s.get('keep') or ''} {s.get('drop') or ''}".strip()

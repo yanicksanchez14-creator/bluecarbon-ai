@@ -63,7 +63,11 @@ FEATURE_NAMES_ANC_RADAR: list[str] = FEATURE_NAMES_ANC_V1 + RADAR_FEATURES
 LBAND_BANDS: list[str] = ["alos_hh", "alos_hv"]
 LBAND_FEATURES: list[str] = ["ALOS_HH", "ALOS_HV", "ALOS_HV_HH"]
 FEATURE_NAMES_ANC_RADAR_LBAND: list[str] = FEATURE_NAMES_ANC_RADAR + LBAND_FEATURES
-KNOWN_FEATURES: set[str] = set(FEATURE_NAMES_ANC) | set(RADAR_FEATURES) | set(LBAND_FEATURES)
+# Satellite-derived relative depth from the clear-water bands (no new download needed).
+DEPTH_FEATURES: list[str] = ["PSDB_CLEAR"]
+FEATURE_NAMES_V5: list[str] = FEATURE_NAMES_ANC_RADAR_LBAND + DEPTH_FEATURES
+KNOWN_FEATURES: set[str] = (set(FEATURE_NAMES_ANC) | set(RADAR_FEATURES) | set(LBAND_FEATURES)
+                            | set(DEPTH_FEATURES))
 RADAR_OFFSET = len(ANCILLARY_BANDS)  # first radar band in a combined context stack
 LBAND_OFFSET = RADAR_OFFSET + len(RADAR_BANDS)
 
@@ -83,6 +87,8 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
         # log band ratios are largely insensitive to water depth (Lyzenga / Stumpf), so bottom type shows
         "LN_B2_B3_CLEAR": np.clip(np.log(clear[0] + eps) - np.log(clear[1] + eps), -3, 3),
         "LN_B3_B4_CLEAR": np.clip(np.log(clear[1] + eps) - np.log(clear[2] + eps), -3, 3),
+        # Stumpf et al. (2003) ratio: relative water depth that holds across bottom types (rises with depth)
+        "PSDB_CLEAR": np.clip(np.log(1000 * clear[0] + 1) / np.log(1000 * clear[1] + 1.0001) - 1, -0.5, 1.0),
     }
     if anc.shape[0] > DEPTH_BAND:
         out["DEPTH"] = np.clip(a[DEPTH_BAND], 0, 50) / 50.0
@@ -105,13 +111,14 @@ def ancillary_features(anc: np.ndarray) -> dict[str, np.ndarray]:
 USE_DEPTH_FEATURE = False
 USE_RADAR_FEATURE = True   # new models use Sentinel-1 when every chip has it
 USE_LBAND_FEATURE = True   # ... and ALOS PALSAR L-band when every chip has it
+USE_PSDB_FEATURE = True    # ... and the Stumpf relative depth
 
 
 def default_feature_names(anc: np.ndarray | None) -> list[str]:
     if anc is None:
         return list(FEATURE_NAMES)
     if USE_LBAND_FEATURE and anc.shape[0] >= LBAND_OFFSET + len(LBAND_BANDS):
-        return FEATURE_NAMES_ANC_RADAR_LBAND
+        return FEATURE_NAMES_V5 if USE_PSDB_FEATURE else FEATURE_NAMES_ANC_RADAR_LBAND
     if USE_RADAR_FEATURE and anc.shape[0] >= RADAR_OFFSET + len(RADAR_BANDS):
         return FEATURE_NAMES_ANC_RADAR
     if USE_DEPTH_FEATURE and anc.shape[0] > DEPTH_BAND:
@@ -198,3 +205,42 @@ class Normalizer:
     @classmethod
     def from_dict(cls, d: dict) -> Normalizer:
         return cls(np.array(d["mean"]), np.array(d["std"]))
+
+
+# ---------------------------------------------------------------------------------- seafloor visibility
+# Many official seagrass surveys were mapped by boat, diver or aerial photo in water no satellite can see into
+# (deep channels, murky bays). Training on those pixels teaches the model that open dark water or brown water
+# is seagrass. During TRAINING ONLY, seagrass labels where the seafloor is not visible from space are set to
+# ignore (never relabelled as water). Scores on held-out estuaries still use every surveyed hectare.
+DEEP_MARGIN = 0.004      # reflectance above optically deep water that counts as a bottom signal
+TURBID_RED = 0.04        # red reflectance of sediment-laden water
+TURBID_RED_GREEN = 0.85  # brown water: red nearly as bright as green (seagrass over clear water is far below)
+
+
+def seafloor_hidden(anc: np.ndarray, water_like: np.ndarray | None = None) -> np.ndarray:
+    """True where the clear-water image shows no bottom: optically deep (green and blue within DEEP_MARGIN of the
+    darkest 2% of the chip's water) or turbid (bright red, red ~ green)."""
+    a = np.nan_to_num(anc.astype(np.float32))
+    b2, b3, b4, b8 = (np.clip(a[3 + i], 0, REFLECTANCE_SCALE) / REFLECTANCE_SCALE for i in range(4))
+    water = (b8 < 0.03) & (b3 > 0) if water_like is None else water_like
+    if water.sum() < 50:
+        return np.zeros(b3.shape, bool)
+    d2, d3 = np.percentile(b2[water], 2), np.percentile(b3[water], 2)
+    deep = (b3 <= d3 + DEEP_MARGIN) & (b2 <= d2 + DEEP_MARGIN)
+    turbid = (b4 >= TURBID_RED) & (b4 >= TURBID_RED_GREEN * b3)
+    return (deep | turbid) & (b8 < 0.05)
+
+
+def training_label(lab: np.ndarray, anc: np.ndarray | None) -> np.ndarray:
+    """Label used for training: seagrass where the seafloor is hidden becomes ignore. Never used for scoring."""
+    from .schema import IGNORE_INDEX, KEY_TO_ID
+
+    sg = KEY_TO_ID["seagrass"]
+    if not USE_SEAFLOOR_MASK or anc is None or anc.shape[0] < 7 or not (lab == sg).any():
+        return lab
+    out = lab.copy()
+    out[(lab == sg) & seafloor_hidden(anc, np.isin(lab, [KEY_TO_ID["water"], sg]))] = IGNORE_INDEX
+    return out
+
+
+USE_SEAFLOOR_MASK = True

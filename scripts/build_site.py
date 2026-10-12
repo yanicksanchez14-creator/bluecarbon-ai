@@ -104,7 +104,11 @@ def _lidar(sid: str) -> dict | None:
         return None
     return {"gedi_agb": round(b["gedi_agbd_mean"]), "footprints": b["gedi_footprints"],
             "map_agb": round(b["agb_mean"]) if b.get("agb_mean") else None,
-            "canopy_h": round(b["canopy_h_mean"], 1) if b.get("canopy_h_mean") else None}
+            "canopy_h": round(b["canopy_h_mean"], 1) if b.get("canopy_h_mean") else None,
+            "meta_h": round(b["meta_h_mean"], 1) if b.get("meta_h_mean") else None,
+            "height_agb": round(b["height_agb_mean"]) if b.get("height_agb_mean") and (b.get("hb_footprints") or 0) >= 30
+            else None,
+            "height_agb_rmse": b.get("hb_rmse_cv"), "height_agb_r2": b.get("hb_r2_cv")}
 
 
 def site_record(page: Path, out: Path) -> tuple[dict, dict]:
@@ -490,8 +494,10 @@ def _accuracy(out: Path, doc: dict) -> None:
               "carbon is never based on habitat the map did not find. That is deliberately conservative: where seagrass is "
               "badly under-mapped (Moreton Bay) the published area stays below the true area.</li>",
               "<li>Scores are against published and official reference maps, which have their own errors.</li>",
-              "<li><b>Next model</b>: L-band radar from ALOS PALSAR-2, which sees through the canopy to trunks and roots, "
-              "and a check of every mangrove biomass number against GEDI lidar measurements.</li></ul>"]
+              "<li><b>Next model</b>: L-band radar from ALOS PALSAR-2, which sees through the canopy to trunks and roots; "
+              "a satellite-derived depth layer, with seagrass learned only where the seafloor is visible from space; "
+              "95 sites with new official survey maps from Europe, Australia and the US; and two more held-out "
+              "estuaries (Brisbane Water and the Ribble).</li></ul>"]
     page = out / "accuracy.html"
     page.write_text(page.read_text().replace("<!-- ACCURACY -->", "\n".join(parts)))
 

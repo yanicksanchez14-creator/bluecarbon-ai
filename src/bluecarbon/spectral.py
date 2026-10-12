@@ -183,7 +183,10 @@ def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, 
     xs, ys = [], []
     for r in tr:
         img, lab = load_chip(r.path)
-        x, y = sample_pixels(img, lab, per_class_per_chip, rng, load_chip_anc(r.path) if use_anc else None, names)
+        anc = load_chip_anc(r.path)
+        from .features import training_label
+
+        x, y = sample_pixels(img, training_label(lab, anc), per_class_per_chip, rng, anc if use_anc else None, names)
         xs.append(x)
         ys.append(y)
     X, y = np.concatenate(xs), np.concatenate(ys)

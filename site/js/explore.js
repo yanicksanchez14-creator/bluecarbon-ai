@@ -89,7 +89,9 @@
       : " Biomass from IPCC default values.";
     const L = s.lidar;
     const lidarNote = L ? ` Checked against ${BC.fmt(L.footprints)} GEDI lidar measurements over these mangroves: ${BC.fmt(L.gedi_agb)} t/ha`
-      + (L.canopy_h ? `, mean canopy height ${L.canopy_h} m.` : ".") : "";
+      + (L.canopy_h ? `, mean canopy height ${L.canopy_h} m${L.meta_h ? ` (${L.meta_h} m on Meta's 1 m height map)` : ""}.` : ".")
+      + (L.height_agb ? ` A height-to-biomass model fitted to these footprints gives ${BC.fmt(L.height_agb)} t/ha`
+        + (L.height_agb_rmse ? ` (\u00b1${BC.fmt(L.height_agb_rmse)} t/ha per footprint, cross-validated).` : ".") : "") : "";
     let change = "";
     if (s.change) {
       const ch = s.change;

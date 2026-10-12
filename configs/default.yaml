@@ -126,6 +126,34 @@ labels:
       extent: [-71.2, 41.2, -69.9, 42.9]
       negatives_within_m: 1500          # aerial survey with boat ground truth
       citation: "MassDEP Eelgrass Mapping Project, Phase 6 (2019-2023), via MassGIS"
+    # ---- added Oct 12 2026 (product plan step 5) ----
+    - name: njdep-barnegat-sav-2009
+      kind: arcgis
+      url: https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/Submerged_Aquatic_Vegetation_in_Barnegat_Bay_2009/FeatureServer/1
+      extent: [-74.35, 39.45, -73.95, 40.10]
+      negatives_within_m: 1500          # aerial survey of the whole estuary (dense / moderate / sparse classes)
+      citation: "Lathrop and Haag (2010), Barnegat Bay - Little Egg Harbor SAV 2009, Rutgers CRSSA for NJDEP"
+    - name: prep-great-bay-eelgrass-2022
+      kind: arcgis
+      url: https://nhgeodata.unh.edu/nhgeodata/rest/services/Topical/CV_BiologyAndEcology/MapServer/31
+      extent: [-71.0, 42.85, -70.55, 43.25]
+      negatives_within_m: 1500
+      citation: "Routhier (2023), Great Bay Estuary Eelgrass 2022, Piscataqua Region Estuaries Partnership / UNH GRANIT"
+    - name: emodnet-seagrass-eov-2023
+      kind: arcgis
+      url: https://services1.arcgis.com/RTK5Unh1Z71JKIiR/ArcGIS/rest/services/seagrass_eov_2023/FeatureServer/0
+      extent: [-25.0, 34.0, 32.0, 72.0]
+      all_features: true                # classes are EUNIS bed types (Zostera, Posidonia, Cymodocea), all seagrass
+      negatives_within_m: 0             # compiled from many surveys of different completeness: positives only
+      citation: "EMODnet Seabed Habitats (2023), Seagrass cover and composition EOV, doi:10.34892/x6r3-d211"
+    - name: seamap-torres-strait-intertidal-seagrass-2014
+      kind: wfs
+      url: https://geoserver.imas.utas.edu.au/geoserver/seamap/wfs
+      layer: seamap:SeamapAus_QLD_TorresStrait_seagrass_consolidation_intertidal_2014
+      extent: [141.0, -11.3, 144.1, -9.1]
+      drop: {Seamap_Den: ["light"]}     # sparse meadows are invisible from space
+      negatives_within_m: 0             # 2002-2014 compilation: positives only
+      citation: "Carter et al. (2014), Torres Strait Seagrass Mapping Consolidation 2002-2014, TropWATER JCU, via Seamap Australia"
     # salt marsh and mangrove survey maps (class: saltmarsh / mangrove; see surveys.burn_wetland)
     - name: usfws-nwi-salt-marsh
       kind: arcgis
@@ -151,6 +179,27 @@ labels:
       extent: [-6.5, 49.8, 2.0, 55.9]
       authoritative: true
       citation: "Environment Agency, Saltmarsh Extents and Zonation (aerial survey 2016-2019), Open Government Licence"
+    - name: nrw-wales-saltmarsh-extents
+      kind: wfs
+      class: saltmarsh
+      url: https://datamap.gov.wales/geoserver/ows
+      layer: inspire-nrw:NRW_SALTMARSH_EXTENTS
+      extent: [-5.4, 51.3, -2.6, 53.5]
+      authoritative: true
+      citation: "Natural Resources Wales, Saltmarsh Extents (2017), Open Government Licence v3"
+    - name: naturescot-saltmarsh-survey-scotland
+      kind: arcgis
+      class: saltmarsh
+      url: https://services3.arcgis.com/Bb8lfThdhugyc4G3/ArcGIS/rest/services/Salt_Marsh_Extent_Scotland/FeatureServer/0
+      extent: [-8.7, 54.6, -0.7, 60.9]
+      authoritative: true
+      citation: "Haynes (2016), Saltmarsh Survey of Scotland 2010-2012, Scottish Natural Heritage / SEPA"
+    - name: npws-ireland-saltmarsh-2006-2008
+      kind: zip
+      class: saltmarsh
+      url: https://www.npws.ie/sites/default/files/general/saltmarsh-monitoring-project-2006-2008.zip
+      extent: [-10.7, 51.3, -5.9, 55.5]
+      citation: "McCorry and Ryle (2009), Saltmarsh Monitoring Project 2006-2008, National Parks and Wildlife Service, CC BY 4.0"
     - name: seamap-nsw-macrophytes-saltmarsh
       kind: wfs
       class: saltmarsh

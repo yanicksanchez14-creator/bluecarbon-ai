@@ -52,6 +52,10 @@ class ChipDataset(Dataset):
         img, lab = load_chip(self.records[i].path)
         anc = load_chip_anc(self.records[i].path) if self.use_anc else None
         x = self.norm(compute_features(img, anc=anc, names=self.names))
+        if self.augment:  # training: don't learn seagrass the satellite cannot see (scoring keeps all labels)
+            from .features import training_label
+
+            lab = training_label(lab, anc if anc is not None else load_chip_anc(self.records[i].path))
         y = lab.astype(np.int64)
         if self.augment:
             # spectral features come first; never jitter the context layers (elevation, tide, depth)
@@ -94,3 +98,27 @@ def class_frequencies(records: list[ChipRecord]) -> np.ndarray:
         _, lab = load_chip(r.path)
         counts += np.bincount(lab[lab != IGNORE_INDEX].ravel(), minlength=N_CLASSES)[:N_CLASSES]
     return counts
+
+
+def seafloor_mask_report(records: list[ChipRecord]) -> dict[str, dict]:
+    """Per training site: surveyed seagrass pixels, and how many are skipped in training because the seafloor is
+    not visible from space. Written to the run log and results so the rule can be checked site by site."""
+    from .features import training_label
+    from .schema import KEY_TO_ID
+
+    sg = KEY_TO_ID["seagrass"]
+    out: dict[str, dict] = {}
+    for r in records:
+        if r.split != "train":
+            continue
+        _, lab = load_chip(r.path)
+        n = int((lab == sg).sum())
+        if not n:
+            continue
+        hid = n - int((training_label(lab, load_chip_anc(r.path)) == sg).sum())
+        d = out.setdefault(r.site, {"seagrass_px": 0, "hidden_px": 0})
+        d["seagrass_px"] += n
+        d["hidden_px"] += hid
+    for d in out.values():
+        d["hidden_pct"] = round(100 * d["hidden_px"] / d["seagrass_px"], 1)
+    return out

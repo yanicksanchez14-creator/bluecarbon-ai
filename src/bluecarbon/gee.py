@@ -253,7 +253,7 @@ def tidal_zone(cfg: Config):
     return dem.lte(3).And(near_water), "elevation-fallback"
 
 
-LABEL_VERSION = "labels-v10"  # v10 = v9 with survey fixes; v9: mangrove = WorldCover AND Global Mangrove Watch; NWI/NSW/EA wetland surveys  # bump when the label rules change, so `fetch --labels-only` rebuilds
+LABEL_VERSION = "labels-v11"  # v11 = v10 + NJ, NH, EMODnet Europe, Torres Strait, Wales, Scotland, Ireland surveys; v10 = v9 with survey fixes; v9: mangrove = WorldCover AND Global Mangrove Watch; NWI/NSW/EA wetland surveys  # bump when the label rules change, so `fetch --labels-only` rebuilds
 
 
 def wetland_map(cfg: Config):
@@ -510,8 +510,57 @@ def lidar_biomass_check(bbox: list[float]) -> dict:
     with _Watchdog(REQUEST_TIMEOUT_S + 60):
         d = ee.Dictionary({"g": g, "h": h}).getInfo()
     g, h = d.get("g") or {}, d.get("h") or {}
-    return {"gedi_agbd_mean": g.get("agbd_mean"), "gedi_agbd_p10": g.get("agbd_p10"), "gedi_agbd_p90": g.get("agbd_p90"),
-            "gedi_footprints": g.get("agbd_count") or 0, "canopy_h_mean": h.get("h_mean"), "canopy_h_p90": h.get("h_p90")}
+    out = {"gedi_agbd_mean": g.get("agbd_mean"), "gedi_agbd_p10": g.get("agbd_p10"), "gedi_agbd_p90": g.get("agbd_p90"),
+           "gedi_footprints": g.get("agbd_count") or 0, "canopy_h_mean": h.get("h_mean"), "canopy_h_p90": h.get("h_p90")}
+    # Meta / WRI 1 m canopy height (Tolan et al. 2024): a second, much finer height source
+    try:
+        meta = ee.ImageCollection(META_CANOPY_HEIGHT).filterBounds(region).mosaic().select(0).rename("h")
+        with _Watchdog(REQUEST_TIMEOUT_S + 60):
+            mh = meta.updateMask(mang).reduceRegion(red, region, 10, maxPixels=int(1e10), bestEffort=True).getInfo() or {}
+        out.update(meta_h_mean=mh.get("h_mean"), meta_h_p90=mh.get("h_p90"))
+    except Exception as e:  # dataset moved or not visible to this project: skip, keep the rest
+        print(f"  Meta canopy height skipped ({str(e)[:80]})", flush=True)
+    # Local height-to-biomass model fitted on this site's own GEDI footprints (AGB = a * H^b), so biomass can be
+    # mapped from 10 m canopy height everywhere, with its error against the lidar reported.
+    try:
+        pts = (gedi.rename("agbd").addBands(ee.Image(CANOPY_HEIGHT).select(0).rename("h"))
+               .sample(region, 25, numPixels=4000, seed=0, geometries=False))
+        with _Watchdog(REQUEST_TIMEOUT_S + 60):
+            rows = pts.limit(3000).getInfo().get("features", [])
+        out.update(fit_height_biomass([(f["properties"].get("h"), f["properties"].get("agbd")) for f in rows]))
+        if out.get("hb_a"):
+            hb = (ee.Image(CANOPY_HEIGHT).select(0).max(0.5).pow(out["hb_b"]).multiply(out["hb_a"]).rename("agb_h").updateMask(mang)
+                  .reduceRegion(ee.Reducer.mean(), region, 10, maxPixels=int(1e10), bestEffort=True))
+            with _Watchdog(REQUEST_TIMEOUT_S + 60):
+                out["height_agb_mean"] = (hb.getInfo() or {}).get("agb_h")
+    except Exception as e:
+        print(f"  height-biomass fit skipped ({str(e)[:80]})", flush=True)
+    return out
+
+
+META_CANOPY_HEIGHT = "projects/meta-forest-monitoring-okw37/assets/CanopyHeight"
+
+
+def fit_height_biomass(pairs: list[tuple]) -> dict:
+    """log AGB = log a + b log H over footprints with both values. Returns a, b, footprints used, r2 and RMSE
+    (Mg/ha, back-transformed, from 5-fold cross-validation) or {} if too few."""
+    import numpy as np
+
+    hp = np.array([(h, a) for h, a in pairs if h is not None and a is not None and h > 1 and a > 1], float)
+    if len(hp) < 30:
+        return {}
+    x, y = np.log(hp[:, 0]), np.log(hp[:, 1])
+    pred = np.empty_like(y)
+    folds = np.arange(len(y)) % 5
+    for k in range(5):
+        tr = folds != k
+        b, la = np.polyfit(x[tr], y[tr], 1)
+        pred[~tr] = la + b * x[~tr]
+    b, la = np.polyfit(x, y, 1)
+    agb, agb_hat = np.exp(y), np.exp(pred)
+    r2 = 1 - np.sum((agb - agb_hat) ** 2) / np.sum((agb - agb.mean()) ** 2)
+    return {"hb_a": round(float(np.exp(la)), 4), "hb_b": round(float(b), 4), "hb_footprints": int(len(y)),
+            "hb_r2_cv": round(float(r2), 3), "hb_rmse_cv": round(float(np.sqrt(np.mean((agb - agb_hat) ** 2))), 1)}
 
 
 def built_up_image(cfg: Config):

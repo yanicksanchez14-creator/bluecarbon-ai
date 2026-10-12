@@ -144,6 +144,14 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     log(f"inputs: {len(features)} features: {', '.join(features)}")
     norm = fit_normalizer(tr, use_anc=use_anc, names=features)
     freq = class_frequencies(tr)
+    from .data import seafloor_mask_report
+
+    sfm = seafloor_mask_report(tr)
+    if sfm:
+        log("seagrass labels skipped in training where the seafloor is not visible: " + ", ".join(
+            f"{s} {d['hidden_pct']}%" for s, d in sorted(sfm.items())))
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "seafloor_mask.json").write_text(__import__("json").dumps(sfm, indent=1))
     w = class_weights(freq, cfg.train.class_weighting)
     log(f"train class pixels: {freq.tolist()}  weights: {None if w is None else np.round(w, 2).tolist()}")
 

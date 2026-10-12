@@ -100,6 +100,29 @@ this run, so those sites used the global maps; they are retried in the next run.
   Strait and Exmouth Gulf in Australia; three English salt marshes; and mangrove coasts in Kenya,
   Tanzania, Malaysia, Indonesia, Brazil, Ecuador, Honduras and Nigeria.
 
+### Next run (code of October 12 2026, labels v11)
+
+- **New inputs.** ALOS PALSAR-2 L-band radar (HH, HV and their ratio), which passes through the canopy to trunks and
+  roots; and a satellite-derived relative depth, the Stumpf et al. (2003) log-ratio of the clear-water blue and green
+  bands.
+- **Seagrass is learned only where the seafloor is visible.** Many official seagrass surveys were mapped by boat or
+  diver in water no satellite can see into. During training only, seagrass labels in optically deep water (blue and
+  green within 0.004 reflectance of the darkest 2% of the tile's water) or sediment-laden water (red at least 0.04 and
+  at least 0.85 x green) are skipped, never relabelled as water. Held-out scores still use every surveyed hectare.
+  The share skipped at each training site is written to `seafloor_mask.json` in the results.
+- **Mangrove biomass check.** Besides GEDI L4A footprints and the 10 m canopy height map, each mangrove site gets
+  Meta's 1 m canopy height and a local height-to-biomass model (AGB = a x H^b) fitted to its own GEDI footprints,
+  with a cross-validated error.
+- **More answer keys and sites (95 sites).** Barnegat Bay SAV 2009 (Rutgers / NJDEP), Great Bay eelgrass 2022
+  (PREP / UNH), EMODnet Seabed Habitats seagrass EOV 2023 (Europe), Torres Strait intertidal seagrass 2002-2014,
+  Natural Resources Wales saltmarsh extents, the Saltmarsh Survey of Scotland and Ireland's Saltmarsh Monitoring
+  Project. New sites in Spain, England, Germany, Torres Strait, Wales, Scotland, Ireland, the Netherlands, the Bay of
+  Fundy, China, India, Myanmar, Madagascar, Senegal, Colombia and Panama.
+- **Seven held-out estuaries**, adding Brisbane Water (New South Wales: seagrass, mangrove, salt marsh) and the
+  Ribble Estuary (England: salt marsh).
+- **Spot-check.** 200 points per held-out estuary (`spotcheck.csv`), half random and half on mapped blue carbon
+  habitat, each with the model's class, the reference label and a link to high-resolution imagery, for a check by eye.
+
 ### Limitations
 - Seagrass is the weakest habitat (0.46 IoU): it is spectrally hard to separate from water, and meadows in
   murky or deep water are missed. Unseen Tampa Bay scores 0.69, Moreton Bay 0.12 and Shoalwater Bay 0.18.

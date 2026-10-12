@@ -18,5 +18,5 @@ def test_lband_features_follow_radar():
     f = ancillary_features(anc)
     assert {"ALOS_HH", "ALOS_HV", "ALOS_HV_HH"} <= set(f)
     assert np.allclose(f["ALOS_HH"], (-8 + 30) / 35)
-    assert default_feature_names(anc) == FEATURE_NAMES_ANC_RADAR_LBAND
+    assert default_feature_names(anc)[:len(FEATURE_NAMES_ANC_RADAR_LBAND)] == FEATURE_NAMES_ANC_RADAR_LBAND
     assert default_feature_names(anc[: n + 2]) == FEATURE_NAMES_ANC_RADAR   # radar only: older models unchanged

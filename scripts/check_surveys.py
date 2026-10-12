@@ -30,7 +30,9 @@ def main() -> None:
         for s in (s for s in surveys if _intersects(site["bbox"], s.get("extent", [-180, -90, 180, 90]))):
             try:
                 feats = fetch_survey(s, site["bbox"])
-                if s.get("keep") or s.get("drop"):
+                if s.get("all_features"):
+                    kept, extra = feats, ""
+                elif s.get("keep") or s.get("drop"):
                     kept = filter_features(feats, s.get("keep"), s.get("drop"))
                     fields = list((s.get("keep") or {}) | (s.get("drop") or {}))
                     vals = Counter(str((f.get("properties") or {}).get(k)) for f in feats for k in fields)

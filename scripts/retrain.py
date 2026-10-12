@@ -197,13 +197,17 @@ def main() -> None:
     out = Path("results")
     shutil.rmtree(out, ignore_errors=True)
     out.mkdir()
+    try:  # 200 points per held-out estuary for an independent check by eye
+        run(sys.executable, "scripts/spot_check.py")
+    except subprocess.CalledProcessError:
+        print("spot-check sample failed; the rest of the results are unaffected", flush=True)
     shutil.copy(best, out / best.name)
     from bluecarbon.seagrass import specialist_path_for
 
     if specialist_path_for(best).exists():
         shutil.copy(specialist_path_for(best), out / specialist_path_for(best).name)
     shutil.copy(WORK / "model" / "best.txt", out / "best.txt")
-    for f in ("spectral_metrics.json", "metrics.json"):
+    for f in ("spectral_metrics.json", "metrics.json", "seafloor_mask.json"):
         if (WORK / "model" / f).exists():
             shutil.copy(WORK / "model" / f, out / f)
     labels = {p.parent.name: json.loads(p.read_text()).get("label_px") for p in (WORK / "sites").glob("*/meta.json")}

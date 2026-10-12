@@ -119,6 +119,9 @@ def train_specialist(records, predict_main, seed: int = 0) -> SeagrassSpecialist
         anc = load_chip_anc(r.path)
         if anc is None:
             continue
+        from .features import training_label
+
+        lab = training_label(lab, anc)
         m = np.isin(lab, [WATER, SEAGRASS])
         if not (lab == SEAGRASS).any() and rng.random() > 0.3:  # keep some all-water chips as negatives
             continue

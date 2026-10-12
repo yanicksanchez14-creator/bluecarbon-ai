@@ -260,47 +260,114 @@ ENDMEMBERS = (0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.22, 0.28)
 SHORE_M = (0, 40, 80, 120)
 
 
-def calibrate(samples: list[dict], test_sites: set[str]) -> dict:
-    """Grid-search threshold, end member and surf-zone buffer on the calibration sites, then score the held-out
-    sites. The fit balances per-cell placement (300 m cells) and each site's total canopy per quarter, the number
-    that is published; fitting cells alone left site totals ~30 ha too high."""
-    cal = [s for s in samples if s["site"] not in test_sites]
+def _score(samples, t, e, b) -> float:
+    o, r, tot = pairs(samples, t, e, b)
+    if not o.size:
+        return np.inf
+    so, sr = np.array([x[3] for x in tot]), np.array([x[4] for x in tot])
+    return float(np.sqrt(np.mean((o - r) ** 2)) / (np.std(r) or 1) + np.sqrt(np.mean((so - sr) ** 2)) / (np.std(sr) or 1))
+
+
+def _search(samples, grid=None, log=print, label="") -> tuple[float, float, float]:
+    """Best (threshold, end member, surf-zone buffer). The fit balances per-cell placement (300 m cells) and each
+    site's total canopy per quarter, the number that is published; fitting cells alone left totals ~30 ha high."""
     best = None
-    for t in THRESHOLDS:
-        print(f"  calibrating: threshold {t} ...", flush=True)
-        for e in ENDMEMBERS:
+    ts, es, bs = grid or (THRESHOLDS, ENDMEMBERS, SHORE_M)
+    for t in ts:
+        if grid is None:
+            log(f"  calibrating{label}: threshold {t} ...")
+        for e in es:
             if e <= t * 2:
                 continue
-            for b in SHORE_M:
-                o, r, tot = pairs(cal, t, e, b)
-                if not o.size:
-                    continue
-                so, sr = np.array([x[3] for x in tot]), np.array([x[4] for x in tot])
-                score = (np.sqrt(np.mean((o - r) ** 2)) / (np.std(r) or 1)
-                         + np.sqrt(np.mean((so - sr) ** 2)) / (np.std(sr) or 1))
-                if best is None or score < best[0]:
-                    best = (score, t, e, b)
-    _, t, e, b = best
-    res = {"threshold": t, "endmember": e, "shore_m": b, "cell_m": CELL_M, "min_coverage": MIN_COVERAGE}
-    for name, group in (("calibration", cal), ("held_out", [s for s in samples if s["site"] in test_sites])):
-        o, r, totals = pairs(group, t, e, b)
-        site_o = [x[3] for x in totals]
-        site_r = [x[4] for x in totals]
-        res[name] = {"cells_m2": _stats(o, r), "site_quarter_ha": _stats(site_o, site_r)}
+            for b in bs:
+                sc = _score(samples, t, e, b)
+                if best is None or sc < best[0]:
+                    best = (sc, t, e, b)
+    return best[1:] if best and np.isfinite(best[0]) else (DEFAULT_THRESHOLD, DEFAULT_ENDMEMBER, 0.0)
+
+
+def _near(t, e, b):
+    """A small grid around a fit, for the leave-one-bed-out refits (27 settings instead of ~270)."""
+    return ((round(t / 1.5, 4), t, round(t * 1.5, 4)), (round(e * 0.8, 3), e, round(e * 1.25, 3)),
+            tuple(sorted({max(0, b - 40), b, b + 40})))
+
+
+def _metrics(samples, t, e, b) -> dict:
+    o, r, totals = pairs(samples, t, e, b)
+    return {"cells_m2": _stats(o, r), "site_quarter_ha": _stats([x[3] for x in totals], [x[4] for x in totals])}
+
+
+def params_for(cal: dict, site: str) -> tuple[float, float, float]:
+    """(threshold, end member, surf-zone buffer) used for a site: its zone's fit when there is one, else global."""
+    z = (cal.get("site_zone") or {}).get(site)
+    p = (cal.get("zones") or {}).get(z) or cal
+    return p["threshold"], p["endmember"], p.get("shore_m", 0)
+
+
+def calibrate(samples: list[dict], test_sites: set[str], zones: dict[str, str] | None = None, log=print,
+              fit_filter=None) -> dict:
+    """Fit the canopy settings on the calibration sites, then score every bed on data it was not tuned on.
+
+    - Global fit over all calibration sites (as before), and a separate fit per zone (e.g. giant kelp vs bull
+      kelp, whose floating canopy looks different) when the zone has at least two calibration sites.
+    - Held-out sites (role: test) are never used to fit anything; they are scored with their zone's settings.
+    - Every calibration site is also scored leave-one-bed-out: its zone (or global) settings are refitted without
+      it, so each bed gets its own honest error, not only the two held-out beds.
+    fit_filter(sample) -> bool: optional subset used for the searches (e.g. every other year of a 32-year Landsat
+    record, to keep the fit fast); every score uses all samples.
+    """
+    zones = zones or {}
+    keep = fit_filter or (lambda s: True)
+    cal = [s for s in samples if s["site"] not in test_sites]
+    cal_fit = [s for s in cal if keep(s)]
+    t, e, b = _search(cal_fit, log=log)
+    res = {"threshold": t, "endmember": e, "shore_m": b, "cell_m": CELL_M, "min_coverage": MIN_COVERAGE,
+           "zones": {}, "site_zone": zones}
+    for z in sorted(set(zones.values())):
+        zs = [s for s in cal_fit if zones.get(s["site"]) == z]
+        if len({s["site"] for s in zs}) >= 2:
+            zt, ze, zb = _search(zs, log=log, label=f" {z}")
+            res["zones"][z] = {"threshold": zt, "endmember": ze, "shore_m": zb,
+                               "sites": sorted({s["site"] for s in zs})}
+    held = [s for s in samples if s["site"] in test_sites]
+    per_site = {}
+    for site in sorted({s["site"] for s in samples}):
+        own = [s for s in samples if s["site"] == site]
+        if site in test_sites:
+            per_site[site] = {**_metrics(own, *params_for(res, site)), "how": "held out"}
+            continue
+        z = zones.get(site)
+        pool = [s for s in cal_fit if s["site"] != site and (z not in res["zones"] or zones.get(s["site"]) == z)]
+        if len({s["site"] for s in pool}) < 1:
+            continue
+        lt, le, lb = _search(pool, grid=_near(*params_for(res, site)))
+        per_site[site] = {**_metrics(own, lt, le, lb), "how": "left out of its own fit"}
+    res["per_site"] = per_site
+    res["calibration"] = _metrics(cal, t, e, b)
+    # held-out beds, each with its zone's settings, pooled
+    o, r, so, sr = [], [], [], []
+    for site in sorted({s["site"] for s in held}):
+        oo, rr, tot = pairs([s for s in held if s["site"] == site], *params_for(res, site))
+        o.append(oo); r.append(rr); so += [x[3] for x in tot]; sr += [x[4] for x in tot]  # noqa: E702
+    res["held_out"] = ({"cells_m2": _stats(np.concatenate(o), np.concatenate(r)), "site_quarter_ha": _stats(so, sr)}
+                       if o else {})
     return res
 
 
 def site_series(samples: list[dict], cal: dict) -> list[dict]:
-    """Quarterly canopy (ha) for one site's samples, with the Kelpwatch value when it exists."""
+    """Quarterly canopy (ha) for one site's samples, with the Kelpwatch value when it exists. The +/- range is the
+    site's own out-of-fit error when known, else the pooled held-out error."""
     out = []
     ho = (cal.get("held_out") or {}).get("site_quarter_ha") or {}
     for s in sorted(samples, key=lambda s: (s["year"], s["quarter"])):
-        f = _sample_fraction(s, cal["threshold"], cal["endmember"], cal.get("shore_m", 0))
+        own = (((cal.get("per_site") or {}).get(s["site"]) or {}).get("site_quarter_ha") or {})
+        pm = own.get("rmse", ho.get("rmse"))
+        f = _sample_fraction(s, *params_for(cal, s["site"]))
         ha = canopy_ha(f, s["px_m"])
         row = {"year": s["year"], "quarter": s["quarter"], "canopy_ha": round(ha, 2),
                "coverage": round(coverage(s["fai"], s["land"]), 2)}
-        if ho.get("rmse") is not None:
-            row["plus_minus_ha"] = ho["rmse"]
+        if pm is not None:
+            row["plus_minus_ha"] = pm
         if s.get("kw_cells") is not None:
             row["kelpwatch_ha"] = round(float(s["kw_cells"].sum() / 1e4), 2)
         out.append(row)

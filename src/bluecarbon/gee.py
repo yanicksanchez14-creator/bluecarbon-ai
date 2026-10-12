@@ -711,3 +711,65 @@ def download_kelp_rgb(bbox: list[float], year: int, out_path: str | Path, cfg: C
     scale = 20 if year >= 2016 else 30
     c = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": scale})})
     return download(kelp_rgb_image(bbox_geometry(bbox), year, cfg), bbox, out_path, c, "uint8", 0, ["r", "g", "b"])
+
+
+# Landsat Floating Algae Index, same method as Sentinel-2 but with each sensor's red / NIR / SWIR1 bands and centre
+# wavelengths (nm): TM and ETM+ (Landsat 5, 7) 660 / 835 / 1650, OLI (Landsat 8, 9) 655 / 865 / 1610.
+_LS_FAI = {"LANDSAT/LT05/C02/T1_L2": (("SR_B3", "SR_B4", "SR_B5"), (660, 835, 1650)),
+           "LANDSAT/LE07/C02/T1_L2": (("SR_B3", "SR_B4", "SR_B5"), (660, 835, 1650)),
+           "LANDSAT/LC08/C02/T1_L2": (("SR_B4", "SR_B5", "SR_B6"), (655, 865, 1610)),
+           "LANDSAT/LC09/C02/T1_L2": (("SR_B4", "SR_B5", "SR_B6"), (655, 865, 1610))}
+
+
+def kelp_quarter_image_landsat(region, start: str, end: str, cfg: Config):
+    """Kelp canopy inputs for one quarter from Landsat 5/7/8/9 at 30 m (1984 on), in the same three bands as the
+    Sentinel-2 version: 90th-percentile FAI x 1e4 (-32768 = no clear scene), clear-scene count, land."""
+    _require_ee()
+    cols = []
+    for cid, (bands, (lr, ln, ls)) in _LS_FAI.items():
+        def fai(im, bands=bands, lr=lr, ln=ln, ls=ls):
+            clear = im.select("QA_PIXEL").bitwiseAnd(0b11010).eq(0)
+            r = im.select(list(bands)).multiply(0.0000275).add(-0.2)
+            red, nir, swir = r.select(0), r.select(1), r.select(2)
+            f = nir.subtract(red.add(swir.subtract(red).multiply((ln - lr) / (ls - lr))))
+            return f.rename("fai").updateMask(clear).toFloat()
+        cols.append(ee.ImageCollection(cid).filterBounds(region).filterDate(start, end).map(fai))
+    col = cols[0].merge(cols[1]).merge(cols[2]).merge(cols[3])
+    p90 = col.reduce(ee.Reducer.percentile([90])).rename("fai").multiply(10000).round().unmask(-32768).toInt16()
+    n = col.count().rename("n").unmask(0).toInt16()
+    wc = ee.ImageCollection(cfg.labels.worldcover).first().select("Map")
+    land = wc.neq(80).And(wc.neq(0)).unmask(0).rename("land").toInt16()
+    return ee.Image.cat([p90, n, land])
+
+
+def download_kelp_quarter_landsat(bbox: list[float], year: int, q: int, out_path: str | Path, cfg: Config) -> Path:
+    from .kelp import quarter_dates
+
+    a, b = quarter_dates(year, q)
+    c30 = cfg.model_copy(update={"imagery": cfg.imagery.model_copy(update={"scale_m": 30})})
+    return download(kelp_quarter_image_landsat(bbox_geometry(bbox), a, b, cfg), bbox, out_path, c30, "int16", None,
+                    ["fai", "n", "land"])
+
+
+OISST = "NOAA/CDR/OISST/V2_1"   # NOAA daily optimum-interpolation sea surface temperature, 0.25 deg, 1981 on
+
+
+def sea_surface_temperature(bbox: list[float], first_year: int, last_year: int) -> list[dict]:
+    """Quarterly mean sea surface temperature (deg C) over a kelp bed's box, widened by 15 km so it reaches the
+    0.25 deg ocean grid, from NOAA OISST v2.1. One request for all quarters."""
+    _require_ee()
+    region = bbox_geometry(bbox).buffer(15000)
+    qs = ee.List([[y, q] for y in range(first_year, last_year + 1) for q in (1, 2, 3, 4)])
+
+    def one(yq):
+        yq = ee.List(yq)
+        y, q = ee.Number(yq.get(0)), ee.Number(yq.get(1))
+        start = ee.Date.fromYMD(y, q.subtract(1).multiply(3).add(1), 1)
+        img = ee.ImageCollection(OISST).filterDate(start, start.advance(3, "month")).select("sst").mean()
+        v = img.reduceRegion(ee.Reducer.mean(), region, 27830, maxPixels=int(1e8)).get("sst")
+        return ee.Dictionary({"year": y, "quarter": q, "sst": v})
+
+    with _Watchdog(REQUEST_TIMEOUT_S + 120):
+        rows = qs.map(one).getInfo()
+    return [{"year": int(r["year"]), "quarter": int(r["quarter"]), "c": round(r["sst"] * 0.01, 2)}
+            for r in rows if r.get("sst") is not None]

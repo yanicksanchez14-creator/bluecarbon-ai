@@ -22,9 +22,10 @@
     return out;
   }
   const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const ourRows = s => [...(s.series_landsat || []).map(r => ({ ...r, ls: true })), ...s.series];
   function stats(s) {
     const kwh = s.kelpwatch_history || [];
-    const ours = s.series.filter(r => r.coverage >= 0.5);
+    const ours = ourRows(s).filter(r => r.coverage >= 0.5);
     const kp = annualPeak(kwh, r => r.ha), op = annualPeak(ours, r => r.canopy_ha);
     const before = mean(Object.entries(kp).filter(([y]) => +y < HEAT[0]).map(([, v]) => v));
     const lowYears = Object.entries(kp).filter(([y]) => +y >= HEAT[0] && +y < HEAT[1]);
@@ -41,7 +42,7 @@
   function timeline(s) {
     const keys = new Map();
     (s.kelpwatch_history || []).forEach(r => keys.set(qkey(r.year, r.quarter), [r.year, r.quarter]));
-    s.series.forEach(r => keys.set(qkey(r.year, r.quarter), [r.year, r.quarter]));
+    ourRows(s).forEach(r => keys.set(qkey(r.year, r.quarter), [r.year, r.quarter]));
     const all = [...keys.values()].sort((a, b) => tnum(...a) - tnum(...b));
     if (!all.length) return [];
     const out = [];
@@ -49,7 +50,7 @@
     return out;
   }
   const at = (s, y, q) => ({
-    ours: s.series.find(r => r.year === y && r.quarter === q),
+    ours: ourRows(s).find(r => r.year === y && r.quarter === q),
     kw: (s.kelpwatch_history || []).find(r => r.year === y && r.quarter === q),
   });
 
@@ -66,7 +67,9 @@
     const latestKey = qkey(s.latest.year, s.latest.quarter);
     return {
       rgb: (s.rgb_years || []).includes(y) ? `${base(s)}/rgb/${y}.webp` : null,
-      ours: frames.includes(k) ? `${base(s)}/frames/${k}.png` : (!frames.length && k === latestKey ? `${base(s)}/canopy_latest.png` : null),
+      ours: frames.includes(k) || (s.frames_landsat || []).includes(k) ? `${base(s)}/frames/${k}.png`
+        : (!frames.length && k === latestKey ? `${base(s)}/canopy_latest.png` : null),
+      oursBounds: y < 2016 ? (s.frame_bounds_landsat || s.bounds) : (s.frame_bounds || s.bounds),
       kw: (s.kw_years || []).includes(y) ? `${base(s)}/kw/${y}.png` : null,
     };
   }
@@ -78,10 +81,10 @@
     const [y, q] = T[idx];
     const u = urls(site, y, q);
     overlay("rgb", show.rgb ? u.rgb : null, site.rgb_bounds || site.bounds, 1);
-    overlay("ours", show.ours ? u.ours : null, site.frame_bounds || site.bounds, 0.95);
+    overlay("ours", show.ours ? u.ours : null, u.oursBounds, 0.95);
     overlay("kw", show.kw || (show.ours && !u.ours && u.kw) ? u.kw : null, site.kw_bounds || site.bounds, 0.9);
     const v = at(site, y, q);
-    const src = u.ours && show.ours ? "BlueCarbon-AI canopy" : (layers.kw ? "Kelpwatch canopy (yearly peak)" : "no canopy map for this quarter");
+    const src = u.ours && show.ours ? `BlueCarbon-AI canopy (${y < 2016 ? "Landsat, 30 m" : "Sentinel-2, 20 m"})` : (layers.kw ? "Kelpwatch canopy (yearly peak)" : "no canopy map for this quarter");
     const sensor = y >= 2016 ? "Sentinel-2" : y === 2012 ? "Landsat 7, with its scan-line gaps" : y >= 2013 ? "Landsat 8" : y >= 1999 ? "Landsat 5 and 7" : "Landsat 5";
     $("kstamp").innerHTML = `<b>${y}</b><span>Q${q} · ${MONTHS[q]}</span><small>${u.rgb && show.rgb ? `Summer ${y} picture (${sensor}) · ` : ""}${src}</small>`;
     $("kslider").value = idx;
@@ -96,9 +99,10 @@
   function chart(s) {
     const W = 1000, H = 210, L0 = 46, R = 12, T0 = 12, B = 26;
     const ours = s.series.filter(r => r.coverage >= 0.5), kwh = s.kelpwatch_history || [];
+    const ls = (s.series_landsat || []).filter(r => r.coverage >= 0.5), sst = s.sst || [];
     if (!T.length) { $("kchart").innerHTML = ""; return; }
     const x0 = tnum(...T[0]), x1 = tnum(...T[T.length - 1]) + 0.25;
-    const ymax = Math.max(1, ...ours.map(r => r.canopy_ha + (r.plus_minus_ha || 0)), ...kwh.map(r => r.ha)) * 1.08;
+    const ymax = Math.max(1, ...ours.map(r => r.canopy_ha + (r.plus_minus_ha || 0)), ...ls.map(r => r.canopy_ha), ...kwh.map(r => r.ha)) * 1.08;
     const X = v => L0 + (W - L0 - R) * (v - x0) / (x1 - x0 || 1), Y = v => T0 + (H - T0 - B) * (1 - v / ymax);
     chartScale = { X, x0, x1, L0, R, W };
     const step = x1 - x0 > 20 ? 5 : x1 - x0 > 8 ? 2 : 1;
@@ -112,10 +116,16 @@
       <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Canopy area every quarter (hectares)">
         ${heat}${grid}${yt}${band}
         ${kwh.length ? `<polyline points="${line(kwh, r => r.ha)}" fill="none" stroke="${KW}" stroke-width="1.4" vector-effect="non-scaling-stroke"/>` : ""}
+        ${ls.length ? `<polyline points="${line(ls, r => r.canopy_ha)}" fill="none" stroke="${OURS}" stroke-width="1.6" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"/>` : ""}
         <polyline points="${line(ours, r => r.canopy_ha)}" fill="none" stroke="${OURS}" stroke-width="2.2" vector-effect="non-scaling-stroke"/>
         <line id="kcur" class="cur" y1="${T0}" y2="${H - B}"/>
       </svg>
-      <div class="kx-chart-legend"><span><i style="background:${OURS}"></i>BlueCarbon-AI, hectares of canopy (band: ±held-out error)</span>${kwh.length ? `<span><i style="background:${KW}"></i>Kelpwatch</span>` : ""}<span class="hint">Click the chart to jump to a quarter</span></div>`;
+      ${sst.length ? `<svg class="kx-sst" viewBox="${L0} 0 ${W - L0 - R} 22" preserveAspectRatio="none" aria-label="Sea surface temperature anomaly">${sst.map(r => {
+        const a = Math.max(-2, Math.min(2, r.anom)), x = X(tnum(r.year, r.quarter));
+        const col = a >= 0 ? `rgba(232,108,84,${(0.15 + 0.85 * a / 2).toFixed(2)})` : `rgba(90,160,230,${(0.15 + 0.85 * -a / 2).toFixed(2)})`;
+        return `<rect x="${x.toFixed(1)}" y="0" width="${(X(tnum(r.year, r.quarter) + 0.25) - x + 0.4).toFixed(1)}" height="22" fill="${col}"/>`;
+      }).join("")}</svg>` : ""}
+      <div class="kx-chart-legend"><span><i style="background:${OURS}"></i>BlueCarbon-AI, hectares of canopy${ls.length ? " (dashed: Landsat before 2016)" : ""}</span>${kwh.length ? `<span><i style="background:${KW}"></i>Kelpwatch</span>` : ""}${sst.length ? `<span><i style="background:linear-gradient(90deg,#5aa0e6,#e86c54)"></i>Sea temperature vs 1984–2013 normal (cool to warm)</span>` : ""}<span class="hint">Click the chart to jump to a quarter</span></div>`;
     const svg = $("kchart").querySelector("svg");
     const pick = e => {
       const r = svg.getBoundingClientRect(), xv = ((e.clientX - r.left) / r.width) * W;
@@ -125,8 +135,8 @@
     };
     svg.addEventListener("click", e => { stop(); idx = pick(e); render(); });
     svg.addEventListener("mousemove", e => {
-      const [y, q] = T[pick(e)], v = at(site, y, q);
-      $("kread").textContent = `${qlab(y, q)}: ${v.ours ? `BlueCarbon-AI ${BC.fmt(v.ours.canopy_ha)} ha` : ""}${v.ours && v.kw ? " · " : ""}${v.kw ? `Kelpwatch ${BC.fmt(v.kw.ha)} ha` : ""}` || qlab(y, q);
+      const [y, q] = T[pick(e)], v = at(site, y, q), tt = (site.sst || []).find(r => r.year === y && r.quarter === q);
+      $("kread").textContent = `${qlab(y, q)}: ${v.ours ? `BlueCarbon-AI ${BC.fmt(v.ours.canopy_ha)} ha` : ""}${v.ours && v.kw ? " · " : ""}${v.kw ? `Kelpwatch ${BC.fmt(v.kw.ha)} ha` : ""}${tt ? ` · sea ${tt.c.toFixed(1)}°C (${tt.anom >= 0 ? "+" : ""}${tt.anom.toFixed(1)})` : ""}` || qlab(y, q);
     });
     svg.addEventListener("mouseleave", () => { $("kread").textContent = ""; });
   }
@@ -158,6 +168,9 @@
         <div><b>${kwv}</b><small>Kelpwatch canopy</small></div>
       </div>
       ${why ? `<p class="small-note">${why}</p>` : ""}
+      ${(() => { const sc = (s.score || {}).site_quarter_ha; const tt = (s.sst || []).find(r => r.year === y && r.quarter === q);
+        return (tt ? `<p class="kx-sstnote">Sea temperature ${tt.c.toFixed(1)}°C, <b class="${tt.anom > 0.7 ? "bad" : tt.anom < -0.7 ? "good" : ""}">${tt.anom >= 0 ? "+" : ""}${tt.anom.toFixed(1)}°C</b> vs the 1984–2013 normal for this quarter</p>` : "")
+          + (sc && sc.rmse != null ? `<p class="kx-score">Checked against Kelpwatch on this bed (${BC.esc(s.score.how)}): typical error ±${BC.fmt(sc.rmse)} ha a quarter, bias ${sc.bias > 0 ? "+" : ""}${BC.fmt(sc.bias)} ha${sc.r2 != null ? `, r² ${sc.r2.toFixed(2)}` : ""}.</p>` : ""); })()}
       <h2>The long view</h2>
       <dl class="kx-dl">
         ${st.before != null ? `<div><dt>Average yearly peak, 1984–2013</dt><dd>${BC.fmt(st.before)} ha</dd></div>` : ""}
@@ -174,10 +187,12 @@
     $("kpanel").querySelector(".kx-fit").addEventListener("click", () => map.fitBounds(s.focus || s.bounds, { padding: [16, 16], maxZoom: 15 }));
   }
   function csv(s) {
-    const rows = [["year", "quarter", "bluecarbon_ai_ha", "plus_minus_ha", "clear_fraction", "kelpwatch_ha"]];
+    const rows = [["year", "quarter", "bluecarbon_ai_ha", "sensor", "plus_minus_ha", "clear_fraction", "kelpwatch_ha", "sst_c", "sst_anomaly_c"]];
     timeline(s).forEach(([y, q]) => {
       const v = at(s, y, q);
-      rows.push([y, q, v.ours ? v.ours.canopy_ha : "", v.ours ? (v.ours.plus_minus_ha ?? "") : "", v.ours ? v.ours.coverage : "", v.kw ? v.kw.ha : ""]);
+      const tt = (s.sst || []).find(r => r.year === y && r.quarter === q);
+      rows.push([y, q, v.ours ? v.ours.canopy_ha : "", v.ours ? (v.ours.ls ? "landsat" : "sentinel-2") : "", v.ours ? (v.ours.plus_minus_ha ?? "") : "",
+        v.ours ? v.ours.coverage : "", v.kw ? v.kw.ha : "", tt ? tt.c : "", tt ? tt.anom : ""]);
     });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([rows.map(r => r.join(",")).join("\n")], { type: "text/csv" }));
@@ -229,7 +244,7 @@
     const before = sts.every(x => x.before != null) ? sts.reduce((a, x) => a + x.before, 0) : null;
     const ho = ((cal || {}).held_out || {}).site_quarter_ha || {};
     const f = [
-      [`${sites.length}`, "kelp beds, Point Loma to Mendocino"],
+      [`${sites.length}`, `kelp beds, ${sites.some(s => /Washington/.test(s.region)) ? "Baja California to Washington" : sites.some(s => /Baja/.test(s.region)) ? "Baja California to Mendocino" : "Point Loma to Mendocino"}`],
       [`${first}–${Math.max(...sites.map(s => s.latest.year))}`, "years of record on the map"],
       [`${BC.fmt(Math.round(total))} ha`, `of floating canopy in the latest mapped quarter`],
     ];
@@ -240,13 +255,14 @@
   function story(sites) {
     const rows = sites.map(s => [s, stats(s)]);
     const has = rows.some(([, st]) => st.before != null);
-    $("kstory").innerHTML = `<table class="kstory-t"><thead><tr><th>Kelp bed</th>${has ? "<th>Average yearly peak, 1984–2013</th><th>Heatwave low</th>" : ""}${has ? "<th>Latest year, Kelpwatch</th>" : ""}<th>Latest year, BlueCarbon-AI</th>${has ? "<th>Now vs before</th>" : "<th>Peak since 2016</th>"}<th>Trend</th></tr></thead><tbody>${rows.map(([s, st]) => {
+    $("kstory").innerHTML = `<table class="kstory-t"><thead><tr><th>Kelp bed</th>${has ? "<th>Average yearly peak, 1984–2013</th><th>Heatwave low</th>" : ""}${has ? "<th>Latest year, Kelpwatch</th>" : ""}<th>Latest year, BlueCarbon-AI</th>${has ? "<th>Now vs before</th>" : "<th>Peak since 2016</th>"}<th>Error on this bed</th><th>Trend</th></tr></thead><tbody>${rows.map(([s, st]) => {
       const peak = Object.entries(st.op).reduce((m, e) => (e[1] > (m ? m[1] : -1) ? e : m), null);
       return `<tr><td><button type="button" data-go="${s.name}">${BC.esc(s.title)}</button><small>${BC.esc(s.species)}</small></td>
         ${has ? `<td>${st.before != null ? `${BC.fmt(st.before)} ha` : "–"}</td><td>${st.low ? `${BC.fmt(st.low[1])} ha <small>${st.low[0]}</small>` : "–"}</td>` : ""}
         ${has ? `<td>${st.latestKw != null ? `${BC.fmt(st.latestKw)} ha <small>${st.latestYear}</small>` : "–"}</td>` : ""}
         <td>${st.latest != null ? `${BC.fmt(st.latest)} ha <small>${st.latestYear}</small>` : "–"}</td>
         ${has ? `<td class="${st.ratio == null ? "" : st.ratio < 0.5 ? "bad" : st.ratio < 0.85 ? "mid" : "good"}">${pct(st.ratio)}</td>` : `<td>${peak ? `${BC.fmt(peak[1])} ha <small>${peak[0]}</small>` : "–"}</td>`}
+        <td>${(s.score || {}).site_quarter_ha && s.score.site_quarter_ha.rmse != null ? `±${BC.fmt(s.score.site_quarter_ha.rmse)} ha <small>${s.held_out ? "held out" : "left out of its fit"}</small>` : "–"}</td>
         <td>${spark(s)}</td></tr>`;
     }).join("")}</tbody></table>
     <p class="small-note">${has ? "Yearly peak = the largest quarter of the year. \"Now vs before\" compares Kelpwatch with Kelpwatch, so the two satellite records are never mixed in one number. Where our latest year differs a lot from Kelpwatch's (for example Mendocino's bull kelp, or Point Loma), that bed's figures are less certain." : "The 1984–2015 Kelpwatch record and yearly pictures appear here after the next kelp refresh."}</p>`;

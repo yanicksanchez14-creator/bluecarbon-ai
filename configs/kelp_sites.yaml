@@ -1,6 +1,10 @@
-# California kelp beds for the kelp canopy product. Boxes are [west, south, east, north] and cover the
-# nearshore band where canopy forms (giant kelp in the south and centre, bull kelp in the north).
+# Kelp beds for the kelp canopy product, Baja California to Washington. Boxes are [west, south, east, north] and
+# cover the nearshore band where canopy forms (giant kelp in the south and centre, bull kelp in the north).
 # role: test = never used to calibrate; its scores against Kelpwatch are the published accuracy.
+# zone: beds calibrated together (giant kelp and bull kelp canopy look different from space). Every other bed is
+# also scored leave-one-bed-out within its zone. Kelpwatch (SBC LTER) covers Baja California to Oregon; a bed with
+# no Kelpwatch pixels is mapped with its zone's settings but not scored.
+landsat_start_year: 1984  # our own Landsat canopy record, 1984-2015 (Sentinel-2 takes over in 2016)
 start_year: 2016          # Sentinel-2 A+B both flying from 2017; 2016 adds a partial first year
 sites:
   - name: point_loma
@@ -8,35 +12,67 @@ sites:
     region: San Diego, California
     bbox: [-117.30, 32.64, -117.23, 32.74]
     species: giant kelp
+    zone: giant kelp
   - name: la_jolla
     title: La Jolla
     region: San Diego, California
     bbox: [-117.31, 32.79, -117.25, 32.89]
     species: giant kelp
+    zone: giant kelp
   - name: laguna_dana_point
     title: Laguna Beach to Dana Point
     region: Orange County, California
     bbox: [-117.82, 33.43, -117.68, 33.56]
     species: giant kelp
+    zone: giant kelp
     role: test
   - name: palos_verdes
     title: Palos Verdes
     region: Los Angeles County, California
     bbox: [-118.44, 33.70, -118.30, 33.80]
     species: giant kelp
+    zone: giant kelp
   - name: santa_barbara
     title: Santa Barbara Channel (Arroyo Quemado to Mohawk)
     region: Santa Barbara, California
     bbox: [-120.15, 34.38, -119.70, 34.47]
     species: giant kelp
+    zone: giant kelp
   - name: carmel_monterey
     title: Carmel Bay and Monterey Peninsula
     region: Monterey, California
     bbox: [-121.98, 36.50, -121.88, 36.63]
     species: giant kelp
+    zone: giant kelp
     role: test
   - name: mendocino
     title: Mendocino coast
     region: Mendocino County, California
     bbox: [-123.85, 39.20, -123.75, 39.40]
     species: bull kelp
+    zone: bull kelp
+  # ---- added Oct 12 2026: Baja California, Oregon and Washington ----
+  - name: todos_santos
+    title: Isla Todos Santos and Punta Banda
+    region: Ensenada, Baja California
+    bbox: [-116.85, 31.74, -116.70, 31.90]
+    species: giant kelp
+    zone: giant kelp
+  - name: isla_natividad
+    title: Isla Natividad
+    region: Pacific coast, Baja California Sur
+    bbox: [-115.26, 27.82, -115.12, 27.92]
+    species: giant kelp
+    zone: giant kelp
+  - name: orford_reef
+    title: Orford Reef and Cape Blanco
+    region: Curry County, Oregon
+    bbox: [-124.62, 42.70, -124.45, 42.86]
+    species: bull kelp
+    zone: bull kelp
+  - name: neah_bay
+    title: Neah Bay and Tatoosh Island
+    region: Strait of Juan de Fuca, Washington
+    bbox: [-124.76, 48.30, -124.55, 48.42]
+    species: bull kelp
+    zone: bull kelp

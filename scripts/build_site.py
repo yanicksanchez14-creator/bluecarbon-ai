@@ -514,8 +514,8 @@ def _accuracy(out: Path, doc: dict) -> None:
         sq, cm = (kc.get("held_out") or {}).get("site_quarter_ha") or {}, (kc.get("held_out") or {}).get("cells_m2") or {}
         if sq.get("r2") is not None:
             parts += ['<h2 id="kelp">Kelp canopy</h2>',
-                      "<p>A separate Sentinel-2 method, calibrated against Kelpwatch (UC Santa Barbara) on five California "
-                      "kelp beds and scored on two it was never tuned on (" + ", ".join(
+                      "<p>A separate Sentinel-2 method, calibrated against Kelpwatch (UC Santa Barbara) on "
+                      f"{len(kc.get('sites_calibration', [])) or 'five'} kelp beds and scored on two it was never tuned on (" + ", ".join(
                           s.replace("_", " ").title() for s in kc.get("sites_held_out", [])) + "), every quarter "
                       "since 2016. See the <a href=\"kelp.html\">kelp page</a>.</p>",
                       '<div class="score-cards">',

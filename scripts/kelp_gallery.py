@@ -24,7 +24,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from bluecarbon import gee  # noqa: E402
 from bluecarbon.config import load_config  # noqa: E402
-from bluecarbon.kelp import SCALE_M, kelp_fraction, read_kelpwatch  # noqa: E402
+from bluecarbon.kelp import SCALE_M, kelp_fraction, params_for, read_kelpwatch  # noqa: E402
 
 FIRST_RGB_YEAR = 1984
 KW_COLOR = (111, 211, 191)   # Kelpwatch layer: teal, so it never reads as our own map
@@ -69,7 +69,8 @@ def _rgb_jpeg(tif: Path, dst: Path) -> list:
     return bounds
 
 
-def build_gallery(cfg, spec: dict, out: Path, work: Path, kw_path: Path | None, cal: dict, log=print) -> None:
+def build_gallery(cfg, spec: dict, out: Path, work: Path, kw_path: Path | None, cal: dict, log=print,
+                  cal_landsat: dict | None = None) -> None:
     import datetime as dt
 
     from kelp_pipeline import fraction_png, read_quarter
@@ -88,11 +89,19 @@ def build_gallery(cfg, spec: dict, out: Path, work: Path, kw_path: Path | None, 
         for p in quarters:                                    # 1. our canopy map, every quarter
             fai, _n, land, tr, crs = read_quarter(p)
             grid = grid or (tr, crs, fai.shape)
-            frac = kelp_fraction(fai, land, SCALE_M, cal["threshold"], cal["endmember"], cal.get("shore_m", 0))
+            frac = kelp_fraction(fai, land, SCALE_M, *params_for(cal, s["name"]))
             key = p.stem[1:]
             meta["frame_bounds"] = fraction_png(frac, tr, crs, o / "frames" / f"{key}.png")
             frames.append(key)
         meta["frames"] = frames
+        if cal_landsat:                                        # 1b. our own Landsat canopy map, 1984-2015
+            ls_frames = []
+            for p in sorted((d / "landsat").glob("q*_*.tif"), key=lambda p: tuple(int(x) for x in p.stem[1:].split("_"))):
+                fai, _n, land, tr, crs = read_quarter(p)
+                frac = kelp_fraction(fai, land, 30, *params_for(cal_landsat, s["name"]))
+                meta["frame_bounds_landsat"] = fraction_png(frac, tr, crs, o / "frames" / f"{p.stem[1:]}.png")
+                ls_frames.append(p.stem[1:])
+            meta["frames_landsat"] = ls_frames
         kw = _kw(work, kw_path, s)                            # 2. Kelpwatch since 1984 (its own Landsat record)
         if kw is not None and grid is not None:
             yrs, qq, area = np.asarray(kw["year"]).astype(int), np.asarray(kw["quarter"]).astype(int), kw["area_m2"]
@@ -117,7 +126,8 @@ def build_gallery(cfg, spec: dict, out: Path, work: Path, kw_path: Path | None, 
                 log(f"[{s['name']}] {y} picture skipped ({str(e)[:80]})")
         meta["rgb_years"] = rgb_years
         meta_p.write_text(json.dumps(meta, indent=1))
-        log(f"[{s['name']}] {len(frames)} quarterly maps, {len(meta.get('kw_years', []))} Kelpwatch years, "
+        log(f"[{s['name']}] {len(frames)} + {len(meta.get('frames_landsat', []))} quarterly maps, "
+            f"{len(meta.get('kw_years', []))} Kelpwatch years, "
             f"{len(rgb_years)} yearly pictures")
 
 
@@ -127,7 +137,7 @@ def main() -> None:
     work, out = ROOT / "runs" / "default" / "sites" / "_kelp", ROOT / "demo_kelp"
     cal = json.loads((out / "calibration.json").read_text())
     gee.init(cfg.project)
-    build_gallery(cfg, spec, out, work, work / "kelpwatch.nc", cal)
+    build_gallery(cfg, spec, out, work, work / "kelpwatch.nc", cal, cal_landsat=cal.get("landsat"))
     shutil.make_archive(str(ROOT / "results_kelp"), "zip", str(ROOT), "demo_kelp")
     print("\nDone: results_kelp.zip")
 

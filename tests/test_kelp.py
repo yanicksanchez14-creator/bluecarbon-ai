@@ -72,3 +72,26 @@ def test_surf_zone_foam_is_masked_by_calibration():
     cal = calibrate(samples, {"t"})
     assert cal["shore_m"] >= 40
     assert abs(cal["held_out"]["site_quarter_ha"].get("bias", 0)) < 2
+
+
+def test_zone_fits_and_every_bed_scored_out_of_fit():
+    from bluecarbon.kelp import params_for
+
+    samples = []
+    for i, (site, cover, em) in enumerate([("g1", .5, .08), ("g2", .7, .08), ("g3", .6, .08),
+                                           ("b1", .5, .16), ("b2", .7, .16), ("b3", .6, .16)]):
+        rng = np.random.default_rng(i)
+        land = np.zeros((90, 90), bool)
+        land[:, :10] = True
+        fai = rng.normal(0.0, 0.0008, land.shape).astype(np.float32)
+        fai[20:70, 30:40] += 0.004 + cover * (em - 0.004)        # bull kelp (b*) is brighter per unit cover here
+        truth = np.zeros(land.shape)
+        truth[20:70, 30:40] = cover
+        samples.append({"site": site, "year": 2020, "quarter": 1, "fai": fai, "land": land, "px_m": 20.0,
+                        "kw_cells": our_cells(truth, 20.0), "tr": from_origin(0, 0, 20, 20), "crs": CRS.from_epsg(32611)})
+    zones = {s: ("giant" if s[0] == "g" else "bull") for s in ("g1", "g2", "g3", "b1", "b2", "b3")}
+    cal = calibrate(samples, set(), zones, log=lambda *_: None)
+    assert set(cal["zones"]) == {"giant", "bull"}
+    assert params_for(cal, "b1")[1] > params_for(cal, "g1")[1]          # bull zone gets its own end member
+    assert set(cal["per_site"]) == set(zones)                             # every bed has an out-of-fit score
+    assert all(v["how"] == "left out of its own fit" for v in cal["per_site"].values())

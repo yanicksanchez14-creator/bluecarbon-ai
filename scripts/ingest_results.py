@@ -200,6 +200,45 @@ def readme(card: dict, sites: list[str]) -> None:
     print("README results updated")
 
 
+def model_report(res_dir: Path) -> dict:
+    """models/model_report.json for the website's accuracy page: version, training summary, per-estuary
+    held-out scores, the live-vs-new comparison that approved this model, and mapped vs reference areas."""
+    import datetime as dt
+    import re
+
+    rep: dict = {"installed": dt.date.today().isoformat()}
+    f = lambda n: next(res_dir.rglob(n), None)  # noqa: E731
+    if (p := f("code_version.txt")):
+        rep["code_version"] = p.read_text().split()[0]
+    if (p := f("metrics.json")):
+        m = json.loads(p.read_text())
+        rep["test"] = {k: m["test"].get(k) for k in ("mIoU", "iou", "overall_accuracy")}
+        rep["best_epoch"], rep["epochs_run"] = m.get("best_epoch"), len(m.get("history") or [])
+        rep["test_per_site"] = {s: v.get("iou") for s, v in (m.get("test_per_site") or {}).items()}
+    if (p := f("label_summary.json")):
+        rep["n_sites"] = len(json.loads(p.read_text()))
+    if (p := f("compare.txt")):
+        rows, txt = [], p.read_text()
+        for line in txt.splitlines():
+            mm = re.match(r"\s+(\w+)\s+(mangrove|saltmarsh|seagrass)\s+([\d.]+)\s+([\d.]+)\s+([+-][\d.]+)", line)
+            if mm:
+                rows.append({"site": mm[1], "habitat": mm[2], "live": float(mm[3]), "new": float(mm[4])})
+        mm = re.search(r"mean blue carbon IoU: live ([\d.]+)\s+new ([\d.]+)", txt)
+        rep["compare"] = {"rows": rows, "verdict": (re.search(r"VERDICT: (\w+)", txt) or [None, None])[1],
+                          "mean_live": float(mm[1]) if mm else None, "mean_new": float(mm[2]) if mm else None}
+    if (p := f("held_out_check.txt")):
+        areas = {}
+        for line in p.read_text().splitlines():
+            mm = re.match(r"\s+(\w+)\s+(\d+)/(\d+)\s+(\d+)/(\d+)\s+(\d+)/(\d+)\s*$", line)
+            if mm:
+                v = list(map(int, mm.groups()[1:]))
+                areas[mm[1]] = {h: {"mapped": v[2 * i], "reference": v[2 * i + 1]}
+                                for i, h in enumerate(("mangrove", "saltmarsh", "seagrass"))}
+        rep["areas"] = areas
+    (ROOT / "models" / "model_report.json").write_text(json.dumps(rep, indent=1))
+    return rep
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", type=Path, help="model file (not needed with --results)")
@@ -213,6 +252,7 @@ def main() -> None:
             best_txt = next(Path(tmp).rglob("best.txt"))
             a.model = best_txt.parent / best_txt.read_text().split()[1]
             a.demo = a.results
+            model_report(Path(tmp))
         if not (a.model and a.demo):
             raise SystemExit("give --results, or both --model and --demo")
         _, card = install_model(a.model)

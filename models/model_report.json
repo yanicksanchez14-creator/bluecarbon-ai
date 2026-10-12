@@ -1,0 +1,776 @@
+{
+ "installed": "2026-10-11",
+ "code_version": "8c276bc",
+ "test": {
+  "mIoU": 0.7711,
+  "iou": {
+   "water": 0.8624,
+   "mangrove": 0.9623,
+   "saltmarsh": 0.8792,
+   "seagrass": 0.4639,
+   "tidal_flat": 0.7425,
+   "other_land": 0.9327,
+   "freshwater": 0.5549
+  },
+  "overall_accuracy": 0.9159
+ },
+ "best_epoch": 43,
+ "epochs_run": 50,
+ "test_per_site": {
+  "al_wajh_sa": {
+   "water": 1.0,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": null,
+   "freshwater": null
+  },
+  "andros_bahamas": {
+   "water": 0.7755,
+   "mangrove": 0.0,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.0,
+   "other_land": 0.7862,
+   "freshwater": 0.7246
+  },
+  "bahia_blanca_ar": {
+   "water": 0.7941,
+   "mangrove": null,
+   "saltmarsh": 0.8831,
+   "seagrass": null,
+   "tidal_flat": 0.8691,
+   "other_land": 0.8854,
+   "freshwater": 0.0
+  },
+  "barnegat_bay_nj": {
+   "water": 0.0083,
+   "mangrove": null,
+   "saltmarsh": 0.9313,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9536,
+   "freshwater": 0.0193
+  },
+  "bazaruto_mz": {
+   "water": 0.9852,
+   "mangrove": 0.9695,
+   "saltmarsh": 0.0,
+   "seagrass": 0.4754,
+   "tidal_flat": 0.8981,
+   "other_land": 0.9866,
+   "freshwater": 0.5529
+  },
+  "belize_lagoon_bz": {
+   "water": 0.8296,
+   "mangrove": 0.9881,
+   "saltmarsh": null,
+   "seagrass": 0.3274,
+   "tidal_flat": null,
+   "other_land": 0.3991,
+   "freshwater": 0.0
+  },
+  "bintuni_bay_id": {
+   "water": 0.9325,
+   "mangrove": 0.7855,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.6425,
+   "other_land": 0.7783,
+   "freshwater": null
+  },
+  "blackwater_md": {
+   "water": 0.8132,
+   "mangrove": null,
+   "saltmarsh": 0.7684,
+   "seagrass": 0.8397,
+   "tidal_flat": null,
+   "other_land": 0.9448,
+   "freshwater": 0.5059
+  },
+  "botany_bay_au": {
+   "water": 0.9649,
+   "mangrove": null,
+   "saltmarsh": 0.375,
+   "seagrass": 0.5302,
+   "tidal_flat": 0.6729,
+   "other_land": 0.9322,
+   "freshwater": 0.0352
+  },
+  "braganca_br": {
+   "water": 0.7982,
+   "mangrove": 0.9927,
+   "saltmarsh": 0.6949,
+   "seagrass": null,
+   "tidal_flat": 0.596,
+   "other_land": 0.9836,
+   "freshwater": 0.0833
+  },
+  "buzzards_bay_ma": {
+   "water": 0.9699,
+   "mangrove": null,
+   "saltmarsh": 0.8208,
+   "seagrass": 0.1238,
+   "tidal_flat": 0.5066,
+   "other_land": 0.995,
+   "freshwater": 0.0
+  },
+  "ca_mau_vn": {
+   "water": 0.7335,
+   "mangrove": 0.9842,
+   "saltmarsh": 0.0,
+   "seagrass": null,
+   "tidal_flat": 0.4567,
+   "other_land": 0.4767,
+   "freshwater": null
+  },
+  "cape_romain_sc": {
+   "water": 0.9331,
+   "mangrove": null,
+   "saltmarsh": 0.9116,
+   "seagrass": null,
+   "tidal_flat": 0.7254,
+   "other_land": 0.9527,
+   "freshwater": 0.0117
+  },
+  "cedar_key_fl": {
+   "water": 0.035,
+   "mangrove": null,
+   "saltmarsh": 0.9467,
+   "seagrass": null,
+   "tidal_flat": 0.8679,
+   "other_land": 0.9462,
+   "freshwater": 0.0309
+  },
+  "charlotte_harbor_fl": {
+   "water": 0.8711,
+   "mangrove": 0.8305,
+   "saltmarsh": 0.0,
+   "seagrass": 0.5841,
+   "tidal_flat": null,
+   "other_land": 0.7899,
+   "freshwater": null
+  },
+  "chongming_cn": {
+   "water": 0.9341,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.2098,
+   "other_land": null,
+   "freshwater": null
+  },
+  "chwaka_bay_tz": {
+   "water": 0.4762,
+   "mangrove": 0.8613,
+   "saltmarsh": 0.0,
+   "seagrass": 0.4095,
+   "tidal_flat": 0.5087,
+   "other_land": 0.9685,
+   "freshwater": 0.39
+  },
+  "coron_ph": {
+   "water": null,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 1.0,
+   "freshwater": null
+  },
+  "delaware_bay_nj": {
+   "water": 0.9468,
+   "mangrove": null,
+   "saltmarsh": 0.8373,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9978,
+   "freshwater": 0.21
+  },
+  "elkhorn_slough_ca": {
+   "water": 0.5473,
+   "mangrove": null,
+   "saltmarsh": 0.6531,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9673,
+   "freshwater": 0.1943
+  },
+  "exmouth_gulf_au": {
+   "water": 0.9609,
+   "mangrove": 0.9391,
+   "saltmarsh": null,
+   "seagrass": 0.0183,
+   "tidal_flat": 0.8293,
+   "other_land": 0.8719,
+   "freshwater": 0.164
+  },
+  "exuma_bahamas": {
+   "water": 0.6043,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": 0.2662,
+   "tidal_flat": null,
+   "other_land": null,
+   "freshwater": null
+  },
+  "florida_bay_fl": {
+   "water": 0.6043,
+   "mangrove": 0.9596,
+   "saltmarsh": 0.5518,
+   "seagrass": 0.7939,
+   "tidal_flat": 0.2692,
+   "other_land": 0.0143,
+   "freshwater": 0.233
+  },
+  "florida_keys_fl": {
+   "water": 0.6536,
+   "mangrove": 0.9535,
+   "saltmarsh": null,
+   "seagrass": 0.812,
+   "tidal_flat": 0.1641,
+   "other_land": 0.9673,
+   "freshwater": 0.0
+  },
+  "great_bay_nh": {
+   "water": 0.0,
+   "mangrove": null,
+   "saltmarsh": 0.8307,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9748,
+   "freshwater": 0.4595
+  },
+  "great_sandy_strait_au": {
+   "water": 0.8784,
+   "mangrove": 0.9838,
+   "saltmarsh": 0.2097,
+   "seagrass": 0.2816,
+   "tidal_flat": 0.9388,
+   "other_land": 0.8771,
+   "freshwater": 0.4977
+  },
+  "guayas_ec": {
+   "water": 0.9682,
+   "mangrove": 0.9923,
+   "saltmarsh": 0.0,
+   "seagrass": null,
+   "tidal_flat": 0.3916,
+   "other_land": 0.979,
+   "freshwater": 0.3227
+  },
+  "gulf_of_fonseca_hn": {
+   "water": 0.9262,
+   "mangrove": 0.9797,
+   "saltmarsh": 0.0,
+   "seagrass": null,
+   "tidal_flat": 0.2165,
+   "other_land": 0.8901,
+   "freshwater": 0.0
+  },
+  "hinchinbrook_au": {
+   "water": 0.81,
+   "mangrove": 0.9976,
+   "saltmarsh": 0.0,
+   "seagrass": 0.2076,
+   "tidal_flat": 0.5037,
+   "other_land": 0.9964,
+   "freshwater": null
+  },
+  "humboldt_bay_ca": {
+   "water": 0.7991,
+   "mangrove": null,
+   "saltmarsh": 0.6087,
+   "seagrass": 0.0863,
+   "tidal_flat": 0.6198,
+   "other_land": 0.9272,
+   "freshwater": 0.0506
+  },
+  "indian_river_fl": {
+   "water": 0.1344,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9733,
+   "freshwater": 0.1753
+  },
+  "jervis_bay_au": {
+   "water": 0.9621,
+   "mangrove": 0.4885,
+   "saltmarsh": 0.4068,
+   "seagrass": 0.0164,
+   "tidal_flat": 0.1432,
+   "other_land": 0.8687,
+   "freshwater": 0.7526
+  },
+  "jobos_bay_pr": {
+   "water": 0.6169,
+   "mangrove": 0.9261,
+   "saltmarsh": 0.0015,
+   "seagrass": 0.0212,
+   "tidal_flat": 0.1728,
+   "other_land": 0.9533,
+   "freshwater": 0.0256
+  },
+  "knysna_za": {
+   "water": 0.0,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.6213,
+   "other_land": 0.9699,
+   "freshwater": 0.0
+  },
+  "laguna_terminos_mx": {
+   "water": 0.0954,
+   "mangrove": 0.9516,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.964,
+   "freshwater": 0.0
+  },
+  "lower_laguna_madre_tx": {
+   "water": 0.6139,
+   "mangrove": null,
+   "saltmarsh": 0.3123,
+   "seagrass": 0.8442,
+   "tidal_flat": 0.6231,
+   "other_land": 0.9206,
+   "freshwater": 0.9308
+  },
+  "mahakam_delta_id": {
+   "water": 0.8202,
+   "mangrove": 0.9698,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.4162,
+   "other_land": 0.9546,
+   "freshwater": 0.0233
+  },
+  "marawah_ae": {
+   "water": 0.9268,
+   "mangrove": null,
+   "saltmarsh": 0.0,
+   "seagrass": 0.0,
+   "tidal_flat": 0.8331,
+   "other_land": 0.9051,
+   "freshwater": 0.5337
+  },
+  "matang_my": {
+   "water": 0.9509,
+   "mangrove": 0.7144,
+   "saltmarsh": 0.0,
+   "seagrass": null,
+   "tidal_flat": 0.6835,
+   "other_land": 0.8897,
+   "freshwater": null
+  },
+  "mission_bay_ca": {
+   "water": 0.014,
+   "mangrove": null,
+   "saltmarsh": 0.9025,
+   "seagrass": 0.3291,
+   "tidal_flat": 0.7248,
+   "other_land": 0.9952,
+   "freshwater": null
+  },
+  "mobjack_bay_va": {
+   "water": 0.3833,
+   "mangrove": null,
+   "saltmarsh": 0.9631,
+   "seagrass": 0.5077,
+   "tidal_flat": null,
+   "other_land": 0.9611,
+   "freshwater": 0.0
+  },
+  "mont_st_michel_fr": {
+   "water": 0.1192,
+   "mangrove": null,
+   "saltmarsh": 0.9351,
+   "seagrass": null,
+   "tidal_flat": 0.7702,
+   "other_land": 0.8632,
+   "freshwater": 0.0
+  },
+  "moreton_bay_au": {
+   "water": 0.7292,
+   "mangrove": 0.9378,
+   "saltmarsh": 0.1531,
+   "seagrass": 0.1194,
+   "tidal_flat": 0.7142,
+   "other_land": 0.9709,
+   "freshwater": 0.1114
+  },
+  "niger_delta_ng": {
+   "water": 0.4236,
+   "mangrove": 0.9967,
+   "saltmarsh": 0.0,
+   "seagrass": null,
+   "tidal_flat": 0.713,
+   "other_land": 0.999,
+   "freshwater": 0.0
+  },
+  "plum_island_ma": {
+   "water": 0.64,
+   "mangrove": null,
+   "saltmarsh": 0.9563,
+   "seagrass": null,
+   "tidal_flat": 0.6748,
+   "other_land": 0.9408,
+   "freshwater": 0.228
+  },
+  "port_stephens_au": {
+   "water": 0.928,
+   "mangrove": 0.9582,
+   "saltmarsh": 0.8349,
+   "seagrass": 0.2525,
+   "tidal_flat": 0.6609,
+   "other_land": 0.9855,
+   "freshwater": 0.3919
+  },
+  "puerto_morelos_mx": {
+   "water": 0.9316,
+   "mangrove": 0.9928,
+   "saltmarsh": null,
+   "seagrass": 0.4496,
+   "tidal_flat": 0.0412,
+   "other_land": 0.9849,
+   "freshwater": 0.3079
+  },
+  "redfish_bay_tx": {
+   "water": 0.5644,
+   "mangrove": null,
+   "saltmarsh": 0.6309,
+   "seagrass": 0.0,
+   "tidal_flat": 0.6006,
+   "other_land": 0.7959,
+   "freshwater": 0.5315
+  },
+  "rookery_bay_fl": {
+   "water": 0.1393,
+   "mangrove": 0.9137,
+   "saltmarsh": 0.0133,
+   "seagrass": null,
+   "tidal_flat": null,
+   "other_land": 0.9728,
+   "freshwater": 0.2091
+  },
+  "rufiji_delta_tz": {
+   "water": 0.7726,
+   "mangrove": 0.9845,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.896,
+   "other_land": 0.9685,
+   "freshwater": 0.1873
+  },
+  "safaga_eg": {
+   "water": 0.9921,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": 0.0,
+   "tidal_flat": null,
+   "other_land": 1.0,
+   "freshwater": null
+  },
+  "sapelo_ga": {
+   "water": 0.0614,
+   "mangrove": null,
+   "saltmarsh": 0.9944,
+   "seagrass": null,
+   "tidal_flat": 0.9179,
+   "other_land": 0.9972,
+   "freshwater": 0.3775
+  },
+  "shark_bay_au": {
+   "water": 0.7467,
+   "mangrove": null,
+   "saltmarsh": 0.3342,
+   "seagrass": 0.3063,
+   "tidal_flat": 0.8519,
+   "other_land": 0.98,
+   "freshwater": 0.0999
+  },
+  "shoalwater_bay_au": {
+   "water": 0.9109,
+   "mangrove": 0.9091,
+   "saltmarsh": 0.0,
+   "seagrass": 0.1793,
+   "tidal_flat": 0.9046,
+   "other_land": 0.9247,
+   "freshwater": 0.0154
+  },
+  "south_bay_va": {
+   "water": 0.9648,
+   "mangrove": null,
+   "saltmarsh": 0.7196,
+   "seagrass": null,
+   "tidal_flat": 0.428,
+   "other_land": 0.2149,
+   "freshwater": 0.0
+  },
+  "south_sf_bay_ca": {
+   "water": 0.6764,
+   "mangrove": null,
+   "saltmarsh": 0.8815,
+   "seagrass": null,
+   "tidal_flat": 0.5492,
+   "other_land": 0.9623,
+   "freshwater": 0.209
+  },
+  "st_joseph_bay_fl": {
+   "water": 0.685,
+   "mangrove": null,
+   "saltmarsh": 0.0098,
+   "seagrass": 0.322,
+   "tidal_flat": 0.0231,
+   "other_land": 0.8904,
+   "freshwater": 0.3053
+  },
+  "sundarbans_bd": {
+   "water": 0.9625,
+   "mangrove": 0.9996,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.6131,
+   "other_land": null,
+   "freshwater": null
+  },
+  "tampa_bay_fl": {
+   "water": 0.8536,
+   "mangrove": 0.9459,
+   "saltmarsh": 0.1031,
+   "seagrass": 0.6948,
+   "tidal_flat": 0.0,
+   "other_land": 0.9678,
+   "freshwater": 0.1562
+  },
+  "tangier_sound_md": {
+   "water": 0.9824,
+   "mangrove": null,
+   "saltmarsh": 0.9331,
+   "seagrass": 0.4464,
+   "tidal_flat": 0.2785,
+   "other_land": 0.9032,
+   "freshwater": 0.0
+  },
+  "ten_thousand_isl_fl": {
+   "water": 0.9436,
+   "mangrove": 0.9713,
+   "saltmarsh": 0.903,
+   "seagrass": 0.2534,
+   "tidal_flat": 0.2187,
+   "other_land": 0.9477,
+   "freshwater": 0.8448
+  },
+  "the_wash_uk": {
+   "water": 0.9089,
+   "mangrove": null,
+   "saltmarsh": 0.8956,
+   "seagrass": null,
+   "tidal_flat": 0.9666,
+   "other_land": 0.978,
+   "freshwater": 0.0
+  },
+  "venice_lagoon_it": {
+   "water": 0.0,
+   "mangrove": null,
+   "saltmarsh": null,
+   "seagrass": null,
+   "tidal_flat": 0.1491,
+   "other_land": 0.9068,
+   "freshwater": 0.1017
+  },
+  "wadden_sea_de": {
+   "water": 0.882,
+   "mangrove": null,
+   "saltmarsh": 0.6233,
+   "seagrass": null,
+   "tidal_flat": 0.8843,
+   "other_land": 0.9548,
+   "freshwater": 0.0
+  },
+  "willapa_bay_wa": {
+   "water": 0.9654,
+   "mangrove": null,
+   "saltmarsh": 0.4206,
+   "seagrass": null,
+   "tidal_flat": 0.9645,
+   "other_land": 0.9512,
+   "freshwater": 0.3232
+  },
+  "yellow_river_cn": {
+   "water": 0.6048,
+   "mangrove": null,
+   "saltmarsh": 0.377,
+   "seagrass": null,
+   "tidal_flat": 0.4234,
+   "other_land": 0.7579,
+   "freshwater": 0.3179
+  },
+  "zambezi_delta_mz": {
+   "water": 0.8724,
+   "mangrove": 0.9444,
+   "saltmarsh": 0.0023,
+   "seagrass": null,
+   "tidal_flat": 0.6845,
+   "other_land": 0.7807,
+   "freshwater": 0.3968
+  }
+ },
+ "n_sites": 76,
+ "compare": {
+  "rows": [
+   {
+    "site": "mission_bay_ca",
+    "habitat": "saltmarsh",
+    "live": 0.73,
+    "new": 0.82
+   },
+   {
+    "site": "mission_bay_ca",
+    "habitat": "seagrass",
+    "live": 0.0,
+    "new": 0.27
+   },
+   {
+    "site": "plum_island_ma",
+    "habitat": "saltmarsh",
+    "live": 0.9,
+    "new": 0.94
+   },
+   {
+    "site": "shoalwater_bay_au",
+    "habitat": "mangrove",
+    "live": 0.89,
+    "new": 0.89
+   },
+   {
+    "site": "shoalwater_bay_au",
+    "habitat": "saltmarsh",
+    "live": 0.0,
+    "new": 0.0
+   },
+   {
+    "site": "shoalwater_bay_au",
+    "habitat": "seagrass",
+    "live": 0.03,
+    "new": 0.11
+   },
+   {
+    "site": "moreton_bay_au",
+    "habitat": "mangrove",
+    "live": 0.83,
+    "new": 0.95
+   },
+   {
+    "site": "moreton_bay_au",
+    "habitat": "saltmarsh",
+    "live": 0.06,
+    "new": 0.14
+   },
+   {
+    "site": "moreton_bay_au",
+    "habitat": "seagrass",
+    "live": 0.1,
+    "new": 0.11
+   },
+   {
+    "site": "tampa_bay_fl",
+    "habitat": "mangrove",
+    "live": 0.87,
+    "new": 0.93
+   },
+   {
+    "site": "tampa_bay_fl",
+    "habitat": "saltmarsh",
+    "live": 0.01,
+    "new": 0.09
+   },
+   {
+    "site": "tampa_bay_fl",
+    "habitat": "seagrass",
+    "live": 0.66,
+    "new": 0.73
+   }
+  ],
+  "verdict": "PUBLISH",
+  "mean_live": 0.425,
+  "mean_new": 0.498
+ },
+ "areas": {
+  "mission_bay_ca": {
+   "mangrove": {
+    "mapped": 0,
+    "reference": 0
+   },
+   "saltmarsh": {
+    "mapped": 61,
+    "reference": 49
+   },
+   "seagrass": {
+    "mapped": 169,
+    "reference": 469
+   }
+  },
+  "plum_island_ma": {
+   "mangrove": {
+    "mapped": 0,
+    "reference": 0
+   },
+   "saltmarsh": {
+    "mapped": 4640,
+    "reference": 3514
+   },
+   "seagrass": {
+    "mapped": 0,
+    "reference": 0
+   }
+  },
+  "shoalwater_bay_au": {
+   "mangrove": {
+    "mapped": 2397,
+    "reference": 1921
+   },
+   "saltmarsh": {
+    "mapped": 1,
+    "reference": 1
+   },
+   "seagrass": {
+    "mapped": 653,
+    "reference": 2715
+   }
+  },
+  "moreton_bay_au": {
+   "mangrove": {
+    "mapped": 1786,
+    "reference": 1035
+   },
+   "saltmarsh": {
+    "mapped": 92,
+    "reference": 108
+   },
+   "seagrass": {
+    "mapped": 1430,
+    "reference": 5968
+   }
+  },
+  "tampa_bay_fl": {
+   "mangrove": {
+    "mapped": 1529,
+    "reference": 745
+   },
+   "saltmarsh": {
+    "mapped": 148,
+    "reference": 13
+   },
+   "seagrass": {
+    "mapped": 4541,
+    "reference": 3277
+   }
+  }
+ }
+}

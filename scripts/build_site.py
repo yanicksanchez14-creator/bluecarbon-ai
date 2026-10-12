@@ -231,6 +231,7 @@ def build(out: Path, pdf: bool = True) -> dict:
     (data / "sites.json").write_text(json.dumps(doc, separators=(",", ":")))
     _kelp(out)
     _methodology(out, doc)
+    _accuracy(out, doc)
     _chrome(out)
     _cache_bust(out)
     (out / ".nojekyll").write_text("")
@@ -256,6 +257,11 @@ def _chrome(out: Path) -> None:
     """One header and footer for every page (site/partials), with the current page marked."""
     header = (ROOT / "site" / "partials" / "header.html").read_text()
     footer = (ROOT / "site" / "partials" / "footer.html").read_text()
+    rp = ROOT / "models" / "model_report.json"
+    if rp.exists():
+        r = json.loads(rp.read_text())
+        footer = footer.replace("<!-- VERSION -->", f'<p class="version">Model v2 \u00b7 code {r.get("code_version", "")} '
+                                f'\u00b7 published {r.get("installed", "")} \u00b7 <a href="accuracy.html">accuracy</a></p>')
     for page in out.glob("*.html"):
         name = page.stem
         h = header.replace(f'data-page="{name}"', f'data-page="{name}" aria-current="page"')
@@ -342,6 +348,85 @@ def _methodology(out: Path, doc: dict | None = None) -> None:
         html = html.replace("</figure>", "</figure>" + _error_table(doc), 1)
     page = out / "methodology.html"
     page.write_text(page.read_text().replace("<!-- METHODOLOGY -->", html))
+
+
+def _accuracy(out: Path, doc: dict) -> None:
+    """Model card: version, training data, held-out scores per estuary, live-vs-new comparison, known issues."""
+    import html as h
+
+    rp = ROOT / "models" / "model_report.json"
+    if not rp.exists() or not (out / "accuracy.html").exists():
+        return
+    r = json.loads(rp.read_text())
+    titles = {s["id"]: s["title"] for s in doc["sites"]}
+    name = lambda s: h.escape(titles.get(s, s.replace("_", " ")))  # noqa: E731
+    f2 = lambda v: "–" if v is None else f"{v:.2f}"  # noqa: E731
+    H = {"mangrove": "Mangrove", "saltmarsh": "Salt marsh", "seagrass": "Seagrass"}
+    DASH = "\u2013"
+    test = r.get("test") or {}
+    held = [s["id"] for s in doc["sites"] if s.get("held_out") and s["id"] in (r.get("areas") or r.get("test_per_site") or {})]
+    # whole-estuary scores from the publishing comparison (same numbers as the table below it); test-chip
+    # scores only where the comparison has none
+    whole = {(x["site"], x["habitat"]): x["new"] for x in (r.get("compare") or {}).get("rows", [])}
+    parts = ['<h2 id="model">This model</h2><table><tbody>',
+             f"<tr><th>Version</th><td>BlueCarbon-AI v2, code {h.escape(r.get('code_version', '?'))}, "
+             f"published {h.escape(r.get('installed', ''))}</td></tr>",
+             "<tr><th>Architecture</th><td>U-Net (ResNet-34 encoder) on 25 inputs: Sentinel-2 bands and indices, "
+             "clear-water bands, elevation, tidal-wetland probability and Sentinel-1 radar</td></tr>",
+             f"<tr><th>Training data</th><td>{doc['summary'].get('n_train_sites', '?')} coastal sites in "
+             f"{doc['summary'].get('n_countries', '?')} countries, 2020-2022 imagery; answer keys from published maps "
+             f"and official surveys (see <a href=\"methodology.html\">methodology</a>)</td></tr>",
+             f"<tr><th>Training</th><td>{r.get('epochs_run', '?')} epochs, best at epoch {r.get('best_epoch', '?')}</td></tr>",
+             f"<tr><th>Test score (all test areas)</th><td>mean IoU {f2(test.get('mIoU'))}, overall accuracy "
+             f"{f2(test.get('overall_accuracy'))}</td></tr></tbody></table>"]
+    parts += ['<h2 id="held-out">Estuaries never seen in training</h2>',
+              "<p>These five estuaries were kept out of training entirely, so they show how the model does on a "
+              "new coastline, which is what the live analysis tool does every time. Score is IoU: the overlap "
+              "between the model's map and the reference map, from 0 to 1 (\u2013 = habitat not present).</p>",
+              "<table><thead><tr><th>Estuary</th>" + "".join(f"<th>{v}</th>" for v in H.values()) + "</tr></thead><tbody>"]
+    per = r.get("test_per_site") or {}
+    for s in held:
+        iou = per.get(s) or {}
+        ar = (r.get("areas") or {}).get(s) or {}
+        cells = []
+        for k in H:
+            present = (ar.get(k) or {}).get("reference", 1) > 0
+            cells.append(f"<td>{f2(whole.get((s, k), iou.get(k))) if present else DASH}</td>")
+        parts.append(f"<tr><td>{name(s)}</td>{''.join(cells)}</tr>")
+    parts.append("</tbody></table>")
+    cmp_ = r.get("compare") or {}
+    if cmp_.get("rows"):
+        parts += ['<h2 id="compare">How it compares with the model it replaced</h2>',
+                  "<p>A new model is published only if, on these same estuaries and the same labels, its mean blue carbon "
+                  "score is at least the live model's and no habitat at any estuary drops by more than 0.05. "
+                  f"This model: mean {f2(cmp_.get('mean_new'))} against {f2(cmp_.get('mean_live'))}, verdict "
+                  f"<b>{h.escape(str(cmp_.get('verdict')))}</b>.</p>",
+                  "<table><thead><tr><th>Estuary</th><th>Habitat</th><th>Previous</th><th>Current</th><th>Change</th>"
+                  "</tr></thead><tbody>"]
+        for x in cmp_["rows"]:
+            d = x["new"] - x["live"]
+            parts.append(f"<tr><td>{name(x['site'])}</td><td>{H[x['habitat']]}</td><td>{x['live']:.2f}</td>"
+                         f"<td>{x['new']:.2f}</td><td>{d:+.2f}</td></tr>")
+        parts.append("</tbody></table>")
+    if r.get("areas"):
+        parts += ['<h3 id="areas">Mapped area against the reference map (hectares)</h3><table><thead><tr><th>Estuary</th>'
+                  + "".join(f"<th>{v}</th>" for v in H.values()) + "</tr></thead><tbody>"]
+        for s in held:
+            ar = r["areas"].get(s) or {}
+            cells = "".join(f"<td>{(ar.get(k) or {}).get('mapped', 0):,} / {(ar.get(k) or {}).get('reference', 0):,}</td>"
+                            if (ar.get(k) or {}).get("reference") else "<td>\u2013</td>" for k in H)
+            parts.append(f"<tr><td>{name(s)}</td>{cells}</tr>")
+        parts.append("</tbody></table>")
+    parts += ['<h2 id="limits">Known weaknesses</h2><ul>',
+              "<li><b>Seagrass</b> is the hardest habitat: in murky or deep water the model misses meadows (Moreton Bay "
+              "and Shoalwater Bay map about a quarter of the surveyed seagrass). Treat seagrass areas as a lower bound.</li>",
+              "<li><b>Salt marsh in tropical mangrove estuaries</b> (Shoalwater, Moreton, Tampa) is rare and thin, and "
+              "scores low; where salt marsh is extensive (Plum Island, Mission Bay) it scores 0.82-0.94.</li>",
+              "<li>Areas are corrected for the model's known mistakes using its accuracy over all test areas, which can "
+              "overstate seagrass at sites where little is mapped. Per-region accuracy is in development.</li>",
+              "<li>Scores are against published and official reference maps, which have their own errors.</li></ul>"]
+    page = out / "accuracy.html"
+    page.write_text(page.read_text().replace("<!-- ACCURACY -->", "\n".join(parts)))
 
 
 def main() -> None:

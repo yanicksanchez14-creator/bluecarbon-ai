@@ -18,12 +18,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 import ee  # noqa: E402
+import numpy as np  # noqa: E402
 
 from bluecarbon import gee  # noqa: E402
 from bluecarbon.config import load_config  # noqa: E402
 
 # (name, asset id, kind, needed): needed=False means the run carries on without it (a check is skipped)
-TEST_BOX = [-82.70, 27.60, -82.66, 27.64]   # a small piece of Tampa Bay (mangrove + seagrass + water)
+TEST_BOX = [-81.52, 25.86, -81.47, 25.91]   # Ten Thousand Islands, Florida: mangrove forest, creeks and bay
 
 
 def assets(cfg) -> list[tuple[str, str, str, bool]]:
@@ -36,7 +37,7 @@ def assets(cfg) -> list[tuple[str, str, str, bool]]:
         ("ESA WorldCover", lc.worldcover, "col", True),
         ("NASADEM elevation", lc.dem, "img", True),
         ("Murray tidal wetlands", lc.tidal_wetland, "img", True),
-        ("Murray tidal flats", lc.intertidal, "img", False),
+        ("Murray tidal flats", lc.intertidal, "col", True),
         ("Allen Coral Atlas", lc.reef_habitat, "img", False),
         ("GWL_FCS30 wetlands", lc.wetland_map, "col", True),
         ("Global Mangrove Watch", lc.mangrove_map, "fc", True),
@@ -99,10 +100,12 @@ def main() -> None:
             p = gee.download_lband(TEST_BOX, 2021, Path(tmp) / "lband.tif", cfg)
             with rasterio.open(p) as ds:
                 a = ds.read()
-            ok = (a > -2900).mean()
-            print(f"  ok    L-band sample: {a.shape[1]}x{a.shape[2]} px, {ok:.0%} with data", flush=True)
+            ok = (a[0] != -3000).mean()          # -3000 = no radar coverage (open water reads -30 dB or lower)
+            hv = a[1][a[1] != -3000] / 100
+            print(f"  ok    L-band sample: {a.shape[1]}x{a.shape[2]} px, {ok:.0%} with data, "
+                  f"HV median {np.median(hv) if hv.size else float('nan'):.1f} dB (mangrove is about -15)", flush=True)
             if ok < 0.5:
-                problems.append("L-band sample has almost no data")
+                problems.append("L-band sample has almost no data over a mangrove forest")
             p = gee.download_ancillary(TEST_BOX, "2021-01-01", "2022-01-01", Path(tmp) / "anc.tif", cfg)
             print("  ok    clear-water + elevation sample", flush=True)
         except Exception as e:

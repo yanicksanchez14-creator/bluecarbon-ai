@@ -253,6 +253,41 @@ def build(out: Path, pdf: bool = True) -> dict:
     return doc
 
 
+def _canopy_focus(d: Path, meta: dict) -> list | None:
+    """[[s, w], [n, e]] around where the canopy actually is (2nd to 98th percentile of canopy pixels across the
+    quarterly maps, or the latest map), so the kelp page opens close enough to see the kelp."""
+    import math
+
+    import numpy as np
+    from PIL import Image
+
+    pngs = sorted((d / "frames").glob("*.png"))[-12:] or [d / "canopy_latest.png"]
+    bounds = meta.get("frame_bounds") or meta.get("bounds")
+    rows, cols, shape = [], [], None
+    for png in pngs:
+        if not png.exists():
+            continue
+        a = np.asarray(Image.open(png).convert("RGBA"))[..., 3]
+        shape = a.shape
+        r, c = np.nonzero(a > 0)
+        rows.append(r)
+        cols.append(c)
+    if not shape or not rows or not sum(len(r) for r in rows):
+        return None
+    r, c = np.concatenate(rows), np.concatenate(cols)
+    (s, w), (n, e) = bounds
+    my = lambda lat: math.log(math.tan(math.pi / 4 + math.radians(lat) / 2))  # noqa: E731
+    lat = lambda y: math.degrees(2 * math.atan(math.exp(y)) - math.pi / 2)  # noqa: E731
+    h, wd = shape
+    r0, r1 = np.percentile(r, [2, 98])
+    c0, c1 = np.percentile(c, [2, 98])
+    yn, ys = my(n), my(s)
+    north, south = lat(yn - (yn - ys) * r0 / h), lat(yn - (yn - ys) * (r1 + 1) / h)
+    west, east = w + (e - w) * c0 / wd, w + (e - w) * (c1 + 1) / wd
+    pad_lat, pad_lon = max((north - south) * 0.15, 0.004), max((east - west) * 0.15, 0.005)
+    return [[round(south - pad_lat, 5), round(west - pad_lon, 5)], [round(north + pad_lat, 5), round(east + pad_lon, 5)]]
+
+
 def _kelp(out: Path) -> None:
     """Kelp pages from demo_kelp/ (scripts/kelp_pipeline.py): index + per-site canopy overlay."""
     src = ROOT / "demo_kelp"
@@ -266,7 +301,11 @@ def _kelp(out: Path) -> None:
             for sub in ("frames", "kw", "rgb"):   # every quarter's map, Kelpwatch yearly maps, yearly pictures
                 if (p.parent / sub).is_dir():
                     shutil.copytree(p.parent / sub, d / sub, dirs_exist_ok=True)
-            sites.append(json.loads(p.read_text()))
+            meta = json.loads(p.read_text())
+            focus = _canopy_focus(p.parent, meta)
+            if focus:
+                meta["focus"] = focus
+            sites.append(meta)
     cal = json.loads((src / "calibration.json").read_text()) if (src / "calibration.json").exists() else {}
     (out / "data" / "kelp.json").write_text(json.dumps({"sites": sites, "calibration": cal}, separators=(",", ":")))
 

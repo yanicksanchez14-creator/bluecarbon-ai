@@ -12,7 +12,7 @@
   L.tileLayer(BC.ESRI, { attribution: BC.ESRI_ATTR + " · Kelpwatch: SBC LTER (CC BY 4.0)", maxZoom: 17 }).addTo(map);
   map.createPane("rgb").style.zIndex = 390;
   map.createPane("canopy").style.zIndex = 420;
-  const show = { rgb: true, ours: true, kw: false };
+  const show = { rgb: true, ours: true, kw: false, hl: true };
   let doc = null, site = null, T = [], idx = 0, timer = null, layers = { rgb: null, ours: null, kw: null };
 
   // ---------------------------------------------------------------------------------------------- data
@@ -165,7 +165,7 @@
         <button type="button" class="btn btn-line kx-fit">Zoom to bed</button>
       </div>`;
     $("kpanel").querySelector(".kx-csv").addEventListener("click", () => csv(s));
-    $("kpanel").querySelector(".kx-fit").addEventListener("click", () => map.fitBounds(s.bounds, { padding: [20, 20] }));
+    $("kpanel").querySelector(".kx-fit").addEventListener("click", () => map.fitBounds(s.focus || s.bounds, { padding: [16, 16], maxZoom: 15 }));
   }
   function csv(s) {
     const rows = [["year", "quarter", "bluecarbon_ai_ha", "plus_minus_ha", "clear_fraction", "kelpwatch_ha"]];
@@ -186,7 +186,7 @@
     if (idx < 0) idx = T.length - 1;
     $("kslider").max = Math.max(0, T.length - 1);
     document.querySelectorAll("#kbeds button").forEach(b => b.setAttribute("aria-current", b.dataset.site === s.name ? "true" : "false"));
-    map.fitBounds(s.bounds, { padding: [20, 20] });
+    map.fitBounds(s.focus || s.bounds, { padding: [16, 16], maxZoom: 15 });
     chart(s); render();
   }
   function stop() { if (timer) { clearInterval(timer); timer = null; $("kplay").innerHTML = "&#9654;"; $("kplay").setAttribute("aria-label", "Play"); } }
@@ -202,8 +202,12 @@
   $("knext").addEventListener("click", () => { stop(); idx = Math.min(T.length - 1, idx + 1); render(); });
   $("kslider").addEventListener("input", e => { stop(); idx = +e.target.value; render(); });
   document.querySelectorAll(".kx-layers button").forEach(b => b.addEventListener("click", () => {
-    show[b.dataset.layer] = !show[b.dataset.layer]; b.setAttribute("aria-pressed", show[b.dataset.layer]); render();
+    if (b.disabled) return;
+    show[b.dataset.layer] = !show[b.dataset.layer]; b.setAttribute("aria-pressed", show[b.dataset.layer]);
+    map.getContainer().classList.toggle("kx-hl", show.hl);
+    render();
   }));
+  map.getContainer().classList.add("kx-hl");
   document.addEventListener("keydown", e => {
     if (e.target.closest("input, select, textarea")) return;
     if (e.key === "ArrowLeft") { stop(); idx = Math.max(0, idx - 1); render(); }
@@ -281,7 +285,13 @@
         "Drag the timeline, or press play.";
     }
     if (!pics) { const b = document.querySelector('[data-layer="rgb"]'); b.hidden = true; show.rgb = false; }
+    if (!sites.some(s => (s.kw_years || []).length)) {   // Kelpwatch maps come with the next kelp refresh
+      const b = document.querySelector('[data-layer="kw"]');
+      b.disabled = true; b.title = "Kelpwatch's canopy maps are added with the next kelp data refresh";
+      b.textContent = "Canopy: Kelpwatch (coming)";
+      document.querySelector(".kx-legend .sw-kw").parentElement.hidden = true;
+    }
     figures(sites, d.calibration); story(sites); accuracy(d.calibration);
-    select(sites.find(s => s.name === "santa_barbara") || sites[0], false);
+    select(sites.find(s => s.name === "carmel_monterey") || sites[0], false);   // the largest canopy, held out
   });
 })();

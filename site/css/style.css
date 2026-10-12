@@ -392,6 +392,10 @@ h3 { font: 500 20px/1.3 var(--sans); letter-spacing: -.01em; margin: 0 0 8px; }
 .kx-layers button { font: 400 12.5px var(--sans); padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .25);
   background: rgba(9, 22, 29, .78); color: var(--on-deep-2); cursor: pointer; }
 .kx-layers button[aria-pressed="true"] { background: #fff; color: var(--ink); border-color: #fff; }
+.kx-layers button:disabled { opacity: .5; cursor: not-allowed; }
+/* Highlight kelp: dim the satellite picture and give the canopy a bright edge, so thin beds don't read as land */
+.kx-hl .leaflet-tile-pane, .kx-hl .leaflet-rgb-pane { filter: brightness(.55) saturate(.6); }
+.kx-hl .leaflet-canopy-pane img { filter: brightness(1.6) saturate(1.8) drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px #ffd84a) drop-shadow(0 0 7px rgba(255, 200, 40, .9)); }
 .kx-legend { position: absolute; right: 12px; bottom: 26px; z-index: 500; display: flex; flex-direction: column; gap: 4px; background: rgba(9, 22, 29, .78);
   border-radius: 6px; padding: 8px 10px; font-size: 12px; color: var(--on-deep); pointer-events: none; }
 .kx-legend i, .kx-chart-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }

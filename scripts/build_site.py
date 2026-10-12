@@ -399,7 +399,11 @@ def _accuracy(out: Path, doc: dict) -> None:
         v = [whole.get((s, k)) for s in sites if whole.get((s, k)) is not None]
         return f"{min(v):.2f}\u2013{max(v):.2f}" if len(v) > 1 else (f2(v[0]) if v else DASH)
 
-    big_marsh = [s for s in held if ((r.get("areas") or {}).get(s, {}).get("saltmarsh") or {}).get("reference", 0) >= 40]
+    def ref(s, k):
+        return (((r.get("areas") or {}).get(s) or {}).get(k) or {}).get("reference", 0)
+
+    # marsh estuaries: salt marsh is the main vegetated blue carbon habitat (not a fringe behind mangroves)
+    big_marsh = [s for s in held if ref(s, "saltmarsh") >= MIN_REF_HA and ref(s, "saltmarsh") > ref(s, "mangrove")]
     parts += ['<h2 id="summary">Results on coastlines the model never saw</h2>',
               "<p>Five estuaries were kept out of training entirely and used as a final exam, the same situation as "
               "the live analysis tool on any new coast. Scores are overlap with official reference maps, from 0 to 1.</p>",

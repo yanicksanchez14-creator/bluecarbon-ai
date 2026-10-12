@@ -1,0 +1,335 @@
+{
+  "title": "Gazi Bay",
+  "description": "Mangrove (WorldCover + GMW) and seagrass (Allen Coral Atlas); home of Mikoko Pamoja. Sentinel-2 2021 composite. This area was part of the training data, so the map looks better than it would on a new coastline.",
+  "classes": [
+    {
+      "id": 0,
+      "key": "water",
+      "name": "Open water",
+      "color": "#1f5fbf",
+      "blue_carbon": false
+    },
+    {
+      "id": 1,
+      "key": "mangrove",
+      "name": "Mangrove",
+      "color": "#0b7a3e",
+      "blue_carbon": true
+    },
+    {
+      "id": 2,
+      "key": "saltmarsh",
+      "name": "Salt marsh",
+      "color": "#9bb52a",
+      "blue_carbon": true
+    },
+    {
+      "id": 3,
+      "key": "seagrass",
+      "name": "Seagrass",
+      "color": "#14a3a0",
+      "blue_carbon": true
+    },
+    {
+      "id": 4,
+      "key": "tidal_flat",
+      "name": "Tidal flat / bare",
+      "color": "#c07a2c",
+      "blue_carbon": false
+    },
+    {
+      "id": 5,
+      "key": "other_land",
+      "name": "Other land",
+      "color": "#8b9199",
+      "blue_carbon": false
+    },
+    {
+      "id": 6,
+      "key": "freshwater",
+      "name": "Freshwater wetland",
+      "color": "#a0529b",
+      "blue_carbon": false
+    }
+  ],
+  "model": {
+    "arch": "Unet",
+    "encoder": "resnet34",
+    "kind": "unet",
+    "test": {
+      "overall_accuracy": 0.9159,
+      "kappa": 0.8786,
+      "mIoU": 0.7711,
+      "macro_f1": 0.8582,
+      "iou": {
+        "water": 0.8624,
+        "mangrove": 0.9623,
+        "saltmarsh": 0.8792,
+        "seagrass": 0.4639,
+        "tidal_flat": 0.7425,
+        "other_land": 0.9327,
+        "freshwater": 0.5549
+      },
+      "f1": {
+        "water": 0.9261,
+        "mangrove": 0.9808,
+        "saltmarsh": 0.9357,
+        "seagrass": 0.6338,
+        "tidal_flat": 0.8522,
+        "other_land": 0.9652,
+        "freshwater": 0.7137
+      },
+      "precision": {
+        "water": 0.9267,
+        "mangrove": 0.9788,
+        "saltmarsh": 0.9158,
+        "seagrass": 0.7093,
+        "tidal_flat": 0.8174,
+        "other_land": 0.968,
+        "freshwater": 0.5954
+      },
+      "recall": {
+        "water": 0.9254,
+        "mangrove": 0.9828,
+        "saltmarsh": 0.9565,
+        "seagrass": 0.5728,
+        "tidal_flat": 0.8901,
+        "other_land": 0.9624,
+        "freshwater": 0.8908
+      },
+      "support_px": {
+        "water": 22217159,
+        "mangrove": 3978161,
+        "saltmarsh": 1308344,
+        "seagrass": 3334596,
+        "tidal_flat": 2801983,
+        "other_land": 15203443,
+        "freshwater": 882771
+      }
+    },
+    "name": "BlueCarbon-AI v2",
+    "pilot": false,
+    "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
+    "training_data": "Sentinel-2 composites and clear-water images of 71 coastal sites on six continents for 2021, plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats, the Allen Coral Atlas and Global Mangrove Watch v3 (mangrove only where it agrees with WorldCover), plus official survey maps: US National Wetlands Inventory, Environment Agency saltmarsh (England), NSW estuarine macrophytes, Florida FWC, VIMS Chesapeake SAV, Texas Benthic Atlas, MassDEP eelgrass, the California eelgrass compilation and Seamap Australia (Moreton Bay, Great Barrier Reef, Western Australia, Victoria, Hervey Bay)",
+    "uses_context": true
+  },
+  "kind": "single",
+  "bounds": [
+    [
+      -4.500190243916498,
+      39.44991906050916
+    ],
+    [
+      -4.379855780129105,
+      39.580108766788875
+    ]
+  ],
+  "report": {
+    "areas_ha": {
+      "water": 8386.12,
+      "mangrove": 651.14,
+      "saltmarsh": 13.7,
+      "seagrass": 337.84000000000003,
+      "tidal_flat": 864.3900000000001,
+      "other_land": 8927.470000000001,
+      "freshwater": 10.1
+    },
+    "error_adjusted_areas_ha": {
+      "water": {
+        "mapped_ha": 8386.12,
+        "adjusted_ha": 8199.42,
+        "ci95_ha": 1.19
+      },
+      "mangrove": {
+        "mapped_ha": 651.14,
+        "adjusted_ha": 667.84,
+        "ci95_ha": 0.27
+      },
+      "saltmarsh": {
+        "mapped_ha": 13.7,
+        "adjusted_ha": 25.91,
+        "ci95_ha": 0.16
+      },
+      "seagrass": {
+        "mapped_ha": 337.84,
+        "adjusted_ha": 772.16,
+        "ci95_ha": 0.87
+      },
+      "tidal_flat": {
+        "mapped_ha": 864.39,
+        "adjusted_ha": 817.96,
+        "ci95_ha": 0.56
+      },
+      "other_land": {
+        "mapped_ha": 8927.47,
+        "adjusted_ha": 8668.22,
+        "ci95_ha": 0.81
+      },
+      "freshwater": {
+        "mapped_ha": 10.1,
+        "adjusted_ha": 39.25,
+        "ci95_ha": 0.27
+      }
+    },
+    "carbon_area_basis": "error_adjusted",
+    "carbon": {
+      "classes": {
+        "mangrove": {
+          "area_ha": 667.84,
+          "stock_tC": {
+            "mean": 342159.73055437114,
+            "p05": 324584.18475566333,
+            "p95": 360328.998046648
+          },
+          "stock_tCO2e": {
+            "mean": 1254699.731942879,
+            "p05": 1190250.2054990174,
+            "p95": 1321326.4358370581
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 4021.0542836192362,
+            "p05": 3454.6545938301606,
+            "p95": 4605.744587164058
+          },
+          "soil": {
+            "soil": [
+              436.0,
+              471.0,
+              510.0
+            ],
+            "source": "ipcc"
+          },
+          "biomass": {
+            "biomass": [
+              25.9,
+              39.4,
+              54.3
+            ],
+            "source": "measured",
+            "agb_mg_ha": 58.7,
+            "agb_pixels": 6314,
+            "climate_zone": "tropical wet",
+            "dataset": "Simard et al. 2019 (NASA ORNL DAAC 1665), nominal year 2000"
+          }
+        },
+        "saltmarsh": {
+          "area_ha": 25.91,
+          "stock_tC": {
+            "mean": 7106.0625707041145,
+            "p05": 6757.052355520052,
+            "p95": 7601.678901074988
+          },
+          "stock_tCO2e": {
+            "mean": 26057.93144677199,
+            "p05": 24778.110987692027,
+            "p95": 27875.35653024198
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 85.93204653567211,
+            "p05": 72.957939636978,
+            "p95": 98.9320338206886
+          },
+          "soil": {
+            "soil": [
+              254.0,
+              255.0,
+              297.0
+            ],
+            "source": "ipcc"
+          },
+          "biomass": {
+            "biomass": [
+              2.0,
+              5.0,
+              10.0
+            ],
+            "source": "ipcc"
+          }
+        },
+        "seagrass": {
+          "area_ha": 772.16,
+          "stock_tC": {
+            "mean": 132351.32329140385,
+            "p05": 101959.90791367092,
+            "p95": 162642.64653981113
+          },
+          "stock_tCO2e": {
+            "mean": 485332.30250957794,
+            "p05": 373886.98231943126,
+            "p95": 596410.5848614874
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 1255.298469010909,
+            "p05": 784.7151050493507,
+            "p95": 1760.406566390216
+          },
+          "soil": {
+            "soil": [
+              112.05,
+              170.58374999999998,
+              227.94000000000003
+            ],
+            "n_cores": 60,
+            "n_studies": 1,
+            "radius_km": 100,
+            "source": "measured"
+          },
+          "biomass": {
+            "biomass": [
+              0.5,
+              1.0,
+              2.0
+            ],
+            "source": "ipcc"
+          }
+        }
+      },
+      "blue_carbon_area_ha": 1465.91,
+      "total_stock_tCO2e": {
+        "mean": 1766089.9658992286,
+        "p05": 1636626.5270363505,
+        "p95": 1894838.3631536355
+      },
+      "total_sequestration_tCO2e_per_yr": {
+        "mean": 5362.284799165817,
+        "p05": 4618.858313885429,
+        "p95": 6107.979064696158
+      },
+      "indicative_annual_value_usd": {
+        "low": 80434.27198748726,
+        "mid": 134057.11997914544,
+        "high": 214491.39196663268
+      },
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for seagrass, IPCC Tier 1 otherwise; mangrove biomass from the NASA canopy-height biomass map (Simard et al. 2019) with IPCC carbon and root factors, other biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
+    },
+    "confidence": {
+      "mangrove": {
+        "mean_pct": 97.4,
+        "low_share": 0.022
+      },
+      "saltmarsh": {
+        "mean_pct": 49.2,
+        "low_share": 0.801
+      },
+      "seagrass": {
+        "mean_pct": 78.4,
+        "low_share": 0.189
+      }
+    }
+  },
+  "sea_level": {
+    "wetland_ha": 664.8,
+    "max_elev_m": 2.0,
+    "search_km": 2.0,
+    "ar6_2100_m": [
+      0.28,
+      1.01
+    ],
+    "room_ha": 25.3,
+    "ratio": 0.038,
+    "rating": "high"
+  },
+  "region": "Kenya",
+  "period": "Full year 2021",
+  "held_out": false
+}

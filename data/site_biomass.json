@@ -1,0 +1,548 @@
+{
+ "al_wajh_sa": {
+  "agb_count": 67,
+  "agb_mean": 0.4575078785419464,
+  "agb_p10": 0.4575078785419464,
+  "agb_p90": 0.4575078785419464,
+  "precip_mm": 26.158345808759254
+ },
+ "andros_bahamas": {
+  "agb_count": 1464,
+  "agb_mean": 18.296014768385493,
+  "agb_p10": 4.842498779296875,
+  "agb_p90": 36.11152648925781,
+  "precip_mm": 1232.85937043939
+ },
+ "bahia_blanca_ar": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 577.0292709240264
+ },
+ "barnegat_bay_nj": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1143.3285143851742
+ },
+ "bazaruto_mz": {
+  "agb_count": 3209,
+  "agb_mean": 48.421587816983156,
+  "agb_p10": 5.446922302246094,
+  "agb_p90": 104.28885650634766,
+  "precip_mm": 857.1020259133303
+ },
+ "belize_lagoon_bz": {
+  "agb_count": 56452,
+  "agb_mean": 8.994322853706567,
+  "agb_p10": 0.5241863727569583,
+  "agb_p90": 21.0516300201416,
+  "precip_mm": 1704.4537455410225
+ },
+ "bintuni_bay_id": {
+  "agb_count": 20669,
+  "agb_mean": 286.816723090043,
+  "agb_p10": 149.99482727050776,
+  "agb_p90": 409.5007019042969,
+  "precip_mm": 2509.6712528951134
+ },
+ "biscayne_bay_fl": {
+  "agb_count": 5228,
+  "agb_mean": 29.726689357825233,
+  "agb_p10": 9.278647422790527,
+  "agb_p90": 54.03706741333007,
+  "precip_mm": 1345.2827910097285
+ },
+ "blackwater_essex_uk": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 537.4497213315832
+ },
+ "blackwater_md": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1082.2905553382877
+ },
+ "botany_bay_au": {
+  "agb_count": 6220,
+  "agb_mean": 80.68540337308043,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 108.58424377441406,
+  "precip_mm": 1204.1038715769598
+ },
+ "braganca_br": {
+  "agb_count": 187600,
+  "agb_mean": 105.40285902510067,
+  "agb_p10": 44.73560714721681,
+  "agb_p90": 164.2417907714844,
+  "precip_mm": 2356.2698404520233
+ },
+ "buzzards_bay_ma": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1185.356661999139
+ },
+ "ca_mau_vn": {
+  "agb_count": 187834,
+  "agb_mean": 74.59135270076958,
+  "agb_p10": 57.410160064697266,
+  "agb_p90": 99.15599060058577,
+  "precip_mm": 2347.765667934679
+ },
+ "cape_romain_sc": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1304.5567893979617
+ },
+ "cedar_key_fl": {
+  "agb_count": 127,
+  "agb_mean": 23.77010273182486,
+  "agb_p10": 0.524186372756958,
+  "agb_p90": 74.55267333984375,
+  "precip_mm": 1171.531566007483
+ },
+ "charlotte_harbor_fl": {
+  "agb_count": 98196,
+  "agb_mean": 17.021177654455176,
+  "agb_p10": 1.5932269096374518,
+  "agb_p90": 36.11152648925783,
+  "precip_mm": 1268.8721857205433
+ },
+ "chichester_harbour_uk": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 830.9742833549601
+ },
+ "chongming_cn": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1022.1848810872028
+ },
+ "chwaka_bay_tz": {
+  "agb_count": 15308,
+  "agb_mean": 126.37914275135607,
+  "agb_p10": 23.8338680267334,
+  "agb_p90": 247.30007934570312,
+  "precip_mm": 1581.0087056746283
+ },
+ "coron_ph": {
+  "agb_count": 9997,
+  "agb_mean": 108.5011862031485,
+  "agb_p10": 81.00270843505861,
+  "agb_p90": 139.00912475585938,
+  "precip_mm": 2642.518196357463
+ },
+ "delaware_bay_nj": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1081.680112090991
+ },
+ "duxbury_bay_ma": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1217.464275151054
+ },
+ "elkhorn_slough_ca": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 457.9609879733625
+ },
+ "exmouth_gulf_au": {
+  "agb_count": 2862,
+  "agb_mean": 76.96411562665703,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 89.99299621582031,
+  "precip_mm": 265.7032703117018
+ },
+ "exuma_bahamas": {
+  "agb_count": 35,
+  "agb_mean": 23.341532897949218,
+  "agb_p10": 9.278647422790527,
+  "agb_p90": 44.7356071472168,
+  "precip_mm": 897.3327424664474
+ },
+ "florida_bay_fl": {
+  "agb_count": 223033,
+  "agb_mean": 37.64825270833476,
+  "agb_p10": 9.278647422790518,
+  "agb_p90": 74.55267333984379,
+  "precip_mm": 1242.3394725642415
+ },
+ "florida_keys_fl": {
+  "agb_count": 92716,
+  "agb_mean": 10.072623392711703,
+  "agb_p10": 1.5932269096374512,
+  "agb_p90": 21.05163002014161,
+  "precip_mm": 1047.323576098361
+ },
+ "gazi_bay_ke": {
+  "agb_count": 6314,
+  "agb_mean": 58.68904940846754,
+  "agb_p10": 12.916281700134277,
+  "agb_p90": 134.01925659179688,
+  "precip_mm": 1334.4828662808409
+ },
+ "great_bay_nh": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1116.3471898660462
+ },
+ "great_sandy_strait_au": {
+  "agb_count": 42802,
+  "agb_mean": 74.73064114106177,
+  "agb_p10": 57.410160064697315,
+  "agb_p90": 89.99299621582034,
+  "precip_mm": 1314.3529750441744
+ },
+ "guayas_ec": {
+  "agb_count": 169381,
+  "agb_mean": 116.84317965558164,
+  "agb_p10": 28.20178413391114,
+  "agb_p90": 243.341796875,
+  "precip_mm": 611.7831340198899
+ },
+ "gulf_of_fonseca_hn": {
+  "agb_count": 52733,
+  "agb_mean": 74.1083895448553,
+  "agb_p10": 28.20178413391116,
+  "agb_p90": 149.85511779785156,
+  "precip_mm": 1707.3754248409996
+ },
+ "hinchinbrook_au": {
+  "agb_count": 59169,
+  "agb_mean": 134.73926484149263,
+  "agb_p10": 99.15599060058594,
+  "agb_p90": 173.4212188720703,
+  "precip_mm": 2352.3130900594565
+ },
+ "humboldt_bay_ca": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1167.4619757807523
+ },
+ "indian_river_fl": {
+  "agb_count": 6198,
+  "agb_mean": 16.175937120354277,
+  "agb_p10": 1.5932269096374512,
+  "agb_p90": 36.11152648925781,
+  "precip_mm": 1261.8146952676248
+ },
+ "jervis_bay_au": {
+  "agb_count": 431,
+  "agb_mean": 78.46949925670387,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 89.99299621582031,
+  "precip_mm": 1410.8748343607765
+ },
+ "jobos_bay_pr": {
+  "agb_count": 13333,
+  "agb_mean": 13.031858818259387,
+  "agb_p10": 0.524186372756958,
+  "agb_p90": 28.201784133911133,
+  "precip_mm": 1017.6108531630877
+ },
+ "knysna_za": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 863.9115031173366
+ },
+ "laguna_terminos_change": {
+  "agb_count": 67851,
+  "agb_mean": 34.1366014048896,
+  "agb_p10": 4.842498779296875,
+  "agb_p90": 85.71730041503905,
+  "precip_mm": 1451.8012121466313
+ },
+ "laguna_terminos_mx": {
+  "agb_count": 67851,
+  "agb_mean": 34.1366014048896,
+  "agb_p10": 4.842498779296875,
+  "agb_p90": 85.71730041503905,
+  "precip_mm": 1451.8012121466313
+ },
+ "lower_laguna_madre_tx": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 687.0977931149641
+ },
+ "mahakam_delta_id": {
+  "agb_count": 221034,
+  "agb_mean": 109.27038749922029,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 161.45594787597662,
+  "precip_mm": 2195.0441629804345
+ },
+ "marawah_ae": {
+  "agb_count": 1731,
+  "agb_mean": 31.924105692088844,
+  "agb_p10": 7.388433456420898,
+  "agb_p90": 66.98716735839844,
+  "precip_mm": 66.23895230758457
+ },
+ "matang_my": {
+  "agb_count": 252728,
+  "agb_mean": 206.86537432852393,
+  "agb_p10": 118.33956909179685,
+  "agb_p90": 290.5863342285156,
+  "precip_mm": 2747.8603749509243
+ },
+ "mission_bay_ca": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 265.98747318153494
+ },
+ "mission_bay_change": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 265.98747318153494
+ },
+ "mobjack_bay_va": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1105.6209066731628
+ },
+ "mont_st_michel_fr": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 733.2725754561753
+ },
+ "morecambe_bay_uk": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1110.3054523239825
+ },
+ "moreton_bay_au": {
+  "agb_count": 16758,
+  "agb_mean": 94.86411625126526,
+  "agb_p10": 72.01988983154297,
+  "agb_p90": 139.00912475585938,
+  "precip_mm": 1210.658563315732
+ },
+ "niger_delta_ng": {
+  "agb_count": 428654,
+  "agb_mean": 112.21741838964304,
+  "agb_p10": 30.30781745910643,
+  "agb_p90": 302.4427795410158,
+  "precip_mm": 3258.9845528652836
+ },
+ "plum_island_ma": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1158.823026194428
+ },
+ "port_stephens_au": {
+  "agb_count": 12703,
+  "agb_mean": 82.07295857853607,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 99.15599060058592,
+  "precip_mm": 1260.5598282791373
+ },
+ "puerto_morelos_mx": {
+  "agb_count": 20702,
+  "agb_mean": 13.156578620503913,
+  "agb_p10": 1.5932269096374512,
+  "agb_p90": 28.201784133911143,
+  "precip_mm": 1108.8445821909643
+ },
+ "redfish_bay_tx": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 856.0086303492665
+ },
+ "rookery_bay_fl": {
+  "agb_count": 62780,
+  "agb_mean": 39.99213978040059,
+  "agb_p10": 14.718428611755371,
+  "agb_p90": 63.984916687011726,
+  "precip_mm": 1304.1649114228758
+ },
+ "rufiji_delta_tz": {
+  "agb_count": 195854,
+  "agb_mean": 296.31773670183003,
+  "agb_p10": 78.47730255126945,
+  "agb_p90": 519.2168579101562,
+  "precip_mm": 1278.430709310496
+ },
+ "safaga_eg": {
+  "agb_count": 451,
+  "agb_mean": 10.331522494091956,
+  "agb_p10": 1.8385502099990845,
+  "agb_p90": 16.66919708251953,
+  "precip_mm": 2.615826553406397
+ },
+ "sapelo_ga": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1291.0248661812038
+ },
+ "shark_bay_au": {
+  "agb_count": 1633,
+  "agb_mean": 89.3079778807921,
+  "agb_p10": 72.01988983154297,
+  "agb_p90": 108.58424377441406,
+  "precip_mm": 204.92190762336412
+ },
+ "shoalwater_bay_au": {
+  "agb_count": 28138,
+  "agb_mean": 96.80853998254527,
+  "agb_p10": 81.00270843505855,
+  "agb_p90": 118.33956909179692,
+  "precip_mm": 1028.212345646817
+ },
+ "south_bay_va": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1061.5657910519367
+ },
+ "south_sd_bay_ca": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 221.51465122309628
+ },
+ "south_sf_bay_ca": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 372.5994583207944
+ },
+ "st_joseph_bay_fl": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1497.3117704280153
+ },
+ "sundarbans_bd": {
+  "agb_count": 814788,
+  "agb_mean": 94.65307063932326,
+  "agb_p10": 29.69130325317381,
+  "agb_p90": 186.7133941650392,
+  "precip_mm": 1919.0649535949315
+ },
+ "tampa_bay_fl": {
+  "agb_count": 16802,
+  "agb_mean": 18.54590382256834,
+  "agb_p10": 1.5932269096374514,
+  "agb_p90": 36.11152648925781,
+  "precip_mm": 1250.045348315667
+ },
+ "tangier_sound_md": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 1013.7954614681693
+ },
+ "ten_thousand_isl_fl": {
+  "agb_count": 194854,
+  "agb_mean": 55.649416694508815,
+  "agb_p10": 21.05163002014161,
+  "agb_p90": 97.45855712890605,
+  "precip_mm": 1330.3551888946888
+ },
+ "the_wash_uk": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 585.9401538554731
+ },
+ "venice_lagoon_it": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 878.1587324730868
+ },
+ "wadden_sea_de": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 783.9697536780928
+ },
+ "wallis_lake_au": {
+  "agb_count": 2582,
+  "agb_mean": 102.2976807193933,
+  "agb_p10": 57.410160064697266,
+  "agb_p90": 185.9183349609375,
+  "precip_mm": 1298.6608514560787
+ },
+ "westernport_au": {
+  "agb_count": 10204,
+  "agb_mean": 79.00927858352316,
+  "agb_p10": 62.64593505859375,
+  "agb_p90": 89.99299621582036,
+  "precip_mm": 871.65937006351
+ },
+ "willapa_bay_wa": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 2208.676270448092
+ },
+ "yellow_river_cn": {
+  "agb_count": 0,
+  "agb_mean": null,
+  "agb_p10": null,
+  "agb_p90": null,
+  "precip_mm": 585.5053347422956
+ },
+ "zambezi_delta_mz": {
+  "agb_count": 271351,
+  "agb_mean": 128.89286922092595,
+  "agb_p10": 23.83386802673333,
+  "agb_p90": 247.30007934570315,
+  "precip_mm": 1145.3209577236573
+ }
+}

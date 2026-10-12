@@ -78,11 +78,13 @@ as the mean and 90% interval. The indicative credit value uses **annual sequestr
 standing stock is not creditable. Tier 1 values are global averages; any real project needs
 site-measured stocks.
 
-### Next model (in training)
+### Training data added in October 2026 (labels v10)
 
-The next training run nearly doubles the training set, from 39 to 71 sites, and adds official survey
-maps as answer keys. A new model replaces the live one only if it scores at least as well on the five
-held-out estuaries (same labels for both models).
+The current model was trained on 71 sites (up from 39) with official survey maps as answer keys. It
+replaced the previous model because it scored better on the five held-out estuaries, graded on the
+same labels: mean blue carbon IoU 0.50 against 0.43, with no habitat at any estuary dropping by more
+than 0.01. The Environment Agency (England) and NWI mangrove services could not be reached during
+this run, so those sites used the global maps; they are retried in the next run.
 
 - **Salt marsh:** US Fish and Wildlife Service National Wetlands Inventory (estuarine intertidal
   emergent), Environment Agency saltmarsh extents for England (aerial survey 2016-2019) and NSW
@@ -99,8 +101,8 @@ held-out estuaries (same labels for both models).
   Tanzania, Malaysia, Indonesia, Brazil, Ecuador, Honduras and Nigeria.
 
 ### Limitations
-- Seagrass is the weakest habitat (0.38 IoU): it is spectrally hard to separate from water, and meadows in
-  murky or deep water are missed. Unseen Tampa Bay scores 0.62, Moreton Bay 0.12 and Shoalwater Bay 0.04.
+- Seagrass is the weakest habitat (0.46 IoU): it is spectrally hard to separate from water, and meadows in
+  murky or deep water are missed. Unseen Tampa Bay scores 0.69, Moreton Bay 0.12 and Shoalwater Bay 0.18.
   Global seagrass labels only cover tropical reefs; temperate seagrass needs local survey polygons.
 - Area correction (Olofsson et al.) uses the model's accuracy pooled over all test areas, not each site's own,
   so at a site where the model maps little seagrass the corrected seagrass area can be several times the mapped

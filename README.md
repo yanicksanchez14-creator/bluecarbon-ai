@@ -37,7 +37,7 @@ scale.
   median composites, and tiled download of any area size in the correct map projection. One CLI and one
   YAML config drive every stage.
 - **Trained on published scientific maps.** Reference labels are fused from ESA WorldCover, the GWL_FCS30
-  global wetland map, the Murray et al. global tidal-flat maps and the Allen Coral Atlas across **44 coastal
+  global wetland map, the Murray et al. global tidal-flat maps and the Allen Coral Atlas across **76 coastal
   sites on six continents**.
 - **Evaluation designed not to cheat.** Training tiles never overlap, whole 5 km blocks go to one data
   split, and entire estuaries are held out, so scores reflect performance on coastlines the model has
@@ -56,40 +56,24 @@ scale.
 <!-- results:start -->
 ## Results
 
-The model was trained on 39 coastal sites on six continents (2021 imagery, plus 2020 and 2022 images of the
-same sites) and scored on areas it **never saw during training**: held-out 5 km blocks from every site, plus
-five entire estuaries (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay and Tampa Bay). The
-deep-learning model (U-Net, ResNet-34 encoder) beat the gradient-boosted alternative and is the one deployed.
+Scores are from areas the model **never saw during training**: held-out 5 km blocks and three entire estuaries. The selected model is the **U-Net (resnet34)**, which beat the alternative on the blue carbon habitats (◆).
 
-| Habitat | IoU | F1 | What it means |
-|---|---:|---:|---|
-| **Mangrove** ◆ | **0.94** | **0.97** | Reliable, including on unseen estuaries (Tampa Bay 0.91, Shoalwater Bay 0.86, Moreton Bay 0.86) |
-| **Salt marsh** ◆ | **0.82** | **0.90** | Strong on large marshes (unseen Plum Island 0.91); weak where marsh is a thin fringe (unseen Mission Bay 0.58) |
-| **Seagrass** ◆ | **0.38** | **0.55** | Improving: unseen Tampa Bay 0.62 (was not reported per site before), and now detected in Moreton Bay (0.12) where the previous model found almost none. Still misses most meadows in murky or deep water |
-| Open water | 0.84 | 0.91 | Reliable |
-| Other land | 0.93 | 0.97 | Reliable |
-| Tidal flat | 0.72 | 0.84 | Fair |
-| Freshwater wetland | 0.60 | 0.75 | Separates inland marsh from tidal salt marsh |
-| **Mean (7 classes)** | **0.75** | **0.84** | |
+| Habitat | IoU | F1 | Test pixels |
+|---|---:|---:|---:|
+| Open water | 0.86 | 0.93 | 22,217,159 |
+| Mangrove ◆ | 0.96 | 0.98 | 3,978,161 |
+| Salt marsh ◆ | 0.88 | 0.94 | 1,308,344 |
+| Seagrass ◆ | 0.46 | 0.63 | 3,334,596 |
+| Tidal flat / bare | 0.74 | 0.85 | 2,801,983 |
+| Other land | 0.93 | 0.97 | 15,203,443 |
+| Freshwater wetland | 0.55 | 0.71 | 882,771 |
+| **Mean** | **0.77** | **0.86** | |
 
-◆ = blue carbon habitat. IoU (intersection over union) measures how well the predicted map overlaps
-the reference map, where 1.0 is a perfect match. Overall pixel accuracy (90%) is reported but isn't the
-headline number, because open water dominates it. Scores use the current reference labels (more seagrass
-survey maps and stricter salt marsh than before), so they are harder to earn than the previous model's.
-
-**How it got here.** The first model scored mangrove 0.90, salt marsh 0.35 and seagrass 0.00. Since then:
-salt marsh labels from a dedicated wetland map; seagrass labels from the Allen Coral Atlas plus official
-survey maps (Florida FWC; Seamap Australia for Moreton Bay, the Great Barrier Reef, Western Australia and
-Victoria), with open-water examples next to every surveyed meadow; a clear-water image that lets the seafloor
-show through; elevation and tide as inputs; extra years of imagery; and per-estuary checks, which caught an
-earlier model using latitude as a shortcut.
-
-**Next:** Sentinel-1 radar input, a seagrass specialist model, habitat history back to 1985, and field checks
-against dive surveys.
+IoU (intersection over union) measures how well the predicted map overlaps the reference map, where 1.0 is a perfect match. Overall pixel accuracy (92%) is not the headline metric, because it is dominated by open water.
 
 ![Held-out sites: satellite image (top) and BlueCarbon-AI habitat map (bottom)](docs/img/hero.png)
 
-The website maps 44 sites, plus 2018 → 2024 (Mission Bay) and 2019 → 2025 (Laguna de Términos) change studies.
+The live app includes 78 mapped sites, including a 2018 → 2024 change analysis of Mission Bay.
 <!-- results:end -->
 
 ## How it works
@@ -141,7 +125,7 @@ src/bluecarbon/
   carbon.py      carbon stock and sequestration with Monte Carlo uncertainty
   cli.py         `bluecarbon` command-line tool
 app/             Streamlit web app
-configs/         pipeline settings and the 44 study sites
+configs/         pipeline settings and the 76 study sites
 tests/           automated tests
 docs/            methodology and figures
 ```

@@ -57,60 +57,60 @@
     "encoder": "resnet34",
     "kind": "unet",
     "test": {
-      "overall_accuracy": 0.9034,
-      "kappa": 0.8614,
-      "mIoU": 0.7478,
-      "macro_f1": 0.841,
+      "overall_accuracy": 0.9159,
+      "kappa": 0.8786,
+      "mIoU": 0.7711,
+      "macro_f1": 0.8582,
       "iou": {
-        "water": 0.8391,
-        "mangrove": 0.9412,
-        "saltmarsh": 0.8191,
-        "seagrass": 0.38,
-        "tidal_flat": 0.7204,
-        "other_land": 0.9348,
-        "freshwater": 0.6001
+        "water": 0.8624,
+        "mangrove": 0.9623,
+        "saltmarsh": 0.8792,
+        "seagrass": 0.4639,
+        "tidal_flat": 0.7425,
+        "other_land": 0.9327,
+        "freshwater": 0.5549
       },
       "f1": {
-        "water": 0.9125,
-        "mangrove": 0.9697,
-        "saltmarsh": 0.9006,
-        "seagrass": 0.5507,
-        "tidal_flat": 0.8375,
-        "other_land": 0.9663,
-        "freshwater": 0.7501
+        "water": 0.9261,
+        "mangrove": 0.9808,
+        "saltmarsh": 0.9357,
+        "seagrass": 0.6338,
+        "tidal_flat": 0.8522,
+        "other_land": 0.9652,
+        "freshwater": 0.7137
       },
       "precision": {
-        "water": 0.9076,
-        "mangrove": 0.9585,
-        "saltmarsh": 0.8544,
-        "seagrass": 0.647,
-        "tidal_flat": 0.812,
-        "other_land": 0.9638,
-        "freshwater": 0.6905
+        "water": 0.9267,
+        "mangrove": 0.9788,
+        "saltmarsh": 0.9158,
+        "seagrass": 0.7093,
+        "tidal_flat": 0.8174,
+        "other_land": 0.968,
+        "freshwater": 0.5954
       },
       "recall": {
-        "water": 0.9175,
-        "mangrove": 0.9811,
-        "saltmarsh": 0.952,
-        "seagrass": 0.4793,
-        "tidal_flat": 0.8645,
-        "other_land": 0.9689,
-        "freshwater": 0.821
+        "water": 0.9254,
+        "mangrove": 0.9828,
+        "saltmarsh": 0.9565,
+        "seagrass": 0.5728,
+        "tidal_flat": 0.8901,
+        "other_land": 0.9624,
+        "freshwater": 0.8908
       },
       "support_px": {
-        "water": 15303044,
-        "mangrove": 2903046,
-        "saltmarsh": 959779,
-        "seagrass": 2563102,
-        "tidal_flat": 1746692,
-        "other_land": 11195367,
-        "freshwater": 778994
+        "water": 22217159,
+        "mangrove": 3978161,
+        "saltmarsh": 1308344,
+        "seagrass": 3334596,
+        "tidal_flat": 2801983,
+        "other_land": 15203443,
+        "freshwater": 882771
       }
     },
     "name": "BlueCarbon-AI v2",
     "pilot": false,
     "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
-    "training_data": "Sentinel-2 composites and clear-water images of 39 coastal sites on six continents for 2021, plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats and the Allen Coral Atlas, plus official seagrass surveys (Florida FWC; Seamap Australia: Moreton Bay, Great Barrier Reef, Western Australia, Victoria)",
+    "training_data": "Sentinel-2 composites and clear-water images of 71 coastal sites on six continents for 2021, plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats, the Allen Coral Atlas and Global Mangrove Watch v3 (mangrove only where it agrees with WorldCover), plus official survey maps: US National Wetlands Inventory, Environment Agency saltmarsh (England), NSW estuarine macrophytes, Florida FWC, VIMS Chesapeake SAV, Texas Benthic Atlas, MassDEP eelgrass, the California eelgrass compilation and Seamap Australia (Moreton Bay, Great Barrier Reef, Western Australia, Victoria, Hervey Bay)",
     "uses_context": true
   },
   "kind": "single",
@@ -126,70 +126,70 @@
   ],
   "report": {
     "areas_ha": {
-      "water": 14539.83,
-      "mangrove": 5.39,
-      "saltmarsh": 17733.3,
-      "seagrass": 0.0,
-      "tidal_flat": 1076.06,
-      "other_land": 19459.6,
-      "freshwater": 207.57000000000002
+      "water": 14667.55,
+      "mangrove": 0.0,
+      "saltmarsh": 17810.72,
+      "seagrass": 0.02,
+      "tidal_flat": 1013.79,
+      "other_land": 19145.230000000003,
+      "freshwater": 384.44
     },
     "error_adjusted_areas_ha": {
       "water": {
-        "mapped_ha": 14539.83,
-        "adjusted_ha": 14079.92,
-        "ci95_ha": 4.88
+        "mapped_ha": 14667.55,
+        "adjusted_ha": 14500.67,
+        "ci95_ha": 4.48
       },
       "mangrove": {
-        "mapped_ha": 5.39,
-        "adjusted_ha": 198.56,
-        "ci95_ha": 3.03
+        "mapped_ha": 0.0,
+        "adjusted_ha": 146.37,
+        "ci95_ha": 2.08
       },
       "saltmarsh": {
-        "mapped_ha": 17733.3,
-        "adjusted_ha": 15179.75,
-        "ci95_ha": 11.86
+        "mapped_ha": 17810.72,
+        "adjusted_ha": 16344.65,
+        "ci95_ha": 8.3
       },
       "seagrass": {
-        "mapped_ha": 0.0,
-        "adjusted_ha": 1232.83,
-        "ci95_ha": 2.01
+        "mapped_ha": 0.02,
+        "adjusted_ha": 921.39,
+        "ci95_ha": 1.48
       },
       "tidal_flat": {
-        "mapped_ha": 1076.06,
-        "adjusted_ha": 1382.48,
-        "ci95_ha": 4.67
+        "mapped_ha": 1013.79,
+        "adjusted_ha": 1082.71,
+        "ci95_ha": 1.93
       },
       "other_land": {
-        "mapped_ha": 19459.6,
-        "adjusted_ha": 19685.48,
-        "ci95_ha": 7.54
+        "mapped_ha": 19145.23,
+        "adjusted_ha": 19239.41,
+        "ci95_ha": 5.49
       },
       "freshwater": {
-        "mapped_ha": 207.57,
-        "adjusted_ha": 1262.72,
-        "ci95_ha": 7.79
+        "mapped_ha": 384.44,
+        "adjusted_ha": 786.54,
+        "ci95_ha": 4.92
       }
     },
     "carbon_area_basis": "error_adjusted",
     "carbon": {
       "classes": {
         "mangrove": {
-          "area_ha": 198.56,
+          "area_ha": 146.37,
           "stock_tC": {
-            "mean": 103560.29216302549,
-            "p05": 97322.2809812427,
-            "p95": 110063.27729209597
+            "mean": 76340.45118079513,
+            "p05": 71760.24302607792,
+            "p95": 81148.40060612604
           },
           "stock_tCO2e": {
-            "mean": 379755.5913618144,
-            "p05": 356880.804358217,
-            "p95": 403602.0378301159
+            "mean": 279940.4344799757,
+            "p05": 263144.81117662776,
+            "p95": 297571.1850226642
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 1195.4957852871746,
-            "p05": 1025.9228499516068,
-            "p95": 1368.2693597481855
+            "mean": 881.270333967176,
+            "p05": 756.0979905460196,
+            "p95": 1008.4540691133154
           },
           "soil": {
             "soil": [
@@ -198,24 +198,32 @@
               510.0
             ],
             "source": "ipcc"
+          },
+          "biomass": {
+            "biomass": [
+              25.0,
+              42.0,
+              80.0
+            ],
+            "source": "ipcc"
           }
         },
         "saltmarsh": {
-          "area_ha": 15179.75,
+          "area_ha": 16344.65,
           "stock_tC": {
-            "mean": 3307994.9060195372,
-            "p05": 2688117.857761633,
-            "p95": 3937977.043523496
+            "mean": 3561853.3301966162,
+            "p05": 2894382.8215794945,
+            "p95": 4239689.73697771
           },
           "stock_tCO2e": {
-            "mean": 12130417.320373641,
-            "p05": 9857328.184411908,
-            "p95": 14440561.81860066
+            "mean": 13061316.161830992,
+            "p05": 10613701.806732006,
+            "p95": 15546942.265497264
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 50345.17836647009,
-            "p05": 42732.93890637805,
-            "p95": 57947.98245017375
+            "mean": 54208.72215688279,
+            "p05": 46015.078935844125,
+            "p95": 62393.88039932137
           },
           "soil": {
             "soil": [
@@ -227,24 +235,32 @@
             "n_studies": 3,
             "radius_km": 100,
             "source": "measured"
+          },
+          "biomass": {
+            "biomass": [
+              2.0,
+              5.0,
+              10.0
+            ],
+            "source": "ipcc"
           }
         },
         "seagrass": {
-          "area_ha": 1232.83,
+          "area_ha": 921.39,
           "stock_tC": {
-            "mean": 137501.03500618335,
-            "p05": 115232.97474921978,
-            "p95": 161188.65480579037
+            "mean": 102765.2594345196,
+            "p05": 86123.2436783649,
+            "p95": 120468.8009704703
           },
           "stock_tCO2e": {
-            "mean": 504216.29536767426,
-            "p05": 422559.3184053889,
-            "p95": 591078.7971728332
+            "mean": 376840.2063463834,
+            "p05": 315813.93456856406,
+            "p95": 441759.09315871453
           },
           "sequestration_tCO2e_per_yr": {
-            "mean": 2004.200287909659,
-            "p05": 1252.5822855319577,
-            "p95": 2809.569738571161
+            "mean": 1497.8954635675877,
+            "p05": 936.1629190744649,
+            "p95": 2099.849727327144
           },
           "soil": {
             "soil": [
@@ -253,27 +269,53 @@
               139.0
             ],
             "source": "ipcc"
+          },
+          "biomass": {
+            "biomass": [
+              0.5,
+              1.0,
+              2.0
+            ],
+            "source": "ipcc"
           }
         }
       },
-      "blue_carbon_area_ha": 16611.14,
+      "blue_carbon_area_ha": 17412.41,
       "total_stock_tCO2e": {
-        "mean": 13014389.207103131,
-        "p05": 10729149.67675454,
-        "p95": 15310896.690706728
+        "mean": 13718096.802657349,
+        "p05": 11260778.195197014,
+        "p95": 16193467.958033644
       },
       "total_sequestration_tCO2e_per_yr": {
-        "mean": 53544.87443966693,
-        "p05": 45845.392931955445,
-        "p95": 61129.57627449437
+        "mean": 56587.887954417536,
+        "p05": 48350.91268936131,
+        "p95": 64769.76111306121
       },
       "indicative_annual_value_usd": {
-        "low": 803173.1165950039,
-        "mid": 1338621.8609916733,
-        "high": 2141794.9775866773
+        "low": 848818.3193162631,
+        "mid": 1414697.1988604383,
+        "high": 2263515.5181767014
       },
-      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass and burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
+    },
+    "confidence": {
+      "saltmarsh": {
+        "mean_pct": 98.4,
+        "low_share": 0.01
+      }
     }
+  },
+  "sea_level": {
+    "wetland_ha": 17810.7,
+    "max_elev_m": 2.0,
+    "search_km": 2.0,
+    "ar6_2100_m": [
+      0.28,
+      1.01
+    ],
+    "room_ha": 0.0,
+    "ratio": 0.0,
+    "rating": "high"
   },
   "region": "Georgia, USA",
   "period": "Full year 2021",

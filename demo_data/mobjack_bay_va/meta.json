@@ -1,0 +1,293 @@
+{
+  "title": "Mobjack Bay, Chesapeake Bay",
+  "description": "Eelgrass and widgeon grass (VIMS annual SAV survey), salt marsh (NWI). Sentinel-2 2021 composite. This area was part of the training data, so the map looks better than it would on a new coastline.",
+  "classes": [
+    {
+      "id": 0,
+      "key": "water",
+      "name": "Open water",
+      "color": "#1f5fbf",
+      "blue_carbon": false
+    },
+    {
+      "id": 1,
+      "key": "mangrove",
+      "name": "Mangrove",
+      "color": "#0b7a3e",
+      "blue_carbon": true
+    },
+    {
+      "id": 2,
+      "key": "saltmarsh",
+      "name": "Salt marsh",
+      "color": "#9bb52a",
+      "blue_carbon": true
+    },
+    {
+      "id": 3,
+      "key": "seagrass",
+      "name": "Seagrass",
+      "color": "#14a3a0",
+      "blue_carbon": true
+    },
+    {
+      "id": 4,
+      "key": "tidal_flat",
+      "name": "Tidal flat / bare",
+      "color": "#c07a2c",
+      "blue_carbon": false
+    },
+    {
+      "id": 5,
+      "key": "other_land",
+      "name": "Other land",
+      "color": "#8b9199",
+      "blue_carbon": false
+    },
+    {
+      "id": 6,
+      "key": "freshwater",
+      "name": "Freshwater wetland",
+      "color": "#a0529b",
+      "blue_carbon": false
+    }
+  ],
+  "model": {
+    "arch": "Unet",
+    "encoder": "resnet34",
+    "kind": "unet",
+    "test": {
+      "overall_accuracy": 0.9159,
+      "kappa": 0.8786,
+      "mIoU": 0.7711,
+      "macro_f1": 0.8582,
+      "iou": {
+        "water": 0.8624,
+        "mangrove": 0.9623,
+        "saltmarsh": 0.8792,
+        "seagrass": 0.4639,
+        "tidal_flat": 0.7425,
+        "other_land": 0.9327,
+        "freshwater": 0.5549
+      },
+      "f1": {
+        "water": 0.9261,
+        "mangrove": 0.9808,
+        "saltmarsh": 0.9357,
+        "seagrass": 0.6338,
+        "tidal_flat": 0.8522,
+        "other_land": 0.9652,
+        "freshwater": 0.7137
+      },
+      "precision": {
+        "water": 0.9267,
+        "mangrove": 0.9788,
+        "saltmarsh": 0.9158,
+        "seagrass": 0.7093,
+        "tidal_flat": 0.8174,
+        "other_land": 0.968,
+        "freshwater": 0.5954
+      },
+      "recall": {
+        "water": 0.9254,
+        "mangrove": 0.9828,
+        "saltmarsh": 0.9565,
+        "seagrass": 0.5728,
+        "tidal_flat": 0.8901,
+        "other_land": 0.9624,
+        "freshwater": 0.8908
+      },
+      "support_px": {
+        "water": 22217159,
+        "mangrove": 3978161,
+        "saltmarsh": 1308344,
+        "seagrass": 3334596,
+        "tidal_flat": 2801983,
+        "other_land": 15203443,
+        "freshwater": 882771
+      }
+    },
+    "name": "BlueCarbon-AI v2",
+    "pilot": false,
+    "evaluation": "non-overlapping 5 km spatial blocks plus five estuaries never used in training (Mission Bay, Plum Island, Moreton Bay, Shoalwater Bay, Tampa Bay)",
+    "training_data": "Sentinel-2 composites and clear-water images of 71 coastal sites on six continents for 2021, plus 2020 and 2022 images of the same sites for training, labelled from ESA WorldCover, the GWL_FCS30 wetland map, Murray et al. tidal flats, the Allen Coral Atlas and Global Mangrove Watch v3 (mangrove only where it agrees with WorldCover), plus official survey maps: US National Wetlands Inventory, Environment Agency saltmarsh (England), NSW estuarine macrophytes, Florida FWC, VIMS Chesapeake SAV, Texas Benthic Atlas, MassDEP eelgrass, the California eelgrass compilation and Seamap Australia (Moreton Bay, Great Barrier Reef, Western Australia, Victoria, Hervey Bay)",
+    "uses_context": true
+  },
+  "kind": "single",
+  "bounds": [
+    [
+      37.24760050401747,
+      -76.45332470088844
+    ],
+    [
+      37.42235100497092,
+      -76.24711502264104
+    ]
+  ],
+  "report": {
+    "areas_ha": {
+      "water": 18588.870000000003,
+      "mangrove": 0.0,
+      "saltmarsh": 2320.49,
+      "seagrass": 3157.9900000000002,
+      "tidal_flat": 6.610000000000001,
+      "other_land": 10352.75,
+      "freshwater": 7.290000000000001
+    },
+    "error_adjusted_areas_ha": {
+      "water": {
+        "mapped_ha": 18588.87,
+        "adjusted_ha": 18370.36,
+        "ci95_ha": 2.75
+      },
+      "mangrove": {
+        "mapped_ha": 0.0,
+        "adjusted_ha": 0.0,
+        "ci95_ha": 0.0
+      },
+      "saltmarsh": {
+        "mapped_ha": 2320.49,
+        "adjusted_ha": 2287.7,
+        "ci95_ha": 0.51
+      },
+      "seagrass": {
+        "mapped_ha": 3157.99,
+        "adjusted_ha": 3381.21,
+        "ci95_ha": 2.53
+      },
+      "tidal_flat": {
+        "mapped_ha": 6.61,
+        "adjusted_ha": 265.62,
+        "ci95_ha": 0.93
+      },
+      "other_land": {
+        "mapped_ha": 10352.75,
+        "adjusted_ha": 10069.6,
+        "ci95_ha": 0.97
+      },
+      "freshwater": {
+        "mapped_ha": 7.29,
+        "adjusted_ha": 59.51,
+        "ci95_ha": 0.36
+      }
+    },
+    "carbon_area_basis": "error_adjusted",
+    "carbon": {
+      "classes": {
+        "saltmarsh": {
+          "area_ha": 2287.7,
+          "stock_tC": {
+            "mean": 838129.1542117477,
+            "p05": 572804.6909788711,
+            "p95": 1105800.3490778068
+          },
+          "stock_tCO2e": {
+            "mean": 3073419.6084944787,
+            "p05": 2100474.80181952,
+            "p95": 4054969.880068317
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 7588.212130649386,
+            "p05": 6441.621977186381,
+            "p95": 8692.213978820886
+          },
+          "soil": {
+            "soil": [
+              190.22394955701884,
+              360.56805555555565,
+              530.9121615540924
+            ],
+            "n_cores": 36,
+            "n_studies": 6,
+            "radius_km": 100,
+            "source": "measured"
+          },
+          "biomass": {
+            "biomass": [
+              2.0,
+              5.0,
+              10.0
+            ],
+            "source": "ipcc"
+          }
+        },
+        "seagrass": {
+          "area_ha": 3381.21,
+          "stock_tC": {
+            "mean": 376696.015354697,
+            "p05": 315324.6194615063,
+            "p95": 442684.07079824177
+          },
+          "stock_tCO2e": {
+            "mean": 1381344.288305674,
+            "p05": 1156295.3795653437,
+            "p95": 1623322.4876171525
+          },
+          "sequestration_tCO2e_per_yr": {
+            "mean": 5513.343183880134,
+            "p05": 3460.800178432966,
+            "p95": 7702.863220343214
+          },
+          "soil": {
+            "soil": [
+              84.0,
+              108.0,
+              139.0
+            ],
+            "source": "ipcc"
+          },
+          "biomass": {
+            "biomass": [
+              0.5,
+              1.0,
+              2.0
+            ],
+            "source": "ipcc"
+          }
+        }
+      },
+      "blue_carbon_area_ha": 5668.91,
+      "total_stock_tCO2e": {
+        "mean": 4454763.896800153,
+        "p05": 3461449.2407990405,
+        "p95": 5454597.55370799
+      },
+      "total_sequestration_tCO2e_per_yr": {
+        "mean": 13101.55531452952,
+        "p05": 10731.989252522513,
+        "p95": 15527.645248781115
+      },
+      "indicative_annual_value_usd": {
+        "low": 196523.3297179428,
+        "mid": 327538.882863238,
+        "high": 524062.2125811808
+      },
+      "method": "Soil carbon from measured soil cores near the site (Smithsonian Coastal Carbon Library) for saltmarsh, IPCC Tier 1 otherwise; biomass IPCC Tier 1; burial rates IPCC Tier 1; triangular Monte Carlo, n=5000"
+    },
+    "confidence": {
+      "saltmarsh": {
+        "mean_pct": 93.5,
+        "low_share": 0.048
+      },
+      "seagrass": {
+        "mean_pct": 88.5,
+        "low_share": 0.07
+      }
+    }
+  },
+  "sea_level": {
+    "wetland_ha": 2320.5,
+    "max_elev_m": 2.0,
+    "search_km": 2.0,
+    "ar6_2100_m": [
+      0.28,
+      1.01
+    ],
+    "room_ha": 0.0,
+    "ratio": 0.0,
+    "rating": "high"
+  },
+  "region": "Virginia, USA",
+  "period": "Full year 2021",
+  "held_out": false
+}

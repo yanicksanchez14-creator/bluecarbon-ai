@@ -66,6 +66,9 @@ class TrainCfg(BaseModel):
     patience: int = 12
     rare_oversample: float = 4.0
     device: str = "auto"
+    # other networks trained on the same chips to compete with the U-Net: dicts with name, arch, encoder and
+    # optionally encoder_weights, epochs, lr, batch_size
+    candidates: list[dict] = []
 
 
 class PredictCfg(BaseModel):

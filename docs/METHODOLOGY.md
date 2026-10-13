@@ -126,6 +126,12 @@ this run, so those sites used the global maps; they are retried in the next run.
   w picked from 0, 0.25, 0.5, 0.75, 1 on validation areas only. The blend is used only if it beats both single models
   on validation by at least 0.005; the publishing comparison then shows the live model, the U-Net, LightGBM and the
   blend on the same held-out estuaries.
+- **Several networks compete.** Besides the U-Net (ResNet-34) and LightGBM, three more networks are trained on the
+  same chips: a U-Net with a ConvNeXt-Tiny encoder, SegFormer (MiT-B2, a transformer that sees wider context), and
+  NASA/IBM's Prithvi-EO-1.0-100M geospatial foundation model (pre-trained on Harmonized Landsat Sentinel-2 imagery;
+  its encoder reads six Sentinel-2 bands while a small convolutional branch reads every other input). Each is ranked
+  on the same validation areas (`scores.json`, leaderboard in `held_out_check.txt`); the best deep network is the one
+  blended with LightGBM, and the overall winner is graded against the live model on the held-out estuaries.
 - **Spot-check.** 200 points per held-out estuary (`spotcheck.csv`), half random and half on mapped blue carbon
   habitat, each with the model's class, the reference label and a link to high-resolution imagery, for a check by eye.
 

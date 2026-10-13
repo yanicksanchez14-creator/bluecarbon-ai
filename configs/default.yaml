@@ -261,6 +261,13 @@ train:
   patience: 12
   rare_oversample: 4              # chips with blue carbon habitat are drawn up to 4x more often
   device: auto
+  # Competing networks, trained on the same chips after the U-Net (each skipped, not fatal, if it fails).
+  # All are free open-source models; pre-trained weights come from timm / Hugging Face.
+  candidates:
+    - {name: unet_convnext, arch: Unet, encoder: tu-convnext_tiny, epochs: 35}       # stronger U-Net backbone
+    - {name: segformer, arch: Segformer, encoder: mit_b2, epochs: 35, lr: 2.0e-4}    # transformer, wide context
+    - {name: prithvi, arch: Prithvi, encoder: prithvi-eo-1-100m, encoder_weights: prithvi,  # NASA/IBM foundation
+       epochs: 35, lr: 1.0e-4, batch_size: 8}
 
 predict:
   tile: 256

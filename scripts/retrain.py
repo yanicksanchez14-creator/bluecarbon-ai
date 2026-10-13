@@ -80,6 +80,14 @@ def best_model() -> Path:
 BLUE = ("mangrove", "saltmarsh", "seagrass")
 
 
+def candidate_names() -> list[str]:
+    """The competing networks in configs/default.yaml (train.candidates)."""
+    import yaml
+
+    cfg = yaml.safe_load(Path("configs/default.yaml").read_text())
+    return [c["name"] for c in (cfg.get("train") or {}).get("candidates") or []]
+
+
 def held_out_check() -> str:
     """Per-site scores on the estuaries never used in training, plus mapped vs reference area.
 
@@ -90,12 +98,14 @@ def held_out_check() -> str:
 
     sites = [s["name"] for s in yaml.safe_load(Path("configs/sites.yaml").read_text())["sites"] if s.get("role") == "test"]
     lines = ["HELD-OUT ESTUARIES (never used in training)", ""]
-    for f, label in (("spectral_metrics.json", "spectral"), ("metrics.json", "unet"), ("ensemble_metrics.json", "blend")):
+    tables = [("spectral_metrics.json", "spectral"), ("metrics.json", "unet")]
+    tables += [(f"{c}_metrics.json", c) for c in candidate_names()] + [("ensemble_metrics.json", "blend")]
+    for f, label in tables:
         p = WORK / "model" / f
         if not p.exists():
             continue
         per = json.loads(p.read_text()).get("test_per_site", {})
-        lines.append(f"{label:9s} IoU      " + "  ".join(f"{c:>9s}" for c in BLUE))
+        lines.append(f"{label:13s} IoU  " + "  ".join(f"{c:>9s}" for c in BLUE))
         for s in sites:
             iou = per.get(s, {}).get("iou", {})
             lines.append(f"  {s:22s}" + "  ".join(f"{'-' if iou.get(c) is None else f'{iou[c]:.2f}':>9s}" for c in BLUE))
@@ -120,10 +130,16 @@ def held_out_check() -> str:
     if ep.exists():
         e = json.loads(ep.read_text())
         v = e.get("val_blue_iou", {})
-        lines += ["", f"U-Net + LightGBM blend ({'ON' if e.get('enabled') else 'off: not better on validation'}), "
-                      f"validation blue-carbon IoU: U-Net {v.get('unet', 0):.3f}  LightGBM {v.get('spectral', 0):.3f}  "
+        deep = Path(e.get("deep", "model.pt")).stem.replace("model", "unet")
+        lines += ["", f"{deep} + LightGBM blend ({'ON' if e.get('enabled') else 'off: not better on validation'}), "
+                      f"validation blue-carbon IoU: {deep} {v.get('unet', 0):.3f}  LightGBM {v.get('spectral', 0):.3f}  "
                       f"blend {v.get('ensemble', 0):.3f}",
-                  "  U-Net share per habitat: " + ", ".join(f"{k} {w:.2f}" for k, w in e.get("weights", {}).items())]
+                  f"  {deep} share per habitat: " + ", ".join(f"{k} {w:.2f}" for k, w in e.get("weights", {}).items())]
+    sp_ = WORK / "model" / "scores.json"
+    if sp_.exists():  # every network on the same validation areas (what picked the winner)
+        sc = sorted(json.loads(sp_.read_text()).items(), key=lambda kv: -kv[1]["val_blue_iou"])
+        lines += ["", "MODEL LEADERBOARD (validation blue-carbon IoU; the top one is used)"]
+        lines += [f"  {i + 1}. {k:14s} {v['val_blue_iou']:.3f}" for i, (k, v) in enumerate(sc)]
     from bluecarbon.seagrass import specialist_path_for
 
     try:
@@ -164,10 +180,11 @@ def main() -> None:
         from bluecarbon.gee import LABEL_VERSION
 
         tag = WORK / "sites" / "_train_state_labels.txt"   # which label version the saved training state is for
+        states = lambda: [*(WORK / "sites").glob("_train_state*.pt"), *(WORK / "sites").glob("_train_best*.pt")]  # noqa: E731
         if (WORK / "sites" / "_train_state.pt").exists() and (not tag.exists() or tag.read_text().strip() != LABEL_VERSION):
             print("Old training state from an earlier run found: discarding it (new sites and labels)", flush=True)
-            for f in ("_train_state.pt", "_train_best.pt"):
-                (WORK / "sites" / f).unlink(missing_ok=True)
+            for f in states():
+                f.unlink(missing_ok=True)
         resuming = (WORK / "sites" / "_train_state.pt").exists()
         tag.parent.mkdir(parents=True, exist_ok=True)
         tag.write_text(LABEL_VERSION + "\n")
@@ -181,17 +198,19 @@ def main() -> None:
         for old in (WORK / "model").glob("best.*"):
             old.unlink()
         run("bluecarbon", "train", "--kind", "both")
-        for f in ("_train_state.pt", "_train_best.pt"):  # finished: the next run starts fresh
-            (WORK / "sites" / f).unlink(missing_ok=True)
+        for f in states():  # finished (every network): the next run starts fresh
+            f.unlink(missing_ok=True)
     best = best_model()
     print((WORK / "model" / "best.txt").read_text(), "->", best)
     live = Path("models") / Path("models/current.txt").read_text().strip() if Path("models/current.txt").exists() else None
     if live and live.exists():  # grade the website's model and the new one on the same estuaries + labels
         try:
             m = WORK / "model"
+            also = [f"unet={m / 'model.pt'}", f"lightgbm={m / 'spectral.json'}"]
+            also += [f"{c}={m / (c + '.pt')}" for c in candidate_names()]
+            also.append(f"blend={m / 'ensemble.ensemble.json'}")
             run("bluecarbon", "compare", "--new", str(best), "--live", str(live), "--out", str(WORK / "compare.txt"),
-                "--also", f"unet={m / 'model.pt'}", "--also", f"lightgbm={m / 'spectral.json'}",
-                "--also", f"blend={m / 'ensemble.ensemble.json'}")
+                *[a for x in also for a in ("--also", x)])
         except subprocess.CalledProcessError:
             print("live vs new comparison failed", flush=True)
     try:  # seagrass specialist: second opinion on water/seagrass, saved switched off unless it helps
@@ -242,14 +261,16 @@ def main() -> None:
         print("spot-check sample failed; the rest of the results are unaffected", flush=True)
     shutil.copy(best, out / best.name)
     if best.name.endswith(".ensemble.json"):  # the blend needs both of its models next to it
-        for f in ("model.pt", "spectral.json"):
+        d = json.loads(best.read_text())
+        for f in (d["unet"], d["spectral"]):
             shutil.copy(WORK / "model" / f, out / f)
     from bluecarbon.seagrass import specialist_path_for
 
     if specialist_path_for(best).exists():
         shutil.copy(specialist_path_for(best), out / specialist_path_for(best).name)
     shutil.copy(WORK / "model" / "best.txt", out / "best.txt")
-    for f in ("spectral_metrics.json", "metrics.json", "ensemble_metrics.json", "seafloor_mask.json"):
+    for f in ("spectral_metrics.json", "metrics.json", "ensemble_metrics.json", "seafloor_mask.json", "scores.json",
+              *[f"{c}_metrics.json" for c in candidate_names()]):
         if (WORK / "model" / f).exists():
             shutil.copy(WORK / "model" / f, out / f)
     labels = {p.parent.name: json.loads(p.read_text()).get("label_px") for p in (WORK / "sites").glob("*/meta.json")}

@@ -18,7 +18,15 @@ CHECKPOINT_VERSION = 2
 
 
 def build_model(arch: str = "Unet", encoder: str = "resnet34", encoder_weights: str | None = "imagenet",
-                in_channels: int = len(FEATURE_NAMES), n_classes: int = N_CLASSES) -> nn.Module:
+                in_channels: int = len(FEATURE_NAMES), n_classes: int = N_CLASSES,
+                features: list[str] | None = None) -> nn.Module:
+    """Any segmentation_models_pytorch architecture (Unet, Segformer, UnetPlusPlus, ...; timm encoders as tu-*),
+    or "Prithvi" (NASA/IBM foundation model encoder, see prithvi.py). For Prithvi there is no silent fallback:
+    without its pre-trained weights it is not worth training, so the error goes up and that candidate is skipped."""
+    if arch == "Prithvi":
+        from .prithvi import build_prithvi
+
+        return build_prithvi(in_channels, n_classes, list(features or FEATURE_NAMES), encoder_weights is not None)
     import segmentation_models_pytorch as smp
 
     cls = getattr(smp, arch)
@@ -60,7 +68,7 @@ def load_checkpoint(path: str | Path, device: str | torch.device = "cpu") -> tup
 
     if not set(ck["features"]) <= KNOWN_FEATURES or not compatible(ck["classes"]):
         raise ValueError("Checkpoint feature/class schema does not match this version of bluecarbon")
-    model = build_model(ck["arch"], ck["encoder"], None, len(ck["features"]), len(ck["classes"]))
+    model = build_model(ck["arch"], ck["encoder"], None, len(ck["features"]), len(ck["classes"]), list(ck["features"]))
     model.load_state_dict(ck["state_dict"])
     model.to(device).eval()
     return model, Normalizer.from_dict(ck["normalizer"]), ck

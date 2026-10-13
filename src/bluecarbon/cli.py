@@ -187,13 +187,27 @@ def train(config: str = CfgOpt, kind: str = typer.Option("both", help="spectral 
 
         res = run(cfg, recs, out)
         scores["unet"] = (_blue_score(res.get("val")), out / "model.pt")
+        for c in cfg.train.candidates:  # competing networks on the same chips; a failure only skips that one
+            name = c["name"]
+            mk = {k: c[k] for k in ("arch", "encoder", "encoder_weights") if k in c}
+            tk = {k: c[k] for k in ("epochs", "lr", "batch_size") if k in c}
+            ccfg = cfg.model_copy(update={"model": cfg.model.model_copy(update=mk),
+                                          "train": cfg.train.model_copy(update=tk)})
+            typer.echo(f"\n=== candidate {name}: {ccfg.model.arch} / {ccfg.model.encoder} ===")
+            try:
+                res = run(ccfg, recs, out, name=name)
+                scores[name] = (_blue_score(res.get("val")), out / f"{name}.pt")
+            except Exception as e:
+                typer.echo(f"candidate {name} skipped: {str(e)[:300]}")
     if kind == "both":
         try:  # U-Net + LightGBM blended per habitat; competes for best only if it beat both on validation
             from .ensemble import build
 
             for stale in (out / "ensemble.ensemble.json", out / "ensemble_metrics.json"):
                 stale.unlink(missing_ok=True)
-            m = build(out, recs, cfg.train.device, log=typer.echo)
+            deep = max((k for k in scores if k != "spectral"), key=lambda k: scores[k][0])
+            typer.echo(f"blend: best deep network on validation is {deep}; blending it with LightGBM")
+            m = build(out, recs, cfg.train.device, log=typer.echo, deep=scores[deep][1].name)
             if m["enabled"]:
                 scores["ensemble"] = (m["val_blue_iou"]["ensemble"], out / "ensemble.ensemble.json")
         except Exception as e:  # never lose the two trained models over the blend
@@ -202,7 +216,9 @@ def train(config: str = CfgOpt, kind: str = typer.Option("both", help="spectral 
     src = scores[best][1]
     for stale in out.glob("best.*"):  # never leave a previous run's winner behind
         stale.unlink()
-    if best != "ensemble":  # (the blend file points at model.pt + spectral.json, so it is named directly)
+    (out / "scores.json").write_text(json.dumps({k: {"val_blue_iou": v[0], "file": v[1].name}
+                                                 for k, v in scores.items()}, indent=2))
+    if best != "ensemble":  # (the blend file points at its two models, so it is named directly)
         shutil.copy(src, out / ("best" + src.suffix))
     (out / "best.txt").write_text(f"{best} {src.name} blue-carbon val IoU {scores[best][0]:.3f}\n")
     typer.echo({k: round(v[0], 3) for k, v in scores.items()})
@@ -396,14 +412,15 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
 
 
 @app.command()
-def ensemble(config: str = CfgOpt, device: str = typer.Option(None)):
-    """(Re)tune the U-Net + LightGBM blend on validation chips from an existing model/model.pt + spectral.json."""
+def ensemble(config: str = CfgOpt, device: str = typer.Option(None),
+             deep: str = typer.Option("model.pt", help="deep network file in model/ to blend with spectral.json")):
+    """(Re)tune the deep network + LightGBM blend on validation chips."""
     from .ensemble import build
     from .tiling import read_index
 
     cfg = _cfg(config)
     m = build(cfg.work / "model", read_index(cfg.work / "chips" / "index.json"), device or cfg.train.device,
-              log=typer.echo)
+              log=typer.echo, deep=deep)
     typer.echo(json.dumps({k: m[k] for k in ("val_blue_iou", "enabled", "weights")}, indent=2))
 
 

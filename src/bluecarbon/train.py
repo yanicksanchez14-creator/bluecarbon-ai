@@ -126,7 +126,9 @@ def rare_class_sampler(records: list[ChipRecord], factor: float):
     return WeightedRandomSampler(weights, num_samples=len(records), replacement=True)
 
 
-def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print) -> dict:
+def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print, name: str = "model") -> dict:
+    """Train one network. `name` "model" is the main U-Net (model.pt, metrics.json); other names are the
+    competing architectures (<name>.pt, <name>_metrics.json), with cfg.model / cfg.train already set for them."""
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     tr = [r for r in records if r.split == "train"]
@@ -166,7 +168,7 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     dl_va = DataLoader(ChipDataset(va, norm, use_anc=use_anc, names=features), shuffle=False, **kw)
 
     m = cfg.model
-    model = build_model(m.arch, m.encoder, m.encoder_weights, in_channels=len(features)).to(device)
+    model = build_model(m.arch, m.encoder, m.encoder_weights, in_channels=len(features), features=features).to(device)
     lossf = DiceCELoss(None if w is None else torch.tensor(w, device=device), t.dice_weight)
     opt = torch.optim.AdamW(model.parameters(), lr=t.lr, weight_decay=t.weight_decay)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=t.lr, total_steps=max(1, t.epochs * len(dl_tr)),
@@ -175,12 +177,15 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
 
     best, best_epoch, history = -1.0, -1, []
-    ckpt = out / "model.pt"
+    ckpt = out / f"{name}.pt"
     # Resume after a Colab disconnect: the full training state is saved every epoch next to the site cache
     # (Google Drive in Colab), and picked up again if it belongs to the same chips and inputs.
     state_p = Path(os.environ.get("BLUECARBON_TRAIN_STATE", "/nonexistent/_train_state.pt"))  # set by retrain.py
-    best_p = state_p.with_name("_train_best.pt")
-    sig = {"n_train": len(tr), "n_val": len(va), "features": list(features), "epochs": t.epochs}
+    if name != "model":
+        state_p = state_p.with_name(f"_train_state_{name}.pt")
+    best_p = state_p.with_name("_train_best.pt" if name == "model" else f"_train_best_{name}.pt")
+    sig = {"n_train": len(tr), "n_val": len(va), "features": list(features), "epochs": t.epochs,
+           **({} if name == "model" else {"arch": m.arch, "encoder": m.encoder})}
     start = 1
     if state_p.exists() and best_p.exists():
         try:
@@ -266,5 +271,6 @@ def train(cfg: Config, records: list[ChipRecord], out_dir: str | Path, log=print
     save_checkpoint(ckpt, model, m.arch, m.encoder, norm, features=features, class_bias=bias,
                     metrics={**ck["metrics"], "val": val_tuned, "test": results.get("test"),
                              "test_confusion": results.get("test_confusion")})
-    (out / "metrics.json").write_text(json.dumps(results, indent=2))
+    results["arch"], results["encoder"] = m.arch, m.encoder
+    (out / ("metrics.json" if name == "model" else f"{name}_metrics.json")).write_text(json.dumps(results, indent=2))
     return results

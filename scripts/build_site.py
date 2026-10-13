@@ -297,6 +297,23 @@ def _canopy_focus(d: Path, meta: dict) -> list | None:
     return [[round(south - pad_lat, 5), round(west - pad_lon, 5)], [round(north + pad_lat, 5), round(east + pad_lon, 5)]]
 
 
+ARCH_NAMES = {"unet": "U-Net (ResNet-34 encoder)", "model": "U-Net (ResNet-34 encoder)",
+              "unet_convnext": "U-Net (ConvNeXt encoder)", "segformer": "SegFormer (MiT-B2 transformer)",
+              "prithvi": "NASA/IBM Prithvi foundation model, fine-tuned",
+              "spectral": "LightGBM pixel model with neighbourhood context"}
+
+
+def _arch_text(r: dict) -> str:
+    kind = r.get("model_kind") or "unet"
+    if kind == "ensemble":
+        deep = ARCH_NAMES.get(r.get("blend_deep", "model"), "a deep network")
+        text = f"{deep} and a LightGBM pixel model, blended habitat by habitat with weights picked on validation areas"
+    else:
+        text = ARCH_NAMES.get(kind, kind)
+    n = len(r.get("leaderboard") or {})
+    return text + (f" (best of {n} models compared on the same validation areas)" if n > 2 else "")
+
+
 def _kelp(out: Path) -> None:
     """Kelp pages from demo_kelp/ (scripts/kelp_pipeline.py): index + per-site canopy overlay."""
     src = ROOT / "demo_kelp"
@@ -438,11 +455,7 @@ def _accuracy(out: Path, doc: dict) -> None:
     parts = ['<h2 id="model">This model</h2><table><tbody>',
              f"<tr><th>Version</th><td>BlueCarbon-AI v2, code {h.escape(r.get('code_version', '?'))}, "
              f"published {h.escape(r.get('installed', ''))}</td></tr>",
-             "<tr><th>Architecture</th><td>" + {
-                 "ensemble": "U-Net (ResNet-34 encoder) and a LightGBM pixel model, blended habitat by habitat with "
-                             "weights picked on validation areas",
-                 "spectral": "LightGBM pixel model with neighbourhood context",
-             }.get(r.get("model_kind"), "U-Net (ResNet-34 encoder)") + " on Sentinel-2 bands and indices, "
+             "<tr><th>Architecture</th><td>" + _arch_text(r) + " on Sentinel-2 bands and indices, "
              "clear-water bands, elevation, tidal-wetland probability and Sentinel-1 radar</td></tr>",
              f"<tr><th>Training data</th><td>{doc['summary'].get('n_train_sites', '?')} coastal sites in "
              f"{doc['summary'].get('n_countries', '?')} countries, 2020-2022 imagery; answer keys from published maps "

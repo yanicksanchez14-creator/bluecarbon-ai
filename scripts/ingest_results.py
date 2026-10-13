@@ -234,7 +234,12 @@ def model_report(res_dir: Path) -> dict:
     best = (f("best.txt").read_text().split()[0] if f("best.txt") else "unet")
     rep["model_kind"] = best
     # scores of the model that is actually installed (U-Net, LightGBM or the blend of both)
-    src = {"ensemble": "ensemble_metrics.json", "spectral": "spectral_metrics.json"}.get(best, "metrics.json")
+    src = {"ensemble": "ensemble_metrics.json", "spectral": "spectral_metrics.json",
+           "unet": "metrics.json"}.get(best, f"{best}_metrics.json")
+    if best == "ensemble" and (p := f("ensemble_metrics.json")):
+        rep["blend_deep"] = Path(json.loads(p.read_text()).get("deep", "model.pt")).stem
+    if (p := f("scores.json")):
+        rep["leaderboard"] = {k: v["val_blue_iou"] for k, v in json.loads(p.read_text()).items()}
     if (p := f(src) or f("metrics.json")):
         m = json.loads(p.read_text())
         if m.get("test"):

@@ -128,11 +128,12 @@ def per_site(ens, records, split: str = "test", tta: bool = True) -> tuple[dict,
     return out, pooled
 
 
-def build(model_dir: Path, records, device: str = "auto", tta: bool = True, log=print) -> dict:
-    """Tune, score and write model_dir/ensemble.ensemble.json + ensemble_metrics.json. Returns the metrics."""
+def build(model_dir: Path, records, device: str = "auto", tta: bool = True, log=print, deep: str = "model.pt") -> dict:
+    """Tune, score and write model_dir/ensemble.ensemble.json + ensemble_metrics.json. Returns the metrics.
+    `deep` is the network blended with LightGBM (the main U-Net, or whichever competitor did best)."""
     from .predictors import EnsemblePredictor, SpectralPredictor, TorchPredictor
 
-    unet, lgbm = TorchPredictor(model_dir / "model.pt", device), SpectralPredictor(model_dir / "spectral.json")
+    unet, lgbm = TorchPredictor(model_dir / deep, device), SpectralPredictor(model_dir / "spectral.json")
     ens = EnsemblePredictor(unet=unet, lgbm=lgbm, weights=np.ones(N_CLASSES))
     val = collect(ens, records, "val", tta, log=log)
     if val is None:
@@ -141,7 +142,7 @@ def build(model_dir: Path, records, device: str = "auto", tta: bool = True, log=
     s_unet, s_lgbm = score(pu, ps, y, np.ones(N_CLASSES)), score(pu, ps, y, np.zeros(N_CLASSES))
     w, s_blend = tune(pu, ps, y)
     enabled = s_blend >= max(s_unet, s_lgbm) + MIN_GAIN
-    log(f"ensemble val blue-carbon IoU: U-Net {s_unet:.3f}  LightGBM {s_lgbm:.3f}  blend {s_blend:.3f} "
+    log(f"ensemble val blue-carbon IoU: {deep} {s_unet:.3f}  LightGBM {s_lgbm:.3f}  blend {s_blend:.3f} "
         f"-> {'ON' if enabled else 'off (not better enough)'}")
     log("  U-Net share per class: " + ", ".join(f"{c.key} {x:.2f}" for c, x in zip(CLASSES, w, strict=False)))
     ens.weights = w
@@ -151,7 +152,8 @@ def build(model_dir: Path, records, device: str = "auto", tta: bool = True, log=
     metrics = {"val_blue_iou": {"unet": s_unet, "spectral": s_lgbm, "ensemble": s_blend}, "enabled": bool(enabled),
                "weights": {c.key: float(x) for c, x in zip(CLASSES, w, strict=False)}, "min_gain": MIN_GAIN,
                "test": summarize(cm) if cm.sum() else None, "test_confusion": cm.tolist(), "test_per_site": sites}
-    spec = {"unet": "model.pt", "spectral": "spectral.json", "weights": [float(x) for x in w], "metrics": metrics}
+    metrics["deep"] = deep
+    spec = {"unet": deep, "spectral": "spectral.json", "weights": [float(x) for x in w], "metrics": metrics}
     (model_dir / "ensemble.ensemble.json").write_text(json.dumps(spec, indent=2))
     (model_dir / "ensemble_metrics.json").write_text(json.dumps(metrics, indent=2))
     return metrics

@@ -113,6 +113,23 @@ def main() -> None:
         except Exception as e:
             problems.append(f"sample download failed: {str(e)[:150]}")
 
+    try:  # competing networks: fetch the NASA/IBM Prithvi weights now (cached), so training doesn't wait or fail
+        from huggingface_hub import hf_hub_download
+
+        from bluecarbon.prithvi import HF_FILES, HF_REPO
+
+        for name in HF_FILES:
+            try:
+                hf_hub_download(HF_REPO, name)
+                print(f"  ok    Prithvi weights ({name})", flush=True)
+                break
+            except Exception as e:
+                last = e
+        else:
+            raise last
+    except Exception as e:
+        warnings.append(f"Prithvi weights not downloadable ({str(e)[:100]}); that candidate will be skipped")
+
     flag = ROOT / "runs" / "default" / "PREFLIGHT_FAILED.txt"   # retrain.py refuses to start while this exists
     flag.parent.mkdir(parents=True, exist_ok=True)
     if problems:

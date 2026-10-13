@@ -13,6 +13,7 @@ PUBLISH verdict in `compare.txt`.
 | 2 new held-out estuaries (Brisbane Water, Ribble) | `held_out_check.txt`, `compare.txt`, `metrics.json` test_per_site | Accuracy page: 7 estuaries in tables, score cards, summary text; "five estuaries" wording everywhere -> seven |
 | Meta 1 m canopy height + GEDI height-to-biomass fit | `site_biomass.json` (meta_h_mean, hb_*, height_agb_mean) | Site pages already render it (explore.js lidar note); check it reads well; error table row for biomass |
 | 200-point spot-check per held-out site | `spotcheck.csv` | Do the by-eye check (fill `by_eye`), then publish agreement % on the Accuracy page |
+| U-Net + LightGBM blend (on only if it beats both on validation) | `ensemble_metrics.json`, blend line in `held_out_check.txt`, extra columns in `compare.txt`; `best.txt` says `ensemble` if it won | Accuracy "Architecture" row switches automatically (model_report `model_kind`); methodology already describes it |
 | Model version / date | `code_version.txt`, model card | Footer version and Accuracy "This model" row (automatic from model_report.json) |
 
 Also after ingest: refresh_carbon (area cap), rebuild site, Lighthouse check, and update the product plan doc

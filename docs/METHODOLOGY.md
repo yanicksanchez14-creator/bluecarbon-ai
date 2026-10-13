@@ -120,6 +120,12 @@ this run, so those sites used the global maps; they are retried in the next run.
   Fundy, China, India, Myanmar, Madagascar, Senegal, Colombia and Panama.
 - **Seven held-out estuaries**, adding Brisbane Water (New South Wales: seagrass, mangrove, salt marsh) and the
   Ribble Estuary (England: salt marsh).
+- **U-Net + LightGBM blend.** The two models fail in different places (in the October 13 run LightGBM scored 0.81
+  on Mission Bay seagrass against the U-Net's 0.07, and the U-Net 0.78 on Tampa Bay seagrass against 0.30). Their
+  class probabilities are now blended habitat by habitat, p = w x p(U-Net) + (1 - w) x p(LightGBM), with each weight
+  w picked from 0, 0.25, 0.5, 0.75, 1 on validation areas only. The blend is used only if it beats both single models
+  on validation by at least 0.005; the publishing comparison then shows the live model, the U-Net, LightGBM and the
+  blend on the same held-out estuaries.
 - **Spot-check.** 200 points per held-out estuary (`spotcheck.csv`), half random and half on mapped blue carbon
   habitat, each with the model's class, the reference label and a link to high-resolution imagery, for a check by eye.
 

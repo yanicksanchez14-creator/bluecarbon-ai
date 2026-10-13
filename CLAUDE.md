@@ -29,6 +29,9 @@ Order of work (status locked in Oct 12 2026; the Doc's "Status" table is the det
    if held-out improves); tide-relative elevation; Plum Island false seagrass; Mission Bay edges.
    DONE Oct 12: source labels, GMW change check, live-tool sources CSV, page weight/mobile. Then the owner said:
    no new code until this run's results are in.
+   Oct 13: run cd6d006 came back worse (REVIEW). Fixed in cf3ea39 (fetch order so every site gets radar/L-band;
+   seafloor rule capped at 25%). Owner approved the U-Net + LightGBM blend: coded Oct 13 (`bluecarbon ensemble`,
+   runs inside `train --kind both`; on only if it beats both models on validation; compare shows all of them).
 5. LATER: Sanderman 2018 mangrove soil carbon (not in Earth Engine: the owner downloads the 30 m map from Harvard
    Dataverse, ~1 GB, then wire it in as a 2nd soil source with a disagreement flag); kelp Tasmania/Chile/South Africa; Puget Sound eelgrass (needs a better survey); Netherlands and China
    official marsh maps. Paid upgrades only with the owner's decision.

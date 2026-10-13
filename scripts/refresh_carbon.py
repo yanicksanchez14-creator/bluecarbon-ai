@@ -19,12 +19,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def _model_pr() -> tuple[dict, dict]:
     """Precision and recall per class on the live model's test set (the same errors the correction uses)."""
-    import torch
+    from bluecarbon.predictors import model_card
 
     cur = ROOT / "models" / (ROOT / "models" / "current.txt").read_text().strip()
-    if cur.suffix != ".pt":
-        return {}, {}
-    t = (torch.load(cur, map_location="cpu", weights_only=False).get("metrics") or {}).get("test") or {}
+    t = (model_card(cur).get("metrics") or {}).get("test") or {}
     return t.get("precision") or {}, t.get("recall") or {}
 
 

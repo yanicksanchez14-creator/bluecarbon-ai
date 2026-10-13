@@ -20,7 +20,7 @@ from pathlib import Path
 
 import numpy as np
 
-from bluecarbon.predictors import is_spectral, model_card
+from bluecarbon.predictors import is_ensemble, is_spectral, model_card
 from bluecarbon.schema import CLASS_KEYS, CLASSES
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +44,23 @@ PILOT_PATHS = ["models/pilot_spectral_mission_bay_2018.json", "data/pilot", "scr
 
 
 def install_model(src: Path) -> tuple[Path, dict]:
+    if is_ensemble(src):  # blend: install both models, then the small file that points at them
+        d = json.loads(src.read_text())
+        unet, _ = install_model(src.parent / d["unet"])
+        lgbm, _ = install_model(src.parent / d["spectral"])
+        d.update(unet=unet.name, spectral=lgbm.name)
+        dst = ROOT / "models" / "bluecarbon_v2.ensemble.json"
+        dst.write_text(json.dumps(d, indent=2))
+        (ROOT / "models" / "current.txt").write_text(dst.name + "\n")
+        from bluecarbon.seagrass import specialist_path_for
+
+        sp, to = specialist_path_for(src), specialist_path_for(dst)
+        if sp.exists():
+            shutil.copy(sp, to)
+        elif to.exists():
+            to.unlink()
+        print(f"model -> {dst.relative_to(ROOT)} (U-Net {unet.name} + LightGBM {lgbm.name})")
+        return dst, model_card(dst)
     spectral = is_spectral(src)
     dst = ROOT / "models" / ("bluecarbon_v2.json" if spectral else "bluecarbon_v2.pt")
     if spectral:
@@ -213,8 +230,15 @@ def model_report(res_dir: Path) -> dict:
         rep["code_version"] = p.read_text().split()[0]
     if (p := f("metrics.json")):
         m = json.loads(p.read_text())
-        rep["test"] = {k: m["test"].get(k) for k in ("mIoU", "iou", "overall_accuracy")}
         rep["best_epoch"], rep["epochs_run"] = m.get("best_epoch"), len(m.get("history") or [])
+    best = (f("best.txt").read_text().split()[0] if f("best.txt") else "unet")
+    rep["model_kind"] = best
+    # scores of the model that is actually installed (U-Net, LightGBM or the blend of both)
+    src = {"ensemble": "ensemble_metrics.json", "spectral": "spectral_metrics.json"}.get(best, "metrics.json")
+    if (p := f(src) or f("metrics.json")):
+        m = json.loads(p.read_text())
+        if m.get("test"):
+            rep["test"] = {k: m["test"].get(k) for k in ("mIoU", "iou", "overall_accuracy")}
         rep["test_per_site"] = {s: v.get("iou") for s, v in (m.get("test_per_site") or {}).items()}
     if (p := f("label_summary.json")):
         rep["n_sites"] = len(json.loads(p.read_text()))

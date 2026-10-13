@@ -25,8 +25,9 @@ def _window(size: int) -> np.ndarray:
 def predict_array(model: nn.Module, norm: Normalizer, bands: np.ndarray, tile: int = 256, overlap: int = 64,
                   tta: bool = True, batch: int = 8, device=None, progress=None,
                   anc: np.ndarray | None = None, names: list[str] | None = None,
-                  class_bias: list[float] | None = None) -> tuple[np.ndarray, np.ndarray]:
-    """(C,H,W) raw S2 bands -> (class map uint8 with 255 = nodata, confidence float32 0..1).
+                  class_bias: list[float] | None = None, return_prob: bool = False):
+    """(C,H,W) raw S2 bands -> (class map uint8 with 255 = nodata, confidence float32 0..1); with return_prob
+    also the (N_CLASSES, H, W) probabilities (for blending with another model).
 
     `names`: the model's feature list (from its checkpoint). `class_bias`: per-class log-probability
     offsets tuned on validation data (e.g. how readily to call seagrass)."""
@@ -71,6 +72,8 @@ def predict_array(model: nn.Module, norm: Normalizer, bands: np.ndarray, tile: i
     cls = prob.argmax(0).astype(np.uint8)
     conf = prob.max(0)
     cls[~valid_mask(bands)] = IGNORE_INDEX
+    if return_prob:
+        return cls, conf, prob
     return cls, conf
 
 

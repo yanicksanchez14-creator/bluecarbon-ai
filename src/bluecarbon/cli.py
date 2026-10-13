@@ -187,11 +187,23 @@ def train(config: str = CfgOpt, kind: str = typer.Option("both", help="spectral 
 
         res = run(cfg, recs, out)
         scores["unet"] = (_blue_score(res.get("val")), out / "model.pt")
+    if kind == "both":
+        try:  # U-Net + LightGBM blended per habitat; competes for best only if it beat both on validation
+            from .ensemble import build
+
+            for stale in (out / "ensemble.ensemble.json", out / "ensemble_metrics.json"):
+                stale.unlink(missing_ok=True)
+            m = build(out, recs, cfg.train.device, log=typer.echo)
+            if m["enabled"]:
+                scores["ensemble"] = (m["val_blue_iou"]["ensemble"], out / "ensemble.ensemble.json")
+        except Exception as e:  # never lose the two trained models over the blend
+            typer.echo(f"ensemble skipped: {e}")
     best = max(scores, key=lambda k: scores[k][0])
     src = scores[best][1]
     for stale in out.glob("best.*"):  # never leave a previous run's winner behind
         stale.unlink()
-    shutil.copy(src, out / ("best" + src.suffix))
+    if best != "ensemble":  # (the blend file points at model.pt + spectral.json, so it is named directly)
+        shutil.copy(src, out / ("best" + src.suffix))
     (out / "best.txt").write_text(f"{best} {src.name} blue-carbon val IoU {scores[best][0]:.3f}\n")
     typer.echo({k: round(v[0], 3) for k, v in scores.items()})
     typer.echo(f"best model: {best} -> {out / ('best' + src.suffix)}")
@@ -384,9 +396,22 @@ def biomass(config: str = CfgOpt, demo: Path = typer.Option(Path("demo_data"), h
 
 
 @app.command()
+def ensemble(config: str = CfgOpt, device: str = typer.Option(None)):
+    """(Re)tune the U-Net + LightGBM blend on validation chips from an existing model/model.pt + spectral.json."""
+    from .ensemble import build
+    from .tiling import read_index
+
+    cfg = _cfg(config)
+    m = build(cfg.work / "model", read_index(cfg.work / "chips" / "index.json"), device or cfg.train.device,
+              log=typer.echo)
+    typer.echo(json.dumps({k: m[k] for k in ("val_blue_iou", "enabled", "weights")}, indent=2))
+
+
+@app.command()
 def compare(new: Path = typer.Option(..., help="Newly trained model"),
             live: Path = typer.Option(..., help="Model currently on the website"),
-            config: str = CfgOpt, sites: str = SitesOpt, out: Path = typer.Option(None)):
+            config: str = CfgOpt, sites: str = SitesOpt, out: Path = typer.Option(None),
+            also: list[str] = typer.Option(None, help="extra models to show for information, as name=path")):
     """Grade the live and the new model on the SAME held-out estuaries and the SAME current labels.
 
     Prints per-estuary IoU for each blue carbon habitat, the change, and a verdict: PUBLISH when the new
@@ -402,6 +427,12 @@ def compare(new: Path = typer.Option(..., help="Newly trained model"),
 
     cfg, s = _cfg(config), _sites(sites)
     models = {"live": load_predictor(live, cfg.train.device), "new": load_predictor(new, cfg.train.device)}
+    extra = []
+    for item in also or []:
+        name, _, path = item.partition("=")
+        if Path(path).exists() and Path(path).resolve() != Path(new).resolve():
+            models[name] = load_predictor(path, cfg.train.device)
+            extra.append(name)
     rows, lines = {}, []
     for site in [x for x in s["sites"] if x.get("role") == "test"]:
         d = cfg.work / "sites" / site["name"]
@@ -419,13 +450,16 @@ def compare(new: Path = typer.Option(..., help="Newly trained model"),
                 cls, _ = pr.predict(bands, cfg.predict.tile, cfg.predict.overlap, cfg.predict.tta, anc=anc)
             except ValueError as e:  # e.g. a layer this model needs is missing for this site
                 lines.append(f"  SKIPPED {site['name']}: the {name} model cannot run here ({str(e)[:90]})")
+                if name in extra:
+                    continue
                 row = None
                 break
             row[name] = summarize(confusion(ref, apply_to_classes(cls, lat)))["iou"]
         if row:
             rows[site["name"]] = row
     lines.insert(0, "LIVE vs NEW on the same held-out estuaries and current labels (IoU)")
-    lines.append(f"  {'estuary':20s} {'habitat':10s} {'live':>6s} {'new':>6s} {'change':>7s}")
+    lines.append(f"  {'estuary':20s} {'habitat':10s} {'live':>6s} {'new':>6s} {'change':>7s}"
+                 + "".join(f" {n[:9]:>9s}" for n in extra))
     worst, live_v, new_v = 0.0, [], []
     for site, r in rows.items():
         for k in BLUE_CARBON_KEYS:
@@ -436,10 +470,15 @@ def compare(new: Path = typer.Option(..., help="Newly trained model"),
             live_v.append(a)
             new_v.append(b)
             worst = min(worst, b - a)
-            lines.append(f"  {site:20s} {k:10s} {a:6.2f} {b:6.2f} {b - a:+7.2f}")
+            info = "".join(f" {'-' if r.get(n, {}).get(k) is None else f'{r[n][k]:.2f}':>9s}" for n in extra)
+            lines.append(f"  {site:20s} {k:10s} {a:6.2f} {b:6.2f} {b - a:+7.2f}{info}")
     if new_v:
         ok = np.mean(new_v) >= np.mean(live_v) and worst >= -0.05
         lines.append(f"  mean blue carbon IoU: live {np.mean(live_v):.3f}  new {np.mean(new_v):.3f}  largest drop {worst:+.2f}")
+        for n in extra:  # same estuary/habitat cells as the verdict, for information
+            v = [(r.get(n, {}).get(k) or 0.0) for r in rows.values() for k in BLUE_CARBON_KEYS
+                 if not (r["live"].get(k) is None and r["new"].get(k) is None)]
+            lines.append(f"  (for information) {n}: mean blue carbon IoU {np.mean(v):.3f}")
         lines.append(f"  VERDICT: {'PUBLISH' if ok else 'REVIEW (new model is worse somewhere; read the table)'}")
     text = "\n".join(lines)
     typer.echo(text)

@@ -90,7 +90,7 @@ def held_out_check() -> str:
 
     sites = [s["name"] for s in yaml.safe_load(Path("configs/sites.yaml").read_text())["sites"] if s.get("role") == "test"]
     lines = ["HELD-OUT ESTUARIES (never used in training)", ""]
-    for f, label in (("spectral_metrics.json", "spectral"), ("metrics.json", "unet")):
+    for f, label in (("spectral_metrics.json", "spectral"), ("metrics.json", "unet"), ("ensemble_metrics.json", "blend")):
         p = WORK / "model" / f
         if not p.exists():
             continue
@@ -116,6 +116,14 @@ def held_out_check() -> str:
                 warn.append(f"  WARNING {s}: {c} mapped {m:.0f} ha vs reference {r:.0f} ha")
         lines.append(f"  {s:22s}" + "  ".join(row))
     lines += [""] + (warn or ["  all held-out blue carbon areas within 3x of reference"])
+    ep = WORK / "model" / "ensemble_metrics.json"
+    if ep.exists():
+        e = json.loads(ep.read_text())
+        v = e.get("val_blue_iou", {})
+        lines += ["", f"U-Net + LightGBM blend ({'ON' if e.get('enabled') else 'off: not better on validation'}), "
+                      f"validation blue-carbon IoU: U-Net {v.get('unet', 0):.3f}  LightGBM {v.get('spectral', 0):.3f}  "
+                      f"blend {v.get('ensemble', 0):.3f}",
+                  "  U-Net share per habitat: " + ", ".join(f"{k} {w:.2f}" for k, w in e.get("weights", {}).items())]
     from bluecarbon.seagrass import specialist_path_for
 
     try:
@@ -180,7 +188,10 @@ def main() -> None:
     live = Path("models") / Path("models/current.txt").read_text().strip() if Path("models/current.txt").exists() else None
     if live and live.exists():  # grade the website's model and the new one on the same estuaries + labels
         try:
-            run("bluecarbon", "compare", "--new", str(best), "--live", str(live), "--out", str(WORK / "compare.txt"))
+            m = WORK / "model"
+            run("bluecarbon", "compare", "--new", str(best), "--live", str(live), "--out", str(WORK / "compare.txt"),
+                "--also", f"unet={m / 'model.pt'}", "--also", f"lightgbm={m / 'spectral.json'}",
+                "--also", f"blend={m / 'ensemble.ensemble.json'}")
         except subprocess.CalledProcessError:
             print("live vs new comparison failed", flush=True)
     try:  # seagrass specialist: second opinion on water/seagrass, saved switched off unless it helps
@@ -230,12 +241,15 @@ def main() -> None:
     except subprocess.CalledProcessError:
         print("spot-check sample failed; the rest of the results are unaffected", flush=True)
     shutil.copy(best, out / best.name)
+    if best.name.endswith(".ensemble.json"):  # the blend needs both of its models next to it
+        for f in ("model.pt", "spectral.json"):
+            shutil.copy(WORK / "model" / f, out / f)
     from bluecarbon.seagrass import specialist_path_for
 
     if specialist_path_for(best).exists():
         shutil.copy(specialist_path_for(best), out / specialist_path_for(best).name)
     shutil.copy(WORK / "model" / "best.txt", out / "best.txt")
-    for f in ("spectral_metrics.json", "metrics.json", "seafloor_mask.json"):
+    for f in ("spectral_metrics.json", "metrics.json", "ensemble_metrics.json", "seafloor_mask.json"):
         if (WORK / "model" / f).exists():
             shutil.copy(WORK / "model" / f, out / f)
     labels = {p.parent.name: json.loads(p.read_text()).get("label_px") for p in (WORK / "sites").glob("*/meta.json")}

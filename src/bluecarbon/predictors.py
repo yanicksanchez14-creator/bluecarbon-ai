@@ -63,8 +63,58 @@ class SpectralPredictor(Predictor):
         return out
 
 
+class EnsemblePredictor(Predictor):
+    """The U-Net and the LightGBM model blended per pixel: p = w_c * p_unet + (1 - w_c) * p_lgbm for each class c,
+    with the weights w_c tuned on validation tiles (`bluecarbon ensemble`). Defined by a small
+    <name>.ensemble.json next to both models: {"unet": "model.pt", "spectral": "spectral.json", "weights": [...]}."""
+
+    kind = "ensemble"
+
+    def __init__(self, path: str | Path | None = None, device: str = "auto", *, unet=None, lgbm=None, weights=None):
+        d = json.loads(Path(path).read_text()) if path else {}
+        base = Path(path).parent if path else Path(".")
+        self.unet = unet or TorchPredictor(base / d["unet"], device)
+        self.lgbm = lgbm or SpectralPredictor(base / d["spectral"])
+        self.weights = np.asarray(d["weights"] if weights is None else weights, np.float32)
+        self.needs_ancillary = self.unet.needs_ancillary or self.lgbm.needs_ancillary
+        self.features = sorted(set(self.unet.features) | set(self.lgbm.features))
+        self.meta = {**self.unet.meta, "kind": self.kind, "arch": f"{self.unet.meta['arch']} + LightGBM",
+                     "metrics": {**self.unet.meta.get("metrics", {}), **d.get("metrics", {})},
+                     "ensemble": {k: v for k, v in d.items() if k != "metrics"} | {"weights": self.weights.tolist()}}
+
+    def probs(self, bands, tile=256, overlap=64, tta=True, progress=None, anc=None):
+        """(U-Net probabilities, LightGBM probabilities), each (N_CLASSES, H, W)."""
+        from .predict import predict_array
+
+        u = self.unet
+        _, _, pu = predict_array(u.model, u.norm, bands, tile, overlap, tta, progress=progress,
+                                 anc=u._check_anc(anc), names=u.features, class_bias=u.class_bias, return_prob=True)
+        ps = self.lgbm.model.predict_proba(bands, anc=self.lgbm._check_anc(anc))
+        return pu, ps
+
+    def predict(self, bands, tile=256, overlap=64, tta=True, progress=None, anc=None):
+        from .features import valid_mask
+        from .schema import IGNORE_INDEX
+
+        prob = blend(*self.probs(bands, tile, overlap, tta, progress, anc), self.weights)
+        cls = prob.argmax(0).astype(np.uint8)
+        cls[~valid_mask(bands)] = IGNORE_INDEX
+        return cls, prob.max(0).astype(np.float32)
+
+
+def blend(pu: np.ndarray, ps: np.ndarray, w: np.ndarray) -> np.ndarray:
+    n = min(pu.shape[0], ps.shape[0], len(w))
+    return w[:n, None, None] * pu[:n] + (1 - w[:n, None, None]) * ps[:n]
+
+
+def is_ensemble(path: str | Path) -> bool:
+    return str(path).endswith(".ensemble.json")
+
+
 def is_spectral(path: str | Path) -> bool:
     p = Path(path)
+    if is_ensemble(p):
+        return False
     if p.suffix == ".json":
         return True
     with open(p, "rb") as f:
@@ -87,7 +137,10 @@ class _WithSeagrass(Predictor):
 
 
 def load_predictor(path: str | Path, device: str = "auto", seagrass: bool = True) -> Predictor:
-    base = SpectralPredictor(path) if is_spectral(path) else TorchPredictor(path, device)
+    if is_ensemble(path):
+        base = EnsemblePredictor(path, device)
+    else:
+        base = SpectralPredictor(path) if is_spectral(path) else TorchPredictor(path, device)
     if seagrass:
         from .seagrass import SeagrassSpecialist, specialist_path_for
 
@@ -101,6 +154,12 @@ def load_predictor(path: str | Path, device: str = "auto", seagrass: bool = True
 
 def model_card(path: str | Path) -> dict:
     """Metadata for display without loading weights into a network."""
+    if is_ensemble(path):
+        d = json.loads(Path(path).read_text())
+        card = model_card(Path(path).parent / d["unet"])
+        return {**card, "kind": "ensemble", "arch": f"{card['arch']} + LightGBM",
+                "ensemble": {k: v for k, v in d.items() if k != "metrics"},
+                "metrics": {**card.get("metrics", {}), **d.get("metrics", {})}}
     if is_spectral(path):
         d = json.loads(Path(path).read_text())
         return {"arch": "LightGBM", "encoder": "spectral-context", "kind": d["kind"], "metrics": d.get("metrics", {}),

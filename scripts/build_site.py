@@ -438,7 +438,11 @@ def _accuracy(out: Path, doc: dict) -> None:
     parts = ['<h2 id="model">This model</h2><table><tbody>',
              f"<tr><th>Version</th><td>BlueCarbon-AI v2, code {h.escape(r.get('code_version', '?'))}, "
              f"published {h.escape(r.get('installed', ''))}</td></tr>",
-             "<tr><th>Architecture</th><td>U-Net (ResNet-34 encoder) on 25 inputs: Sentinel-2 bands and indices, "
+             "<tr><th>Architecture</th><td>" + {
+                 "ensemble": "U-Net (ResNet-34 encoder) and a LightGBM pixel model, blended habitat by habitat with "
+                             "weights picked on validation areas",
+                 "spectral": "LightGBM pixel model with neighbourhood context",
+             }.get(r.get("model_kind"), "U-Net (ResNet-34 encoder)") + " on Sentinel-2 bands and indices, "
              "clear-water bands, elevation, tidal-wetland probability and Sentinel-1 radar</td></tr>",
              f"<tr><th>Training data</th><td>{doc['summary'].get('n_train_sites', '?')} coastal sites in "
              f"{doc['summary'].get('n_countries', '?')} countries, 2020-2022 imagery; answer keys from published maps "

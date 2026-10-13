@@ -5,7 +5,7 @@ const BC = (() => {
   const BLUE = ["mangrove", "saltmarsh", "seagrass"];
   let cache = null;
 
-  const load = () => cache || (cache = fetch("data/sites.json").then(r => {
+  const load = () => cache || (cache = fetch("data/sites.json", { cache: "no-cache" }).then(r => {
     if (!r.ok) throw new Error(`sites.json: ${r.status}`);
     return r.json();
   }));

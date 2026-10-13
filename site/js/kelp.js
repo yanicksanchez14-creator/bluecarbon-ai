@@ -284,7 +284,7 @@
       card("Where the canopy is", cm.r2 != null ? cm.r2.toFixed(2) : "–", "r² of canopy in each 300 m cell, so it is in the right place");
   }
 
-  fetch("data/kelp.json").then(r => r.ok ? r.json() : null).then(d => {
+  fetch("data/kelp.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : null).then(d => {
     if (!d || !d.sites || !d.sites.length) {
       $("kpanel").innerHTML = `<span class="badge">In calibration</span><h1>First results soon</h1>`;
       return;

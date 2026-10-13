@@ -160,7 +160,7 @@
     const kwv = v.kw ? `${BC.fmt(v.kw.ha)} <small>ha</small>` : "–";
     const why = !v.ours && tnum(y, q) < 2016 ? "Before Sentinel-2: the canopy shown is Kelpwatch's Landsat record."
       : !v.ours ? "No clear Sentinel-2 view this quarter." : v.ours.coverage < 0.5 ? "Under half the area was clear of cloud this quarter." : "";
-    $("kpanel").innerHTML = `<span class="badge${s.held_out ? "" : " train"}">${s.held_out ? "Left out of calibration" : "Calibration site"}</span>
+    $("kpanel").innerHTML = `<span class="badge${s.held_out ? "" : " train"}">${s.held_out ? "Left out of calibration" : "Calibration site"}</span>${s.preliminary ? ' <span class="badge prelim">Preliminary</span>' : ""}
       <h1>${BC.esc(s.title)}</h1><p class="where">${BC.esc(s.region)}, ${BC.esc(s.species)}</p>
       <p class="kx-q">${qlab(y, q)}</p>
       <div class="kpis kx-kpis">
@@ -170,7 +170,9 @@
       ${why ? `<p class="small-note">${why}</p>` : ""}
       ${(() => { const sc = (s.score || {}).site_quarter_ha; const tt = (s.sst || []).find(r => r.year === y && r.quarter === q);
         return (tt ? `<p class="kx-sstnote">Sea temperature ${tt.c.toFixed(1)}°C, <b class="${tt.anom > 0.7 ? "bad" : tt.anom < -0.7 ? "good" : ""}">${tt.anom >= 0 ? "+" : ""}${tt.anom.toFixed(1)}°C</b> vs the 1984–2013 normal for this quarter</p>` : "")
-          + (sc && sc.rmse != null ? `<p class="kx-score">Checked against Kelpwatch on this bed (${BC.esc(s.score.how)}): typical error ±${BC.fmt(sc.rmse)} ha a quarter, bias ${sc.bias > 0 ? "+" : ""}${BC.fmt(sc.bias)} ha${sc.r2 != null ? `, r² ${sc.r2.toFixed(2)}` : ""}.</p>` : ""); })()}
+          + (sc && sc.rmse != null ? `<p class="kx-score">Sentinel-2, checked against Kelpwatch on this bed (${BC.esc(s.score.how)}): typical error ±${BC.fmt(sc.rmse)} ha a quarter, bias ${sc.bias > 0 ? "+" : ""}${BC.fmt(sc.bias)} ha${sc.r2 != null ? `, r² ${sc.r2.toFixed(2)}` : ""}.</p>` : "")
+          + (() => { const l = (s.score_landsat || {}).site_quarter_ha; return l && l.rmse != null ? `<p class="kx-score">Our Landsat record 1984–2015 on this bed (left out of its own fit): typical error ±${BC.fmt(l.rmse)} ha a quarter${l.r2 != null ? `, r² ${l.r2.toFixed(2)}` : ""}${l.r2 != null && l.r2 < 0.3 ? " — weak here, read the trend from Kelpwatch" : ""}.</p>` : ""; })()
+          + (s.preliminary ? `<p class="kx-score">New bed: its Sentinel-2 settings are still being refined, so treat its numbers as preliminary.</p>` : ""); })()}
       <h2>The long view</h2>
       <dl class="kx-dl">
         ${st.before != null ? `<div><dt>Average yearly peak, 1984–2013</dt><dd>${BC.fmt(st.before)} ha</dd></div>` : ""}

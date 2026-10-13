@@ -481,3 +481,4 @@ details.more-detail summary { cursor: pointer; font-weight: 500; padding: 6px 0;
 .kstory { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 @media (max-width: 760px) { .kstory-t { font-size: 13px; } .kstory-t th:nth-child(4), .kstory-t td:nth-child(4),
   .kstory-t th:nth-child(6), .kstory-t td:nth-child(6) { display: none; } .kstory-t .spark { width: 80px; } }
+.kx-panel .badge.prelim { background: #e8c46a; color: var(--deep); }

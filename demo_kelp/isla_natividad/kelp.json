@@ -1,0 +1,3619 @@
+{
+ "name": "isla_natividad",
+ "title": "Isla Natividad",
+ "region": "Pacific coast, Baja California Sur",
+ "species": "giant kelp",
+ "zone": "giant kelp",
+ "held_out": false,
+ "bbox": [
+  -115.26,
+  27.82,
+  -115.12,
+  27.92
+ ],
+ "bounds": [
+  [
+   27.818008036920475,
+   -115.26162240057782
+  ],
+  [
+   27.922003191661904,
+   -115.11813390969903
+  ]
+ ],
+ "series": [
+  {
+   "year": 2016,
+   "quarter": 1,
+   "canopy_ha": 0.99,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2016,
+   "quarter": 2,
+   "canopy_ha": 1.19,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2016,
+   "quarter": 3,
+   "canopy_ha": 8.23,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 2.7
+  },
+  {
+   "year": 2016,
+   "quarter": 4,
+   "canopy_ha": 32.7,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 25.27
+  },
+  {
+   "year": 2017,
+   "quarter": 1,
+   "canopy_ha": 44.19,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 19.87
+  },
+  {
+   "year": 2017,
+   "quarter": 2,
+   "canopy_ha": 56.53,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 60.39
+  },
+  {
+   "year": 2017,
+   "quarter": 3,
+   "canopy_ha": 103.35,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 103.57
+  },
+  {
+   "year": 2017,
+   "quarter": 4,
+   "canopy_ha": 45.94,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 76.17
+  },
+  {
+   "year": 2018,
+   "quarter": 1,
+   "canopy_ha": 64.84,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 122.28
+  },
+  {
+   "year": 2018,
+   "quarter": 2,
+   "canopy_ha": 279.07,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 592.13
+  },
+  {
+   "year": 2018,
+   "quarter": 3,
+   "canopy_ha": 237.52,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 104.37
+  },
+  {
+   "year": 2018,
+   "quarter": 4,
+   "canopy_ha": 2.62,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 12.84
+  },
+  {
+   "year": 2019,
+   "quarter": 1,
+   "canopy_ha": 34.12,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 37.44
+  },
+  {
+   "year": 2019,
+   "quarter": 2,
+   "canopy_ha": 134.54,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 158.06
+  },
+  {
+   "year": 2019,
+   "quarter": 3,
+   "canopy_ha": 163.56,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 221.9
+  },
+  {
+   "year": 2019,
+   "quarter": 4,
+   "canopy_ha": 51.37,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 79.1
+  },
+  {
+   "year": 2020,
+   "quarter": 1,
+   "canopy_ha": 66.64,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 69.07
+  },
+  {
+   "year": 2020,
+   "quarter": 2,
+   "canopy_ha": 153.42,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 215.72
+  },
+  {
+   "year": 2020,
+   "quarter": 3,
+   "canopy_ha": 163.28,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 169.44
+  },
+  {
+   "year": 2020,
+   "quarter": 4,
+   "canopy_ha": 24.79,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 20.0
+  },
+  {
+   "year": 2021,
+   "quarter": 1,
+   "canopy_ha": 82.75,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 81.51
+  },
+  {
+   "year": 2021,
+   "quarter": 2,
+   "canopy_ha": 180.35,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 213.28
+  },
+  {
+   "year": 2021,
+   "quarter": 3,
+   "canopy_ha": 181.23,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 216.24
+  },
+  {
+   "year": 2021,
+   "quarter": 4,
+   "canopy_ha": 24.54,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 20.43
+  },
+  {
+   "year": 2022,
+   "quarter": 1,
+   "canopy_ha": 45.98,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 66.56
+  },
+  {
+   "year": 2022,
+   "quarter": 2,
+   "canopy_ha": 112.31,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 149.16
+  },
+  {
+   "year": 2022,
+   "quarter": 3,
+   "canopy_ha": 111.31,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 99.85
+  },
+  {
+   "year": 2022,
+   "quarter": 4,
+   "canopy_ha": 13.23,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 10.06
+  },
+  {
+   "year": 2023,
+   "quarter": 1,
+   "canopy_ha": 17.45,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 17.57
+  },
+  {
+   "year": 2023,
+   "quarter": 2,
+   "canopy_ha": 105.51,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 71.26
+  },
+  {
+   "year": 2023,
+   "quarter": 3,
+   "canopy_ha": 125.77,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 133.59
+  },
+  {
+   "year": 2023,
+   "quarter": 4,
+   "canopy_ha": 0.17,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 0.26
+  },
+  {
+   "year": 2024,
+   "quarter": 1,
+   "canopy_ha": 0.54,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 0.03
+  },
+  {
+   "year": 2024,
+   "quarter": 2,
+   "canopy_ha": 60.3,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 4.02
+  },
+  {
+   "year": 2024,
+   "quarter": 3,
+   "canopy_ha": 148.16,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 151.24
+  },
+  {
+   "year": 2024,
+   "quarter": 4,
+   "canopy_ha": 88.66,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 119.56
+  },
+  {
+   "year": 2025,
+   "quarter": 1,
+   "canopy_ha": 104.35,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 157.95
+  },
+  {
+   "year": 2025,
+   "quarter": 2,
+   "canopy_ha": 220.05,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 301.95
+  },
+  {
+   "year": 2025,
+   "quarter": 3,
+   "canopy_ha": 149.89,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 146.92
+  },
+  {
+   "year": 2025,
+   "quarter": 4,
+   "canopy_ha": 3.18,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 5.6
+  },
+  {
+   "year": 2026,
+   "quarter": 1,
+   "canopy_ha": 5.31,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 8.02
+  },
+  {
+   "year": 2026,
+   "quarter": 2,
+   "canopy_ha": 58.12,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8,
+   "kelpwatch_ha": 38.41
+  },
+  {
+   "year": 2026,
+   "quarter": 3,
+   "canopy_ha": 88.64,
+   "coverage": 1.0,
+   "plus_minus_ha": 69.8
+  }
+ ],
+ "score": {
+  "cells_m2": {
+   "n": 8584,
+   "r2": 0.382,
+   "rmse": 8168.2,
+   "bias": -1401.9,
+   "corr": 0.633
+  },
+  "site_quarter_ha": {
+   "n": 42,
+   "r2": 0.586,
+   "rmse": 69.8,
+   "bias": -28.7,
+   "corr": 0.87
+  },
+  "how": "left out of its own fit"
+ },
+ "latest": {
+  "year": 2026,
+  "quarter": 3
+ },
+ "sst": [
+  {
+   "year": 1984,
+   "quarter": 1,
+   "c": 17.06,
+   "anom": 0.5
+  },
+  {
+   "year": 1984,
+   "quarter": 2,
+   "c": 17.02,
+   "anom": 0.46
+  },
+  {
+   "year": 1984,
+   "quarter": 3,
+   "c": 22.12,
+   "anom": 2.05
+  },
+  {
+   "year": 1984,
+   "quarter": 4,
+   "c": 19.66,
+   "anom": 0.07
+  },
+  {
+   "year": 1985,
+   "quarter": 1,
+   "c": 15.67,
+   "anom": -0.89
+  },
+  {
+   "year": 1985,
+   "quarter": 2,
+   "c": 15.77,
+   "anom": -0.79
+  },
+  {
+   "year": 1985,
+   "quarter": 3,
+   "c": 20.55,
+   "anom": 0.48
+  },
+  {
+   "year": 1985,
+   "quarter": 4,
+   "c": 19.08,
+   "anom": -0.51
+  },
+  {
+   "year": 1986,
+   "quarter": 1,
+   "c": 16.53,
+   "anom": -0.03
+  },
+  {
+   "year": 1986,
+   "quarter": 2,
+   "c": 16.61,
+   "anom": 0.05
+  },
+  {
+   "year": 1986,
+   "quarter": 3,
+   "c": 19.37,
+   "anom": -0.7
+  },
+  {
+   "year": 1986,
+   "quarter": 4,
+   "c": 18.94,
+   "anom": -0.65
+  },
+  {
+   "year": 1987,
+   "quarter": 1,
+   "c": 16.47,
+   "anom": -0.09
+  },
+  {
+   "year": 1987,
+   "quarter": 2,
+   "c": 16.92,
+   "anom": 0.36
+  },
+  {
+   "year": 1987,
+   "quarter": 3,
+   "c": 19.58,
+   "anom": -0.49
+  },
+  {
+   "year": 1987,
+   "quarter": 4,
+   "c": 20.38,
+   "anom": 0.79
+  },
+  {
+   "year": 1988,
+   "quarter": 1,
+   "c": 16.21,
+   "anom": -0.35
+  },
+  {
+   "year": 1988,
+   "quarter": 2,
+   "c": 17.06,
+   "anom": 0.5
+  },
+  {
+   "year": 1988,
+   "quarter": 3,
+   "c": 19.12,
+   "anom": -0.95
+  },
+  {
+   "year": 1988,
+   "quarter": 4,
+   "c": 17.91,
+   "anom": -1.68
+  },
+  {
+   "year": 1989,
+   "quarter": 1,
+   "c": 15.36,
+   "anom": -1.2
+  },
+  {
+   "year": 1989,
+   "quarter": 2,
+   "c": 16.66,
+   "anom": 0.1
+  },
+  {
+   "year": 1989,
+   "quarter": 3,
+   "c": 19.71,
+   "anom": -0.36
+  },
+  {
+   "year": 1989,
+   "quarter": 4,
+   "c": 20.22,
+   "anom": 0.63
+  },
+  {
+   "year": 1990,
+   "quarter": 1,
+   "c": 16.42,
+   "anom": -0.14
+  },
+  {
+   "year": 1990,
+   "quarter": 2,
+   "c": 16.96,
+   "anom": 0.4
+  },
+  {
+   "year": 1990,
+   "quarter": 3,
+   "c": 21.46,
+   "anom": 1.39
+  },
+  {
+   "year": 1990,
+   "quarter": 4,
+   "c": 20.6,
+   "anom": 1.01
+  },
+  {
+   "year": 1991,
+   "quarter": 1,
+   "c": 17.0,
+   "anom": 0.44
+  },
+  {
+   "year": 1991,
+   "quarter": 2,
+   "c": 15.95,
+   "anom": -0.61
+  },
+  {
+   "year": 1991,
+   "quarter": 3,
+   "c": 18.77,
+   "anom": -1.3
+  },
+  {
+   "year": 1991,
+   "quarter": 4,
+   "c": 20.08,
+   "anom": 0.49
+  },
+  {
+   "year": 1992,
+   "quarter": 1,
+   "c": 18.12,
+   "anom": 1.56
+  },
+  {
+   "year": 1992,
+   "quarter": 2,
+   "c": 18.81,
+   "anom": 2.25
+  },
+  {
+   "year": 1992,
+   "quarter": 3,
+   "c": 21.85,
+   "anom": 1.79
+  },
+  {
+   "year": 1992,
+   "quarter": 4,
+   "c": 21.49,
+   "anom": 1.9
+  },
+  {
+   "year": 1993,
+   "quarter": 1,
+   "c": 17.57,
+   "anom": 1.01
+  },
+  {
+   "year": 1993,
+   "quarter": 2,
+   "c": 17.07,
+   "anom": 0.51
+  },
+  {
+   "year": 1993,
+   "quarter": 3,
+   "c": 19.76,
+   "anom": -0.3
+  },
+  {
+   "year": 1993,
+   "quarter": 4,
+   "c": 20.3,
+   "anom": 0.71
+  },
+  {
+   "year": 1994,
+   "quarter": 1,
+   "c": 17.57,
+   "anom": 1.01
+  },
+  {
+   "year": 1994,
+   "quarter": 2,
+   "c": 16.73,
+   "anom": 0.17
+  },
+  {
+   "year": 1994,
+   "quarter": 3,
+   "c": 19.52,
+   "anom": -0.55
+  },
+  {
+   "year": 1994,
+   "quarter": 4,
+   "c": 19.28,
+   "anom": -0.31
+  },
+  {
+   "year": 1995,
+   "quarter": 1,
+   "c": 17.34,
+   "anom": 0.78
+  },
+  {
+   "year": 1995,
+   "quarter": 2,
+   "c": 16.44,
+   "anom": -0.12
+  },
+  {
+   "year": 1995,
+   "quarter": 3,
+   "c": 20.09,
+   "anom": 0.02
+  },
+  {
+   "year": 1995,
+   "quarter": 4,
+   "c": 19.8,
+   "anom": 0.21
+  },
+  {
+   "year": 1996,
+   "quarter": 1,
+   "c": 16.48,
+   "anom": -0.08
+  },
+  {
+   "year": 1996,
+   "quarter": 2,
+   "c": 16.83,
+   "anom": 0.27
+  },
+  {
+   "year": 1996,
+   "quarter": 3,
+   "c": 20.66,
+   "anom": 0.59
+  },
+  {
+   "year": 1996,
+   "quarter": 4,
+   "c": 19.02,
+   "anom": -0.57
+  },
+  {
+   "year": 1997,
+   "quarter": 1,
+   "c": 16.49,
+   "anom": -0.07
+  },
+  {
+   "year": 1997,
+   "quarter": 2,
+   "c": 17.52,
+   "anom": 0.96
+  },
+  {
+   "year": 1997,
+   "quarter": 3,
+   "c": 22.47,
+   "anom": 2.4
+  },
+  {
+   "year": 1997,
+   "quarter": 4,
+   "c": 22.89,
+   "anom": 3.3
+  },
+  {
+   "year": 1998,
+   "quarter": 1,
+   "c": 18.66,
+   "anom": 2.1
+  },
+  {
+   "year": 1998,
+   "quarter": 2,
+   "c": 17.43,
+   "anom": 0.87
+  },
+  {
+   "year": 1998,
+   "quarter": 3,
+   "c": 21.34,
+   "anom": 1.27
+  },
+  {
+   "year": 1998,
+   "quarter": 4,
+   "c": 18.22,
+   "anom": -1.37
+  },
+  {
+   "year": 1999,
+   "quarter": 1,
+   "c": 15.47,
+   "anom": -1.09
+  },
+  {
+   "year": 1999,
+   "quarter": 2,
+   "c": 15.72,
+   "anom": -0.84
+  },
+  {
+   "year": 1999,
+   "quarter": 3,
+   "c": 18.46,
+   "anom": -1.61
+  },
+  {
+   "year": 1999,
+   "quarter": 4,
+   "c": 18.03,
+   "anom": -1.56
+  },
+  {
+   "year": 2000,
+   "quarter": 1,
+   "c": 16.03,
+   "anom": -0.53
+  },
+  {
+   "year": 2000,
+   "quarter": 2,
+   "c": 16.84,
+   "anom": 0.28
+  },
+  {
+   "year": 2000,
+   "quarter": 3,
+   "c": 19.81,
+   "anom": -0.26
+  },
+  {
+   "year": 2000,
+   "quarter": 4,
+   "c": 18.8,
+   "anom": -0.79
+  },
+  {
+   "year": 2001,
+   "quarter": 1,
+   "c": 16.12,
+   "anom": -0.44
+  },
+  {
+   "year": 2001,
+   "quarter": 2,
+   "c": 16.23,
+   "anom": -0.33
+  },
+  {
+   "year": 2001,
+   "quarter": 3,
+   "c": 19.44,
+   "anom": -0.62
+  },
+  {
+   "year": 2001,
+   "quarter": 4,
+   "c": 19.19,
+   "anom": -0.4
+  },
+  {
+   "year": 2002,
+   "quarter": 1,
+   "c": 16.28,
+   "anom": -0.28
+  },
+  {
+   "year": 2002,
+   "quarter": 2,
+   "c": 15.38,
+   "anom": -1.18
+  },
+  {
+   "year": 2002,
+   "quarter": 3,
+   "c": 18.75,
+   "anom": -1.32
+  },
+  {
+   "year": 2002,
+   "quarter": 4,
+   "c": 18.76,
+   "anom": -0.83
+  },
+  {
+   "year": 2003,
+   "quarter": 1,
+   "c": 17.24,
+   "anom": 0.68
+  },
+  {
+   "year": 2003,
+   "quarter": 2,
+   "c": 15.91,
+   "anom": -0.65
+  },
+  {
+   "year": 2003,
+   "quarter": 3,
+   "c": 20.08,
+   "anom": 0.01
+  },
+  {
+   "year": 2003,
+   "quarter": 4,
+   "c": 19.12,
+   "anom": -0.47
+  },
+  {
+   "year": 2004,
+   "quarter": 1,
+   "c": 16.42,
+   "anom": -0.14
+  },
+  {
+   "year": 2004,
+   "quarter": 2,
+   "c": 16.61,
+   "anom": 0.05
+  },
+  {
+   "year": 2004,
+   "quarter": 3,
+   "c": 19.81,
+   "anom": -0.26
+  },
+  {
+   "year": 2004,
+   "quarter": 4,
+   "c": 19.0,
+   "anom": -0.59
+  },
+  {
+   "year": 2005,
+   "quarter": 1,
+   "c": 17.06,
+   "anom": 0.5
+  },
+  {
+   "year": 2005,
+   "quarter": 2,
+   "c": 17.02,
+   "anom": 0.46
+  },
+  {
+   "year": 2005,
+   "quarter": 3,
+   "c": 20.06,
+   "anom": -0.01
+  },
+  {
+   "year": 2005,
+   "quarter": 4,
+   "c": 19.13,
+   "anom": -0.46
+  },
+  {
+   "year": 2006,
+   "quarter": 1,
+   "c": 15.67,
+   "anom": -0.89
+  },
+  {
+   "year": 2006,
+   "quarter": 2,
+   "c": 16.3,
+   "anom": -0.26
+  },
+  {
+   "year": 2006,
+   "quarter": 3,
+   "c": 21.52,
+   "anom": 1.45
+  },
+  {
+   "year": 2006,
+   "quarter": 4,
+   "c": 20.4,
+   "anom": 0.81
+  },
+  {
+   "year": 2007,
+   "quarter": 1,
+   "c": 16.77,
+   "anom": 0.21
+  },
+  {
+   "year": 2007,
+   "quarter": 2,
+   "c": 16.17,
+   "anom": -0.39
+  },
+  {
+   "year": 2007,
+   "quarter": 3,
+   "c": 19.78,
+   "anom": -0.29
+  },
+  {
+   "year": 2007,
+   "quarter": 4,
+   "c": 18.21,
+   "anom": -1.38
+  },
+  {
+   "year": 2008,
+   "quarter": 1,
+   "c": 15.48,
+   "anom": -1.08
+  },
+  {
+   "year": 2008,
+   "quarter": 2,
+   "c": 15.83,
+   "anom": -0.73
+  },
+  {
+   "year": 2008,
+   "quarter": 3,
+   "c": 20.72,
+   "anom": 0.65
+  },
+  {
+   "year": 2008,
+   "quarter": 4,
+   "c": 21.21,
+   "anom": 1.62
+  },
+  {
+   "year": 2009,
+   "quarter": 1,
+   "c": 16.46,
+   "anom": -0.1
+  },
+  {
+   "year": 2009,
+   "quarter": 2,
+   "c": 16.08,
+   "anom": -0.48
+  },
+  {
+   "year": 2009,
+   "quarter": 3,
+   "c": 19.97,
+   "anom": -0.1
+  },
+  {
+   "year": 2009,
+   "quarter": 4,
+   "c": 20.62,
+   "anom": 1.03
+  },
+  {
+   "year": 2010,
+   "quarter": 1,
+   "c": 17.45,
+   "anom": 0.89
+  },
+  {
+   "year": 2010,
+   "quarter": 2,
+   "c": 16.15,
+   "anom": -0.41
+  },
+  {
+   "year": 2010,
+   "quarter": 3,
+   "c": 17.39,
+   "anom": -2.68
+  },
+  {
+   "year": 2010,
+   "quarter": 4,
+   "c": 17.28,
+   "anom": -2.31
+  },
+  {
+   "year": 2011,
+   "quarter": 1,
+   "c": 15.01,
+   "anom": -1.55
+  },
+  {
+   "year": 2011,
+   "quarter": 2,
+   "c": 15.61,
+   "anom": -0.95
+  },
+  {
+   "year": 2011,
+   "quarter": 3,
+   "c": 19.1,
+   "anom": -0.96
+  },
+  {
+   "year": 2011,
+   "quarter": 4,
+   "c": 19.08,
+   "anom": -0.51
+  },
+  {
+   "year": 2012,
+   "quarter": 1,
+   "c": 16.74,
+   "anom": 0.18
+  },
+  {
+   "year": 2012,
+   "quarter": 2,
+   "c": 16.36,
+   "anom": -0.2
+  },
+  {
+   "year": 2012,
+   "quarter": 3,
+   "c": 21.08,
+   "anom": 1.01
+  },
+  {
+   "year": 2012,
+   "quarter": 4,
+   "c": 21.3,
+   "anom": 1.71
+  },
+  {
+   "year": 2013,
+   "quarter": 1,
+   "c": 15.65,
+   "anom": -0.91
+  },
+  {
+   "year": 2013,
+   "quarter": 2,
+   "c": 16.92,
+   "anom": 0.36
+  },
+  {
+   "year": 2013,
+   "quarter": 3,
+   "c": 19.61,
+   "anom": -0.46
+  },
+  {
+   "year": 2013,
+   "quarter": 4,
+   "c": 19.69,
+   "anom": 0.1
+  },
+  {
+   "year": 2014,
+   "quarter": 1,
+   "c": 17.05,
+   "anom": 0.49
+  },
+  {
+   "year": 2014,
+   "quarter": 2,
+   "c": 17.97,
+   "anom": 1.41
+  },
+  {
+   "year": 2014,
+   "quarter": 3,
+   "c": 22.96,
+   "anom": 2.89
+  },
+  {
+   "year": 2014,
+   "quarter": 4,
+   "c": 22.54,
+   "anom": 2.95
+  },
+  {
+   "year": 2015,
+   "quarter": 1,
+   "c": 19.03,
+   "anom": 2.47
+  },
+  {
+   "year": 2015,
+   "quarter": 2,
+   "c": 18.67,
+   "anom": 2.11
+  },
+  {
+   "year": 2015,
+   "quarter": 3,
+   "c": 22.61,
+   "anom": 2.54
+  },
+  {
+   "year": 2015,
+   "quarter": 4,
+   "c": 23.62,
+   "anom": 4.03
+  },
+  {
+   "year": 2016,
+   "quarter": 1,
+   "c": 18.82,
+   "anom": 2.26
+  },
+  {
+   "year": 2016,
+   "quarter": 2,
+   "c": 18.11,
+   "anom": 1.55
+  },
+  {
+   "year": 2016,
+   "quarter": 3,
+   "c": 20.75,
+   "anom": 0.68
+  },
+  {
+   "year": 2016,
+   "quarter": 4,
+   "c": 19.96,
+   "anom": 0.37
+  },
+  {
+   "year": 2017,
+   "quarter": 1,
+   "c": 16.98,
+   "anom": 0.42
+  },
+  {
+   "year": 2017,
+   "quarter": 2,
+   "c": 17.47,
+   "anom": 0.91
+  },
+  {
+   "year": 2017,
+   "quarter": 3,
+   "c": 21.84,
+   "anom": 1.77
+  },
+  {
+   "year": 2017,
+   "quarter": 4,
+   "c": 20.41,
+   "anom": 0.82
+  },
+  {
+   "year": 2018,
+   "quarter": 1,
+   "c": 17.85,
+   "anom": 1.29
+  },
+  {
+   "year": 2018,
+   "quarter": 2,
+   "c": 16.66,
+   "anom": 0.1
+  },
+  {
+   "year": 2018,
+   "quarter": 3,
+   "c": 21.47,
+   "anom": 1.4
+  },
+  {
+   "year": 2018,
+   "quarter": 4,
+   "c": 20.74,
+   "anom": 1.15
+  },
+  {
+   "year": 2019,
+   "quarter": 1,
+   "c": 17.19,
+   "anom": 0.63
+  },
+  {
+   "year": 2019,
+   "quarter": 2,
+   "c": 17.02,
+   "anom": 0.46
+  },
+  {
+   "year": 2019,
+   "quarter": 3,
+   "c": 20.6,
+   "anom": 0.54
+  },
+  {
+   "year": 2019,
+   "quarter": 4,
+   "c": 20.44,
+   "anom": 0.85
+  },
+  {
+   "year": 2020,
+   "quarter": 1,
+   "c": 17.23,
+   "anom": 0.67
+  },
+  {
+   "year": 2020,
+   "quarter": 2,
+   "c": 17.76,
+   "anom": 1.2
+  },
+  {
+   "year": 2020,
+   "quarter": 3,
+   "c": 21.75,
+   "anom": 1.68
+  },
+  {
+   "year": 2020,
+   "quarter": 4,
+   "c": 20.89,
+   "anom": 1.3
+  },
+  {
+   "year": 2021,
+   "quarter": 1,
+   "c": 16.95,
+   "anom": 0.39
+  },
+  {
+   "year": 2021,
+   "quarter": 2,
+   "c": 17.37,
+   "anom": 0.81
+  },
+  {
+   "year": 2021,
+   "quarter": 3,
+   "c": 21.62,
+   "anom": 1.55
+  },
+  {
+   "year": 2021,
+   "quarter": 4,
+   "c": 20.15,
+   "anom": 0.56
+  },
+  {
+   "year": 2022,
+   "quarter": 1,
+   "c": 16.94,
+   "anom": 0.38
+  },
+  {
+   "year": 2022,
+   "quarter": 2,
+   "c": 16.87,
+   "anom": 0.31
+  },
+  {
+   "year": 2022,
+   "quarter": 3,
+   "c": 21.44,
+   "anom": 1.38
+  },
+  {
+   "year": 2022,
+   "quarter": 4,
+   "c": 20.74,
+   "anom": 1.15
+  },
+  {
+   "year": 2023,
+   "quarter": 1,
+   "c": 16.8,
+   "anom": 0.24
+  },
+  {
+   "year": 2023,
+   "quarter": 2,
+   "c": 15.72,
+   "anom": -0.84
+  },
+  {
+   "year": 2023,
+   "quarter": 3,
+   "c": 20.41,
+   "anom": 0.34
+  },
+  {
+   "year": 2023,
+   "quarter": 4,
+   "c": 21.68,
+   "anom": 2.09
+  },
+  {
+   "year": 2024,
+   "quarter": 1,
+   "c": 17.8,
+   "anom": 1.24
+  },
+  {
+   "year": 2024,
+   "quarter": 2,
+   "c": 16.34,
+   "anom": -0.22
+  },
+  {
+   "year": 2024,
+   "quarter": 3,
+   "c": 19.92,
+   "anom": -0.14
+  },
+  {
+   "year": 2024,
+   "quarter": 4,
+   "c": 18.17,
+   "anom": -1.42
+  },
+  {
+   "year": 2025,
+   "quarter": 1,
+   "c": 15.55,
+   "anom": -1.01
+  },
+  {
+   "year": 2025,
+   "quarter": 2,
+   "c": 16.75,
+   "anom": 0.19
+  },
+  {
+   "year": 2025,
+   "quarter": 3,
+   "c": 20.72,
+   "anom": 0.65
+  },
+  {
+   "year": 2025,
+   "quarter": 4,
+   "c": 20.91,
+   "anom": 1.32
+  },
+  {
+   "year": 2026,
+   "quarter": 1,
+   "c": 18.76,
+   "anom": 2.2
+  },
+  {
+   "year": 2026,
+   "quarter": 2,
+   "c": 18.5,
+   "anom": 1.94
+  },
+  {
+   "year": 2026,
+   "quarter": 3,
+   "c": 23.67,
+   "anom": 3.61
+  }
+ ],
+ "series_landsat": [
+  {
+   "year": 1984,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 3,
+   "canopy_ha": 70.66,
+   "coverage": 0.99,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 112.84
+  },
+  {
+   "year": 1987,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 2,
+   "canopy_ha": 1.73,
+   "coverage": 0.1,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.04
+  },
+  {
+   "year": 1990,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1992,
+   "quarter": 1,
+   "canopy_ha": 3.08,
+   "coverage": 0.15,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 1.27
+  },
+  {
+   "year": 1992,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1992,
+   "quarter": 3,
+   "canopy_ha": 48.28,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 52.12
+  },
+  {
+   "year": 1992,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1993,
+   "quarter": 1,
+   "canopy_ha": 4.52,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.01
+  },
+  {
+   "year": 1993,
+   "quarter": 2,
+   "canopy_ha": 18.43,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 5.74
+  },
+  {
+   "year": 1993,
+   "quarter": 3,
+   "canopy_ha": 133.62,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 116.42
+  },
+  {
+   "year": 1993,
+   "quarter": 4,
+   "canopy_ha": 118.69,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 140.89
+  },
+  {
+   "year": 1994,
+   "quarter": 1,
+   "canopy_ha": 82.72,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 79.36
+  },
+  {
+   "year": 1994,
+   "quarter": 2,
+   "canopy_ha": 222.97,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 26.11
+  },
+  {
+   "year": 1994,
+   "quarter": 3,
+   "canopy_ha": 4.1,
+   "coverage": 0.43,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1994,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 4,
+   "canopy_ha": 49.59,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 56.13
+  },
+  {
+   "year": 1996,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 3,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 4,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 1,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 2,
+   "canopy_ha": 0.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 3,
+   "canopy_ha": 239.03,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 303.96
+  },
+  {
+   "year": 1999,
+   "quarter": 4,
+   "canopy_ha": 152.14,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 231.3
+  },
+  {
+   "year": 2000,
+   "quarter": 1,
+   "canopy_ha": 80.95,
+   "coverage": 0.99,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 105.91
+  },
+  {
+   "year": 2000,
+   "quarter": 2,
+   "canopy_ha": 196.14,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 128.19
+  },
+  {
+   "year": 2000,
+   "quarter": 3,
+   "canopy_ha": 64.82,
+   "coverage": 0.91,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 78.56
+  },
+  {
+   "year": 2000,
+   "quarter": 4,
+   "canopy_ha": 74.77,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 66.24
+  },
+  {
+   "year": 2001,
+   "quarter": 1,
+   "canopy_ha": 75.35,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 77.49
+  },
+  {
+   "year": 2001,
+   "quarter": 2,
+   "canopy_ha": 156.61,
+   "coverage": 0.99,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 159.77
+  },
+  {
+   "year": 2001,
+   "quarter": 3,
+   "canopy_ha": 109.48,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 70.69
+  },
+  {
+   "year": 2001,
+   "quarter": 4,
+   "canopy_ha": 37.17,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 19.29
+  },
+  {
+   "year": 2002,
+   "quarter": 1,
+   "canopy_ha": 25.92,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 13.18
+  },
+  {
+   "year": 2002,
+   "quarter": 2,
+   "canopy_ha": 53.7,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 7.3
+  },
+  {
+   "year": 2002,
+   "quarter": 3,
+   "canopy_ha": 163.45,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 139.17
+  },
+  {
+   "year": 2002,
+   "quarter": 4,
+   "canopy_ha": 33.74,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 10.82
+  },
+  {
+   "year": 2003,
+   "quarter": 1,
+   "canopy_ha": 15.61,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 8.39
+  },
+  {
+   "year": 2003,
+   "quarter": 2,
+   "canopy_ha": 14.76,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 7.53
+  },
+  {
+   "year": 2003,
+   "quarter": 3,
+   "canopy_ha": 137.6,
+   "coverage": 0.88,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 153.0
+  },
+  {
+   "year": 2003,
+   "quarter": 4,
+   "canopy_ha": 74.01,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 81.36
+  },
+  {
+   "year": 2004,
+   "quarter": 1,
+   "canopy_ha": 116.38,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 122.73
+  },
+  {
+   "year": 2004,
+   "quarter": 2,
+   "canopy_ha": 125.19,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 136.81
+  },
+  {
+   "year": 2004,
+   "quarter": 3,
+   "canopy_ha": 159.51,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 88.4
+  },
+  {
+   "year": 2004,
+   "quarter": 4,
+   "canopy_ha": 30.69,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 13.47
+  },
+  {
+   "year": 2005,
+   "quarter": 1,
+   "canopy_ha": 72.78,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 71.69
+  },
+  {
+   "year": 2005,
+   "quarter": 2,
+   "canopy_ha": 57.56,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 42.61
+  },
+  {
+   "year": 2005,
+   "quarter": 3,
+   "canopy_ha": 72.01,
+   "coverage": 0.91,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 67.13
+  },
+  {
+   "year": 2005,
+   "quarter": 4,
+   "canopy_ha": 21.32,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 11.93
+  },
+  {
+   "year": 2006,
+   "quarter": 1,
+   "canopy_ha": 67.44,
+   "coverage": 0.93,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 19.06
+  },
+  {
+   "year": 2006,
+   "quarter": 2,
+   "canopy_ha": 72.15,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 69.1
+  },
+  {
+   "year": 2006,
+   "quarter": 3,
+   "canopy_ha": 36.58,
+   "coverage": 0.94,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 42.93
+  },
+  {
+   "year": 2006,
+   "quarter": 4,
+   "canopy_ha": 24.92,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 14.27
+  },
+  {
+   "year": 2007,
+   "quarter": 1,
+   "canopy_ha": 38.49,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 23.14
+  },
+  {
+   "year": 2007,
+   "quarter": 2,
+   "canopy_ha": 51.01,
+   "coverage": 0.97,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 48.81
+  },
+  {
+   "year": 2007,
+   "quarter": 3,
+   "canopy_ha": 138.6,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 130.79
+  },
+  {
+   "year": 2007,
+   "quarter": 4,
+   "canopy_ha": 104.6,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 85.28
+  },
+  {
+   "year": 2008,
+   "quarter": 1,
+   "canopy_ha": 72.28,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 59.64
+  },
+  {
+   "year": 2008,
+   "quarter": 2,
+   "canopy_ha": 92.15,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 51.32
+  },
+  {
+   "year": 2008,
+   "quarter": 3,
+   "canopy_ha": 51.57,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 41.91
+  },
+  {
+   "year": 2008,
+   "quarter": 4,
+   "canopy_ha": 15.05,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 1.23
+  },
+  {
+   "year": 2009,
+   "quarter": 1,
+   "canopy_ha": 9.96,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 1.63
+  },
+  {
+   "year": 2009,
+   "quarter": 2,
+   "canopy_ha": 104.98,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 34.75
+  },
+  {
+   "year": 2009,
+   "quarter": 3,
+   "canopy_ha": 189.73,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 195.86
+  },
+  {
+   "year": 2009,
+   "quarter": 4,
+   "canopy_ha": 40.91,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 7.3
+  },
+  {
+   "year": 2010,
+   "quarter": 1,
+   "canopy_ha": 24.37,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 12.44
+  },
+  {
+   "year": 2010,
+   "quarter": 2,
+   "canopy_ha": 77.55,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 22.97
+  },
+  {
+   "year": 2010,
+   "quarter": 3,
+   "canopy_ha": 214.0,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 275.27
+  },
+  {
+   "year": 2010,
+   "quarter": 4,
+   "canopy_ha": 156.74,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 96.44
+  },
+  {
+   "year": 2011,
+   "quarter": 1,
+   "canopy_ha": 60.26,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 51.51
+  },
+  {
+   "year": 2011,
+   "quarter": 2,
+   "canopy_ha": 149.18,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 133.64
+  },
+  {
+   "year": 2011,
+   "quarter": 3,
+   "canopy_ha": 83.71,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 87.92
+  },
+  {
+   "year": 2011,
+   "quarter": 4,
+   "canopy_ha": 52.27,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 39.9
+  },
+  {
+   "year": 2012,
+   "quarter": 1,
+   "canopy_ha": 105.54,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 87.65
+  },
+  {
+   "year": 2012,
+   "quarter": 2,
+   "canopy_ha": 78.23,
+   "coverage": 0.93,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 84.67
+  },
+  {
+   "year": 2012,
+   "quarter": 3,
+   "canopy_ha": 45.76,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 19.98
+  },
+  {
+   "year": 2012,
+   "quarter": 4,
+   "canopy_ha": 3.01,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2013,
+   "quarter": 1,
+   "canopy_ha": 7.52,
+   "coverage": 0.89,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2013,
+   "quarter": 2,
+   "canopy_ha": 51.0,
+   "coverage": 0.93,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 1.52
+  },
+  {
+   "year": 2013,
+   "quarter": 3,
+   "canopy_ha": 140.12,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 138.92
+  },
+  {
+   "year": 2013,
+   "quarter": 4,
+   "canopy_ha": 136.33,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 143.86
+  },
+  {
+   "year": 2014,
+   "quarter": 1,
+   "canopy_ha": 161.95,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 203.75
+  },
+  {
+   "year": 2014,
+   "quarter": 2,
+   "canopy_ha": 204.82,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 354.08
+  },
+  {
+   "year": 2014,
+   "quarter": 3,
+   "canopy_ha": 141.16,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 121.77
+  },
+  {
+   "year": 2014,
+   "quarter": 4,
+   "canopy_ha": 4.37,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 1,
+   "canopy_ha": 4.33,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 2,
+   "canopy_ha": 9.58,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 3,
+   "canopy_ha": 62.31,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 22.71
+  },
+  {
+   "year": 2015,
+   "quarter": 4,
+   "canopy_ha": 296.03,
+   "coverage": 1.0,
+   "plus_minus_ha": 42.8,
+   "kelpwatch_ha": 0.01
+  }
+ ],
+ "score_landsat": {
+  "cells_m2": {
+   "n": 35572,
+   "r2": 0.586,
+   "rmse": 3523.4,
+   "bias": 372.0,
+   "corr": 0.803
+  },
+  "site_quarter_ha": {
+   "n": 125,
+   "r2": 0.601,
+   "rmse": 42.8,
+   "bias": 10.6,
+   "corr": 0.824
+  },
+  "how": "left out of its own fit"
+ },
+ "frame_bounds": [
+  [
+   27.818008036920475,
+   -115.26162240057782
+  ],
+  [
+   27.922003191661904,
+   -115.11813390969903
+  ]
+ ],
+ "frames": [
+  "2016_1",
+  "2016_2",
+  "2016_3",
+  "2016_4",
+  "2017_1",
+  "2017_2",
+  "2017_3",
+  "2017_4",
+  "2018_1",
+  "2018_2",
+  "2018_3",
+  "2018_4",
+  "2019_1",
+  "2019_2",
+  "2019_3",
+  "2019_4",
+  "2020_1",
+  "2020_2",
+  "2020_3",
+  "2020_4",
+  "2021_1",
+  "2021_2",
+  "2021_3",
+  "2021_4",
+  "2022_1",
+  "2022_2",
+  "2022_3",
+  "2022_4",
+  "2023_1",
+  "2023_2",
+  "2023_3",
+  "2023_4",
+  "2024_1",
+  "2024_2",
+  "2024_3",
+  "2024_4",
+  "2025_1",
+  "2025_2",
+  "2025_3",
+  "2025_4",
+  "2026_1",
+  "2026_2",
+  "2026_3"
+ ],
+ "frame_bounds_landsat": [
+  [
+   27.817918264453972,
+   -115.26162383809707
+  ],
+  [
+   27.922093423864506,
+   -115.11782993860635
+  ]
+ ],
+ "frames_landsat": [
+  "1984_1",
+  "1984_2",
+  "1984_3",
+  "1984_4",
+  "1985_1",
+  "1985_2",
+  "1985_3",
+  "1985_4",
+  "1986_1",
+  "1986_2",
+  "1986_3",
+  "1986_4",
+  "1987_1",
+  "1987_2",
+  "1987_3",
+  "1987_4",
+  "1988_1",
+  "1988_2",
+  "1988_3",
+  "1988_4",
+  "1989_1",
+  "1989_2",
+  "1989_3",
+  "1989_4",
+  "1990_1",
+  "1990_2",
+  "1990_3",
+  "1990_4",
+  "1991_1",
+  "1991_2",
+  "1991_3",
+  "1991_4",
+  "1992_1",
+  "1992_2",
+  "1992_3",
+  "1992_4",
+  "1993_1",
+  "1993_2",
+  "1993_3",
+  "1993_4",
+  "1994_1",
+  "1994_2",
+  "1994_3",
+  "1994_4",
+  "1995_1",
+  "1995_2",
+  "1995_3",
+  "1995_4",
+  "1996_1",
+  "1996_2",
+  "1996_3",
+  "1996_4",
+  "1997_1",
+  "1997_2",
+  "1997_3",
+  "1997_4",
+  "1998_1",
+  "1998_2",
+  "1998_3",
+  "1998_4",
+  "1999_1",
+  "1999_2",
+  "1999_3",
+  "1999_4",
+  "2000_1",
+  "2000_2",
+  "2000_3",
+  "2000_4",
+  "2001_1",
+  "2001_2",
+  "2001_3",
+  "2001_4",
+  "2002_1",
+  "2002_2",
+  "2002_3",
+  "2002_4",
+  "2003_1",
+  "2003_2",
+  "2003_3",
+  "2003_4",
+  "2004_1",
+  "2004_2",
+  "2004_3",
+  "2004_4",
+  "2005_1",
+  "2005_2",
+  "2005_3",
+  "2005_4",
+  "2006_1",
+  "2006_2",
+  "2006_3",
+  "2006_4",
+  "2007_1",
+  "2007_2",
+  "2007_3",
+  "2007_4",
+  "2008_1",
+  "2008_2",
+  "2008_3",
+  "2008_4",
+  "2009_1",
+  "2009_2",
+  "2009_3",
+  "2009_4",
+  "2010_1",
+  "2010_2",
+  "2010_3",
+  "2010_4",
+  "2011_1",
+  "2011_2",
+  "2011_3",
+  "2011_4",
+  "2012_1",
+  "2012_2",
+  "2012_3",
+  "2012_4",
+  "2013_1",
+  "2013_2",
+  "2013_3",
+  "2013_4",
+  "2014_1",
+  "2014_2",
+  "2014_3",
+  "2014_4",
+  "2015_1",
+  "2015_2",
+  "2015_3",
+  "2015_4"
+ ],
+ "kelpwatch_history": [
+  {
+   "year": 1984,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1984,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1985,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1986,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1987,
+   "quarter": 3,
+   "ha": 112.84
+  },
+  {
+   "year": 1987,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1988,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1989,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 2,
+   "ha": 0.04
+  },
+  {
+   "year": 1990,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1990,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1991,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1992,
+   "quarter": 1,
+   "ha": 1.27
+  },
+  {
+   "year": 1992,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1992,
+   "quarter": 3,
+   "ha": 52.12
+  },
+  {
+   "year": 1992,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1993,
+   "quarter": 1,
+   "ha": 0.01
+  },
+  {
+   "year": 1993,
+   "quarter": 2,
+   "ha": 5.74
+  },
+  {
+   "year": 1993,
+   "quarter": 3,
+   "ha": 116.42
+  },
+  {
+   "year": 1993,
+   "quarter": 4,
+   "ha": 140.89
+  },
+  {
+   "year": 1994,
+   "quarter": 1,
+   "ha": 79.36
+  },
+  {
+   "year": 1994,
+   "quarter": 2,
+   "ha": 26.11
+  },
+  {
+   "year": 1994,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1994,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1995,
+   "quarter": 4,
+   "ha": 56.13
+  },
+  {
+   "year": 1996,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1996,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1997,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 3,
+   "ha": 0.0
+  },
+  {
+   "year": 1998,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 1999,
+   "quarter": 3,
+   "ha": 303.96
+  },
+  {
+   "year": 1999,
+   "quarter": 4,
+   "ha": 231.3
+  },
+  {
+   "year": 2000,
+   "quarter": 1,
+   "ha": 105.91
+  },
+  {
+   "year": 2000,
+   "quarter": 2,
+   "ha": 128.19
+  },
+  {
+   "year": 2000,
+   "quarter": 3,
+   "ha": 78.56
+  },
+  {
+   "year": 2000,
+   "quarter": 4,
+   "ha": 66.24
+  },
+  {
+   "year": 2001,
+   "quarter": 1,
+   "ha": 77.49
+  },
+  {
+   "year": 2001,
+   "quarter": 2,
+   "ha": 159.77
+  },
+  {
+   "year": 2001,
+   "quarter": 3,
+   "ha": 70.69
+  },
+  {
+   "year": 2001,
+   "quarter": 4,
+   "ha": 19.29
+  },
+  {
+   "year": 2002,
+   "quarter": 1,
+   "ha": 13.18
+  },
+  {
+   "year": 2002,
+   "quarter": 2,
+   "ha": 7.3
+  },
+  {
+   "year": 2002,
+   "quarter": 3,
+   "ha": 139.17
+  },
+  {
+   "year": 2002,
+   "quarter": 4,
+   "ha": 10.82
+  },
+  {
+   "year": 2003,
+   "quarter": 1,
+   "ha": 8.39
+  },
+  {
+   "year": 2003,
+   "quarter": 2,
+   "ha": 7.53
+  },
+  {
+   "year": 2003,
+   "quarter": 3,
+   "ha": 153.0
+  },
+  {
+   "year": 2003,
+   "quarter": 4,
+   "ha": 81.36
+  },
+  {
+   "year": 2004,
+   "quarter": 1,
+   "ha": 122.73
+  },
+  {
+   "year": 2004,
+   "quarter": 2,
+   "ha": 136.81
+  },
+  {
+   "year": 2004,
+   "quarter": 3,
+   "ha": 88.4
+  },
+  {
+   "year": 2004,
+   "quarter": 4,
+   "ha": 13.47
+  },
+  {
+   "year": 2005,
+   "quarter": 1,
+   "ha": 71.69
+  },
+  {
+   "year": 2005,
+   "quarter": 2,
+   "ha": 42.61
+  },
+  {
+   "year": 2005,
+   "quarter": 3,
+   "ha": 67.13
+  },
+  {
+   "year": 2005,
+   "quarter": 4,
+   "ha": 11.93
+  },
+  {
+   "year": 2006,
+   "quarter": 1,
+   "ha": 19.06
+  },
+  {
+   "year": 2006,
+   "quarter": 2,
+   "ha": 69.1
+  },
+  {
+   "year": 2006,
+   "quarter": 3,
+   "ha": 42.93
+  },
+  {
+   "year": 2006,
+   "quarter": 4,
+   "ha": 14.27
+  },
+  {
+   "year": 2007,
+   "quarter": 1,
+   "ha": 23.14
+  },
+  {
+   "year": 2007,
+   "quarter": 2,
+   "ha": 48.81
+  },
+  {
+   "year": 2007,
+   "quarter": 3,
+   "ha": 130.79
+  },
+  {
+   "year": 2007,
+   "quarter": 4,
+   "ha": 85.28
+  },
+  {
+   "year": 2008,
+   "quarter": 1,
+   "ha": 59.64
+  },
+  {
+   "year": 2008,
+   "quarter": 2,
+   "ha": 51.32
+  },
+  {
+   "year": 2008,
+   "quarter": 3,
+   "ha": 41.91
+  },
+  {
+   "year": 2008,
+   "quarter": 4,
+   "ha": 1.23
+  },
+  {
+   "year": 2009,
+   "quarter": 1,
+   "ha": 1.63
+  },
+  {
+   "year": 2009,
+   "quarter": 2,
+   "ha": 34.75
+  },
+  {
+   "year": 2009,
+   "quarter": 3,
+   "ha": 195.86
+  },
+  {
+   "year": 2009,
+   "quarter": 4,
+   "ha": 7.3
+  },
+  {
+   "year": 2010,
+   "quarter": 1,
+   "ha": 12.44
+  },
+  {
+   "year": 2010,
+   "quarter": 2,
+   "ha": 22.97
+  },
+  {
+   "year": 2010,
+   "quarter": 3,
+   "ha": 275.27
+  },
+  {
+   "year": 2010,
+   "quarter": 4,
+   "ha": 96.44
+  },
+  {
+   "year": 2011,
+   "quarter": 1,
+   "ha": 51.51
+  },
+  {
+   "year": 2011,
+   "quarter": 2,
+   "ha": 133.64
+  },
+  {
+   "year": 2011,
+   "quarter": 3,
+   "ha": 87.92
+  },
+  {
+   "year": 2011,
+   "quarter": 4,
+   "ha": 39.9
+  },
+  {
+   "year": 2012,
+   "quarter": 1,
+   "ha": 87.65
+  },
+  {
+   "year": 2012,
+   "quarter": 2,
+   "ha": 84.67
+  },
+  {
+   "year": 2012,
+   "quarter": 3,
+   "ha": 19.98
+  },
+  {
+   "year": 2012,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 2013,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 2013,
+   "quarter": 2,
+   "ha": 1.52
+  },
+  {
+   "year": 2013,
+   "quarter": 3,
+   "ha": 138.92
+  },
+  {
+   "year": 2013,
+   "quarter": 4,
+   "ha": 143.86
+  },
+  {
+   "year": 2014,
+   "quarter": 1,
+   "ha": 203.75
+  },
+  {
+   "year": 2014,
+   "quarter": 2,
+   "ha": 354.08
+  },
+  {
+   "year": 2014,
+   "quarter": 3,
+   "ha": 121.77
+  },
+  {
+   "year": 2014,
+   "quarter": 4,
+   "ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 2015,
+   "quarter": 3,
+   "ha": 22.71
+  },
+  {
+   "year": 2015,
+   "quarter": 4,
+   "ha": 0.01
+  },
+  {
+   "year": 2016,
+   "quarter": 1,
+   "ha": 0.0
+  },
+  {
+   "year": 2016,
+   "quarter": 2,
+   "ha": 0.0
+  },
+  {
+   "year": 2016,
+   "quarter": 3,
+   "ha": 2.7
+  },
+  {
+   "year": 2016,
+   "quarter": 4,
+   "ha": 25.27
+  },
+  {
+   "year": 2017,
+   "quarter": 1,
+   "ha": 19.87
+  },
+  {
+   "year": 2017,
+   "quarter": 2,
+   "ha": 60.39
+  },
+  {
+   "year": 2017,
+   "quarter": 3,
+   "ha": 103.57
+  },
+  {
+   "year": 2017,
+   "quarter": 4,
+   "ha": 76.17
+  },
+  {
+   "year": 2018,
+   "quarter": 1,
+   "ha": 122.28
+  },
+  {
+   "year": 2018,
+   "quarter": 2,
+   "ha": 592.13
+  },
+  {
+   "year": 2018,
+   "quarter": 3,
+   "ha": 104.37
+  },
+  {
+   "year": 2018,
+   "quarter": 4,
+   "ha": 12.84
+  },
+  {
+   "year": 2019,
+   "quarter": 1,
+   "ha": 37.44
+  },
+  {
+   "year": 2019,
+   "quarter": 2,
+   "ha": 158.06
+  },
+  {
+   "year": 2019,
+   "quarter": 3,
+   "ha": 221.9
+  },
+  {
+   "year": 2019,
+   "quarter": 4,
+   "ha": 79.1
+  },
+  {
+   "year": 2020,
+   "quarter": 1,
+   "ha": 69.07
+  },
+  {
+   "year": 2020,
+   "quarter": 2,
+   "ha": 215.72
+  },
+  {
+   "year": 2020,
+   "quarter": 3,
+   "ha": 169.44
+  },
+  {
+   "year": 2020,
+   "quarter": 4,
+   "ha": 20.0
+  },
+  {
+   "year": 2021,
+   "quarter": 1,
+   "ha": 81.51
+  },
+  {
+   "year": 2021,
+   "quarter": 2,
+   "ha": 213.28
+  },
+  {
+   "year": 2021,
+   "quarter": 3,
+   "ha": 216.24
+  },
+  {
+   "year": 2021,
+   "quarter": 4,
+   "ha": 20.43
+  },
+  {
+   "year": 2022,
+   "quarter": 1,
+   "ha": 66.56
+  },
+  {
+   "year": 2022,
+   "quarter": 2,
+   "ha": 149.16
+  },
+  {
+   "year": 2022,
+   "quarter": 3,
+   "ha": 99.85
+  },
+  {
+   "year": 2022,
+   "quarter": 4,
+   "ha": 10.06
+  },
+  {
+   "year": 2023,
+   "quarter": 1,
+   "ha": 17.57
+  },
+  {
+   "year": 2023,
+   "quarter": 2,
+   "ha": 71.26
+  },
+  {
+   "year": 2023,
+   "quarter": 3,
+   "ha": 133.59
+  },
+  {
+   "year": 2023,
+   "quarter": 4,
+   "ha": 0.26
+  },
+  {
+   "year": 2024,
+   "quarter": 1,
+   "ha": 0.03
+  },
+  {
+   "year": 2024,
+   "quarter": 2,
+   "ha": 4.02
+  },
+  {
+   "year": 2024,
+   "quarter": 3,
+   "ha": 151.24
+  },
+  {
+   "year": 2024,
+   "quarter": 4,
+   "ha": 119.56
+  },
+  {
+   "year": 2025,
+   "quarter": 1,
+   "ha": 157.95
+  },
+  {
+   "year": 2025,
+   "quarter": 2,
+   "ha": 301.95
+  },
+  {
+   "year": 2025,
+   "quarter": 3,
+   "ha": 146.92
+  },
+  {
+   "year": 2025,
+   "quarter": 4,
+   "ha": 5.6
+  },
+  {
+   "year": 2026,
+   "quarter": 1,
+   "ha": 8.02
+  },
+  {
+   "year": 2026,
+   "quarter": 2,
+   "ha": 38.41
+  }
+ ],
+ "kw_bounds": [
+  [
+   27.818008036920475,
+   -115.26162240057782
+  ],
+  [
+   27.922003191661904,
+   -115.11813390969903
+  ]
+ ],
+ "kw_years": [
+  1984,
+  1985,
+  1986,
+  1987,
+  1988,
+  1989,
+  1990,
+  1991,
+  1992,
+  1993,
+  1994,
+  1995,
+  1996,
+  1997,
+  1998,
+  1999,
+  2000,
+  2001,
+  2002,
+  2003,
+  2004,
+  2005,
+  2006,
+  2007,
+  2008,
+  2009,
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "rgb_bounds": [
+  [
+   27.818008036920475,
+   -115.26162240057782
+  ],
+  [
+   27.922003191661904,
+   -115.11813390969903
+  ]
+ ],
+ "rgb_years": [
+  1984,
+  1985,
+  1986,
+  1987,
+  1988,
+  1989,
+  1990,
+  1991,
+  1992,
+  1993,
+  1994,
+  1995,
+  1996,
+  1997,
+  1998,
+  1999,
+  2000,
+  2001,
+  2002,
+  2003,
+  2004,
+  2005,
+  2006,
+  2007,
+  2008,
+  2009,
+  2010,
+  2011,
+  2012,
+  2013,
+  2014,
+  2015,
+  2016,
+  2017,
+  2018,
+  2019,
+  2020,
+  2021,
+  2022,
+  2023,
+  2024,
+  2025,
+  2026
+ ],
+ "preliminary": true
+}

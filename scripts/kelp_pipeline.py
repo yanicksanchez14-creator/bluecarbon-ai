@@ -115,7 +115,7 @@ def load_samples(spec: dict, qs: list, folder, px_m: float, kw_path: Path, log=p
 
 def cached_calibration(name: str, samples, test, zones, fit_filter=None):
     cal_cache = WORK / f"calibration_cache{'' if name == 'sentinel2' else '_' + name}.json"   # on Drive
-    key = {"method": 3, "zones": zones, "sites": sorted(zones), "test": sorted(test), "n_samples": len(samples)}
+    key = {"method": 4, "zones": zones, "sites": sorted(zones), "test": sorted(test), "n_samples": len(samples)}
     cached = json.loads(cal_cache.read_text()) if cal_cache.exists() else {}
     if cached.get("key") == key:
         print(f"using saved {name} calibration from Drive", flush=True)
@@ -192,7 +192,7 @@ def main() -> None:
                     for y0 in range(spec.get("landsat_start_year", 1984), ly + 1, 10):   # decade per request
                         rows += gee.sea_surface_temperature(s["bbox"], y0, min(y0 + 9, ly))
                     c.write_text(json.dumps(rows))
-                rows = json.loads(c.read_text())
+                rows = [r for r in json.loads(c.read_text()) if (r["year"], r["quarter"]) <= (ly, lq)]  # full quarters
                 clim = {q: [r["c"] for r in rows if r["quarter"] == q and r["year"] < 2014] for q in (1, 2, 3, 4)}
                 clim = {q: sum(v) / len(v) for q, v in clim.items() if v}
                 for r in rows:

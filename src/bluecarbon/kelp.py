@@ -262,12 +262,23 @@ ENDMEMBERS = (0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.22, 0.28)
 SHORE_M = (0, 40, 80, 120)
 
 
-def _score(samples, t, e, b) -> float:
+def _score_one(samples, t, e, b) -> float:
     o, r, tot = pairs(samples, t, e, b)
     if not o.size:
         return np.inf
     so, sr = np.array([x[3] for x in tot]), np.array([x[4] for x in tot])
     return float(np.sqrt(np.mean((o - r) ** 2)) / (np.std(r) or 1) + np.sqrt(np.mean((so - sr) ** 2)) / (np.std(sr) or 1))
+
+
+def _score(samples, t, e, b) -> float:
+    """Mean over sites of each site's normalised cell + site-total error, so every kelp bed counts the same. Pooling
+    all sites let one huge bed (Isla Natividad, ~600 ha) set the settings for every other bed (Oct 2026)."""
+    by = {}
+    for s in samples:
+        by.setdefault(s["site"], []).append(s)
+    sc = [_score_one(v, t, e, b) for v in by.values()]
+    sc = [x for x in sc if np.isfinite(x)]
+    return float(np.mean(sc)) if sc else np.inf
 
 
 def _search(samples, grid=None, log=print, label="") -> tuple[float, float, float]:
@@ -325,12 +336,24 @@ def calibrate(samples: list[dict], test_sites: set[str], zones: dict[str, str] |
     t, e, b = _search(cal_fit, log=log)
     res = {"threshold": t, "endmember": e, "shore_m": b, "cell_m": CELL_M, "min_coverage": MIN_COVERAGE,
            "zones": {}, "site_zone": zones}
+    res["zones_rejected"] = {}
     for z in sorted(set(zones.values())):
         zs = [s for s in cal_fit if zones.get(s["site"]) == z]
-        if len({s["site"] for s in zs}) >= 2:
+        zsites = sorted({s["site"] for s in zs})
+        if len(zsites) >= 2:
             zt, ze, zb = _search(zs, log=log, label=f" {z}")
-            res["zones"][z] = {"threshold": zt, "endmember": ze, "shore_m": zb,
-                               "sites": sorted({s["site"] for s in zs})}
+            # keep the zone's own settings only if they predict its beds better than the global ones, judged
+            # leave-one-bed-out (an in-sample comparison would always favour the zone)
+            zone_err, glob_err = [], []
+            for site in zsites:
+                own = [s for s in samples if s["site"] == site]
+                zp = [s for s in zs if s["site"] != site]
+                gp = [s for s in cal_fit if s["site"] != site]
+                zone_err.append(_score_one(own, *_search(zp, grid=_near(zt, ze, zb))))
+                glob_err.append(_score_one(own, *_search(gp, grid=_near(t, e, b))))
+            entry = {"threshold": zt, "endmember": ze, "shore_m": zb, "sites": zsites,
+                     "loo_error_zone": round(float(np.mean(zone_err)), 3), "loo_error_global": round(float(np.mean(glob_err)), 3)}
+            (res["zones"] if entry["loo_error_zone"] < entry["loo_error_global"] else res["zones_rejected"])[z] = entry
     held = [s for s in samples if s["site"] in test_sites]
     per_site = {}
     for site in sorted({s["site"] for s in samples}):

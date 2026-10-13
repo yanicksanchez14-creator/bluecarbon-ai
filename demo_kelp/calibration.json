@@ -48,5 +48,315 @@
   "laguna_dana_point"
  ],
  "kelpwatch_file": "kelpwatch.nc",
- "method": "Sentinel-2 Floating Algae Index (B4, B8A, B11), quarterly 90th percentile, background removed, surf zone masked, scaled to canopy fraction; threshold, end member and surf-zone buffer fitted to Kelpwatch on calibration sites; quarters under 50% clear ocean not scored"
+ "method": "Sentinel-2 Floating Algae Index (B4, B8A, B11), quarterly 90th percentile, background removed, surf zone masked, scaled to canopy fraction; threshold, end member and surf-zone buffer fitted to Kelpwatch on calibration sites; quarters under 50% clear ocean not scored",
+ "landsat": {
+  "threshold": 0.002,
+  "endmember": 0.22,
+  "shore_m": 120,
+  "cell_m": 300,
+  "min_coverage": 0.5,
+  "zones": {
+   "bull kelp": {
+    "threshold": 0.024,
+    "endmember": 0.28,
+    "shore_m": 120,
+    "sites": [
+     "mendocino",
+     "neah_bay",
+     "orford_reef"
+    ]
+   },
+   "giant kelp": {
+    "threshold": 0.003,
+    "endmember": 0.1,
+    "shore_m": 120,
+    "sites": [
+     "isla_natividad",
+     "la_jolla",
+     "palos_verdes",
+     "point_loma",
+     "santa_barbara",
+     "todos_santos"
+    ]
+   }
+  },
+  "site_zone": {
+   "point_loma": "giant kelp",
+   "la_jolla": "giant kelp",
+   "laguna_dana_point": "giant kelp",
+   "palos_verdes": "giant kelp",
+   "santa_barbara": "giant kelp",
+   "carmel_monterey": "giant kelp",
+   "mendocino": "bull kelp",
+   "todos_santos": "giant kelp",
+   "isla_natividad": "giant kelp",
+   "orford_reef": "bull kelp",
+   "neah_bay": "bull kelp"
+  },
+  "per_site": {
+   "carmel_monterey": {
+    "cells_m2": {
+     "n": 63950,
+     "r2": 0.687,
+     "rmse": 3612.0,
+     "bias": -102.2,
+     "corr": 0.833
+    },
+    "site_quarter_ha": {
+     "n": 122,
+     "r2": 0.694,
+     "rmse": 49.8,
+     "bias": -5.4,
+     "corr": 0.882
+    },
+    "how": "held out"
+   },
+   "isla_natividad": {
+    "cells_m2": {
+     "n": 35572,
+     "r2": 0.586,
+     "rmse": 3523.4,
+     "bias": 372.0,
+     "corr": 0.803
+    },
+    "site_quarter_ha": {
+     "n": 125,
+     "r2": 0.601,
+     "rmse": 42.8,
+     "bias": 10.6,
+     "corr": 0.824
+    },
+    "how": "left out of its own fit"
+   },
+   "la_jolla": {
+    "cells_m2": {
+     "n": 29462,
+     "r2": 0.424,
+     "rmse": 3042.9,
+     "bias": -185.1,
+     "corr": 0.653
+    },
+    "site_quarter_ha": {
+     "n": 119,
+     "r2": 0.485,
+     "rmse": 25.0,
+     "bias": -4.6,
+     "corr": 0.736
+    },
+    "how": "left out of its own fit"
+   },
+   "laguna_dana_point": {
+    "cells_m2": {
+     "n": 54419,
+     "r2": -1.298,
+     "rmse": 1477.4,
+     "bias": 257.4,
+     "corr": 0.524
+    },
+    "site_quarter_ha": {
+     "n": 128,
+     "r2": -13.511,
+     "rmse": 24.0,
+     "bias": 10.9,
+     "corr": 0.248
+    },
+    "how": "held out"
+   },
+   "mendocino": {
+    "cells_m2": {
+     "n": 9250,
+     "r2": -0.177,
+     "rmse": 3234.2,
+     "bias": -1163.5,
+     "corr": 0.083
+    },
+    "site_quarter_ha": {
+     "n": 122,
+     "r2": -0.192,
+     "rmse": 21.2,
+     "bias": -8.8,
+     "corr": 0.122
+    },
+    "how": "left out of its own fit"
+   },
+   "neah_bay": {
+    "cells_m2": {
+     "n": 17350,
+     "r2": -1.491,
+     "rmse": 4399.5,
+     "bias": 205.5,
+     "corr": 0.269
+    },
+    "site_quarter_ha": {
+     "n": 112,
+     "r2": -6.088,
+     "rmse": 40.9,
+     "bias": 3.2,
+     "corr": 0.116
+    },
+    "how": "left out of its own fit"
+   },
+   "orford_reef": {
+    "cells_m2": {
+     "n": 8343,
+     "r2": -0.141,
+     "rmse": 4649.6,
+     "bias": -1313.1,
+     "corr": -0.01
+    },
+    "site_quarter_ha": {
+     "n": 125,
+     "r2": -0.179,
+     "rmse": 24.8,
+     "bias": -8.8,
+     "corr": 0.094
+    },
+    "how": "left out of its own fit"
+   },
+   "palos_verdes": {
+    "cells_m2": {
+     "n": 45106,
+     "r2": 0.592,
+     "rmse": 1390.9,
+     "bias": 168.5,
+     "corr": 0.815
+    },
+    "site_quarter_ha": {
+     "n": 123,
+     "r2": 0.744,
+     "rmse": 10.3,
+     "bias": 6.2,
+     "corr": 0.917
+    },
+    "how": "left out of its own fit"
+   },
+   "point_loma": {
+    "cells_m2": {
+     "n": 30486,
+     "r2": 0.523,
+     "rmse": 3458.2,
+     "bias": -512.4,
+     "corr": 0.756
+    },
+    "site_quarter_ha": {
+     "n": 117,
+     "r2": 0.551,
+     "rmse": 35.1,
+     "bias": -13.4,
+     "corr": 0.872
+    },
+    "how": "left out of its own fit"
+   },
+   "santa_barbara": {
+    "cells_m2": {
+     "n": 125815,
+     "r2": 0.712,
+     "rmse": 1369.1,
+     "bias": 177.6,
+     "corr": 0.847
+    },
+    "site_quarter_ha": {
+     "n": 125,
+     "r2": -0.048,
+     "rmse": 46.4,
+     "bias": 17.9,
+     "corr": 0.57
+    },
+    "how": "left out of its own fit"
+   },
+   "todos_santos": {
+    "cells_m2": {
+     "n": 45298,
+     "r2": 0.349,
+     "rmse": 1153.7,
+     "bias": 180.6,
+     "corr": 0.812
+    },
+    "site_quarter_ha": {
+     "n": 124,
+     "r2": 0.186,
+     "rmse": 9.3,
+     "bias": 6.6,
+     "corr": 0.89
+    },
+    "how": "left out of its own fit"
+   }
+  },
+  "calibration": {
+   "cells_m2": {
+    "n": 644921,
+    "r2": 0.329,
+    "rmse": 2037.4,
+    "bias": 0.9,
+    "corr": 0.574
+   },
+   "site_quarter_ha": {
+    "n": 1092,
+    "r2": 0.122,
+    "rmse": 37.5,
+    "bias": 0.1,
+    "corr": 0.421
+   }
+  },
+  "held_out": {
+   "cells_m2": {
+    "n": 118369,
+    "r2": 0.66,
+    "rmse": 2837.6,
+    "bias": 63.1,
+    "corr": 0.813
+   },
+   "site_quarter_ha": {
+    "n": 250,
+    "r2": 0.753,
+    "rmse": 38.8,
+    "bias": 3.0,
+    "corr": 0.886
+   }
+  }
+ },
+ "expansion_review": {
+  "zones_fit": {
+   "bull kelp": {
+    "threshold": 0.024,
+    "endmember": 0.28,
+    "shore_m": 120,
+    "sites": [
+     "mendocino",
+     "neah_bay",
+     "orford_reef"
+    ]
+   },
+   "giant kelp": {
+    "threshold": 0.012,
+    "endmember": 0.06,
+    "shore_m": 120,
+    "sites": [
+     "isla_natividad",
+     "la_jolla",
+     "palos_verdes",
+     "point_loma",
+     "santa_barbara",
+     "todos_santos"
+    ]
+   }
+  },
+  "held_out_with_zones": {
+   "cells_m2": {
+    "n": 20083,
+    "r2": 0.497,
+    "rmse": 2041.3,
+    "bias": 435.9,
+    "corr": 0.792
+   },
+   "site_quarter_ha": {
+    "n": 84,
+    "r2": 0.414,
+    "rmse": 20.4,
+    "bias": 10.4,
+    "corr": 0.826
+   }
+  },
+  "note": "Oct 13 2026: refitting with the 4 new beds and per-zone settings scored worse on the held-out beds (r2 0.41 vs 0.75), so the published Sentinel-2 calibration stays the California one; new beds use the new fit and are marked preliminary."
+ }
 }

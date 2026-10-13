@@ -638,7 +638,10 @@ def landsat_composite(region, year: int, half_window: int = 1):
             return sr.rename(LANDSAT_BANDS).updateMask(clear).toFloat()  # same band type in every sensor
         cols.append(ee.ImageCollection(cid).filterBounds(region).filterDate(start, end).map(prep))
     merged = cols[0].merge(cols[1]).merge(cols[2]).merge(cols[3])
-    return merged.median().clamp(0, 1).multiply(10000).toUint16()
+    empty = ee.Image.constant([0] * len(LANDSAT_BANDS)).rename(LANDSAT_BANDS).toFloat().updateMask(0)
+    # no clear scene in the window (it happened in Oct 2026): a band-less median broke the whole history step
+    med = ee.Image(ee.Algorithms.If(merged.size().gt(0), merged.median(), empty)).rename(LANDSAT_BANDS)
+    return med.unmask(0).clamp(0, 1).multiply(10000).toUint16()
 
 
 def download_landsat(bbox: list[float], year: int, out_path: str | Path, cfg: Config) -> Path:

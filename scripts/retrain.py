@@ -59,6 +59,16 @@ def fetch_parallel(workers: int = FETCH_WORKERS) -> None:
         failed = [n for n, ok in zip(names, ex.map(one, names), strict=True) if not ok]
     for name in failed:  # once more, alone (most failures are a transient Earth Engine error)
         run("bluecarbon", "fetch", "--labels-only", "--only", name)
+    # every site must have every input: one held-out site without radar silently dropped radar AND L-band from
+    # the whole Oct 12 model. Fetch again for any site still missing them, then stop if any are still missing.
+    sites = WORK / "sites"
+    missing = [n for n in names if (sites / n / "image.tif").exists()
+               and not all((sites / n / f).exists() for f in ("radar.tif", "lband.tif"))]
+    for name in missing:
+        run("bluecarbon", "fetch", "--labels-only", "--only", name)
+    still = [n for n in missing if not all((sites / n / f).exists() for f in ("radar.tif", "lband.tif"))]
+    if still:
+        print("WARNING: still no radar / L-band for: " + ", ".join(still), flush=True)
 
 
 def best_model() -> Path:

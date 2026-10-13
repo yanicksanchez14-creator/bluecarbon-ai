@@ -69,17 +69,25 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         if not gee.ancillary_ok(d / "ancillary.tif") and (d / "image.tif").exists():
             typer.echo(f"[{site['name']}] ancillary + clear-water layers ...")
             gee.download_ancillary(site["bbox"], yr_start, yr_end, d / "ancillary.tif", cfg)
-        if site.get("role") != "test":
-            _fetch_extra_years(gee, site, d, s.get("extra_years") or [], cfg)
-        if (d / "image.tif").exists() and not (d / "radar.tif").exists():  # Sentinel-1, a model input
-            typer.echo(f"[{site['name']}] radar (Sentinel-1) ...")
-            gee.download_radar(site["bbox"], yr_start, yr_end, d / "radar.tif", cfg)
-        if (d / "image.tif").exists() and not gee.lband_ok(d / "lband.tif"):  # ALOS PALSAR-2, a model input
-            typer.echo(f"[{site['name']}] L-band radar (ALOS PALSAR-2) ...")
-            gee.download_lband(site["bbox"], int(str(yr_start)[:4]), d / "lband.tif", cfg)
-        if (d / "image.tif").exists() and not (d / "built.tif").exists():  # sea-level-rise screen (small)
-            typer.echo(f"[{site['name']}] built-up layer ...")
-            gee.download_built(site["bbox"], d / "built.tif", cfg)
+        def context_layers(site=site, d=d, yr_start=yr_start, yr_end=yr_end, extra=s.get("extra_years") or []):
+            """Extra years, radar, L-band and built-up layers. They need image.tif, so for a NEW site this runs
+            again after the imagery is downloaded below (before Oct 13 2026 new sites got no radar or L-band, and
+            one missing held-out site silently removed both inputs from the whole model)."""
+            if not (d / "image.tif").exists():
+                return
+            if site.get("role") != "test":
+                _fetch_extra_years(gee, site, d, extra, cfg)
+            if not (d / "radar.tif").exists():  # Sentinel-1, a model input
+                typer.echo(f"[{site['name']}] radar (Sentinel-1) ...")
+                gee.download_radar(site["bbox"], yr_start, yr_end, d / "radar.tif", cfg)
+            if not gee.lband_ok(d / "lband.tif"):  # ALOS PALSAR-2, a model input
+                typer.echo(f"[{site['name']}] L-band radar (ALOS PALSAR-2) ...")
+                gee.download_lband(site["bbox"], int(str(yr_start)[:4]), d / "lband.tif", cfg)
+            if not (d / "built.tif").exists():  # sea-level-rise screen (small)
+                typer.echo(f"[{site['name']}] built-up layer ...")
+                gee.download_built(site["bbox"], d / "built.tif", cfg)
+
+        context_layers()
         from .surveys import _intersects
 
         # survey servers fixed since a site was labelled (a new mirror): rebuild only the sites they cover
@@ -116,6 +124,7 @@ def fetch(config: str = CfgOpt, sites: str = SitesOpt, only: list[str] = typer.O
         (d / "meta.json").write_text(json.dumps({**site, "year": year, "label_px": hist, **info,
                                                  "relabel_done": relabel}, indent=2))
         typer.echo(f"[{site['name']}] label pixels: {hist}  sources: {info.get('label_sources')}")
+        context_layers()  # a site downloaded for the first time just now gets its radar, L-band, extra years
 
 
 @app.command()
@@ -403,12 +412,19 @@ def compare(new: Path = typer.Option(..., help="Newly trained model"),
         with rasterio.open(d / "label.tif") as lb:
             ref = lb.read(1)
         lat = raster_center_lat(tr, crs, *ref.shape)
-        rows[site["name"]] = {}
+        row = {}
         for name, pr in models.items():
             anc = read_ancillary(d / "image.tif", bands.shape[1:]) if pr.needs_ancillary else None
-            cls, _ = pr.predict(bands, cfg.predict.tile, cfg.predict.overlap, cfg.predict.tta, anc=anc)
-            rows[site["name"]][name] = summarize(confusion(ref, apply_to_classes(cls, lat)))["iou"]
-    lines.append("LIVE vs NEW on the same held-out estuaries and current labels (IoU)")
+            try:
+                cls, _ = pr.predict(bands, cfg.predict.tile, cfg.predict.overlap, cfg.predict.tta, anc=anc)
+            except ValueError as e:  # e.g. a layer this model needs is missing for this site
+                lines.append(f"  SKIPPED {site['name']}: the {name} model cannot run here ({str(e)[:90]})")
+                row = None
+                break
+            row[name] = summarize(confusion(ref, apply_to_classes(cls, lat)))["iou"]
+        if row:
+            rows[site["name"]] = row
+    lines.insert(0, "LIVE vs NEW on the same held-out estuaries and current labels (IoU)")
     lines.append(f"  {'estuary':20s} {'habitat':10s} {'live':>6s} {'new':>6s} {'change':>7s}")
     worst, live_v, new_v = 0.0, [], []
     for site, r in rows.items():

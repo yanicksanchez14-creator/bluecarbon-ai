@@ -227,6 +227,8 @@ def seafloor_hidden(anc: np.ndarray, water_like: np.ndarray | None = None) -> np
         return np.zeros(b3.shape, bool)
     d2, d3 = np.percentile(b2[water], 2), np.percentile(b3[water], 2)
     deep = (b3 <= d3 + DEEP_MARGIN) & (b2 <= d2 + DEEP_MARGIN)
+    if not USE_TURBID_RULE:
+        return deep & (b8 < 0.05)
     turbid = (b4 >= TURBID_RED) & (b4 >= TURBID_RED_GREEN * b3)
     return (deep | turbid) & (b8 < 0.05)
 
@@ -239,8 +241,22 @@ def training_label(lab: np.ndarray, anc: np.ndarray | None) -> np.ndarray:
     if not USE_SEAFLOOR_MASK or anc is None or anc.shape[0] < 7 or not (lab == sg).any():
         return lab
     out = lab.copy()
-    out[(lab == sg) & seafloor_hidden(anc, np.isin(lab, [KEY_TO_ID["water"], sg]))] = IGNORE_INDEX
+    hid = (lab == sg) & seafloor_hidden(anc, np.isin(lab, [KEY_TO_ID["water"], sg]))
+    cap = int(MAX_HIDDEN_SHARE * (lab == sg).sum())
+    if hid.sum() > cap:  # skip at most a quarter of a tile's seagrass: the darkest (deepest-looking) pixels first
+        b3 = np.nan_to_num(anc[4].astype(np.float32))
+        idx = np.flatnonzero(hid.ravel())
+        keep = idx[np.argsort(b3.ravel()[idx])[:cap]]
+        hid = np.zeros(lab.size, bool)
+        hid[keep] = True
+        hid = hid.reshape(lab.shape)
+    out[hid] = IGNORE_INDEX
     return out
 
 
 USE_SEAFLOOR_MASK = True
+# Oct 13 2026: the first version skipped up to 90% of a site's seagrass (Rookery Bay) and the model learned
+# "murky water = water": held-out seagrass fell (Mission Bay 0.27 -> 0.07). Now only optically deep water counts,
+# never brown (turbid) water, and never more than a quarter of a tile's seagrass.
+USE_TURBID_RULE = False
+MAX_HIDDEN_SHARE = 0.25

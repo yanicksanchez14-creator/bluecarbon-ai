@@ -20,10 +20,13 @@ def test_visible_seagrass_kept_hidden_skipped():
     lab = np.full((40, 40), SG, np.uint8)
     lab[:5] = W
     hid = seafloor_hidden(anc)
-    assert not hid[:, :20].any() and hid[10:25, 25:].all() and hid[32:, 25:].all()
+    assert not hid[:, :20].any() and hid[10:25, 25:].all()
+    assert not hid[32:, 25:].any()                        # brown water no longer counts as hidden
     t = training_label(lab, anc)
     assert (t[5:, :20] == SG).all()                       # visible seagrass still trains
-    assert (t[10:25, 25:] == IGNORE_INDEX).all()          # deep: ignored, never turned into water
+    n_sg = int((lab == SG).sum())
+    assert (t == IGNORE_INDEX).sum() <= 0.25 * n_sg + 1   # at most a quarter skipped
+    assert not (t == W)[5:].any()                         # never turned into water
     assert (t[:5] == W).all()
 
 

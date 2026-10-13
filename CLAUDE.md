@@ -32,5 +32,10 @@ Order of work (status locked in Oct 12 2026; the Doc's "Status" table is the det
 5. LATER: Sanderman 2018 mangrove soil carbon (not in Earth Engine: the owner downloads the 30 m map from Harvard
    Dataverse, ~1 GB, then wire it in as a 2nd soil source with a disagreement flag); kelp Tasmania/Chile/South Africa; Puget Sound eelgrass (needs a better survey); Netherlands and China
    official marsh maps. Paid upgrades only with the owner's decision.
+Oct 13 2026: run cd6d006 NOT published (manual check REVIEW: held-out mean 0.59 -> 0.54). Cause found: the 19 new
+sites (incl. held-out Brisbane Water and Ribble) never got radar/L-band (fetched before their imagery existed), so the
+model silently trained WITHOUT Sentinel-1 and L-band; plus the seafloor rule skipped up to 90% of some sites' seagrass.
+Fixed in code (fetch order, missing-layer retry, compare skips sites a model can't run, softened seafloor rule,
+Landsat history empty-year bug). Next: rerun step 5 (downloads only the missing layers), then compare.
 Known issues to fix: Plum Island false seagrass, Mission Bay salt marsh drop, murky-water seagrass.
 Every run: no-paid-services test, compare before publishing, held-out table, 200-point spot-check per test site.

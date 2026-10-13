@@ -44,3 +44,4 @@ Fixed in code (fetch order, missing-layer retry, compare skips sites a model can
 Landsat history empty-year bug). Next: rerun step 5 (downloads only the missing layers), then compare.
 Known issues to fix: Plum Island false seagrass, Mission Bay salt marsh drop, murky-water seagrass.
 Every run: no-paid-services test, compare before publishing, held-out table, 200-point spot-check per test site.
+After every run, add it to the project story in `.story/README.md` (hidden history: every Colab run and change).

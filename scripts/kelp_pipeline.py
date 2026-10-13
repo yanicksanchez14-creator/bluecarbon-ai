@@ -75,9 +75,9 @@ def fraction_png(frac: np.ndarray, tr, crs, dst: Path, color=(214, 160, 38)) -> 
         m, bounds = _to_mercator(p, [1], Resampling.nearest, 255)
     f = m[0].astype(float)
     rgba = np.zeros((*f.shape, 4), np.uint8)
-    on = (f > 0) & (f <= 100)
+    on = (f >= 10) & (f <= 100)   # under 10% canopy in a pixel is mostly noise; hidden so beds read clearly
     rgba[..., 0], rgba[..., 1], rgba[..., 2] = color
-    rgba[..., 3] = np.where(on, 90 + 1.6 * np.clip(f, 0, 100), 0).astype(np.uint8)
+    rgba[..., 3] = np.where(on, np.clip(70 + 1.85 * f, 0, 255), 0).astype(np.uint8)
     save_png(rgba, dst)
     return bounds
 

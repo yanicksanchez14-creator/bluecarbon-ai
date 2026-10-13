@@ -112,7 +112,9 @@ def is_ensemble(path: str | Path) -> bool:
 
 
 def is_spectral(path: str | Path) -> bool:
-    p = Path(path)
+    from .model import resolve_model_file
+
+    p = resolve_model_file(path)
     if is_ensemble(p):
         return False
     if p.suffix == ".json":
@@ -166,7 +168,9 @@ def model_card(path: str | Path) -> dict:
                 "extra": d.get("extra", {})}
     import torch
 
-    ck = torch.load(path, map_location="cpu", weights_only=False)
+    from .model import resolve_model_file
+
+    ck = torch.load(resolve_model_file(path), map_location="cpu", weights_only=False)
     return {"arch": ck["arch"], "encoder": ck["encoder"], "kind": "unet", "metrics": ck.get("metrics", {}),
             "extra": ck.get("extra", {})}
 

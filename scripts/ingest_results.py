@@ -75,8 +75,13 @@ def install_model(src: Path) -> tuple[Path, dict]:
         ck["extra"] = {**ck.get("extra", {}), **MODEL_INFO}
         torch.save(ck, dst)
     mb = dst.stat().st_size / 1e6
-    if mb > 95:
-        raise SystemExit(f"{dst.name} is {mb:.0f} MB, too big for GitHub. Attach it to a release and set MODEL_URL.")
+    for old in dst.parent.glob(dst.name + ".part*"):  # parts of an earlier big model
+        old.unlink()
+    if mb > 95:  # over GitHub's 100 MB limit (e.g. Prithvi): store as parts, joined automatically when loaded
+        from bluecarbon.model import split_file
+
+        parts = split_file(dst)
+        print(f"{dst.name} is {mb:.0f} MB: stored as {len(parts)} parts under 100 MB each")
     (ROOT / "models" / "current.txt").write_text(dst.name + "\n")
     print(f"model -> {dst.relative_to(ROOT)} ({mb:.1f} MB)")
     from bluecarbon.seagrass import specialist_path_for

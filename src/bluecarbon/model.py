@@ -41,6 +41,47 @@ def build_model(arch: str = "Unet", encoder: str = "resnet34", encoder_weights: 
         return cls(encoder_name=encoder, encoder_weights=None, in_channels=in_channels, classes=n_classes)
 
 
+PART_MB = 90  # GitHub refuses files over 100 MB, so bigger models are stored as numbered parts
+
+
+def split_file(path: str | Path, part_mb: int = PART_MB) -> list[Path]:
+    """Store `path` as path.part1, path.part2, ... (each under GitHub's limit) and remove the whole file."""
+    path = Path(path)
+    data, step = path.read_bytes(), part_mb * 1024 * 1024
+    for old in path.parent.glob(path.name + ".part*"):
+        old.unlink()
+    parts = []
+    for i in range(0, len(data), step):
+        q = path.with_name(f"{path.name}.part{i // step + 1}")
+        q.write_bytes(data[i:i + step])
+        parts.append(q)
+    path.unlink()
+    return parts
+
+
+def resolve_model_file(path: str | Path) -> Path:
+    """The model file itself, or (when it was stored in parts) the parts joined once into a local cache."""
+    import os
+
+    path = Path(path)
+    if path.exists():
+        return path
+    parts = sorted(path.parent.glob(path.name + ".part*"), key=lambda q: int(q.name.rsplit("part", 1)[1]))
+    if not parts:
+        return path
+    size = sum(q.stat().st_size for q in parts)
+    cache = Path(os.environ.get("BLUECARBON_CACHE", Path.home() / ".cache" / "bluecarbon"))
+    whole = cache / f"{path.stem}-{size}{path.suffix}"
+    if not whole.exists() or whole.stat().st_size != size:
+        cache.mkdir(parents=True, exist_ok=True)
+        tmp = whole.with_suffix(whole.suffix + ".tmp")
+        with open(tmp, "wb") as f:
+            for q in parts:
+                f.write(q.read_bytes())
+        tmp.replace(whole)
+    return whole
+
+
 def save_checkpoint(path: str | Path, model: nn.Module, arch: str, encoder: str, normalizer: Normalizer,
                     metrics: dict | None = None, extra: dict | None = None,
                     features: list[str] | None = None, class_bias: list[float] | None = None) -> None:
@@ -60,7 +101,7 @@ def save_checkpoint(path: str | Path, model: nn.Module, arch: str, encoder: str,
 
 
 def load_checkpoint(path: str | Path, device: str | torch.device = "cpu") -> tuple[nn.Module, Normalizer, dict]:
-    ck = torch.load(path, map_location=device, weights_only=False)
+    ck = torch.load(resolve_model_file(path), map_location=device, weights_only=False)
     if ck.get("version") != CHECKPOINT_VERSION:
         raise ValueError(f"{path} is not a v2 bluecarbon checkpoint")
     from .features import KNOWN_FEATURES

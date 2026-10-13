@@ -67,3 +67,23 @@ def test_candidate_trains_and_blends(tmp_path):
         bands = s.read()
     cls, _ = pr.predict(bands, tile=128, overlap=32, tta=False)
     assert cls.shape == bands.shape[1:] and np.isin(np.unique(cls), list(range(7)) + [255]).all()
+
+
+def test_big_model_stored_in_parts(tmp_path, monkeypatch):
+    """A model over GitHub's limit is split into parts and still loads (joined once into a cache)."""
+    from bluecarbon.features import Normalizer
+    from bluecarbon.model import build_model, save_checkpoint, split_file
+    from bluecarbon.predictors import load_predictor, model_card
+
+    monkeypatch.setenv("BLUECARBON_CACHE", str(tmp_path / "cache"))
+    f = FEATURE_NAMES
+    net = build_model("Unet", "resnet18", None, len(f), 7)
+    norm = Normalizer(np.zeros(len(f), np.float32), np.ones(len(f), np.float32))
+    p = tmp_path / "models" / "big.pt"
+    save_checkpoint(p, net, "Unet", "resnet18", norm, features=f)
+    size = p.stat().st_size
+    parts = split_file(p, part_mb=10)
+    assert len(parts) >= 2 and not p.exists() and all(q.stat().st_size <= 10 * 1024 * 1024 for q in parts)
+    pr = load_predictor(p, "cpu")
+    assert pr.kind == "unet" and model_card(p)["arch"] == "Unet"
+    assert next((tmp_path / "cache").glob("big-*.pt")).stat().st_size == size

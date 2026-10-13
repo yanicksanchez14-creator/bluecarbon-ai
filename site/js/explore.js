@@ -29,7 +29,7 @@
   function legend(key) {
     const el = document.getElementById("legend");
     if (key === "confidence") {
-      el.innerHTML = '<span><i style="background:#f2a65a"></i>Model unsure</span><span><i style="background:#f24c5a"></i>Least sure</span><span>Clear = confident</span>';
+      el.innerHTML = '<span><i style="background:#eb46cd"></i>Model unsure</span><span><i style="background:#6e28eb"></i>Least sure</span><span>Clear = confident</span>';
     } else if (key === "change") {
       el.innerHTML = '<span><i style="background:#22c55e"></i>Blue carbon gained</span><span><i style="background:#ef4444"></i>Blue carbon lost</span>';
     } else if (key && !key.startsWith("falsecolor")) {

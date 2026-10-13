@@ -55,7 +55,7 @@ def change_rgba(t0: np.ndarray, t1: np.ndarray, blue_ids: list[int]) -> np.ndarr
 
 
 def confidence_rgba(conf_pct: np.ndarray, class_map: np.ndarray, only: list[int] | None = None) -> np.ndarray:
-    """Where to doubt the map: low model confidence shown warm and opaque, high confidence clear.
+    """Where to doubt the map: low model confidence shown magenta to violet and opaque, high confidence clear.
     conf_pct is the model's probability for the chosen class (0-100); 255 = no data."""
     c = conf_pct.astype(float)
     valid = (conf_pct != 255) & (class_map != 255)
@@ -63,8 +63,10 @@ def confidence_rgba(conf_pct: np.ndarray, class_map: np.ndarray, only: list[int]
         valid &= np.isin(class_map, only)
     doubt = np.clip((90 - c) / 50, 0, 1)            # 90%+ -> clear, 40% or less -> full colour
     out = np.zeros((*conf_pct.shape, 4), np.uint8)
-    out[..., 0], out[..., 1], out[..., 2] = 242, (166 - 90 * doubt).astype(np.uint8), 90
-    out[..., 3] = np.where(valid, (40 + 200 * doubt) * (doubt > 0), 0).astype(np.uint8)
+    # magenta (unsure) to violet (least sure): colours no coast has, so doubt never reads as sediment or murky water
+    lo, hi = np.array([235, 70, 205]), np.array([110, 40, 235])
+    out[..., :3] = (lo * (1 - doubt[..., None]) + hi * doubt[..., None]).astype(np.uint8)
+    out[..., 3] = np.where(valid, (70 + 185 * doubt) * (doubt > 0), 0).astype(np.uint8)
     return out
 
 

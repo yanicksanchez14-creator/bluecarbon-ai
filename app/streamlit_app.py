@@ -709,8 +709,8 @@ HINTS = {
     "Blue carbon only": "Only mangrove, salt marsh and seagrass: the habitats counted in the carbon numbers.",
     "Satellite": "The cloud-free satellite photo the AI analysed, in natural color.",
     "False color": "An infrared view where healthy plants glow red. Scientists use it to spot vegetation that is hard to see in normal color.",
-    "Confidence": "Where to doubt the map: orange marks pixels the model was unsure about (under about 90% confident), "
-                  "darker orange the least sure. Clear means confident.",
+    "Confidence": "Where to doubt the map: magenta marks pixels the model was unsure about (under about 90% confident), "
+                  "violet the least sure. Clear means confident.",
 }
 
 

@@ -87,3 +87,23 @@ def test_big_model_stored_in_parts(tmp_path, monkeypatch):
     pr = load_predictor(p, "cpu")
     assert pr.kind == "unet" and model_card(p)["arch"] == "Unet"
     assert next((tmp_path / "cache").glob("big-*.pt")).stat().st_size == size
+
+
+def test_spectral_sample_respects_memory_budget(tmp_path, monkeypatch):
+    """On a small-memory machine the LightGBM sample shrinks instead of the process being killed."""
+    from bluecarbon import spectral
+
+    recs = []
+    for i, split in enumerate(["train", "train", "val", "test"]):
+        d = tmp_path / f"s{i}"
+        d.mkdir()
+        make_scene(d / "image.tif", d / "label.tif", size=256, seed=i)
+        recs += make_chips(d / "image.tif", d / "label.tif", tmp_path / "chips", f"s{i}", size=128, stride=128,
+                           force_split=split)
+    msgs = []
+    monkeypatch.setattr(spectral, "memory_budget_bytes", lambda share=0.3: 2_000_000)
+    spectral.train_spectral(recs, tmp_path / "m", per_class_per_chip=400, n_estimators=10, log=msgs.append)
+    assert any("memory limit" in m for m in msgs)
+    n = int(next(m for m in msgs if "training pixels" in m).split("spectral model: ")[1].split(" training")[0]
+            .replace(",", ""))
+    assert n * 100 * 4 < 2 * 2_000_000  # stayed near the budget (about 100 features x 4 bytes each)

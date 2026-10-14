@@ -180,7 +180,8 @@ def main() -> None:
         from bluecarbon.gee import LABEL_VERSION
 
         tag = WORK / "sites" / "_train_state_labels.txt"   # which label version the saved training state is for
-        states = lambda: [*(WORK / "sites").glob("_train_state*.pt"), *(WORK / "sites").glob("_train_best*.pt")]  # noqa: E731
+        states = lambda: [*(WORK / "sites").glob("_train_state*.pt"), *(WORK / "sites").glob("_train_best*.pt"),  # noqa: E731
+                          *(WORK / "sites").glob("_train_spectral*")]
         if (WORK / "sites" / "_train_state.pt").exists() and (not tag.exists() or tag.read_text().strip() != LABEL_VERSION):
             print("Old training state from an earlier run found: discarding it (new sites and labels)", flush=True)
             for f in states():

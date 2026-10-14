@@ -178,9 +178,27 @@ def train(config: str = CfgOpt, kind: str = typer.Option("both", help="spectral 
     out = cfg.work / "model"
     scores = {}
     if kind in ("spectral", "both"):
+        import os
+
+        from .gee import LABEL_VERSION
         from .spectral import train_spectral
 
-        res = train_spectral(recs, out)
+        # after a Colab disconnect, reuse the LightGBM model saved next to the training state (same chips)
+        state = Path(os.environ.get("BLUECARBON_TRAIN_STATE", "/nonexistent/x")).parent
+        sig = f"{LABEL_VERSION} {len(recs)} {sum(r.split == 'train' for r in recs)}"
+        saved = [state / "_train_spectral.json", state / "_train_spectral_metrics.json", state / "_train_spectral_sig.txt"]
+        if all(f.exists() for f in saved) and saved[2].read_text().strip() == sig:
+            out.mkdir(parents=True, exist_ok=True)
+            shutil.copy(saved[0], out / "spectral.json")
+            shutil.copy(saved[1], out / "spectral_metrics.json")
+            res = json.loads(saved[1].read_text())
+            typer.echo("spectral model: reusing the one saved on Drive before the disconnect")
+        else:
+            res = train_spectral(recs, out)
+            if state.exists():
+                shutil.copy(out / "spectral.json", saved[0])
+                shutil.copy(out / "spectral_metrics.json", saved[1])
+                saved[2].write_text(sig + "\n")
         scores["spectral"] = (_blue_score(res.get("val")), out / "spectral.json")
     if kind in ("unet", "both"):
         from .train import train as run

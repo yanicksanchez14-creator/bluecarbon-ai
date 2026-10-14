@@ -168,6 +168,17 @@ class SpectralModel:
         return {"arch": "LightGBM", "encoder": "spectral-context", "kind": KIND}
 
 
+def memory_budget_bytes(share: float = 0.3) -> int:
+    """Bytes the training sample may use: `share` of the memory free now (it is copied once when joined, and
+    LightGBM adds its own binned copy)."""
+    try:
+        import psutil
+
+        return int(psutil.virtual_memory().available * share)
+    except Exception:
+        return 3 * 1024 ** 3
+
+
 def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, n_estimators: int = 300,
                    seed: int = 42, log=print) -> dict:
     """Train on chip records (same index as the U-Net) and evaluate on val / test chips."""
@@ -184,16 +195,29 @@ def train_spectral(records, out_dir: str | Path, per_class_per_chip: int = 400, 
 
     records = drop_unsupported(records, names) if use_anc else records
     tr = [r for r in records if r.split == "train"]
-    xs, ys = [], []
+    from .features import training_label
+
+    # Memory guard: the sample is held in RAM (and copied once when joined), so keep it under a share of what
+    # this machine has free. A 12 GB Colab T4 was killed at 12.4 M pixels x ~100 features; when the sample
+    # grows past the budget, every chip's sample so far is halved and later chips take half as many pixels.
+    budget = memory_budget_bytes()
+    xs, ys, held, per_class = [], [], 0, per_class_per_chip
     for r in tr:
         img, lab = load_chip(r.path)
         anc = load_chip_anc(r.path)
-        from .features import training_label
-
-        x, y = sample_pixels(img, training_label(lab, anc), per_class_per_chip, rng, anc if use_anc else None, names)
+        x, y = sample_pixels(img, training_label(lab, anc), per_class, rng, anc if use_anc else None, names)
         xs.append(x)
         ys.append(y)
+        held += x.nbytes
+        while held > budget and per_class > 10:
+            for i in range(len(xs)):
+                keep = rng.random(len(ys[i])) < 0.5
+                xs[i], ys[i] = xs[i][keep], ys[i][keep]
+            held = sum(a.nbytes for a in xs)
+            per_class //= 2
+            log(f"spectral model: memory limit reached, sampling {per_class} pixels per class per chip from now on")
     X, y = np.concatenate(xs), np.concatenate(ys)
+    del xs, ys
     log(f"spectral model: {len(y):,} training pixels from {len(tr)} chips, class counts "
         f"{np.bincount(y, minlength=N_CLASSES).tolist()}")
     model = SpectralModel(uses_ancillary=use_anc, features=names).fit(X, y, n_estimators=n_estimators)

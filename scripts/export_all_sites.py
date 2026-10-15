@@ -124,7 +124,10 @@ def run(*args: str) -> None:
 def main() -> None:
     model = WORK / "model" / (WORK / "model" / "best.txt").read_text().split()[1]
     cfg = yaml.safe_load(Path("configs/sites.yaml").read_text())
+    only_test = "--held-out-only" in sys.argv   # quick check runs: just the estuaries never used in training
     for s in cfg["sites"]:
+        if only_test and s.get("role") != "test":
+            continue
         d = WORK / "sites" / s["name"]
         if not (d / "image.tif").exists():
             print(f"skip {s['name']} (not downloaded)")

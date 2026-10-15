@@ -175,6 +175,38 @@ def training_signature() -> str:
     return f"{LABEL_VERSION} {h.hexdigest()[:16]}"
 
 
+def analysis_finish(progress: Path) -> None:
+    """The rest of an --analysis run: held-out pages, area table, spot-check, a small results zip. Every piece is
+    copied to Drive right away, so a disconnect loses at most the step in progress."""
+    progress.mkdir(parents=True, exist_ok=True)
+    if (WORK / "compare.txt").exists():
+        shutil.copy(WORK / "compare.txt", progress / "compare.txt")
+    shutil.rmtree("demo_data", ignore_errors=True)
+    run(sys.executable, "scripts/export_all_sites.py", "--held-out-only")
+    out = Path("results")
+    shutil.rmtree(out, ignore_errors=True)
+    out.mkdir()
+    try:
+        run(sys.executable, "scripts/spot_check.py")
+    except subprocess.CalledProcessError:
+        print("spot-check sample failed", flush=True)
+    for f in WORK.glob("model/*.json"):
+        if f.stat().st_size < 5_000_000:  # metrics, scores, blend settings (not the LightGBM model itself)
+            shutil.copy(f, out / f.name)
+    shutil.copy(WORK / "model" / "best.txt", out / "best.txt")
+    check = held_out_check()
+    if (WORK / "compare.txt").exists():
+        check += "\n\n" + (WORK / "compare.txt").read_text()
+        shutil.copy(WORK / "compare.txt", out / "compare.txt")
+    (out / "held_out_check.txt").write_text(check + "\n")
+    (out / "code_version.txt").write_text(code_version() + "\n")
+    shutil.copytree("demo_data", out / "demo_data")
+    print("\n" + check)
+    shutil.make_archive("results_analysis", "zip", ".", str(out))
+    shutil.copy("results_analysis.zip", progress / "results_analysis.zip")
+    print("\nDone: results_analysis.zip saved to Google Drive in the bluecarbon sites folder, _analysis/", flush=True)
+
+
 def code_version() -> str:
     try:
         return subprocess.run(["git", "log", "-1", "--format=%h %s"], capture_output=True, text=True,
@@ -191,6 +223,10 @@ def main() -> None:
               + "Paste the preflight output to Claude, or delete " + str(flag) + " to train anyway.", flush=True)
         sys.exit(1)
     skip_train = "--skip-train" in sys.argv
+    # --analysis: a short run (about an hour) on models already trained and saved in Drive: the comparison,
+    # the held-out estuary pages, the area table and the spot-check, each copied to Drive as soon as it is done
+    analysis = "--analysis" in sys.argv
+    progress = WORK / "sites" / "_analysis"
     sig = training_signature()
     model_dir, backup = WORK / "model", WORK / "sites" / "_trained_models"   # sites/ lives in Google Drive
     local_sig = model_dir / "training_signature.txt"
@@ -204,7 +240,10 @@ def main() -> None:
         shutil.rmtree(model_dir, ignore_errors=True)
         shutil.copytree(backup, model_dir)
         skip_train = True
-    if skip_train and not (WORK / "chips" / "index.json").exists():
+    if analysis and not skip_train:
+        print("--analysis needs trained models saved on Drive (none match this code); stopping.", flush=True)
+        sys.exit(1)
+    if skip_train and not analysis and not (WORK / "chips" / "index.json").exists():
         run("bluecarbon", "chips")  # the specialist and blend checks read the chips
     if not skip_train:
         import os
@@ -253,6 +292,9 @@ def main() -> None:
                 *[a for x in also for a in ("--also", x)])
         except subprocess.CalledProcessError:
             print("live vs new comparison failed", flush=True)
+    if analysis:
+        analysis_finish(progress)
+        return
     try:  # seagrass specialist: second opinion on water/seagrass, saved switched off unless it helps
         run("bluecarbon", "seagrass-train", "-m", str(best))
     except subprocess.CalledProcessError:

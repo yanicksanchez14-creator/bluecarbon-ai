@@ -157,6 +157,24 @@ def held_out_check() -> str:
     return "\n".join(lines)
 
 
+def training_signature() -> str:
+    """Changes whenever anything that shapes the trained models changes: label version, the model/train/chips
+    settings, and the training code. Saved models are only reused when it matches."""
+    import hashlib
+
+    import yaml
+
+    from bluecarbon.gee import LABEL_VERSION
+
+    cfg = yaml.safe_load(Path("configs/default.yaml").read_text())
+    h = hashlib.sha1(json.dumps({k: cfg.get(k) for k in ("model", "train", "chips", "labels")}, sort_keys=True,
+                                default=str).encode())
+    h.update(Path("configs/sites.yaml").read_bytes())
+    for f in ("train", "model", "prithvi", "spectral", "ensemble", "features", "data", "tiling"):
+        h.update(Path(f"src/bluecarbon/{f}.py").read_bytes())
+    return f"{LABEL_VERSION} {h.hexdigest()[:16]}"
+
+
 def code_version() -> str:
     try:
         return subprocess.run(["git", "log", "-1", "--format=%h %s"], capture_output=True, text=True,
@@ -173,6 +191,21 @@ def main() -> None:
               + "Paste the preflight output to Claude, or delete " + str(flag) + " to train anyway.", flush=True)
         sys.exit(1)
     skip_train = "--skip-train" in sys.argv
+    sig = training_signature()
+    model_dir, backup = WORK / "model", WORK / "sites" / "_trained_models"   # sites/ lives in Google Drive
+    local_sig = model_dir / "training_signature.txt"
+    if not skip_train and (model_dir / "best.txt").exists() and best_model().exists() and (
+            not local_sig.exists() or local_sig.read_text().strip() == sig):
+        print("\nTrained models from this session found: skipping training", flush=True)
+        skip_train = True
+    elif not skip_train and (backup / "training_signature.txt").exists() and \
+            (backup / "training_signature.txt").read_text().strip() == sig:
+        print("\nTrained models saved on Drive (same labels, settings and code): skipping training", flush=True)
+        shutil.rmtree(model_dir, ignore_errors=True)
+        shutil.copytree(backup, model_dir)
+        skip_train = True
+    if skip_train and not (WORK / "chips" / "index.json").exists():
+        run("bluecarbon", "chips")  # the specialist and blend checks read the chips
     if not skip_train:
         import os
 
@@ -199,6 +232,12 @@ def main() -> None:
         for old in (WORK / "model").glob("best.*"):
             old.unlink()
         run("bluecarbon", "train", "--kind", "both")
+        local_sig.write_text(sig + "\n")
+        # keep the finished models in Drive, so a disconnect after training never means training again
+        shutil.rmtree(backup, ignore_errors=True)
+        shutil.copytree(model_dir, backup)
+        print(f"trained models saved to Drive ({sum(f.stat().st_size for f in backup.iterdir()) / 1e6:.0f} MB)",
+              flush=True)
         for f in states():  # finished (every network): the next run starts fresh
             f.unlink(missing_ok=True)
     best = best_model()

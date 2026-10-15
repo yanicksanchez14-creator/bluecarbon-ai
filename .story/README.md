@@ -58,7 +58,7 @@ training.
 | K1 | Oct 11-12 | `6de5969` -> `8ec6bdb` | Kelp canopy (beta), California, Sentinel-2 Floating Algae Index, calibrated against KelpWatch | First version over-estimated by ~32 ha per bed; fixed with a surf-zone mask, patchy-quarter filter and site-total fit: held-out r2 **0.75**, corr 0.90, +/-13 ha | Yes, 7 beds |
 | K2 | Oct 12 | `e485dab` -> `9723b23` | Kelp expansion: 11 beds Baja to Washington, giant vs bull kelp zones, Landsat record 1984-2015, sea temperature | The new joint calibration scored **worse** on held-out beds (r2 0.41 vs 0.75) | Partly: new data published, old proven calibration kept, new beds marked preliminary |
 | 9 | Oct 12-13 | `cd6d006` | 95 sites, labels v11, ALOS L-band radar, Stumpf water depth, seagrass learned only where the seafloor is visible, Meta 1 m tree height, 7 held-out estuaries, 200-point spot-check | held-out mean **0.59 -> 0.54**; Moreton mangrove mapped 2,033 ha vs 1,035; compare crashed | **No (REVIEW)**. See below |
-| 10 | Oct 13 | `82d0263` | Fixes from run 9 + **five competing models** (U-Net, LightGBM, ConvNeXt U-Net, SegFormer, NASA/IBM Prithvi) + blend of the best deep model with LightGBM | (running) | (pending) |
+| 10 | Oct 13-14 | `73203ba` | Fixes from run 9 + **five competing models** (U-Net, LightGBM, ConvNeXt U-Net, SegFormer, NASA/IBM Prithvi) + blend of the best deep model with LightGBM. Survived a GPU disconnect and a T4 out-of-memory kill (fixed in `73203ba`) | Validation picked ConvNeXt + LightGBM (0.839), but on the 7 held-out estuaries **Prithvi was best: mean 0.604** vs live 0.554 (SegFormer 0.580, U-Net 0.557, blend 0.564, ConvNeXt 0.542, LightGBM 0.525). Blend dropped Mission Bay seagrass 0.27 -> 0.00; Prithvi dropped Tampa and Brisbane Water seagrass by 0.14 | **No (REVIEW)**. Colab disconnected while making site pages; models were only on the Colab disk (fixed in `627de31`: saved to Drive) |
 
 ### Run 9 in detail: why it got worse
 
@@ -71,6 +71,15 @@ training.
   rule capped at 25% of a tile, Landsat history empty-year bug.
 - It also showed the two models win in different places (LightGBM 0.81 vs U-Net 0.07 on Mission Bay seagrass;
   U-Net 0.78 vs 0.30 on Tampa Bay seagrass), which led to the blend and the five-model comparison in run 10.
+
+### Run 10 in detail: validation and new coastlines disagree
+
+- Picking the winner on validation tiles (inside training sites) favoured ConvNeXt; on whole estuaries the models
+  never saw, the pre-trained foundation model (Prithvi) generalised best. Lesson: choose models on held-out-like
+  data (whole validation estuaries), not only on tiles from training sites.
+- Every model wins somewhere: Prithvi on Mission Bay seagrass (0.55) and Moreton salt marsh, SegFormer on Tampa
+  seagrass (0.75), the original U-Net on Brisbane Water seagrass pattern, LightGBM on Shoalwater seagrass. A
+  per-habitat blend of all models is the obvious next step.
 
 ## 3. Lessons that became permanent rules
 

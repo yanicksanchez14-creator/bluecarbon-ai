@@ -78,7 +78,8 @@ training.
   never saw, the pre-trained foundation model (Prithvi) generalised best. Lesson: choose models on held-out-like
   data (whole validation estuaries), not only on tiles from training sites.
 - Every model wins somewhere: Prithvi on Mission Bay seagrass (0.55) and Moreton salt marsh, SegFormer on Tampa
-  seagrass (0.75), the original U-Net on Brisbane Water seagrass pattern, LightGBM on Shoalwater seagrass. A
+  seagrass (0.75), the ConvNeXt + LightGBM blend on Brisbane Water seagrass (0.64), the original U-Net on Moreton
+  salt marsh among the U-Nets, LightGBM on Shoalwater seagrass (0.17). A
   per-habitat blend of all models is the obvious next step.
 
 ## 3. Lessons that became permanent rules
